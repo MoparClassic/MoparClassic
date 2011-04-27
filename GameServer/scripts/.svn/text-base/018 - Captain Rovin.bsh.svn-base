@@ -1,0 +1,19 @@
+/**
+ * War 
+ */
+if(!isWarRunning()) {
+	SendMessage("War mode currently not running!");
+	return;
+}
+if(!inATeam()) {
+	SendMessage("You are not apart of a team!");
+	return;
+}
+NpcTalk("Would you like to be teleported to your teams base in wilderness?");
+option = PickOption("Yes, I'm ready to fight!", "No, I'm not ready yet");
+if(option == 1) {
+	teleportPlayer();
+}
+else {
+}
+        

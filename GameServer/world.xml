@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>RSCD Config</comment>
+	<entry key="version">39</entry>
+	<entry key="ip">localhost</entry>
+	<entry key="port">43595</entry>
+	<entry key="name">Moparscape Classic</entry>
+	<entry key="location">USA</entry>
+	<entry key="maxplayers">800</entry>
+	<entry key="servernum">1</entry>
+	<entry key="lsip">localhost</entry>
+	<entry key="lsport">34526</entry>
+	<entry key="mysqluser">root</entry>
+	<entry key="mysqlpass"></entry>
+	<entry key="mysqlhost">localhost</entry>	
+	<entry key="mysqldb">rscangel</entry>
+
+</properties>

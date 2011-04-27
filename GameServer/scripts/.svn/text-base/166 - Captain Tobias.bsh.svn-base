@@ -1,0 +1,33 @@
+/**
+   171, 170, 166 - Port Sarim Boat Script.
+   @author xEnt
+*/
+
+NpcTalk("Do you want to go on a trip to karamja?");
+NpcTalk("The trip will cost you 30 gold");
+option = PickOption("Yes please", "No thankyou");
+if(option == 1) {
+  if(HasItem(10, 30)) {
+	RemoveItem(10, 30);
+	SendMessage("You pay 30 gold");
+	Wait(1300);
+	SendMessage("You board the ship");
+	Wait(1000);
+	Teleport(324, 713);
+	Wait(1500);
+	SendMessage("The ship arrives at karamja");
+} else {
+ PlayerTalk("Oh dear  i don't seem to have enough money");
+  }
+}
+
+
+
+
+
+
+
+
+
+
+

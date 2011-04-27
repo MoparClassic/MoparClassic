@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<comment>Stores aliases for the XStream engine</comment>
+	<entry key="PacketHandler">msc.gs.phandler.PacketHandlerDef</entry>
+	<entry key="NpcHandler">msc.gs.npchandler.NpcHandlerDef</entry>
+	
+	<entry key="Point">msc.gs.model.Point</entry>
+	<entry key="TelePoint">msc.gs.model.TelePoint</entry>
+	
+	<entry key="Shop">msc.gs.model.Shop</entry>
+	<entry key="InvItem">msc.gs.model.InvItem</entry>
+	
+	<entry key="CerterDef">msc.gs.external.CerterDef</entry>
+	<entry key="CertDef">msc.gs.external.CertDef</entry>
+
+	<entry key="GameObjectLoc">msc.gs.external.GameObjectLoc</entry>
+	<entry key="ItemLoc">msc.gs.external.ItemLoc</entry>
+	<entry key="NPCLoc">msc.gs.external.NPCLoc</entry>
+	
+	<entry key="TileDef">msc.gs.external.TileDef</entry>
+	<entry key="GameObjectDef">msc.gs.external.GameObjectDef</entry>
+	<entry key="DoorDef">msc.gs.external.DoorDef</entry>
+	<entry key="ItemDef">msc.gs.external.ItemDef</entry>
+	<entry key="PrayerDef">msc.gs.external.PrayerDef</entry>
+	<entry key="SpellDef">msc.gs.external.SpellDef</entry>
+	<entry key="NPCDef">msc.gs.external.NPCDef</entry>
+	
+	<entry key="ItemCraftingDef">msc.gs.external.ItemCraftingDef</entry>
+	<entry key="ItemHerbSecond">msc.gs.external.ItemHerbSecond</entry>
+	<entry key="ItemDartTipDef">msc.gs.external.ItemDartTipDef</entry>
+	<entry key="ItemGemDef">msc.gs.external.ItemGemDef</entry>
+	<entry key="ItemLogCutDef">msc.gs.external.ItemLogCutDef</entry>
+	<entry key="ItemBowStringDef">msc.gs.external.ItemBowStringDef</entry>
+	<entry key="ItemArrowHeadDef">msc.gs.external.ItemArrowHeadDef</entry>
+	<entry key="FiremakingDef">msc.gs.external.FiremakingDef</entry>
+	<entry key="ReqOreDef">msc.gs.external.ReqOreDef</entry>
+	<entry key="ItemWieldableDef">msc.gs.external.ItemWieldableDef</entry>
+	<entry key="ItemUnIdentHerbDef">msc.gs.external.ItemUnIdentHerbDef</entry>
+	<entry key="ItemHerbDef">msc.gs.external.ItemHerbDef</entry>
+	<entry key="ItemCookingDef">msc.gs.external.ItemCookingDef</entry>
+	<entry key="ItemSmeltingDef">msc.gs.external.ItemSmeltingDef</entry>
+	<entry key="ItemSmithingDef">msc.gs.external.ItemSmithingDef</entry>
+	<entry key="ObjectMiningDef">msc.gs.external.ObjectMiningDef</entry>
+	<entry key="ObjectWoodcuttingDef">msc.gs.external.ObjectWoodcuttingDef</entry>
+	<entry key="ObjectFishingDef">msc.gs.external.ObjectFishingDef</entry>
+	<entry key="ObjectFishDef">msc.gs.external.ObjectFishDef</entry>
+	<entry key="ItemDropDef">msc.gs.external.ItemDropDef</entry>
+	<entry key="AgilityDef">msc.gs.external.AgilityDef</entry>
+	<entry key="AgilityCourseDef">msc.gs.external.AgilityCourseDef</entry>
+</properties>

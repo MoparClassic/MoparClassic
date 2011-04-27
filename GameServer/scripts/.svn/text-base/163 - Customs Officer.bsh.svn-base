@@ -1,0 +1,45 @@
+	/**
+	 * ID 163 - Customs Officer
+	 * 
+	 *	@author xEnt
+	 */
+
+	option = PickOption("Can i board this ship?", "Does Karamja have any unusual customs then?");
+	if(option == 2) {
+		NpcTalk("I'm not that sort of customs officer");
+	}
+	if(option == 1) {
+		NpcTalk("You need to be searched before you can board");
+		option = PickOption("Why?", "Search away I have nothing to hide", "You're not putting your hands on my things");
+		if(option == 3) {
+			NpcTalk("You're not getting on this ship then");
+		}
+		if(option == 1) {
+			NpcTalk("Because asgarnia has banned the import of intoxicating spirits");
+		}
+		if(option == 2) {
+			if(HasItem(318, 1)) { // Karamja rum
+				NpcTalk("Aha trying to smuggle rum are we?");
+				RemoveAllItem(318);
+				SendMessage("The customs officer confiscates your rum");
+			} else {
+				NpcTalk("Well you've got some odd stuff, but it's all legal");
+				NpcTalk("Now you need to pay a boarding charge of 30 gold");
+				option = PickOption("Ok", "Oh, I'll not bother then");
+				if(option == 1) {
+					if(HasItem(10, 30)) {
+						RemoveItem(10, 30);
+						SendMessage("You pay 30 gold");
+						Wait(1500);
+						SendMessage("You board the ship");
+						Wait(3000);
+						Teleport(269, 648);
+						Wait(1000);
+						SendMessage("You arrive at Port Sarim");
+					} else {
+						PlayerTalk("Oh dear it seems i don't have enough money");
+					}
+				}
+			}
+		}
+	}
