@@ -1,0 +1,72 @@
+<map>
+	<entry>
+		<int>655</int>
+		<AgilityDef>
+			<x>692</x>
+			<y>495</y>
+			<toX>692</toX>
+			<toY>499</toY>
+			<canFail>false</canFail>
+			<reqLevel>1</reqLevel>
+			<exp>8</exp>
+			<order>1</order>
+			<message>You climb onto the logs...</message>
+		</AgilityDef>
+	</entry>
+	<entry>
+		<int>653</int>
+		<AgilityDef>
+			<x>685</x>
+			<y>502</y>
+			<toX>685</toX>
+			<toY>501</toY>
+			<canFail>false</canFail>
+			<reqLevel>1</reqLevel>
+			<exp>8</exp>
+			<order>2</order>
+			<message>You climb onto the net...</message>
+		</AgilityDef>
+	</entry>	
+	<entry>
+		<int>653</int>
+		<AgilityDef>
+			<x>683</x>
+			<y>502</y>
+			<toX>683</toX>
+			<toY>501</toY>
+			<canFail>false</canFail>
+			<reqLevel>1</reqLevel>
+			<exp>8</exp>
+			<order>2</order>
+			<message>You climb onto the net...</message>
+		</AgilityDef>
+	</entry>
+		<entry>
+		<int>653</int>
+		<AgilityDef>
+			<x>681</x>
+			<y>502</y>
+			<toX>681</toX>
+			<toY>501</toY>
+			<canFail>false</canFail>
+			<reqLevel>1</reqLevel>
+			<exp>8</exp>
+			<order>2</order>
+			<message>You climb onto the net...</message>
+		</AgilityDef>
+	</entry>
+	<entry>
+		<int>654</int>
+		<AgilityDef>
+			<x>683</x>
+			<y>497</y>
+			<toX>683</toX>
+			<toY>494</toY>
+			<canFail>false</canFail>
+			<reqLevel>1</reqLevel>
+			<exp>8</exp>
+			<order>3</order>
+			<message>You climb into the pipe...</message>
+		</AgilityDef>
+	</entry>
+</map>

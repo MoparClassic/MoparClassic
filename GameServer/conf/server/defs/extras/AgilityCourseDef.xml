@@ -1,0 +1,14 @@
+<map>
+	<entry>
+		<int>655</int>
+		<AgilityCourseDef>
+			<startX>692</startX>
+			<startY>495</startY>
+			<endID>654</endID>
+			<endX>683</endX>
+			<endY>497</endY>
+			<exp>45</exp>
+			<name>Gnome Stronghold</name>
+		</AgilityCourseDef>
+	</entry>
+</map>

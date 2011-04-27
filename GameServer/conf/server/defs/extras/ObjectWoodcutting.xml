@@ -1,0 +1,33 @@
+<map>
+	<entry>
+		<int>0</int>
+		<ObjectWoodcuttingDef>
+			<requiredLvl>1</requiredLvl>
+			<logId>14</logId>
+			<exp>25</exp>
+			<fell>100</fell>
+			<respawnTime>30</respawnTime>
+		</ObjectWoodcuttingDef>
+	</entry>
+	<entry>
+		<int>1</int>
+		<ObjectWoodcuttingDef>
+			<requiredLvl>1</requiredLvl>
+			<logId>14</logId>
+			<exp>25</exp>
+			<fell>100</fell>
+			<respawnTime>30</respawnTime>
+		</ObjectWoodcuttingDef>
+	</entry>
+	<entry>
+		<int>70</int>
+		<ObjectWoodcuttingDef>
+			<requiredLvl>1</requiredLvl>
+			<logId>14</logId>
+			<exp>25</exp>
+			<fell>100</fell>
+			<respawnTime>30</respawnTime>
+		</ObjectWoodcuttingDef>
+	</entry>
+
+</map>

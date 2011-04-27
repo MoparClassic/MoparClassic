@@ -1,0 +1,280 @@
+import org.rscdaemon.server.quest.*;
+import org.rscdaemon.server.model.*;
+import org.rscdaemon.server.event.*;
+
+/**
+ * Quest: Doric's Quest (v1.0)
+ * Status: Complete
+ * Start: Doric (id 144), 325, 490
+ * Items: 148x6, 150x4 & 151x2
+ * Reward: 1 quest point, 180 gold, Mining experience (amount depends on your level) & the use of Doric.s Anvils *
+ * @author DvD
+ */
+public class Dorics_Quest extends Quest
+{
+	private final int DORIC_ID = 144;
+	private final int ITEM_CLAY = 149;
+	private final int ITEM_COPPER = 150;
+	private final int ITEM_IRON = 151;
+	private final int REWARD_XP = 200;
+	private final int REWARD_GP = 180;
+	private final String[] FIRST_MENU  = new String[]{"Sure, what do I need to do?", "No thanks."};
+	private final String[] SECOND_MENU = new String[]{"Sorry, I don't like the sound of that.", "I'd be happy to help."};
+	
+	public void init()
+	{
+		associateNpc(DORIC_ID);
+	}
+	
+	public Dorics_Quest()
+	{
+	}
+	
+	public String getName()
+	{
+		return "Doric's Quest";
+	}
+	
+	public int getUniqueID()
+	{
+		return 3;
+	}
+	
+	public void handleAction(QuestAction action, Object[] args, final Player player)
+	{
+		int stage = player.getQuestStage(this);
+		
+		if(stage == -1) // Quest hasn't been started
+		{
+			if(action == action.TALKED_NPC)
+			{
+				if(!(args[0] instanceof Npc))
+					return;
+				
+				final Npc npc = (Npc)args[0];
+				
+				if(npc.getID() != DORIC_ID)
+					return;
+				
+				player.setBusy(true);
+				npc.blockedBy(player);
+				
+				sendChat("Ay mate, Would you be interested in helping me make an amulet?", npc, player);
+				
+				addSingleEvent(new SingleEvent(player, 2000)
+				{
+					public void action()
+					{
+						player.setBusy(false);
+						player.setMenuHandler(new MenuHandler(FIRST_MENU)
+						{
+							public void handleReply(final int option, final String reply)
+							{
+								player.setBusy(true);
+								switch(option)
+								{
+									case 0:
+										player.setBusy(false);
+										npc.unblock();
+										sendChat("No thanks, I'm good.", player, npc);
+										break;
+									case 1:
+										sendChat("Sure, what do I need to do?", player, npc);
+										addSingleEvent(new SingleEvent(player, 2000)
+										{
+											public void action()
+											{
+												sendChat("First you need to collect 6 Clay, 4 Copper ore & 2 Iron ore.", npc, player);
+												addSingleEvent(new SingleEvent(player, 2000)
+												{
+													public void action()
+													{
+														sendChat("Then I.ll need you to bring them back to me.", npc, player);
+														addSingleEvent(new SingleEvent(player, 2000)
+														{
+															public void action()
+															{
+																sendChat("I.m afraid you.ll have to find your own pickaxe though.", npc, player);
+																addSingleEvent(new SingleEvent(player, 2000)
+																{
+																	public void action()
+																	{
+																		player.setBusy(false);
+																		player.setMenuHandler(new MenuHandler(SECOND_MENU)
+																		{
+																			public void handleReply(final int option, final String reply)
+																			{
+	player.setBusy(true);
+																				switch(option)
+																				{
+																					case 0:
+																						sendChat("Sure ! I.ll get right onto it.", player, npc);
+																						addSingleEvent(new SingleEvent(player, 2000)
+																						{
+																							public void action()
+																							{
+																								sendChat("I.ll be waiting for those ores don.t take to long.", npc, player);
+																								addSingleEvent(new SingleEvent(player, 2000)
+																								{
+																									public void action()
+																									{
+																										player.setQuestStage(getUniqueID(), 1);
+																										player.setBusy(false);
+																										npc.unblock();
+																									}
+																								});
+																							}
+																						});
+																						break;
+																					case 1:
+																						sendChat("Sorry, I don't like the sound of that.", player, npc);
+																						addSingleEvent(new SingleEvent(player, 2000)
+																						{
+																							public void action()
+																							{
+																								sendChat("Suit yourself. Come and see me if you change your mind.", npc, player);
+																								player.setBusy(false);
+																								npc.unblock();
+																							}
+																						});
+																						break;
+																					default:
+																						player.setBusy(false);
+																						npc.unblock();
+																						break;
+																				}
+																			}
+																		});
+																		owner.getActionSender().sendMenu(SECOND_MENU);
+																	}
+																});
+															}
+														});
+													}
+												});
+											}
+										});
+										break;
+									default:
+										player.setBusy(false);
+										npc.unblock();
+										break;
+								}
+							}
+						});
+						owner.getActionSender().sendMenu(FIRST_MENU);
+					}
+				});
+			} else
+				return;
+		} else
+		if(stage == 1)
+		{
+			if(action == action.TALKED_NPC)
+			{
+				if(!(args[0] instanceof Npc))
+					return;
+				
+				final Npc npc = (Npc)args[0];
+				
+				if(npc.getID() != DORIC_ID)
+					return;
+				
+				player.setBusy(true);
+				npc.blockedBy(player);
+				sendChat("There you are ! Do you have my ores?", npc, player);
+				
+				addSingleEvent(new SingleEvent(player, 2000)
+				{
+					public void action()
+					{
+						player.setBusy(false);
+						player.setMenuHandler(new MenuHandler(new String[]{"No sorry, Not yet.", "I sure do!"})
+						{
+							public void handleReply(final int option, final String reply)
+							{
+								player.setBusy(true);
+								sendChat(reply, player, npc);
+								
+								if(option == 0)
+								{
+									addSingleEvent(new SingleEvent(player, 2000)
+									{
+										public void action()
+										{
+											sendChat("Well, come and see me when you do. I need that amulet made", npc, player);
+											player.setBusy(false);
+											npc.unblock();
+										}
+									});
+								} else
+								if(option == 1)
+								{
+									addSingleEvent(new SingleEvent(player, 2000)
+									{
+										public void action()
+										{
+											//check items
+											if(player.getInventory().hasItemId(ITEM_CLAY) && player.getInventory().countId(ITEM_CLAY) >= 6) && player.getInventory().hasItemId(ITEM_COPPER) && player.getInventory().countId(ITEM_COPPER) >= 4) && player.getInventory().hasItemId(ITEM_IRON) && player.getInventory().countId(ITEM_IRON) >= 2)
+											{
+												finishQuest(player, npc);
+											} else
+											{
+												sendChat("Um, no you don't. Please hurry I need that amulet made.", npc, player);	
+												player.setBusy(false);
+												npc.unblock();	
+											}							
+										}
+									});
+								}
+							}
+						});
+						
+						owner.getActionSender().sendMenu(new String[]{"I'm afraid not.", "Yes, I do."});
+					}
+				});
+			}
+		} else
+		if (stage == 0) {
+                        if(action == action.TALKED_NPC)
+                        {
+                                if(!(args[0] instanceof Npc))
+                                        return;
+                                
+                                final Npc npc = (Npc)args[0];
+                                
+                                if(npc.getID() != DORIC_ID)
+                                        return;
+                                
+                                player.setBusy(true);
+                                npc.blockedBy(player);
+                                sendChat("Hello " + player.getUsername() + "!", npc, player);
+				player.setBusy(false);
+				npc.unblock();
+			}
+		}
+			
+	}
+	
+	private void finishQuest(final Player player, final Npc npc)
+	{
+		sendChat("Thank you so much my amulet is now complete, Here is your reward.", npc, player);	
+		
+		addSingleEvent(new SingleEvent(player, 2000)
+		{
+							public void action()
+							{
+								player.incExp(14, REWARD_XP, false);
+								player.setQuestStage(getUniqueID(), Quest.COMPLETE);
+								player.getInventory().add(new InvItem(10, REWARD_GP));
+								player.getInventory().remove(ITEM_CLAY, 6);
+	player.getInventory().remove(ITEM_COPPER, 4);
+	player.getInventory().remove(ITEM_IRON, 2);
+								player.getActionSender().sendInventory();
+								player.incQuestPoints(1);
+								player.setBusy(false);
+								npc.unblock();
+							}
+						});
+	}
+}

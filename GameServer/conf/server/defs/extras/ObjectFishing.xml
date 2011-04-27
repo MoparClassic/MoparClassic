@@ -1,0 +1,173 @@
+<map>
+	<entry>
+		<int>192</int><!-- lure/bait -->
+		<ObjectFishingDef-array>
+			<ObjectFishingDef><!-- trout/salmon -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>358</fishId>
+						<requiredLevel>20</requiredLevel>
+						<exp>50</exp>
+					</ObjectFishDef>
+					<ObjectFishDef>
+						<fishId>356</fishId>
+						<requiredLevel>30</requiredLevel>
+						<exp>70</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>378</netId>
+				<baitId>381</baitId>
+			</ObjectFishingDef>
+			<ObjectFishingDef><!-- sardine/herring -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>354</fishId>
+						<requiredLevel>5</requiredLevel>
+						<exp>20</exp>
+					</ObjectFishDef>
+					<ObjectFishDef>
+						<fishId>361</fishId>
+						<requiredLevel>10</requiredLevel>
+						<exp>30</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>377</netId>
+				<baitId>380</baitId>
+			</ObjectFishingDef>
+		</ObjectFishingDef-array>
+	</entry>
+	<entry>
+		<int>193</int><!-- net/bait -->
+		<ObjectFishingDef-array>
+			<ObjectFishingDef><!-- anchovies/shrimp -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>349</fishId>
+						<requiredLevel>1</requiredLevel>
+						<exp>10</exp>
+					</ObjectFishDef>
+					<ObjectFishDef>
+						<fishId>351</fishId>
+						<requiredLevel>15</requiredLevel>
+						<exp>40</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>376</netId>
+				<baitId>-1</baitId>
+			</ObjectFishingDef>
+			<ObjectFishingDef><!-- sardine/herring -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>354</fishId>
+						<requiredLevel>5</requiredLevel>
+						<exp>20</exp>
+					</ObjectFishDef>
+					<ObjectFishDef>
+						<fishId>361</fishId>
+						<requiredLevel>10</requiredLevel>
+						<exp>30</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>377</netId>
+				<baitId>380</baitId>
+			</ObjectFishingDef>
+		</ObjectFishingDef-array>
+	</entry>
+	<entry>
+		<int>194</int><!-- harpoon/cage -->
+		<ObjectFishingDef-array>
+			<ObjectFishingDef><!-- swordfish/tuna -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>369</fishId>
+						<requiredLevel>50</requiredLevel>
+						<exp>100</exp>
+					</ObjectFishDef>
+					<ObjectFishDef>
+						<fishId>366</fishId>
+						<requiredLevel>35</requiredLevel>
+						<exp>80</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>379</netId>
+				<baitId>-1</baitId>
+			</ObjectFishingDef>
+			<ObjectFishingDef><!-- lobster -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>372</fishId>
+						<requiredLevel>40</requiredLevel>
+						<exp>90</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>375</netId>
+				<baitId>-1</baitId>
+			</ObjectFishingDef>
+		</ObjectFishingDef-array>
+	</entry>
+	
+	<entry>
+		<int>376</int><!-- cage/harpoon -->
+		<ObjectFishingDef-array>
+			<ObjectFishingDef><!-- lobster -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>372</fishId>
+						<requiredLevel>40</requiredLevel>
+						<exp>90</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>375</netId>
+				<baitId>-1</baitId>
+			</ObjectFishingDef>
+			<ObjectFishingDef><!-- swordfish/tuna -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>369</fishId>
+						<requiredLevel>50</requiredLevel>
+						<exp>100</exp>
+					</ObjectFishDef>
+					<ObjectFishDef>
+						<fishId>366</fishId>
+						<requiredLevel>35</requiredLevel>
+						<exp>80</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>379</netId>
+				<baitId>-1</baitId>
+			</ObjectFishingDef>
+		</ObjectFishingDef-array>
+	</entry>
+	<entry>
+		<int>557</int><!-- harpoon/cage -->
+		<ObjectFishingDef-array>
+			<ObjectFishingDef><!-- swordfish/tuna -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>369</fishId>
+						<requiredLevel>50</requiredLevel>
+						<exp>100</exp>
+					</ObjectFishDef>
+					<ObjectFishDef>
+						<fishId>366</fishId>
+						<requiredLevel>35</requiredLevel>
+						<exp>80</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>379</netId>
+				<baitId>-1</baitId>
+			</ObjectFishingDef>
+			<ObjectFishingDef><!-- lobster -->
+				<defs>
+					<ObjectFishDef>
+						<fishId>372</fishId>
+						<requiredLevel>40</requiredLevel>
+						<exp>90</exp>
+					</ObjectFishDef>
+				</defs>
+				<netId>375</netId>
+				<baitId>-1</baitId>
+			</ObjectFishingDef>
+		</ObjectFishingDef-array>
+	</entry>
+</map>

@@ -1,0 +1,33 @@
+/**
+   316 - Ardy > Brimhaven Boat Script.
+   @author xEnt
+*/
+
+NpcTalk("Do you want to go on a trip to Brimhaven?");
+NpcTalk("The trip will cost you 30 gold");
+option = PickOption("Yes please", "No thankyou");
+if(option == 1) {
+  if(HasItem(10, 30)) {
+	RemoveItem(10, 30);
+	SendMessage("You pay 30 gold");
+	Wait(1300);
+	SendMessage("You board the ship");
+	Wait(1000);
+	Teleport(467, 653);
+	Wait(1500);
+	SendMessage("The ship arrives at Brimhaven");
+} else {
+ PlayerTalk("Oh dear  i don't seem to have enough money");
+}
+}
+
+
+
+
+
+
+
+
+
+
+
