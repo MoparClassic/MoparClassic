@@ -16,7 +16,7 @@ public class Constants {
 	/**
 	 * Used throughout strings ingame, this is your Server's name.
 	 */
-	public static final String SERVER_NAME = "msc";
+	public static final String SERVER_NAME = "MoparScape Classic";
 	/**
 	 * Set by runtime arguments. Is this World a Members/Subscriber (P2P)
 	 * world?
