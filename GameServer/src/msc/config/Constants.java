@@ -21,7 +21,6 @@ public class Constants {
 	 * Set by runtime arguments. Is this World a Members/Subscriber (P2P)
 	 * world?
 	 */
-	//test lothy is gay
 	public static boolean MEMBER_WORLD = false;
 	/**
 	 * Is this wilderness fully f2p (no p2p weapons, items etc)
