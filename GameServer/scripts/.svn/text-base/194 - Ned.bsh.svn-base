@@ -1,7 +1,7 @@
 		/**
 		 * ID 194 Ned the rope seller
 		 * 
-		 *    @author Divinity (R e n k o / Karma) @msc
+		 *    @author Divinity (R e n k o / Karma) @org.moparscape.msc
 		 */
 		NpcTalk("Why, hello there, lad.");
 		NpcTalk("Me friends call me Ned. I was a man of the sea, but it's past me now.");
@@ -26,7 +26,7 @@
 					PlayerTalk("It seems i don't have enough money, i'll be back later!");
 					return;
 				}
-				NpcTalk("There you go. Finest rope in msc");
+				NpcTalk("There you go. Finest rope in org.moparscape.msc");
 				SendMessage("You hand Ned 15 coins. Ned gives you a coil of rope");
 				AddItem(237, 1);//rope id
 			}

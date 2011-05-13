@@ -1,7 +1,7 @@
 /**
      * ID 116 - Wyson the Gardener
      * 
-     *    @author Ecko @msc
+     *    @author Ecko @org.moparscape.msc
      */
     NpcTalk("I am the gardener round here");
     Wait(500);

@@ -9,7 +9,7 @@
 	<maxY>456</maxY>
 </NPCLoc>
 <NPCLoc>
-<!-- http://www.msc.org/bugzy/?bug=593 | http://msc.org/dev/viewtopic.php?id=327 (added by derf13) -->
+<!-- http://www.msc.org/bugzy/?bug=593 | http://org.moparscape.msc.org/dev/viewtopic.php?id=327 (added by derf13) -->
    <id>661</id>
    <startX>685</startX>
    <startY>587</startY>
@@ -17,9 +17,9 @@
    <maxX>688</maxX>
    <minY>587</minY>
    <maxY>590</maxY>
-</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=593 | http://msc.org/dev/viewtopic.php?id=327 (added by derf13) -->
+</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=593 | http://org.moparscape.msc.org/dev/viewtopic.php?id=327 (added by derf13) -->
 <NPCLoc>
-<!-- http://www.msc.org/bugzy/?bug=584 | http://msc.org/dev/viewtopic.php?id=330 (added by derf13) -->
+<!-- http://www.msc.org/bugzy/?bug=584 | http://org.moparscape.msc.org/dev/viewtopic.php?id=330 (added by derf13) -->
    <id>418</id>
    <startX>613</startX>
    <startY>1562</startY>
@@ -45,9 +45,9 @@
    <maxX>622</maxX>
    <minY>1564</minY>
    <maxY>1567</maxY>
-</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=584 | http://msc.org/dev/viewtopic.php?id=330 (added by derf13) -->
+</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=584 | http://org.moparscape.msc.org/dev/viewtopic.php?id=330 (added by derf13) -->
 <NPCLoc>
-<!-- http://www.msc.org/bugzy/?bug=579 | http://msc.org/dev/viewtopic.php?id=331 (added by derf13) -->
+<!-- http://www.msc.org/bugzy/?bug=579 | http://org.moparscape.msc.org/dev/viewtopic.php?id=331 (added by derf13) -->
    <id>512</id>
    <startX>606</startX>
    <startY>599</startY>
@@ -64,9 +64,9 @@
    <maxX>609</maxX>
    <minY>597</minY>
    <maxY>609</maxY>
-</NPCLoc><!-- END http://www.msc.org/bugzy/?bug=579 | http://msc.org/dev/viewtopic.php?id=331 (added by derf13) -->
+</NPCLoc><!-- END http://www.msc.org/bugzy/?bug=579 | http://org.moparscape.msc.org/dev/viewtopic.php?id=331 (added by derf13) -->
 <NPCLoc>
-<!-- http://www.msc.org/bugzy/?bug=578 | http://msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
+<!-- http://www.msc.org/bugzy/?bug=578 | http://org.moparscape.msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
    <id>435</id>
    <startX>584</startX>
    <startY>592</startY>
@@ -74,9 +74,9 @@
    <maxX>587</maxX>
    <minY>591</minY>
    <maxY>595</maxY>
-</NPCLoc><!-- END http://www.msc.org/bugzy/?bug=578 | http://msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
+</NPCLoc><!-- END http://www.msc.org/bugzy/?bug=578 | http://org.moparscape.msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
 <NPCLoc>
-<!-- http://www.msc.org/bugzy/?bug=577 | http://msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
+<!-- http://www.msc.org/bugzy/?bug=577 | http://org.moparscape.msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
    <id>486</id>
    <startX>584</startX>
    <startY>586</startY>
@@ -84,9 +84,9 @@
    <maxX>587</maxX>
    <minY>586</minY>
    <maxY>589</maxY>
-</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=577 | http://msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
+</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=577 | http://org.moparscape.msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
 <NPCLoc>
-<!-- http://www.msc.org/bugzy/?bug=574 | http://msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
+<!-- http://www.msc.org/bugzy/?bug=574 | http://org.moparscape.msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
    <id>335</id>
    <startX>556</startX>
    <startY>579</startY>
@@ -94,9 +94,9 @@
    <maxX>559</maxX>
    <minY>579</minY>
    <maxY>582</maxY>
-</NPCLoc> <!--END http://www.msc.org/bugzy/?bug=574 | http://msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
+</NPCLoc> <!--END http://www.msc.org/bugzy/?bug=574 | http://org.moparscape.msc.org/dev/viewtopic.php?id=332 (added by derf13) -->
 <NPCLoc>
-<!-- http://www.msc.org/bugzy/?bug=587 | http://msc.org/dev/viewtopic.php?id=329 (added by derf13) -->
+<!-- http://www.msc.org/bugzy/?bug=587 | http://org.moparscape.msc.org/dev/viewtopic.php?id=329 (added by derf13) -->
    <id>360</id>
    <startX>615</startX>
    <startY>585</startY>
@@ -104,9 +104,9 @@
    <maxX>618</maxX>
    <minY>585</minY>
    <maxY>588</maxY>
-</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=587 | http://msc.org/dev/viewtopic.php?id=329 (added by derf13) -->
+</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=587 | http://org.moparscape.msc.org/dev/viewtopic.php?id=329 (added by derf13) -->
 <NPCLoc>
-<!-- http://www.msc.org/bugzy/?bug=588 | http://msc.org/dev/viewtopic.php?id=329 (added by derf13) -->
+<!-- http://www.msc.org/bugzy/?bug=588 | http://org.moparscape.msc.org/dev/viewtopic.php?id=329 (added by derf13) -->
    <id>443</id>
    <startX>629</startX>
    <startY>588</startY>
@@ -114,9 +114,9 @@
    <maxX>632</maxX>
    <minY>588</minY>
    <maxY>591</maxY>
-</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=588 | http://msc.org/dev/viewtopic.php?id=329 (added by derf13) -->
+</NPCLoc> <!-- END http://www.msc.org/bugzy/?bug=588 | http://org.moparscape.msc.org/dev/viewtopic.php?id=329 (added by derf13) -->
 
-<NPCLoc> <!-- http://msc.org/dev/viewtopic.php?id=333 http://www.msc.org/bugzy/?bug=576 -->
+<NPCLoc> <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=333 http://www.msc.org/bugzy/?bug=576 -->
    <id>70</id>
    <startX>594</startX>
    <startY>620</startY>
@@ -133,9 +133,9 @@
    <maxX>597</maxX>
    <minY>609</minY>
    <maxY>618</maxY>
-</NPCLoc> <!-- http://msc.org/dev/viewtopic.php?id=333 http://www.msc.org/bugzy/?bug=576 -->
+</NPCLoc> <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=333 http://www.msc.org/bugzy/?bug=576 -->
 
-<NPCLoc> <!-- http://msc.org/dev/viewtopic.php?id=333 http://www.msc.org/bugzy/?bug=575 -->
+<NPCLoc> <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=333 http://www.msc.org/bugzy/?bug=575 -->
    <id>243</id>
    <startX>587</startX>
    <startY>613</startY>
@@ -143,9 +143,9 @@
    <maxX>590</maxX>
    <minY>613</minY>
    <maxY>616</maxY>
-</NPCLoc> <!-- http://msc.org/dev/viewtopic.php?id=333 http://www.msc.org/bugzy/?bug=575 -->
+</NPCLoc> <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=333 http://www.msc.org/bugzy/?bug=575 -->
 
-<NPCLoc> <!-- http://msc.org/dev/viewtopic.php?id=326 Cows north of ardy -->
+<NPCLoc> <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=326 Cows north of ardy -->
   <id>6</id>
   <startX>546</startX>
   <startY>560</startY>
@@ -190,8 +190,8 @@
   <minY>550</minY>
   <maxY>563</maxY>
 </NPCLoc>
-<!-- End of http://msc.org/dev/viewtopic.php?id=326 -->
-<NPCLoc>  <!-- http://msc.org/dev/viewtopic.php?id=320 Chronozon in Edgeville Dungeon -->
+<!-- End of http://org.moparscape.msc.org/dev/viewtopic.php?id=326 -->
+<NPCLoc>  <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=320 Chronozon in Edgeville Dungeon -->
   <id>315</id>
   <startX>230</startX>
   <startY>3246</startY>
@@ -200,8 +200,8 @@
   <minY>3243</minY>
   <maxY>3250</maxY>
 </NPCLoc>
-<!-- End of http://msc.org/dev/viewtopic.php?id=320 -->
-<NPCLoc> <!-- http://msc.org/dev/viewtopic.php?id=307 Lava Maze -->
+<!-- End of http://org.moparscape.msc.org/dev/viewtopic.php?id=320 -->
+<NPCLoc> <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=307 Lava Maze -->
   <id>291</id>
   <startX>275</startX>
   <startY>2998</startY>
@@ -273,8 +273,8 @@
   <minY>3002</minY>
   <maxY>3017</maxY>
 </NPCLoc>
-<!-- End of http://msc.org/dev/viewtopic.php?id=307 -->
-<NPCLoc> <!-- http://msc.org/dev/viewtopic.php?id=306 Two extra Lessers above KBD -->
+<!-- End of http://org.moparscape.msc.org/dev/viewtopic.php?id=307 -->
+<NPCLoc> <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=306 Two extra Lessers above KBD -->
   <id>22</id>
   <startX>281</startX>
   <startY>185</startY>
@@ -292,8 +292,8 @@
   <minY>184</minY>
   <maxY>187</maxY>
 </NPCLoc>
-<!-- End of http://msc.org/dev/viewtopic.php?id=306 -->
-<NPCLoc>  <!-- http://msc.org/dev/viewtopic.php?id=310 Earth Warriors in Edge dungeon -->
+<!-- End of http://org.moparscape.msc.org/dev/viewtopic.php?id=306 -->
+<NPCLoc>  <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=310 Earth Warriors in Edge dungeon -->
   <id>584</id>
   <startX>208</startX>
   <startY>3218</startY>
@@ -366,7 +366,7 @@
   <maxY>3220</maxY>
 </NPCLoc>
 <!-- End of Earth Warriors in Edge dungeon -->
-<NPCLoc>  <!-- http://msc.org/dev/viewtopic.php?id=308 Ogres in clock tower dungeon -->
+<NPCLoc>  <!-- http://org.moparscape.msc.org/dev/viewtopic.php?id=308 Ogres in clock tower dungeon -->
   <id>312</id>
   <startX>609</startX>
   <startY>3482</startY>

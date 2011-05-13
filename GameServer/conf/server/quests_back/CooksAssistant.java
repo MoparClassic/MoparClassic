@@ -1,9 +1,9 @@
-import msc.gs.Instance;  import msc.gs.event.SingleEvent;
-import msc.gs.Instance;  import msc.gs.model.MenuHandler;
-import msc.gs.Instance;  import msc.gs.model.Npc;
-import msc.gs.Instance;  import msc.gs.model.Player;
-import msc.gs.Instance;  import msc.gs.quest.Quest;
-import msc.gs.Instance;  import msc.gs.quest.QuestAction;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.event.SingleEvent;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.model.MenuHandler;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.model.Npc;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.model.Player;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.quest.QuestAction;
 
 /**
  * Quest: Cook's Assistant (v1.0) Status: COMPLETE Start: Lumbridge cook (id 7)

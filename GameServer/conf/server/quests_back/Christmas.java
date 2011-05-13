@@ -1,15 +1,15 @@
-import msc.gs.Instance;  import msc.gs.model.ActiveTile;
-import msc.gs.Instance;  import msc.gs.model.InvItem;
-import msc.gs.Instance;  import msc.gs.model.Item;
-import msc.gs.Instance;  import msc.gs.model.Npc;
-import msc.gs.Instance;  import msc.gs.model.Player;
-import msc.gs.Instance;  import msc.gs.model.World;
-import msc.gs.Instance;  import msc.gs.quest.Quest;
-import msc.gs.Instance;  import msc.gs.quest.QuestAction;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.model.ActiveTile;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.model.InvItem;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.model.Item;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.model.Npc;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.model.Player;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.quest.QuestAction;
 
-import msc.gs.Instance;  import msc.gs.external.EntityHandler;
-import msc.gs.Instance;  import msc.gs.external.ItemDropDef;
-import msc.gs.Instance;  import msc.gs.tools.DataConversions;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.external.EntityHandler;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.external.ItemDropDef;
+import org.moparscape.msc.gs.Instance;  import org.moparscape.msc.gs.tools.DataConversions;
 
 /**
  * Quest: Christmas! (v1.0) 8/1/2009 Status: COMPLETE Start: Santa (id 798),

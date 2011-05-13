@@ -4,44 +4,44 @@
 				<int>1</int>
 				<int>2</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.RegisterWorld</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.RegisterWorld</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>3</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.KillHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.KillHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>4</int>
 				<int>5</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.BanHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.BanHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>6</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.PrivacySettingHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.PrivacySettingHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>7</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.GameSettingHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.GameSettingHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>8</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.PlayerInfoRequestHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.PlayerInfoRequestHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>9</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.SaveProfilesRequestHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.SaveProfilesRequestHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
@@ -51,42 +51,42 @@
 				<int>13</int>
 				<int>14</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.FriendHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.FriendHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>15</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.ReportHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.ReportHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>20</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.PlayerSaveHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.PlayerSaveHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>30</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.PlayerLogoutHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.PlayerLogoutHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>31</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.PlayerLoginHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.PlayerLoginHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>32</int>
 			</ids>
-			<className>rsca.ls.packethandler.loginserver.LogHandler</className>
+			<className>org.moparscape.msc.ls.packethandler.loginserver.LogHandler</className>
 		</PacketHandler>
                 <PacketHandler>
                         <ids>
                                 <int>33</int>
                         </ids>
-                        <className>rsca.ls.packethandler.loginserver.Tradelog</className>
+                        <className>org.moparscape.msc.ls.packethandler.loginserver.Tradelog</className>
                 </PacketHandler>
 </PacketHandler-array>

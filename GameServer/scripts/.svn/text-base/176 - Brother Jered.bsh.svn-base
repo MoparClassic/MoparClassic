@@ -1,6 +1,6 @@
 /**
 	ID 176 - Brother Jered
-  	Written by Hehasnoidea @ msc
+  	Written by Hehasnoidea @ org.moparscape.msc
 */
 
 option = PickOption("What can you do to help a bold adventurer like myself?", "Praise be to Saradomin");

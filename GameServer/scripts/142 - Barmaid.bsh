@@ -1,7 +1,7 @@
 /**
      * ID 142 - Barmaid
      * 
-     *    @author Ecko @msc
+     *    @author Ecko @org.moparscape.msc
      */
     PlayerTalk("Hi, what ales are you serving?");
 
