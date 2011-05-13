@@ -5,3 +5,10 @@
 *.iws
 *.iml
 *.class
+bin
+build
+.*
+!.gitignore
+!.gitmodules
+!.gitkeep
+!.gitattributes

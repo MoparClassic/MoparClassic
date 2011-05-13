@@ -3,5 +3,5 @@
 
 <properties>
 	<comment>Stores aliases for the XStream engine</comment>
-	<entry key="PacketHandler">rsca.ls.packethandler.PacketHandlerDef</entry>
+	<entry key="PacketHandler">org.moparscape.msc.ls.packethandler.PacketHandlerDef</entry>
 </properties>

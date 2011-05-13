@@ -9,50 +9,50 @@
 				<int>617</int>
 				<int>792</int>
 			</ids>
-			<className>msc.gs.npchandler.Bankers</className>
+			<className>org.moparscape.msc.gs.npchandler.Bankers</className>
  
 		</NpcHandler>
 <NpcHandler>
 			<ids>
 				<int>125</int>
 			</ids>
-			<className>msc.gs.npchandler.Aggie</className>
+			<className>org.moparscape.msc.gs.npchandler.Aggie</className>
 		</NpcHandler>
 <NpcHandler>
 			<ids>
 				<int>164</int>
 			</ids>
-			<className>msc.gs.npchandler.Bananas</className>
+			<className>org.moparscape.msc.gs.npchandler.Bananas</className>
 		</NpcHandler>
 <NpcHandler>
 			<ids>
 				<int>33</int>
 			</ids>
-			<className>msc.gs.npchandler.Apothecary</className>
+			<className>org.moparscape.msc.gs.npchandler.Apothecary</className>
 		</NpcHandler>
 		<NpcHandler>
 			<ids>
 				<int>172</int>
 			</ids>
-			<className>msc.gs.npchandler.Tanner</className>
+			<className>org.moparscape.msc.gs.npchandler.Tanner</className>
 		</NpcHandler>
 		<NpcHandler>
 			<ids>
 				<int>90</int>
 			</ids>
-			<className>msc.gs.npchandler.KebabSeller</className>
+			<className>org.moparscape.msc.gs.npchandler.KebabSeller</className>
 		</NpcHandler>
 		<NpcHandler>
 			<ids>
 				<int>339</int>
 			</ids>
-			<className>msc.gs.npchandler.MakeOverMage</className>
+			<className>org.moparscape.msc.gs.npchandler.MakeOverMage</className>
 		</NpcHandler>
 		<NpcHandler>
 			<ids>
 				<int>160</int>
 			</ids>
-			<className>msc.gs.npchandler.Thrander</className>
+			<className>org.moparscape.msc.gs.npchandler.Thrander</className>
 		</NpcHandler>
 		<NpcHandler>
 			<ids>
@@ -133,7 +133,7 @@
 				<int>779</int>
 				<int>269</int>
 			</ids>
-			<className>msc.gs.npchandler.ShopKeeper</className>
+			<className>org.moparscape.msc.gs.npchandler.ShopKeeper</className>
 		</NpcHandler>
 		<NpcHandler>
 			<ids>
@@ -155,19 +155,19 @@
 				<int>347</int>
 			
 			</ids>
-			<className>msc.gs.npchandler.Certer</className>
+			<className>org.moparscape.msc.gs.npchandler.Certer</className>
 		</NpcHandler>
 		<NpcHandler>
 			<ids>
 				<int>93</int>
 			</ids>
-			<className>msc.gs.npchandler.MonkHealer</className>
+			<className>org.moparscape.msc.gs.npchandler.MonkHealer</className>
 		</NpcHandler>
 		
 		<NpcHandler>
 			<ids>
 				<int>212</int>
 			</ids>
-			<className>msc.gs.npchandler.EntranaMonks</className>
+			<className>org.moparscape.msc.gs.npchandler.EntranaMonks</className>
 		</NpcHandler>
 </NpcHandler-array>

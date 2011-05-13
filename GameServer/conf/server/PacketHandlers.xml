@@ -3,106 +3,106 @@
 			<ids>
 				<int>0</int>
 			</ids>
-			<className>msc.gs.phandler.client.DummyPacket</className>
+			<className>org.moparscape.msc.gs.phandler.client.DummyPacket</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>77</int>
 			</ids>
-			<className>msc.gs.phandler.client.PlayerLogin</className>
+			<className>org.moparscape.msc.gs.phandler.client.PlayerLogin</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>69</int>
 			</ids>
-			<className>msc.gs.phandler.client.BotHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.BotHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>32</int>
 			</ids>
-			<className>msc.gs.phandler.client.SessionRequest</className>
+			<className>org.moparscape.msc.gs.phandler.client.SessionRequest</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>129</int>
 			</ids>
-			<className>msc.gs.phandler.client.PlayerLogoutRequest</className>
+			<className>org.moparscape.msc.gs.phandler.client.PlayerLogoutRequest</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>39</int>
 			</ids>
-			<className>msc.gs.phandler.client.PlayerLogout</className>
+			<className>org.moparscape.msc.gs.phandler.client.PlayerLogout</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>5</int>
 			</ids>
-			<className>msc.gs.phandler.client.Ping</className>
+			<className>org.moparscape.msc.gs.phandler.client.Ping</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>3</int>
 			</ids>
-			<className>msc.gs.phandler.client.Trap</className>
+			<className>org.moparscape.msc.gs.phandler.client.Trap</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>246</int>
 				<int>132</int>
 			</ids>
-			<className>msc.gs.phandler.client.WalkRequest</className>
+			<className>org.moparscape.msc.gs.phandler.client.WalkRequest</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>145</int>
 			</ids>
-			<className>msc.gs.phandler.client.ChatHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.ChatHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>176</int>
 			</ids>
-			<className>msc.gs.phandler.client.PrivacySettingHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.PrivacySettingHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>157</int>
 			</ids>
-			<className>msc.gs.phandler.client.GameSettingHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.GameSettingHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>147</int>
 			</ids>
-			<className>msc.gs.phandler.client.DropHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.DropHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>56</int>
 				<int>248</int>
 			</ids>
-			<className>msc.gs.phandler.client.PrayerHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.PrayerHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>90</int>
 			</ids>
-			<className>msc.gs.phandler.client.CommandHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.CommandHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>181</int>
 				<int>92</int>
 			</ids>
-			<className>msc.gs.phandler.client.WieldHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.WieldHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>83</int>
 			</ids>
-			<className>msc.gs.phandler.client.PlayerAppearanceIDHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.PlayerAppearanceIDHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
@@ -115,13 +115,13 @@
 				<int>104</int>
 				<int>232</int>
 			</ids>
-			<className>msc.gs.phandler.client.SpellHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.SpellHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>218</int>
 			</ids>
-			<className>msc.gs.phandler.client.PlayerAppearanceUpdater</className>
+			<className>org.moparscape.msc.gs.phandler.client.PlayerAppearanceUpdater</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
@@ -131,7 +131,7 @@
 				<int>70</int>
 				<int>53</int>
 			</ids>
-			<className>msc.gs.phandler.client.TradeHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.TradeHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
@@ -141,71 +141,71 @@
 				<int>108</int>
 				<int>254</int>
 			</ids>
-			<className>msc.gs.phandler.client.FriendHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.FriendHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>89</int>
 			</ids>
-			<className>msc.gs.phandler.client.InvActionHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.InvActionHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>16</int>
 			</ids>
-			<className>msc.gs.phandler.client.InvUseOnPlayer</className>
+			<className>org.moparscape.msc.gs.phandler.client.InvUseOnPlayer</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>245</int>
 			</ids>
-			<className>msc.gs.phandler.client.PickupItem</className>
+			<className>org.moparscape.msc.gs.phandler.client.PickupItem</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>40</int>
 				<int>51</int>
 			</ids>
-			<className>msc.gs.phandler.client.ObjectAction</className>
+			<className>org.moparscape.msc.gs.phandler.client.ObjectAction</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>235</int>
 				<int>126</int>
 			</ids>
-			<className>msc.gs.phandler.client.WallObjectAction</className>
+			<className>org.moparscape.msc.gs.phandler.client.WallObjectAction</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>7</int>
 			</ids>
-			<className>msc.gs.phandler.client.ReportHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.ReportHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>36</int>
 				<int>94</int>
 			</ids>
-			<className>msc.gs.phandler.client.InvUseOnObject</className>
+			<className>org.moparscape.msc.gs.phandler.client.InvUseOnObject</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>57</int>
 				<int>73</int>
 			</ids>
-			<className>msc.gs.phandler.client.AttackHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.AttackHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>42</int>
 			</ids>
-			<className>msc.gs.phandler.client.StyleHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.StyleHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>177</int>
 			</ids>
-			<className>msc.gs.phandler.client.TalkToNpcHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.TalkToNpcHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
@@ -213,31 +213,31 @@
 				<int>183</int>
 				<int>198</int>
 			</ids>
-			<className>msc.gs.phandler.client.BankHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.BankHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>154</int>
 			</ids>
-			<className>msc.gs.phandler.client.MenuReplyHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.MenuReplyHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>156</int>
 			</ids>
-			<className>msc.gs.phandler.client.ExceptionHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.ExceptionHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>34</int>
 			</ids>
-			<className>msc.gs.phandler.client.InvUseOnGroundItem</className>
+			<className>org.moparscape.msc.gs.phandler.client.InvUseOnGroundItem</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>27</int>
 			</ids>
-			<className>msc.gs.phandler.client.InvUseOnItem</className>
+			<className>org.moparscape.msc.gs.phandler.client.InvUseOnItem</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
@@ -245,19 +245,19 @@
 				<int>128</int>
 				<int>255</int>
 			</ids>
-			<className>msc.gs.phandler.client.ShopHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.ShopHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>142</int>
 			</ids>
-			<className>msc.gs.phandler.client.InvUseOnNpc</className>
+			<className>org.moparscape.msc.gs.phandler.client.InvUseOnNpc</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>68</int>
 			</ids>
-			<className>msc.gs.phandler.client.FollowRequest</className>
+			<className>org.moparscape.msc.gs.phandler.client.FollowRequest</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
@@ -268,19 +268,19 @@
 				<int>225</int>
 				<int>252</int>
 			</ids>
-			<className>msc.gs.phandler.client.DuelHandler</className>
+			<className>org.moparscape.msc.gs.phandler.client.DuelHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>74</int>
 			</ids>
-			<className>msc.gs.phandler.client.NpcCommand</className>
+			<className>org.moparscape.msc.gs.phandler.client.NpcCommand</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>200</int>
 			</ids>
-			<className>msc.gs.phandler.client.Sleepword</className>
+			<className>org.moparscape.msc.gs.phandler.client.Sleepword</className>
 		</PacketHandler>
 	
 </PacketHandler-array>
