@@ -37,11 +37,11 @@ public class Constants {
 		/**
 		 * Exp Rate multiplier per kill.
 		 */
-		public static final double EXP_RATE = 3.0;
+		public static final double EXP_RATE = 4.0;
 		/**
 		 * Subscribed Exp Rate multiplier per kill.
 		 */
-		public static final double SUB_EXP_RATE = 3.0;
+		public static final double SUB_EXP_RATE = 4.0;
 		/**
 		 * The amount of players on this server.
 		 */

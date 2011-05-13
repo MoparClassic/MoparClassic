@@ -1,1 +1,1 @@
-ant compile
+ant
