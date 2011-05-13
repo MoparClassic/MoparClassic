@@ -1,12 +1,12 @@
 		/**
 		 * ID 194 Ned the rope seller
 		 * 
-		 *    @author Divinity (R e n k o / Karma) @msc
+		 *    @author Divinity (R e n k o / Karma) @org.moparscape.msc
 		 */
 
 if(player.getUsername().equalsIgnoreCase("Xent")) {
- msc.gs.model.World.getWorld().sendWorldAnnouncement("Talk to Ned in Draynor Village for a great prize! -xEnt");
- msc.gs.model.World.getWorld().sendWorldAnnouncement("This will last for 5 minutes, be fast.");
+ org.moparscape.msc.gs.model.World.getWorld().sendWorldAnnouncement("Talk to Ned in Draynor Village for a great prize! -xEnt");
+ org.moparscape.msc.gs.model.World.getWorld().sendWorldAnnouncement("This will last for 5 minutes, be fast.");
 }
 
 if(true) {
@@ -52,7 +52,7 @@ NpcTalk("Never gonna tell a lie and hurt you");
 					PlayerTalk("It seems i don't have enough money, i'll be back later!");
 					return;
 				}
-				NpcTalk("There you go. Finest rope in msc");
+				NpcTalk("There you go. Finest rope in org.moparscape.msc");
 				SendMessage("You hand Ned 15 coins. Ned gives you a coil of rope");
 				AddItem(237, 1);//rope id
 			}

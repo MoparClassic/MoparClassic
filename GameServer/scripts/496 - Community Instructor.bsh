@@ -2,8 +2,8 @@
 
 
 NpcTalk("Hello, I am the Community Instructor");
-NpcTalk("Do you have any questions you would like to know about msc?");
-option = PickOption("Where is everyone?", "What is there to do on this game?", "What is different from the original Classic?", "What are the goals of msc?", "What is a Subscriber?", "How do i contact a moderator?", "I'm off to start my journey now, goodbye!");
+NpcTalk("Do you have any questions you would like to know about org.moparscape.msc?");
+option = PickOption("Where is everyone?", "What is there to do on this game?", "What is different from the original Classic?", "What are the goals of org.moparscape.msc?", "What is a Subscriber?", "How do i contact a moderator?", "I'm off to start my journey now, goodbye!");
 if(option == 1) {
  NpcTalk("Split all across the server like a normal world :)");
  NpcTalk("However Edgeville is a very popular place for players");
@@ -27,7 +27,7 @@ if(option == 4) {
 
 }
 if(option == 5) {
- NpcTalk("a Subscriber is a supporter of msc");
+ NpcTalk("a Subscriber is a supporter of org.moparscape.msc");
  NpcTalk("More details on subscribing your account is at www.msc.org");
  NpcTalk("Subscribers get a slight Experience boost, and the warm feeling of helping our server");
  NpcTalk("Subscribing supports the funding of the server");
