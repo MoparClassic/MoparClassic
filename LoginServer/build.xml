@@ -1,4 +1,4 @@
-<project default="compile" basedir=".">	
+<project name="LoginServer" default="compile" basedir=".">	
 	
 	<property name="src" location="src" />
 	<property name="build" location="build" />
