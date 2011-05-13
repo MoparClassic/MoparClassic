@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.snapshot.Activity;
@@ -44,7 +45,7 @@ public class ReportHandlerQueries {
 	 */
 	public synchronized void submitRepot(long from, long about, byte reason, Player from2) {
 		
-		long time = System.currentTimeMillis()/1000;
+		long time = GameEngine.getTime()/1000;
 		String f = org.moparscape.msc.gs.tools.DataConversions.hashToUsername(from);
 		String a = org.moparscape.msc.gs.tools.DataConversions.hashToUsername(about);
 		
@@ -123,7 +124,7 @@ public class ReportHandlerQueries {
 			insertNewDupeDataRow.setString(1, username);
 			insertNewDupeDataRow.setLong(2, hash); 
 			insertNewDupeDataRow.setString(3, data.toString()); 
-			insertNewDupeDataRow.setLong(4,System.currentTimeMillis());
+			insertNewDupeDataRow.setLong(4,GameEngine.getTime());
 			insertNewDupeDataRow.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

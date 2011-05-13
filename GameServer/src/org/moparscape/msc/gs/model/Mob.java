@@ -1,6 +1,7 @@
 package org.moparscape.msc.gs.model;
 
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.DuelEvent;
 import org.moparscape.msc.gs.event.FightEvent;
@@ -53,8 +54,8 @@ public abstract class Mob extends Entity {
     /**
      * Time of last movement, used for timeout
      */
-    protected long lastMovement = System.currentTimeMillis();
-    public long lastTimeShot = System.currentTimeMillis();
+    protected long lastMovement = GameEngine.getTime();
+    public long lastTimeShot = GameEngine.getTime();
     protected int mobSprite = 1;
     private int[][] mobSprites = new int[][] { { 3, 2, 1 }, { 4, -1, 0 }, { 5, 6, 7 } };
     /**
@@ -251,7 +252,7 @@ public abstract class Mob extends Entity {
     }
 
     public void setCombatTimer() {
-	combatTimer = System.currentTimeMillis();
+	combatTimer = GameEngine.getTime();
     }
 
     public abstract void setHits(int lvl);
@@ -261,7 +262,7 @@ public abstract class Mob extends Entity {
     }
 
     public void setLastMoved() {
-	lastMovement = System.currentTimeMillis();
+	lastMovement = GameEngine.getTime();
     }
 
     public void setLocation(Point p) {

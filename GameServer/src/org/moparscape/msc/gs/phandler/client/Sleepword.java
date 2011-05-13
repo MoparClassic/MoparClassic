@@ -9,6 +9,7 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.snapshot.Activity;
@@ -25,11 +26,11 @@ public class Sleepword implements PacketHandler {
     public void handlePacket(Packet p, IoSession session) throws Exception {
 	Player player = (Player) session.getAttachment();
 	int pID = ((RSCPacket) p).getID();
-	long now = System.currentTimeMillis();
+	long now = GameEngine.getTime();
 
 	try {
 	    String sleepword_result = ((RSCPacket) p).readString().trim();
-	    if (System.currentTimeMillis() - player.getLastSleepTime() < 1000)
+	    if (GameEngine.getTime() - player.getLastSleepTime() < 1000)
 		return;
 
 	    if (player.getWrongWords() >= 10) {

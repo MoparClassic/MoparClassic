@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Random;
 
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.util.Logger;
 
@@ -363,7 +364,7 @@ public final class DataConversions {
     }
 
     public static String timeSince(long time) {
-	int seconds = (int) ((System.currentTimeMillis() - time) / 1000);
+	int seconds = (int) ((GameEngine.getTime() - time) / 1000);
 	int minutes = (int) (seconds / 60);
 	int hours = (int) (minutes / 60);
 	int days = (int) (hours / 24);

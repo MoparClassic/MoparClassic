@@ -3,6 +3,7 @@ package org.moparscape.msc.gs.connection;
 import java.net.InetSocketAddress;
 
 import org.apache.mina.common.IoSession;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.util.Logger;
 
 
@@ -64,7 +65,7 @@ public class Packet {
 	this.pData = pData;
 	this.pLength = pData.length;
 	this.bare = bare;
-	time = System.currentTimeMillis();
+	time = GameEngine.getTime();
     }
 
     /**

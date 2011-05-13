@@ -15,7 +15,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
@@ -40,7 +39,6 @@ import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
 import org.moparscape.msc.gs.util.PersistenceManager;
 
-
 /**
  * The central motor of the game. This class is responsible for the primary
  * operation of the entire game.
@@ -56,6 +54,7 @@ public final class GameEngine extends Thread {
 	public static Captcha getCaptcha() {
 		return captcha;
 	}
+
 	/**
 	 * Responsible for updating all connected clients
 	 */
@@ -67,8 +66,8 @@ public final class GameEngine extends Thread {
 	/**
 	 * When the update loop was last ran, required for throttle
 	 */
-	private long lastSentClientUpdate = System.currentTimeMillis();
-	private long lastSentClientUpdateFast = System.currentTimeMillis();
+	private long lastSentClientUpdate = GameEngine.getTime();
+	private long lastSentClientUpdateFast = GameEngine.getTime();
 	private long lastCleanedChatlogs = 0;
 	private int lastCleanedChatlogsOutput = 0;
 	/**
@@ -83,11 +82,25 @@ public final class GameEngine extends Thread {
 	 * Whether the engine's thread is running
 	 */
 	private boolean running = true;
-	long time = 0;
+	private static volatile long time = 0;
+
+	/**
+	 * Use this instead of System.currentTimeIllis, as each call does a system
+	 * call, and potentially a hardware poll...<br>
+	 * Also, you don't generally need the time to be updated more often than
+	 * each part in the main loop.
+	 * 
+	 * @return The current time.
+	 */
+	public static long getTime() {
+		return time;
+	}
+
 	/**
 	 * Processes incoming packets.
 	 */
-	private Map<String, Integer> written = Collections.synchronizedMap(new HashMap<String, Integer>());
+	private Map<String, Integer> written = Collections
+			.synchronizedMap(new HashMap<String, Integer>());
 
 	/**
 	 * Constructs a new game engine with an empty packet queue.
@@ -108,7 +121,8 @@ public final class GameEngine extends Thread {
 			p.save();
 			p.getActionSender().sendLogout();
 		}
-		Instance.getServer().getLoginConnector().getActionSender().saveProfiles();
+		Instance.getServer().getLoginConnector().getActionSender()
+				.saveProfiles();
 	}
 
 	/**
@@ -130,14 +144,13 @@ public final class GameEngine extends Thread {
 	 * counts.put(addr, 0); } else c = counts.get(addr) + 1; counts.put(addr,
 	 * c); } else { clients.put(addr, now); } } else { clients.put(addr, now); }
 	 * }
-	
-	private InetAddress getAddress(IoSession io) {
-		return ((InetSocketAddress) io.getRemoteAddress()).getAddress();
-	}
- */
+	 * 
+	 * private InetAddress getAddress(IoSession io) { return
+	 * ((InetSocketAddress) io.getRemoteAddress()).getAddress(); }
+	 */
 	/**
 	 * Returns the current packet queue.
-	 *
+	 * 
 	 * @return A <code>PacketQueue</code>
 	 */
 	public PacketQueue<RSCPacket> getPacketQueue() {
@@ -153,7 +166,8 @@ public final class GameEngine extends Thread {
 	 * Loads the packet handling classes from the persistence manager.
 	 */
 	protected void loadPacketHandlers() {
-		PacketHandlerDef[] handlerDefs = (PacketHandlerDef[]) PersistenceManager.load("PacketHandlers.xml");
+		PacketHandlerDef[] handlerDefs = (PacketHandlerDef[]) PersistenceManager
+				.load("PacketHandlers.xml");
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
@@ -169,19 +183,22 @@ public final class GameEngine extends Thread {
 			}
 		}
 	}
+
 	private void processClients() {
 		clientUpdater.sendQueuedPackets();
-		long now = System.currentTimeMillis();
+		long now = GameEngine.getTime();
 		if (now - lastSentClientUpdate >= 600) {
 			if (now - lastSentClientUpdate >= 1000) {
-				//Logger.println("MAJOR UPDATE DELAYED: " + (now - lastSentClientUpdate));
+				// Logger.println("MAJOR UPDATE DELAYED: " + (now -
+				// lastSentClientUpdate));
 			}
 			lastSentClientUpdate = now;
 			clientUpdater.doMajor();
 		}
 		if (now - lastSentClientUpdateFast >= 104) {
 			if (now - lastSentClientUpdateFast >= 6000) {
-				//Logger.println("MINOR UPDATE DELAYED: " + (now - lastSentClientUpdateFast));
+				// Logger.println("MINOR UPDATE DELAYED: " + (now -
+				// lastSentClientUpdateFast));
 			}
 			lastSentClientUpdateFast = now;
 			clientUpdater.doMinor();
@@ -191,34 +208,38 @@ public final class GameEngine extends Thread {
 	private void processEvents() {
 		eventHandler.doEvents();
 	}
+
 	/**
 	 * Redirects system err
 	 */
-	public static void redirectSystemStreams() {  
-    	OutputStream out = new OutputStream() {  
-    		@Override  
-    		public void write(int b) throws IOException {  
-    			String line = String.valueOf((char) b);
-    			Logger.systemerr(line);
-    		}  
-    		@Override  
-    		public void write(byte[] b, int off, int len) throws IOException {  
-    			String line = new String(b, off, len);  
-    			Logger.systemerr(line);
-    	     }  
-    	   
-    	     @Override  
-    	     public void write(byte[] b) throws IOException {  
-    	       write(b, 0, b.length);  
-    	     }  
-    	   };  
-    	   System.setErr(new PrintStream(out, true));  
-    }
+	public static void redirectSystemStreams() {
+		OutputStream out = new OutputStream() {
+			@Override
+			public void write(int b) throws IOException {
+				String line = String.valueOf((char) b);
+				Logger.systemerr(line);
+			}
+
+			@Override
+			public void write(byte[] b, int off, int len) throws IOException {
+				String line = new String(b, off, len);
+				Logger.systemerr(line);
+			}
+
+			@Override
+			public void write(byte[] b) throws IOException {
+				write(b, 0, b.length);
+			}
+		};
+		System.setErr(new PrintStream(out, true));
+	}
+
 	private void processIncomingPackets() {
 		for (RSCPacket p : packetQueue.getPackets()) {
 			IoSession session = p.getSession();
 			Player player = (Player) session.getAttachment();
-			if (player.getUsername() == null && p.getID() != 32 && p.getID() != 77 && p.getID() != 0) {
+			if (player.getUsername() == null && p.getID() != 32
+					&& p.getID() != 77 && p.getID() != 0) {
 				final String ip = player.getCurrentIP();
 				// flagSession(session);
 				if (!written.containsKey(ip)) {
@@ -227,7 +248,8 @@ public final class GameEngine extends Thread {
 						public void run() {
 							written.remove(ip);
 							try {
-								Runtime.getRuntime().exec("sudo /sbin/route delete " + ip);
+								Runtime.getRuntime().exec(
+										"sudo /sbin/route delete " + ip);
 							} catch (Exception err) {
 								System.out.println(err);
 							}
@@ -239,7 +261,8 @@ public final class GameEngine extends Thread {
 					} catch (Exception err) {
 						System.out.println(err);
 					}
-					Logger.println("Dummy packet from " + player.getCurrentIP() + ": " + p.getID());
+					Logger.println("Dummy packet from " + player.getCurrentIP()
+							+ ": " + p.getID());
 					written.put(ip, 1);
 				}
 				continue;
@@ -250,31 +273,37 @@ public final class GameEngine extends Thread {
 				try {
 					handler.handlePacket(p, session);
 					try {
-						if(p.getID() != 5) {
-							//String s = "[PACKET] " + session.getRemoteAddress().toString().replace("/", "") + " : " + p.getID()+ " ["+handler.getClass().toString()+"]" + " : "+ player.getUsername() + " : ";
-							//for(Byte b : p.getData())
-							//	s += b;
-							//Logger.println(s);
-							}
+						if (p.getID() != 5) {
+							// String s = "[PACKET] " +
+							// session.getRemoteAddress().toString().replace("/",
+							// "") + " : " + p.getID()+
+							// " ["+handler.getClass().toString()+"]" + " : "+
+							// player.getUsername() + " : ";
+							// for(Byte b : p.getData())
+							// s += b;
+							// Logger.println(s);
 						}
-					catch(Exception e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
+
 				} catch (Exception e) {
 					String s;
 					StringWriter sw = new StringWriter();
-				    PrintWriter pw = new PrintWriter(sw, true);
-				    e.printStackTrace(pw);
-				    pw.flush();
-				    sw.flush();
-				    s = sw.toString();
-				    Logger.error("Exception with p[" + p.getID() + "] from " + player.getUsername() + " [" + player.getCurrentIP() + "]: " + s);
+					PrintWriter pw = new PrintWriter(sw, true);
+					e.printStackTrace(pw);
+					pw.flush();
+					sw.flush();
+					s = sw.toString();
+					Logger.error("Exception with p[" + p.getID() + "] from "
+							+ player.getUsername() + " ["
+							+ player.getCurrentIP() + "]: " + s);
 					player.getActionSender().sendLogout();
 					player.destroy(false);
 				}
 			} else {
-				Logger.error("Unhandled packet from " + player.getCurrentIP() + ": " + p.getID() + "len: " + p.getLength());
+				Logger.error("Unhandled packet from " + player.getCurrentIP()
+						+ ": " + p.getID() + "len: " + p.getLength());
 			}
 		}
 	}
@@ -301,68 +330,81 @@ public final class GameEngine extends Thread {
 			}
 		}
 		time = System.currentTimeMillis();
-		
-		eventHandler.add(new DelayedEvent(null, 300000*10*2) { // Ran every 50*2 minutes
-			@Override
-			public void run() {
-				new Thread(new Runnable() {
+
+		eventHandler.add(new DelayedEvent(null, 300000 * 10 * 2) { // Ran every
+																	// 50*2
+																	// minutes
+					@Override
 					public void run() {
-							garbageCollect();
-						}
-					}).start();
-			}}
-		);
-		eventHandler.add(new DelayedEvent(null, 300000) { // 5 min
-			public void run() {
-				world.dbKeepAlive();
-				Long now = System.currentTimeMillis();
-				for (Player p : world.getPlayers()) {
-					if (now - p.getLastSaveTime() >= 900000) {
-						p.save();
-						p.setLastSaveTime(now);
+						new Thread(new Runnable() {
+							public void run() {
+								garbageCollect();
+							}
+						}).start();
 					}
-				}
-				Instance.getServer().getLoginConnector().getActionSender().saveProfiles();
-			}
-		});
+				});
+		eventHandler.add(new DelayedEvent(null, 300000) { // 5 min
+					public void run() {
+						world.dbKeepAlive();
+						long now = GameEngine.getTime();
+						for (Player p : world.getPlayers()) {
+							if (now - p.getLastSaveTime() >= 900000) {
+								p.save();
+								p.setLastSaveTime(now);
+							}
+						}
+						Instance.getServer().getLoginConnector()
+								.getActionSender().saveProfiles();
+					}
+				});
 		while (running) {
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException ie) {
 			}
-			Long AIDS = System.currentTimeMillis();
-			Long Delay;
+			time = System.currentTimeMillis();
+			long Delay;
 			processLoginServer();
-			Delay = System.currentTimeMillis() - AIDS;
-			if(Delay >= 1000) Logger.println("processLoginServer is taking longer than it should, exactly " + Delay + "ms");
-			AIDS = System.currentTimeMillis();
+			Delay = System.currentTimeMillis() - time;
+			if (Delay >= 1000)
+				Logger.println("processLoginServer is taking longer than it should, exactly "
+						+ Delay + "ms");
+			time = System.currentTimeMillis();
 			processIncomingPackets();
-			Delay = System.currentTimeMillis() - AIDS;
-			if(Delay >= 1000) Logger.println("processIncomingPackets is taking longer than it should, exactly " + Delay + "ms");
-			AIDS = System.currentTimeMillis();
+			Delay = System.currentTimeMillis() - time;
+			if (Delay >= 1000)
+				Logger.println("processIncomingPackets is taking longer than it should, exactly "
+						+ Delay + "ms");
+			time = System.currentTimeMillis();
 			processEvents();
-			Delay = System.currentTimeMillis() - AIDS;
-			if(Delay >= 1000) Logger.println("processEvents is taking longer than it should, exactly " + Delay + "ms");
-			AIDS = System.currentTimeMillis();
+			Delay = System.currentTimeMillis() - time;
+			if (Delay >= 1000)
+				Logger.println("processEvents is taking longer than it should, exactly "
+						+ Delay + "ms");
+			time = System.currentTimeMillis();
 			processClients();
-			Delay = System.currentTimeMillis() - AIDS;
-			if(Delay >= 1000) Logger.println("processClients is taking longer than it should, exactly " + Delay + "ms");
-			AIDS = System.currentTimeMillis();
+			Delay = System.currentTimeMillis() - time;
+			if (Delay >= 1000)
+				Logger.println("processClients is taking longer than it should, exactly "
+						+ Delay + "ms");
+			time = System.currentTimeMillis();
 			cleanSnapshotDeque();
-			Delay = System.currentTimeMillis() - AIDS;
-			if(Delay >= 1000) Logger.println("processSnapshotDeque is taking longer than it should, exactly " + Delay + "ms");
+			Delay = System.currentTimeMillis() - time;
+			if (Delay >= 1000)
+				Logger.println("processSnapshotDeque is taking longer than it should, exactly "
+						+ Delay + "ms");
 		}
 	}
-	
+
 	/**
 	 * Cleans snapshots of entries over 60 seconds old (executed every second)
 	 */
 	public void cleanSnapshotDeque() {
-		long curTime = System.currentTimeMillis();
+		long curTime = GameEngine.getTime();
 		if (curTime - lastCleanedChatlogs > 1000) {
 			lastCleanedChatlogs = curTime;
 			lastCleanedChatlogsOutput++;
-			if(lastCleanedChatlogsOutput > 60*5) {
+			if (lastCleanedChatlogsOutput > 60 * 5) {
 				Logger.println("----------------------------------------------");
 				Logger.println(world.getSnapshots().size() + " items on deque");
 			}
@@ -373,25 +415,27 @@ public final class GameEngine extends Thread {
 				if (curTime - s.getTimestamp() > 60000) {
 					i.remove();
 					s = null;
-					}
-				else {
+				} else {
 					s = null;
 				}
 			}
 			i = null;
-			if(lastCleanedChatlogsOutput > 60*5) {
-				Logger.println(world.getSnapshots().size() + " items on deque AFTER CLEANUP");
+			if (lastCleanedChatlogsOutput > 60 * 5) {
+				Logger.println(world.getSnapshots().size()
+						+ " items on deque AFTER CLEANUP");
 				Logger.println("----------------------------------------------");
 				lastCleanedChatlogsOutput = 0;
 			}
 		}
 	}
+
 	/**
 	 * Cleans garbage (Tilecleanup)
 	 */
 	public synchronized void garbageCollect() {
 		long startTime = System.currentTimeMillis();
-		int curMemory = (int) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000;
+		int curMemory = (int) (Runtime.getRuntime().totalMemory() - Runtime
+				.getRuntime().freeMemory()) / 1000;
 		int tileObjs = 0;
 		int cleaned = 0;
 		for (int i = 0; i < Instance.getWorld().tiles.length; i++) {
@@ -399,7 +443,8 @@ public final class GameEngine extends Thread {
 				ActiveTile tile = Instance.getWorld().tiles[i][in];
 				if (tile != null) {
 					tileObjs++;
-					if (!tile.hasGameObject() && !tile.hasItems() && !tile.hasNpcs() && !tile.hasPlayers()) {
+					if (!tile.hasGameObject() && !tile.hasItems()
+							&& !tile.hasNpcs() && !tile.hasPlayers()) {
 						Instance.getWorld().tiles[i][in] = null;
 						cleaned++;
 					}
@@ -407,9 +452,13 @@ public final class GameEngine extends Thread {
 			}
 		}
 		Runtime.getRuntime().gc();
-		int newMemory = (int) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000;
+		int newMemory = (int) (Runtime.getRuntime().totalMemory() - Runtime
+				.getRuntime().freeMemory()) / 1000;
 		Logger.println("GARBAGE COLLECT | Executing Memory Cleanup");
-		Logger.println("GARBAGE COLLECT | Memory before: " + curMemory + "kb" + " Memory after: " + newMemory + " (Freed: " + (curMemory - newMemory) + "kb)");
-		Logger.println("GARBAGE COLLECT | Cleanup took " + (System.currentTimeMillis() - startTime) + "ms");
+		Logger.println("GARBAGE COLLECT | Memory before: " + curMemory + "kb"
+				+ " Memory after: " + newMemory + " (Freed: "
+				+ (curMemory - newMemory) + "kb)");
+		Logger.println("GARBAGE COLLECT | Cleanup took "
+				+ (System.currentTimeMillis() - startTime) + "ms");
 	}
 }

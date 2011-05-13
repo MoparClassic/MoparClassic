@@ -2,6 +2,7 @@ package org.moparscape.msc.gs.plugins.plugs.skills;
 
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.external.EntityHandler;
@@ -112,7 +113,7 @@ public class Mining implements ObjectListener {
 	}
 
 	final int retrytime = retrytimes;
-	owner.lastMineTimer = System.currentTimeMillis();
+	owner.lastMineTimer = GameEngine.getTime();
 	owner.getActionSender().sendMessage("You swing your pick at the rock...");
 	Instance.getDelayedEventHandler().add(new ShortEvent(owner) {
 	    public void action() {

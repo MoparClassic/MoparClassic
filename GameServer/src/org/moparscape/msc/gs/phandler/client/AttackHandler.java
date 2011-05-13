@@ -6,6 +6,7 @@ import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.FightEvent;
 import org.moparscape.msc.gs.event.RangeEvent;
 import org.moparscape.msc.gs.event.WalkToMobEvent;
@@ -76,7 +77,7 @@ public class AttackHandler implements PacketHandler {
 		    if (affectedMob instanceof Player) {
 			Player opp = (Player) affectedMob;
 
-			if (System.currentTimeMillis() - opp.lastMineTimer < 2000 && opp.isBusy())
+			if (GameEngine.getTime() - opp.lastMineTimer < 2000 && opp.isBusy())
 			    cont = true;
 		    }
 		    if(affectedMob instanceof Player) {

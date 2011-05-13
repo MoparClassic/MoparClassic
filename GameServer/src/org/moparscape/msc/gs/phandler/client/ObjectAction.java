@@ -9,6 +9,7 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
@@ -132,7 +133,7 @@ public class ObjectAction implements PacketHandler {
 		    String command = (click == 0 ? def.getCommand1() : def.getCommand2()).toLowerCase();
 		    // System.out.println(object.getID() + " " +
 		    // command);
-		    if(object.getID() == 487 && System.currentTimeMillis() - owner.getLastMoved() < 10000) { owner.getActionSender().sendMessage("You must stand still for 10 seconds before using this"); return; }
+		    if(object.getID() == 487 && GameEngine.getTime() - owner.getLastMoved() < 10000) { owner.getActionSender().sendMessage("You must stand still for 10 seconds before using this"); return; }
 		    Point telePoint = EntityHandler.getObjectTelePoint(object.getLocation(), command);
 		    if (telePoint != null) {
 			owner.teleport(telePoint.getX(), telePoint.getY(), false);

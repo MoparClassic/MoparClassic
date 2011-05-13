@@ -3,6 +3,7 @@ package org.moparscape.msc.gs.phandler.client;
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.snapshot.Activity;
@@ -26,7 +27,7 @@ public class FollowRequest implements PacketHandler {
 	    player.resetPath();
 	    return;
 	}
-	if (System.currentTimeMillis() - player.lastRun < 3000)
+	if (GameEngine.getTime() - player.lastRun < 3000)
 	    return;
 	player.resetAll();
 	player.setFollowing(affectedPlayer, 1);

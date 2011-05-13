@@ -384,7 +384,7 @@ public final class ClientUpdater implements Processor {
 		if (p.destroyed()) {
 			return;
 		}
-		long curTime = System.currentTimeMillis();
+		long curTime = GameEngine.getTime();
 		if (curTime - p.getLastPing() >= 30000) {
 			p.destroy(false);
 		} else if (p.warnedToMove()) {

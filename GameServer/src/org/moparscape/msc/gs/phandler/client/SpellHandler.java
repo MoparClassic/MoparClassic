@@ -13,6 +13,7 @@ import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.FightEvent;
 import org.moparscape.msc.gs.event.ObjectRemover;
 import org.moparscape.msc.gs.event.WalkMobToMobEvent;
@@ -121,7 +122,7 @@ public class SpellHandler implements PacketHandler {
     private Random r = new Random();
 
     private void finalizeSpell(Player player, SpellDef spell) {
-	player.lastCast = System.currentTimeMillis();
+	player.lastCast = GameEngine.getTime();
 	player.getActionSender().sendSound("spellok");
 	player.getActionSender().sendMessage("Cast spell successfully");
 	player.setCastTimer();
@@ -398,12 +399,12 @@ public class SpellHandler implements PacketHandler {
 	}
 	if (affectedMob instanceof Player) {
 	    Player other = (Player) affectedMob;
-	    if (player.getLocation().inWilderness() && System.currentTimeMillis() - other.lastRun < 1000) {
+	    if (player.getLocation().inWilderness() && GameEngine.getTime() - other.lastRun < 1000) {
 		player.resetPath();
 		return;
 	    }
 	}
-	if (player.getLocation().inWilderness() && System.currentTimeMillis() - player.lastRun < 3000) {
+	if (player.getLocation().inWilderness() && GameEngine.getTime() - player.lastRun < 3000) {
 	    player.resetPath();
 	    return;
 	}

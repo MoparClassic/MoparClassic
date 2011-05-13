@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Mob;
@@ -184,8 +185,8 @@ public class RangeEvent extends DelayedEvent {
 	    p.informOfProjectile(projectile);
 	}
 
-	if (System.currentTimeMillis() - affectedMob.lastTimeShot > 500) {
-	    affectedMob.lastTimeShot = System.currentTimeMillis();
+	if (GameEngine.getTime() - affectedMob.lastTimeShot > 500) {
+	    affectedMob.lastTimeShot = GameEngine.getTime();
 	    affectedMob.setLastDamage(damage);
 	    int newHp = affectedMob.getHits() - damage;
 	    affectedMob.setHits(newHp);

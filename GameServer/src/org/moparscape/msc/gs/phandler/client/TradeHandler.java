@@ -8,6 +8,7 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.ls.MiscPacketBuilder;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.db.DBConnection;
 import org.moparscape.msc.gs.external.ItemDef;
 import org.moparscape.msc.gs.model.InvItem;
@@ -225,7 +226,7 @@ public class TradeHandler implements PacketHandler {
 		
 		player.getActionSender().sendInventory();
 		player.getActionSender().sendEquipmentStats();
-		Long now = System.currentTimeMillis();
+		long now = GameEngine.getTime();
 		player.save();
 		player.setLastSaveTime(now);
 		affectedPlayer.save();

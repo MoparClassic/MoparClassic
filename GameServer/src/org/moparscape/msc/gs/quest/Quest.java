@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.model.ActiveTile;
 import org.moparscape.msc.gs.model.ChatMessage;
@@ -277,8 +278,8 @@ public abstract class Quest {
 	    }
 	});
 
-	long start = System.currentTimeMillis();
-	while (player.getLastQuestMenuReply() == -1 && (System.currentTimeMillis() - start) <= timeout) {
+	long start = GameEngine.getTime();
+	while (player.getLastQuestMenuReply() == -1 && (GameEngine.getTime() - start) <= timeout) {
 	    if (player.getLastQuestMenuReply() == -2)
 		return -1;
 	    sleep(10);

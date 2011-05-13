@@ -3,6 +3,7 @@ package org.moparscape.msc.gs.phandler.client;
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToMobEvent;
 import org.moparscape.msc.gs.model.Bubble;
@@ -33,7 +34,7 @@ public class InvUseOnPlayer implements PacketHandler {
 	if (affectedPlayer == null || item == null) { // This shouldn't happen
 	    return;
 	}
-	if (System.currentTimeMillis() - affectedPlayer.lastRun < 2000) {
+	if (GameEngine.getTime() - affectedPlayer.lastRun < 2000) {
 	    player.resetPath();
 	    return;
 	}

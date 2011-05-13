@@ -31,10 +31,6 @@ public class Instance {
     	return getWorld().getDelayedEventHandler();
     }
 
-    public static CacheHandler getCacheHandler() {
-    	return CacheHandler.getCache();
-    }
-
     public static PluginHandler getPluginHandler() {
     	return PluginHandler.getPluginHandler();
     }

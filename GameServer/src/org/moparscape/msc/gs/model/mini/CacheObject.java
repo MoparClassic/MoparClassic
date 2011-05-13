@@ -6,7 +6,7 @@ package org.moparscape.msc.gs.model.mini;
  * @author xEnt
  * 
  */
-public class Cache {
+public class CacheObject {
 
     public boolean muted = false;
     public boolean inRed = false;

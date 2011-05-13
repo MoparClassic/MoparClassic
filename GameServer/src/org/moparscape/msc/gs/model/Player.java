@@ -21,6 +21,7 @@ import org.moparscape.msc.gs.builders.MiscPacketBuilder;
 import org.moparscape.msc.gs.builders.ls.SavePacketBuilder;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.db.DBConnection;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
@@ -64,24 +65,24 @@ public final class Player extends Mob {
 	private int lastwithdrawamount = 0;
 	
 	public void setLastWithdrawTime(int itemid, int amount) {
-		this.lastwithdrawtime = System.currentTimeMillis();
+		this.lastwithdrawtime = GameEngine.getTime();
 		
 		lastwithdrawitem = itemid;
 		lastwithdrawamount = amount;
 	}
 	
 	public void setLastDepositTime(int itemid, int amount) {
-		this.lastbanktime = System.currentTimeMillis();
+		this.lastbanktime = GameEngine.getTime();
 		
 		lastdepositeditem = itemid;
 		lastdepositedamount = amount;
 	}
 	public void setLastInvTime(int itemposition) {
-		this.lastinvtime = System.currentTimeMillis();
+		this.lastinvtime = GameEngine.getTime();
 		lastitemposition = itemposition;
 	}
 	public boolean shouldThrowDepositError(int itemid, int amount) {
-		if(System.currentTimeMillis() - lastbanktime < 100 && lastdepositeditem == itemid && lastdepositedamount == amount)
+		if(GameEngine.getTime() - lastbanktime < 100 && lastdepositeditem == itemid && lastdepositedamount == amount)
 			return false;
 		if(amount == 0)
 			return false;
@@ -89,7 +90,7 @@ public final class Player extends Mob {
 	}
 	
 	public boolean shouldThrowWithdrawError(int itemid, int amount) {
-		if(System.currentTimeMillis() - lastwithdrawtime < 100 && lastwithdrawitem == itemid && lastwithdrawamount == amount)
+		if(GameEngine.getTime() - lastwithdrawtime < 100 && lastwithdrawitem == itemid && lastwithdrawamount == amount)
 			return false;
 		if(amount == 0)
 			return false;
@@ -99,7 +100,7 @@ public final class Player extends Mob {
 	private int lastitemposition = 0;
 	
 	public boolean shouldThrowInvError(int itemposition) {
-		if(System.currentTimeMillis() - lastinvtime < 100 && lastitemposition == itemposition)
+		if(GameEngine.getTime() - lastinvtime < 100 && lastitemposition == itemposition)
 			return false;
 		
 		return true;
@@ -113,7 +114,7 @@ public final class Player extends Mob {
 	public boolean hasAdminPriv = false;
 	public boolean hasModPriv = false;
 	public boolean hasPmodPriv = false;
-	public long lastCommandUsed = System.currentTimeMillis();
+	public long lastCommandUsed = GameEngine.getTime();
 	/**
 	 * Has the first major update for this player been sent? If not, we can't
 	 * send them any minor updates.
@@ -234,7 +235,7 @@ public final class Player extends Mob {
 
 	public int tempy = -1;
 	public Npc lastNpcChasingYou = null;
-	public long lastNPCChat = System.currentTimeMillis();
+	public long lastNPCChat = GameEngine.getTime();
 	public boolean doricDependency = false;
 
 	public boolean flagCarrier = false;
@@ -249,13 +250,13 @@ public final class Player extends Mob {
 
 	public void addInterval() {
 		if (lastInterval == 0) {
-			lastInterval = System.currentTimeMillis();
+			lastInterval = GameEngine.getTime();
 		} else {
-			intervals.addFirst(System.currentTimeMillis() - lastInterval);
+			intervals.addFirst(GameEngine.getTime() - lastInterval);
 			if (intervals.size() > 75) {
 				intervals.removeLast();
 			}
-			lastInterval = System.currentTimeMillis();
+			lastInterval = GameEngine.getTime();
 		}
 	}
 
@@ -286,7 +287,7 @@ public final class Player extends Mob {
 	 * @return
 	 */
 	public boolean isMuted() {
-		return (muted - System.currentTimeMillis() > 0);
+		return (muted - GameEngine.getTime() > 0);
 	}
 
 	/**
@@ -295,7 +296,7 @@ public final class Player extends Mob {
 	 * @return day
 	 */
 	public int getDaysMuted() {
-		return (int) ((muted - System.currentTimeMillis()) / 1000 / 3600 / 24);
+		return (int) ((muted - GameEngine.getTime()) / 1000 / 3600 / 24);
 	}
 
 	/**
@@ -483,7 +484,7 @@ public final class Player extends Mob {
 	 * The last menu reply this player gave in a quest
 	 */
 	//
-	public long lastCast = System.currentTimeMillis();
+	public long lastCast = GameEngine.getTime();
 	/**
 	 * Time of last charge spell
 	 */
@@ -492,7 +493,7 @@ public final class Player extends Mob {
 	 * Last packet count time
 	 */
 	private long lastCount = 0;
-	public long lastDeath = System.currentTimeMillis();
+	public long lastDeath = GameEngine.getTime();
 	/**
 	 * Stores the last IP address used
 	 */
@@ -503,7 +504,7 @@ public final class Player extends Mob {
 	private long lastLogin = 0;
 	// Player(IoSession
 	public long lastMineTimer = 0;
-	public long lastPacketRecTime = System.currentTimeMillis() / 1000;
+	public long lastPacketRecTime = GameEngine.getTime() / 1000;
 	/**
 	 * Queue of last 100 packets, used for auto detection purposes
 	 */
@@ -512,20 +513,20 @@ public final class Player extends Mob {
 	/**
 	 * Last time a 'ping' was received
 	 */
-	private long lastPing = System.currentTimeMillis();
+	private long lastPing = GameEngine.getTime();
 	public String lastPlayerInfo2 = null;
 	private int lastQuestMenuReply = -1;
 	// don't remove this. -xEnt
 	public int lastRandom = 0;
-	public long lastRange = System.currentTimeMillis();
+	public long lastRange = GameEngine.getTime();
 	/**
 	 * Time last report was sent, used to throttle reports
 	 */
 	private long lastReport = 0;
-	public long lastRun = System.currentTimeMillis(); // Leave this here
-	private long lastSaveTime = System.currentTimeMillis()
+	public long lastRun = GameEngine.getTime(); // Leave this here
+	private long lastSaveTime = GameEngine.getTime()
 			+ DataConversions.random(600000, 1800000);
-	private long lastSleepTime = System.currentTimeMillis();
+	private long lastSleepTime = GameEngine.getTime();
 	/**
 	 * The time of the last spell cast, used as a throttle
 	 */
@@ -708,14 +709,14 @@ public final class Player extends Mob {
         */
 
         public boolean infected = false;
-        public long lastInfected = System.currentTimeMillis();
+        public long lastInfected = GameEngine.getTime();
 
         /*
         * Informs the server that the player has just used Infected Blood and activate the cooldown.
         */
 
         public void setLastInfected() {
-                lastInfected = System.currentTimeMillis();
+                lastInfected = GameEngine.getTime();
         }
 
         /*
@@ -750,7 +751,7 @@ public final class Player extends Mob {
 		ioSession = ios;
 		currentIP = ((InetSocketAddress) ios.getRemoteAddress()).getAddress()
 				.getHostAddress();
-		currentLogin = System.currentTimeMillis();
+		currentLogin = GameEngine.getTime();
 		actionSender = new MiscPacketBuilder(this);
 		setBusy(true);
 		Instance.getWorld();
@@ -768,7 +769,7 @@ public final class Player extends Mob {
 	}
 
 	public void addAttackedBy(Player p) {
-		attackedBy.put(p.getUsernameHash(), System.currentTimeMillis());
+		attackedBy.put(p.getUsernameHash(), GameEngine.getTime());
 	}
 
 	public void addFriend(long id, int world) {
@@ -787,7 +788,7 @@ public final class Player extends Mob {
 	}
 
 	public void addPacket(RSCPacket p) {
-		long now = System.currentTimeMillis();
+		long now = GameEngine.getTime();
 		if (now - lastCount > 3000) {
 			lastCount = now;
 			packetCount = 0;
@@ -838,7 +839,7 @@ public final class Player extends Mob {
 			super.setAppearnceChanged(true);
 		}
 		skullEvent
-				.setLastRun(System.currentTimeMillis() - (1200000 - timeLeft));
+				.setLastRun(GameEngine.getTime() - (1200000 - timeLeft));
 	}
 
 	public void addToDuelOffer(InvItem item) {
@@ -851,20 +852,20 @@ public final class Player extends Mob {
 
 	public boolean canLogout() {
 		if(this.location.inWilderness()) {
-			if(System.currentTimeMillis() - this.getLastMoved() < 10000) {
+			if(GameEngine.getTime() - this.getLastMoved() < 10000) {
 	    		getActionSender().sendMessage("You must stand peacefully in one place for 10 seconds!");
 	    		return false;
 	    	}
 		}
-		return !isBusy() && System.currentTimeMillis() - getCombatTimer() > 10000;
+		return !isBusy() && GameEngine.getTime() - getCombatTimer() > 10000;
 	}
 
 	public boolean canReport() {
-		return System.currentTimeMillis() - lastReport > 60000;
+		return GameEngine.getTime() - lastReport > 60000;
 	}
 
 	public boolean castTimer() {
-		return System.currentTimeMillis() - lastSpellCast > 1200;
+		return GameEngine.getTime() - lastSpellCast > 1200;
 	}
 
 	public boolean checkAttack(Mob mob, boolean missile) {
@@ -894,7 +895,7 @@ public final class Player extends Mob {
 					return true;
 				}
 			}
-			if (System.currentTimeMillis() - mob.getCombatTimer() < (mob
+			if (GameEngine.getTime() - mob.getCombatTimer() < (mob
 					.getCombatState() == CombatState.RUNNING
 					|| mob.getCombatState() == CombatState.WAITING ? 3000 : 500)
 					&& !mob.inCombat()) {
@@ -978,11 +979,11 @@ public final class Player extends Mob {
 			destroy = true;
 			actionSender.sendLogout();
 		} else {
-			final long startDestroy = System.currentTimeMillis();
+			final long startDestroy = GameEngine.getTime();
 			Instance.getDelayedEventHandler().add(new DelayedEvent(this, 3000) {
 
 				public void run() {
-					if (owner.canLogout() || (!(owner.inCombat() && owner.isDueling()) && System.currentTimeMillis() - startDestroy > 600000*2)) {
+					if (owner.canLogout() || (!(owner.inCombat() && owner.isDueling()) && GameEngine.getTime() - startDestroy > 600000*2)) {
 						owner.destroy(true);
 						matchRunning = false;
 					}
@@ -999,11 +1000,11 @@ public final class Player extends Mob {
 			destroy = true;
 			actionSender.sendLogout();
 		} else {
-			final long startDestroy = System.currentTimeMillis();
+			final long startDestroy = GameEngine.getTime();
 			Instance.getDelayedEventHandler().add(new DelayedEvent(this, 3000) {
 
 				public void run() {
-					if (owner.canLogout() || (!(owner.inCombat() && owner.isDueling()) && System.currentTimeMillis() - startDestroy > 60000)) {
+					if (owner.canLogout() || (!(owner.inCombat() && owner.isDueling()) && GameEngine.getTime() - startDestroy > 60000)) {
 						owner.destroy(true);
 						matchRunning = false;
 					}
@@ -1115,7 +1116,7 @@ public final class Player extends Mob {
 	}
 
 	public int getDaysSubscriptionLeft() {
-		long now = (System.currentTimeMillis() / 1000);
+		long now = (GameEngine.getTime() / 1000);
 		if (subscriptionExpires == 0 || now >= subscriptionExpires) {
 			return 0;
 		}
@@ -1379,8 +1380,7 @@ public final class Player extends Mob {
 	}
 
 	public int getSpellWait() {
-		return DataConversions.roundUp((double) (1200 - (System
-				.currentTimeMillis() - lastSpellCast)) / 1000D);
+		return DataConversions.roundUp((double) (1200 - (GameEngine.getTime() - lastSpellCast)) / 1000D);
 	}
 
 	public Action getStatus() {
@@ -1638,7 +1638,7 @@ public final class Player extends Mob {
 	}
 
 	public boolean isCharged() {
-		return System.currentTimeMillis() - lastCharge < 600000;
+		return GameEngine.getTime() - lastCharge < 600000;
 	}
 
 	public boolean isDuelConfirmAccepted() {
@@ -1806,7 +1806,7 @@ public final class Player extends Mob {
 			opponent.resetCombat(CombatState.WON);
 		}
 		actionSender.sendSound("death");
-		lastDeath = System.currentTimeMillis();
+		lastDeath = GameEngine.getTime();
 		actionSender.sendDied();
 		for (int i = 0; i < 18; i++) {
 			curStat[i] = maxStat[i];
@@ -1979,7 +1979,7 @@ public final class Player extends Mob {
 	}
 
 	public void ping() {
-		lastPing = System.currentTimeMillis();
+		lastPing = GameEngine.getTime();
 	}
 
 	public void remove() {
@@ -2215,7 +2215,7 @@ public final class Player extends Mob {
 	}
 
 	public void setArrowFired() {
-		lastArrow = System.currentTimeMillis();
+		lastArrow = GameEngine.getTime();
 	}
 
 	public void setBank(Bank b) {
@@ -2223,7 +2223,7 @@ public final class Player extends Mob {
 	}
 
 	public void setCastTimer() {
-		lastSpellCast = System.currentTimeMillis();
+		lastSpellCast = GameEngine.getTime();
 	}
 
 	public void setChangingAppearance(boolean b) {
@@ -2231,7 +2231,7 @@ public final class Player extends Mob {
 	}
 
 	public void setCharged() {
-		lastCharge = System.currentTimeMillis();
+		lastCharge = GameEngine.getTime();
 	}
 
 	public void setClassName(String className) {
@@ -2373,7 +2373,7 @@ public final class Player extends Mob {
 	}
 
 	public void setLastReport() {
-		lastReport = System.currentTimeMillis();
+		lastReport = GameEngine.getTime();
 	}
 
 	public void setLastSaveTime(long save) {
@@ -2386,7 +2386,7 @@ public final class Player extends Mob {
 
 	public void setLoggedIn(boolean loggedIn) {
 		if (loggedIn) {
-			currentLogin = System.currentTimeMillis();
+			currentLogin = GameEngine.getTime();
 		}
 		this.loggedIn = loggedIn;
 	}
@@ -2446,7 +2446,7 @@ public final class Player extends Mob {
 
 		if (save) {
 			// save();
-			setLastSaveTime(System.currentTimeMillis());
+			setLastSaveTime(GameEngine.getTime());
 			getActionSender().sendQuestInfo();
 			getActionSender().sendMessage(
 					"@gre@You just gained " + gained + " quest point"
@@ -2530,7 +2530,7 @@ public final class Player extends Mob {
 
 	public void setSkulledOn(Player player) {
 		player.addAttackedBy(this);
-		if (System.currentTimeMillis() - lastAttackedBy(player) > 1200000) {
+		if (GameEngine.getTime() - lastAttackedBy(player) > 1200000) {
 			addSkull(1200000);
 		}
 	}
@@ -2552,7 +2552,7 @@ public final class Player extends Mob {
 	}
 
 	public void setSpellFail() {
-		lastSpellCast = System.currentTimeMillis() + 20000;
+		lastSpellCast = GameEngine.getTime() + 20000;
 	}
 
 	public void setStatus(Action a) {
@@ -2643,7 +2643,7 @@ public final class Player extends Mob {
 	}
 
 	public boolean tradeDuelThrottling() {
-		long now = System.currentTimeMillis();
+		long now = GameEngine.getTime();
 		if (now - lastTradeDuelRequest > 1000) {
 			lastTradeDuelRequest = now;
 			return false;

@@ -6,6 +6,7 @@ import java.util.ConcurrentModificationException;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.FightEvent;
 import org.moparscape.msc.gs.external.EntityHandler;
@@ -315,7 +316,7 @@ public class Npc extends Mob {
 		if (hasRan()) {
 			return null;
 		}
-		long now = System.currentTimeMillis();
+		long now = GameEngine.getTime();
 		if (getChasing() != null) {
 			return null;
 		}
@@ -534,7 +535,7 @@ public class Npc extends Mob {
 	}
 
 	public void updatePosition() {
-		long now = System.currentTimeMillis();
+		long now = GameEngine.getTime();
 		Player victim = null;
 		if (!isBusy() && def.isAggressive() && now - getCombatTimer() > 3000 && (victim = findVictim()) != null) {
 			resetPath();

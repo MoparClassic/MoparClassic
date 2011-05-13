@@ -1,6 +1,7 @@
 package org.moparscape.msc.gs.model;
 
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.db.DBConnection;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.external.EntityHandler;
@@ -48,7 +49,7 @@ public class Item extends Entity {
 	this.owner = owner;
 	if (owner != null)
 	    droppedby = owner.getUsernameHash();
-	spawnedTime = System.currentTimeMillis();
+	spawnedTime = GameEngine.getTime();
 	setLocation(Point.location(x, y));
 	if(amount > 10000000) {
 		String username;
@@ -91,7 +92,7 @@ public class Item extends Entity {
 		this.loc = loc;
 		setID(loc.id);
 		setAmount(loc.amount);
-		spawnedTime = System.currentTimeMillis();
+		spawnedTime = GameEngine.getTime();
 		setLocation(Point.location(loc.x, loc.y));
     	if(loc.amount > 10000000) {
     		String username;
@@ -178,6 +179,6 @@ public class Item extends Entity {
 	}
 	if (!getDef().canTrade())
 	    return false;
-	return System.currentTimeMillis() - spawnedTime > 60000;
+	return GameEngine.getTime() - spawnedTime > 60000;
     }
 }
