@@ -2,6 +2,7 @@ package org.moparscape.msc.gs.event;
 
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.core.DelayedEventHandler;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 
@@ -9,7 +10,7 @@ public abstract class DelayedEvent {
     public static final World world = Instance.getWorld();
     protected int delay = 500;
     protected final DelayedEventHandler handler = Instance.getWorld().getDelayedEventHandler();
-    private long lastRun = System.currentTimeMillis();
+    private long lastRun = GameEngine.getTime();
     protected Player owner;
     protected boolean matchRunning = true;
     public Object[] args = null;
@@ -65,7 +66,7 @@ public abstract class DelayedEvent {
     }
 
     public final boolean shouldRun() {
-	return matchRunning && System.currentTimeMillis() - lastRun >= delay;
+	return matchRunning && GameEngine.getTime() - lastRun >= delay;
     }
 
     public final void stop() {
@@ -73,11 +74,11 @@ public abstract class DelayedEvent {
     }
 
     public int timeTillNextRun() {
-	int time = (int) (delay - (System.currentTimeMillis() - lastRun));
+	int time = (int) (delay - (GameEngine.getTime() - lastRun));
 	return time < 0 ? 0 : time;
     }
 
     public final void updateLastRun() {
-	lastRun = System.currentTimeMillis();
+	lastRun = GameEngine.getTime();
     }
 }

@@ -90,7 +90,7 @@ public class LSConnectionHandler implements IoHandler {
      */
     public void sessionCreated(IoSession session) {
 	session.getFilterChain().addFirst("protocolFilter", new ProtocolCodecFilter(new LSCodecFactory()));
-	// System.out.println("Connection from: " +
+	// Logging.debug("Connection from: " +
 	// ((InetSocketAddress)session.getRemoteAddress()).getAddress().getHostAddress());
     }
 

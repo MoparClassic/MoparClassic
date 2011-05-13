@@ -4,6 +4,7 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.FightEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.WalkMobToMobEvent;
@@ -38,10 +39,10 @@ public class WalkRequest implements PacketHandler {
 			player.getActionSender().sendMessage("Running has been disabled in this duel.");
 			return;
 		    }
-		    player.lastRun = System.currentTimeMillis();
+		    player.lastRun = GameEngine.getTime();
 		    player.resetCombat(CombatState.RUNNING);
 
-        if(player.isInfected() && System.currentTimeMillis() - player.getLastMoved() < 1900) {
+        if(player.isInfected() && GameEngine.getTime() - player.getLastMoved() < 1900) {
                 final Packet newpacket = p;
                 final IoSession newsession = session;
                 Instance.getDelayedEventHandler().add(new MiniEvent(player, 2000) {
@@ -127,11 +128,11 @@ public class WalkRequest implements PacketHandler {
 	    } else {
 		return;
 	    }
-	} else if (player.isBusy() && System.currentTimeMillis() - player.lastMineTimer > 2000) {
+	} else if (player.isBusy() && GameEngine.getTime() - player.lastMineTimer > 2000) {
 	    return;
 	}
 
-	if (System.currentTimeMillis() - player.lastCast < 600)
+	if (GameEngine.getTime() - player.lastCast < 600)
 	    return;
 
 	player.isMining(false);

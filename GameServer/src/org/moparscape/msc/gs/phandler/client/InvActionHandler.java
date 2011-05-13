@@ -5,6 +5,7 @@ import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.connection.Packet;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
@@ -174,7 +175,7 @@ public class InvActionHandler implements PacketHandler {
         } else if (item.getDef().getCommand().equalsIgnoreCase("open")) {
                         if(item.getID() == INFECTED_BLOOD) {
                         if(!player.isInfected()) { player.setInfected(); return; }
-                        long lastUsed = System.currentTimeMillis() - player.lastInfected();
+                        long lastUsed = GameEngine.getTime() - player.lastInfected();
                         long remaining = 5 - lastUsed / 1000;
                         InvItem INFECTED_BLOOD_I = new InvItem(1322, 1);
                         if(lastUsed / 1000 <= 5) { player.getActionSender().sendMessage("You have to wait " + remaining + " seconds before using that again."); return; }

@@ -5,6 +5,7 @@
 *.iws
 *.iml
 *.class
+Client/
 bin
 build
 .*

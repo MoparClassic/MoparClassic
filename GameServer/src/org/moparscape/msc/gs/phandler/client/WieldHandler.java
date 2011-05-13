@@ -16,6 +16,7 @@ import org.moparscape.msc.gs.model.Script;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.util.Logger;
 
 
 public class WieldHandler implements PacketHandler {
@@ -101,7 +102,7 @@ public class WieldHandler implements PacketHandler {
 		    	count++;
 		    }
 		}
-		System.out.println(count +" - " + World.getQuestManager().getQuests().size() );
+		Logger.println(count +" - " + World.getQuestManager().getQuests().size() );
 		if (count < World.getQuestManager().getQuests().size() || player.getCurStat(Script.MINING) < 50 || player.getCurStat(Script.HERBLAW) < 25 || player.getCurStat(Script.FISHING) < 53 || player.getCurStat(Script.COOKING) < 53 || player.getCurStat(Script.CRAFTING) < 31 || player.getCurStat(Script.WOODCUT) < 36 || player.getCurStat(Script.MAGIC) < 33) {
 		    player.getActionSender().sendMessage("You must have completed at least " + (World.getQuestManager().getQuests().size()) + " quests and have these stat reqs:");
 		    player.getActionSender().sendMessage("50 Mining, 25 Herblaw, 53 Fishing, 53 Cooking, 31 Crafting, 36 Woodcutting and 33 Magic");

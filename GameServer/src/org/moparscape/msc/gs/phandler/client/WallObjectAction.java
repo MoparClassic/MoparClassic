@@ -5,6 +5,7 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToPointEvent;
 import org.moparscape.msc.gs.external.DoorDef;
@@ -111,7 +112,7 @@ public class WallObjectAction implements PacketHandler {
 				if (object.getX() != 282 || object.getY() != 3020) {
 					break;
 				}
-				if(System.currentTimeMillis() - owner.getLastMoved() < 10000) {
+				if(GameEngine.getTime() - owner.getLastMoved() < 10000) {
 					owner.getActionSender().sendMessage("You must stand still for 10 seconds before using this");
 					return;
 				}

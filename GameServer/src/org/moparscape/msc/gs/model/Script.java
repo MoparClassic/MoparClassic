@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ConcurrentModificationException;
 
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.util.Logger;
 
@@ -193,7 +194,7 @@ public class Script {
      */
     public int PickOption(String[] strs) {
 	try {
-	    long time = System.currentTimeMillis();
+	    long time = GameEngine.getTime();
 	    player.setBusy(false);
 	    player.lastOption = -2;
 	    player.setMenuHandler(new MenuHandler(strs) {
@@ -208,7 +209,7 @@ public class Script {
 		}
 	    });
 	    player.getActionSender().sendMenu(strs);
-	    while (player.lastOption == -2 && System.currentTimeMillis() - time < 20000) { // timeout
+	    while (player.lastOption == -2 && GameEngine.getTime() - time < 20000) { // timeout
 		Wait(25);
 	    }
 	    if (player.lastOption == -1 || player.lastOption == -2) {

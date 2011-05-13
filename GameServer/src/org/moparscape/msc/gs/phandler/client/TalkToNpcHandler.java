@@ -7,6 +7,7 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.WalkToMobEvent;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.Npc;
@@ -32,10 +33,10 @@ public class TalkToNpcHandler implements PacketHandler {
 	    player.resetPath();
 	    return;
 	}
-	if (System.currentTimeMillis() - player.lastNPCChat < 1500)
+	if (GameEngine.getTime() - player.lastNPCChat < 1500)
 	    return;
 	player.setLastQuestMenuReply(-2);
-	player.lastNPCChat = System.currentTimeMillis();
+	player.lastNPCChat = GameEngine.getTime();
 	player.resetAll();
 	final Npc affectedNpc = world.getNpc(p.readShort());
 	if (affectedNpc == null || !world.getQuestManager().isNpcVisible(affectedNpc, player)) {
@@ -106,7 +107,7 @@ public class TalkToNpcHandler implements PacketHandler {
 					if (!(e instanceof InvocationTargetException)) {
 					    e.printStackTrace();
 					}
-					System.out.println(affectedNpc.getID());
+					Logger.println(affectedNpc.getID());
 					affectedNpc.unblock();
 					owner.setBusy(false);
 				    }

@@ -1,5 +1,6 @@
 package org.moparscape.msc.gs.event;
 
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.external.NPCLoc;
 import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
@@ -42,7 +43,7 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 	    return;
 	}
 
-	startTime = System.currentTimeMillis();
+	startTime = GameEngine.getTime();
     }
 
     public abstract void arrived();
@@ -65,7 +66,7 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 	else if (owner.hasMoved())
 	    return; // We're still moving
 	else {
-	    if (System.currentTimeMillis() - startTime <= 10000) // Make NPCs
+	    if (GameEngine.getTime() - startTime <= 10000) // Make NPCs
 	    // give a 10
 	    // second
 	    // chase

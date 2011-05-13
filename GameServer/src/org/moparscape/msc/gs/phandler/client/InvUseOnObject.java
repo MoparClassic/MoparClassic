@@ -8,6 +8,7 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToObjectEvent;
@@ -466,9 +467,9 @@ public class InvUseOnObject implements PacketHandler {
 					if (i.getID() == 517 && i.getAmount() > 20) {
 					    i = new InvItem(517, DataConversions.random(0, 20) + 1);
 					}
-					Logger.println("Player: " + owner.getUsername() + " Got item: " + i.getID() + " From CHEST (" + i.getAmount() + ") sys time (" + System.currentTimeMillis() + ")");
+					Logger.println("Player: " + owner.getUsername() + " Got item: " + i.getID() + " From CHEST (" + i.getAmount() + ") sys time (" + GameEngine.getTime() + ")");
 					if (i.getAmount() > 4000) {
-						Logger.println("WARNING!!!! Player: " + owner.getUsername() + " was about to get " + i.getAmount() + " of " + i.getID() + " from the CHEST sys time (" + System.currentTimeMillis() + ")");
+						Logger.println("WARNING!!!! Player: " + owner.getUsername() + " was about to get " + i.getAmount() + " of " + i.getID() + " from the CHEST sys time (" + GameEngine.getTime() + ")");
 					    owner.setBusy(false);
 					    owner.getActionSender().sendInventory();
 					    return;

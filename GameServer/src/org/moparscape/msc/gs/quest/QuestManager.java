@@ -10,6 +10,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;
@@ -105,7 +106,7 @@ public class QuestManager {
      */
     public final boolean loadQuests() {
 	try {
-	    long start = System.currentTimeMillis();
+	    long start = GameEngine.getTime();
 
 	    if (quests != null)
 		quests.clear();
@@ -151,7 +152,7 @@ public class QuestManager {
 		}
 	    }
 
-	    Logger.println("Loaded " + questCount + " quests successfully (" + (System.currentTimeMillis() - start) + "ms)");
+	    Logger.println("Loaded " + questCount + " quests successfully (" + (GameEngine.getTime() - start) + "ms)");
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    return false;

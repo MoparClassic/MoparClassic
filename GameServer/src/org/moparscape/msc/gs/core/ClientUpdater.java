@@ -135,7 +135,7 @@ public final class ClientUpdater implements Processor {
 		}
 		else {
 			for (Player p : players) {
-				//System.out.println("Process for player " + p.getUsername() + " | threaded: " + threaded);
+				//Logging.debug("Process for player " + p.getUsername() + " | threaded: " + threaded);
 	
 				updateTimeouts(p);
 	
@@ -154,7 +154,7 @@ public final class ClientUpdater implements Processor {
 	
 	public void process(Player p) {
 	
-		//System.out.println("Process for player " + p.getUsername() + " | threaded: " + threaded);
+		//Logging.debug("Process for player " + p.getUsername() + " | threaded: " + threaded);
 		
 		updateTimeouts(p);
 		
@@ -384,7 +384,7 @@ public final class ClientUpdater implements Processor {
 		if (p.destroyed()) {
 			return;
 		}
-		long curTime = System.currentTimeMillis();
+		long curTime = GameEngine.getTime();
 		if (curTime - p.getLastPing() >= 30000) {
 			p.destroy(false);
 		} else if (p.warnedToMove()) {

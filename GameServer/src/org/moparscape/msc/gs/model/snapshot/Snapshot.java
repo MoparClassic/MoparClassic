@@ -1,5 +1,7 @@
 package org.moparscape.msc.gs.model.snapshot;
 
+import org.moparscape.msc.gs.core.GameEngine;
+
 
 /**
  * Snapshot abstract class
@@ -13,7 +15,7 @@ public abstract class Snapshot {
 
 	public Snapshot(String owner) {
 		this.owner = owner;
-		this.eventTime = System.currentTimeMillis();
+		this.eventTime = GameEngine.getTime();
 
 	}
 

@@ -140,7 +140,7 @@ public class PlayerLogin implements PacketHandler {
 
 	    player.setQuestPoints(p.readShort(), false);
 	    int questCount = p.readShort();
-	    // System.out.println(questCount);
+	    // Logging.debug(questCount);
 	    for (int i = 0; i < questCount; i++)
 		player.setQuestStage(p.readShort(), p.readShort(), false, false);
 

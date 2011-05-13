@@ -9,6 +9,7 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.LSPacketBuilder;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.connection.Packet;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.core.LoginConnector;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
@@ -186,7 +187,7 @@ public class MiscPacketBuilder {
 					Point location = Point.location(p.readShort(), p
 							.readShort());
 					long loginDate = p.readLong();
-					int lastMoved = (int) ((System.currentTimeMillis() - p
+					int lastMoved = (int) ((GameEngine.getTime() - p
 							.readLong()) / 1000);
 					boolean chatBlock = p.readByte() == 1;
 					int fatigue = p.readShort();
@@ -253,7 +254,7 @@ public class MiscPacketBuilder {
 		s.addInt(x);
 		s.addInt(y);
 		s.addInt(type);
-		s.addLong((System.currentTimeMillis() / 1000));
+		s.addLong((GameEngine.getTime() / 1000));
 		packets.add(s.toPacket());
 	}
 

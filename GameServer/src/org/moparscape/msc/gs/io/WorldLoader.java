@@ -32,7 +32,7 @@ public class WorldLoader {
     // private ZipOutputStream out;
 
     private void loadSection(int sectionX, int sectionY, int height, World world, int bigX, int bigY) {
-    //System.out.println(1);
+    //Logging.debug(1);
 	Sector s = null;
 	try {
 	    String filename = "h" + height + "x" + sectionX + "y" + sectionY;
@@ -46,7 +46,7 @@ public class WorldLoader {
 	} catch (Exception e) {
 	    Logger.error(e);
 	}
-	//System.out.println(2);
+	//Logging.debug(2);
 	for (int y = 0; y < Sector.HEIGHT; y++) {
 	    for (int x = 0; x < Sector.WIDTH; x++) {
 		int bx = bigX + x;
@@ -92,7 +92,7 @@ public class WorldLoader {
 		/** end of shit **/
 	    }
 	}
-	//System.out.println(3);
+	//Logging.debug(3);
     }
 
     /*
@@ -130,7 +130,7 @@ public class WorldLoader {
 		}
 	    }
 	}
-	System.out.println((System.currentTimeMillis() - now)/1000 + "s to parse");
+	Logger.error((System.currentTimeMillis() - now)/1000 + "s to parse");
 	// try { out.close(); } catch(Exception e) { Logger.error(e); }
 	for (Shop shop : (List<Shop>) PersistenceManager.load("locs/Shops.xml.gz")) {
 	    world.registerShop(shop);

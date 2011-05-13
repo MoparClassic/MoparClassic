@@ -202,7 +202,7 @@ public class FightEvent extends DelayedEvent {
 			int tempDmg = 0;
 			Player toLoot = null;
 
-			//System.out.println(opponent+" killed by "+attacker);
+			//Logging.debug(opponent+" killed by "+attacker);
 
 			if (attacker instanceof Player) {
 				Player attackerPlayer = (Player) attacker;
@@ -210,7 +210,7 @@ public class FightEvent extends DelayedEvent {
 				int exp = DataConversions.roundUp(Formulae.combatExperience(opponent) / 4D);
 				int newXP = 0;
 				if (opponent instanceof Player) {
-					//System.out.println(opponent+" killed by "+attacker);
+					//Logging.debug(opponent+" killed by "+attacker);
 					opponent.killedBy(attackerPlayer, false);
 				}
 

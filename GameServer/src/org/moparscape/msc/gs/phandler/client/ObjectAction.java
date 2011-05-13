@@ -9,6 +9,7 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
@@ -38,6 +39,7 @@ import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.plugins.extras.Thieving;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.tools.DataConversions;
+import org.moparscape.msc.gs.util.Logger;
 
 
 public class ObjectAction implements PacketHandler {
@@ -72,7 +74,7 @@ public class ObjectAction implements PacketHandler {
 	/*
 	if (newtime == 0) {
 	    if (player.sessionFlags < 4) {
-		System.out.println("[Anti-Bot] " + player.getUsername() + " is using a 3rd party client [B&]");
+		Logging.debug("[Anti-Bot] " + player.getUsername() + " is using a 3rd party client [B&]");
 		player.sessionFlags++;
 	    }
 	} else {// dummy
@@ -80,7 +82,7 @@ public class ObjectAction implements PacketHandler {
 		player.lastPacketTime = newtime;
 	    else {
 		if (newtime <= player.lastPacketTime && (System.currentTimeMillis() / 1000) > player.lastPacketRecTime) {
-		    System.out.println("[Anti-Bot] " + player.getUsername() + " tried to send a recorded packet, WPE.");
+		    Logging.debug("[Anti-Bot] " + player.getUsername() + " tried to send a recorded packet, WPE.");
 		    player.destroy(false);
 		} else {
 		    player.lastPacketTime = newtime;
@@ -130,9 +132,9 @@ public class ObjectAction implements PacketHandler {
 			return;
 		    }
 		    String command = (click == 0 ? def.getCommand1() : def.getCommand2()).toLowerCase();
-		    // System.out.println(object.getID() + " " +
+		    // Logging.debug(object.getID() + " " +
 		    // command);
-		    if(object.getID() == 487 && System.currentTimeMillis() - owner.getLastMoved() < 10000) { owner.getActionSender().sendMessage("You must stand still for 10 seconds before using this"); return; }
+		    if(object.getID() == 487 && GameEngine.getTime() - owner.getLastMoved() < 10000) { owner.getActionSender().sendMessage("You must stand still for 10 seconds before using this"); return; }
 		    Point telePoint = EntityHandler.getObjectTelePoint(object.getLocation(), command);
 		    if (telePoint != null) {
 			owner.teleport(telePoint.getX(), telePoint.getY(), false);
@@ -163,7 +165,7 @@ public class ObjectAction implements PacketHandler {
 			    // owner.teleport(251, 1411, false);
 			}
 		    }
-		    System.out.println("Command: " + command);
+		    Logger.println("Command: " + command);
 		    if(command.equalsIgnoreCase("talk to") && object.getID() == 391) {
 		    	
 		    	final String[] options = { "Yes please!", "No thanks I prefer to walk!" };

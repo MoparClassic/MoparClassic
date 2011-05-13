@@ -16,7 +16,7 @@ public class PacketQueue<T extends Packet> {
      * Adds a packet to the queue
      */
     public void add(T p) {
-	//System.out.println("[DEBUG] Packet Q: " + packets.size());
+	//Logging.debug("[DEBUG] Packet Q: " + packets.size());
 	synchronized (packets) {
 	    packets.add(p);
 	}

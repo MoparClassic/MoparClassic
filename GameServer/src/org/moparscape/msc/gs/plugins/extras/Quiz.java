@@ -89,8 +89,8 @@ public class Quiz extends Thread {
      * int index = -1; for(int i=0; i < players.size(); i++) { if
      * (players.get(i).equals(p.getUsername())) index = i;
      * 
-     * if(i == -1) { System.out.println("Error removing " + p.getUsername() +
-     * " from the Quiz list."); return; } else { System.out.println("[QUIZ] " +
+     * if(i == -1) { Logging.debug("Error removing " + p.getUsername() +
+     * " from the Quiz list."); return; } else { Logging.debug("[QUIZ] " +
      * players.get(index) + " has left the Quiz"); players.remove(index);
      * p.getActionSender().sendMessage("You have Quit the Quiz Queue"); } }
      * 

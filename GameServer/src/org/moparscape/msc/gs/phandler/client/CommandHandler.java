@@ -13,6 +13,7 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.ls.MiscPacketBuilder;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.core.ClientUpdater;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.db.DBConnection;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
@@ -45,14 +46,14 @@ public class CommandHandler implements PacketHandler {
     public void handleCommand(String cmd, String[] args, Player player) throws Exception {
 	MiscPacketBuilder loginServer = Instance.getServer().getLoginConnector().getActionSender();
 
-	if(System.currentTimeMillis() - player.lastCommandUsed < 2000 && !player.isMod()) {
-	    if(System.currentTimeMillis() - player.lastCommandUsed < 100) { // incase spammers
+	if(GameEngine.getTime() - player.lastCommandUsed < 2000 && !player.isMod()) {
+	    if(GameEngine.getTime() - player.lastCommandUsed < 100) { // incase spammers
 	    	return;
 	    }
 	    player.getActionSender().sendMessage("2 second delay on using a new command");
 	    return;
 	}
-	player.lastCommandUsed = System.currentTimeMillis();
+	player.lastCommandUsed = GameEngine.getTime();
 	if (cmd.equals("help")) {
 	    player.getActionSender().sendAlert("List of commands are shown on forums!", true);
 	    return;
@@ -89,20 +90,20 @@ public class CommandHandler implements PacketHandler {
 	}
 	
 	if (cmd.equals("stuck")) {
-	    if (System.currentTimeMillis() - player.getCurrentLogin() < 30000) {
+	    if (GameEngine.getTime() - player.getCurrentLogin() < 30000) {
 			player.getActionSender().sendMessage("You cannot do this after you have recently logged in");
 			return;
 	    }
-    	if(!player.canLogout() || System.currentTimeMillis() - player.getLastMoved() < 10000) {
+    	if(!player.canLogout() || GameEngine.getTime() - player.getLastMoved() < 10000) {
     		player.getActionSender().sendMessage("You must stand peacefully in one place for 10 seconds!");
     		return;
     	}
 	    if (player.getLocation().inModRoom() && !player.isMod()) {
 		player.getActionSender().sendMessage("You cannot use ::stuck here");
-	    } else if (!player.isMod() && System.currentTimeMillis() - player.getLastMoved() < 300000 && System.currentTimeMillis() - player.getCastTimer() < 300000) {
+	    } else if (!player.isMod() && GameEngine.getTime() - player.getLastMoved() < 300000 && GameEngine.getTime() - player.getCastTimer() < 300000) {
 		player.getActionSender().sendMessage("There is a 5 minute delay on using ::stuck, please stand still for 5 minutes.");
 		player.getActionSender().sendMessage("This command is logged ONLY use it when you are REALLY stuck.");
-	    } else if (!player.inCombat() && System.currentTimeMillis() - player.getCombatTimer() > 300000 || player.isMod()) {
+	    } else if (!player.inCombat() && GameEngine.getTime() - player.getCombatTimer() > 300000 || player.isMod()) {
 		Logger.mod(player.getUsername() + " used stuck at " + player.getX() + ":" + player.getY());
 		player.setCastTimer();
 		player.teleport(122, 647, true);

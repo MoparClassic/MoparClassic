@@ -5,6 +5,7 @@ import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DuelEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.event.WalkToMobEvent;
@@ -246,7 +247,7 @@ public class DuelHandler implements PacketHandler {
 			affectedPlayer.setBusy(false);
 		    }
 		};
-		walking.setLastRun(System.currentTimeMillis() + 500);
+		walking.setLastRun(GameEngine.getTime() + 500);
 		Instance.getDelayedEventHandler().add(walking);
 	    }
 	    break;

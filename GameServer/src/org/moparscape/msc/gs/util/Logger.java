@@ -19,7 +19,7 @@ public class Logger {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
     
     public static void connection(Object o) {
-	// System.out.println(o.toString());
+	// Logging.debug(o.toString());
     }
 
     public static void error(Object o) {

@@ -27,7 +27,7 @@ public class MapGenerator {
 
     public static void main(String[] args) throws Exception {
 	if (args.length < 1) {
-	    System.out.println("Invalid args");
+		Logger.println("Invalid args");
 	    return;
 	}
 	String configFile = "conf/server/Conf.xml";
