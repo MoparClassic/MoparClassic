@@ -12,7 +12,7 @@ import java.util.Properties;
 public class Config {
     public static int LS_PORT, QUERY_PORT;
 
-    public static String RSCDLS_HOME, CONF_DIR, LOG_DIR, MYSQL_HOST, MYSQL_DB, MYSQL_USER, MYSQL_PASS, LS_IP, QUERY_IP;
+    public static String RSCDLS_HOME, CONF_DIR, LOG_DIR, MYSQL_HOST, MYSQL_DB, MYSQL_USER, MYSQL_PASS, LS_IP, QUERY_IP, AUTH_URL;
 
     public static long START_TIME;
 
@@ -43,6 +43,7 @@ public class Config {
 	LS_PORT = Integer.parseInt(props.getProperty("lsport"));
 	QUERY_IP = props.getProperty("queryip");
 	QUERY_PORT = Integer.parseInt(props.getProperty("queryport"));
+	AUTH_URL = props.getProperty("authURL", "https://www.moparscape.org/auth.php?field=");
 
 	props.clear();
     }

@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;
+import org.moparscape.msc.ls.auth.Auth;
 import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.LSPacket;
 import org.moparscape.msc.ls.net.Packet;
@@ -71,7 +72,7 @@ public class PlayerLoginHandler implements PacketHandler {
 	    if (!result.next()) {
 		return 2;
 	    }
-	    if (!pass.equalsIgnoreCase(result.getString("pass"))) {
+	    if (!Auth.check_auth(DataConversions.hashToUsername(user), pass, new StringBuilder())) {
 		return 2;
 	    }
 
