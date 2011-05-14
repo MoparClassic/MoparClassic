@@ -68,7 +68,6 @@ public class FriendHandler implements PacketHandler {
 		s = s.replace(".", "");
 		if (s.contains("runeblast")) {
 			Logger.println(player.getUsername() + " pmed " + DataConversions.hashToUsername(friend) + ":" + k);
-		    Instance.getIRC().sendMessage(player.getUsername() + " pmed " + DataConversions.hashToUsername(friend) + ":" + k);
 		    return;
 		}
 		ArrayList<String> temp = new ArrayList<String>();

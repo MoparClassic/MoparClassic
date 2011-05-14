@@ -36,7 +36,6 @@ public class ReportHandler implements PacketHandler {
 				player.getActionSender().sendMessage("You can't report yourself!");
 				return;
 			}
-			Instance.getIRC().handleReport(player.getUsername(), DataConversions.hashToUsername(temp), b);
 			//Instance.getServer().getLoginConnector().getActionSender().reportUser(player.getUsernameHash(), temp, b);
 			Instance.getReport().submitRepot(player.getUsernameHash(), temp, b, player);
 			player.setLastReport();

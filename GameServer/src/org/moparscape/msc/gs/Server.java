@@ -20,7 +20,6 @@ import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.util.Logger;
-import org.moparscape.msc.irc.IRC;
 
 
 /**
@@ -76,10 +75,6 @@ public class Server {
      * The game engine
      */
     private GameEngine engine;
-    /**
-     * The IRC.
-     */
-    private IRC irc;
 
     public IoAcceptor getAcceptor() {
 	return acceptor;
@@ -95,14 +90,6 @@ public class Server {
 
     public void setConnector(LoginConnector connector) {
 	this.connector = connector;
-    }
-
-    public IRC getIRC() {
-	return irc;
-    }
-
-    public void setIRC(IRC irc) {
-	this.irc = irc;
     }
 
     public boolean isRunning() {
@@ -146,12 +133,6 @@ public class Server {
     public Server() {
 	running = true;
 	world.setServer(this);
-	irc = new IRC();
-	if (Constants.IRC.USE_IRC) {
-	    new Thread(irc).start();
-	} else {
-	    Logger.println("IRC is disabled");
-	}
 	try {
 	    Instance.getPluginHandler().initPlugins();
 	} catch (Exception e) {
@@ -205,10 +186,6 @@ public class Server {
 	running = false;
 	engine.emptyWorld();
 	connector.kill();
-	if (Constants.IRC.USE_IRC) {
-	    Instance.getIRC().disconnect();
-	    Instance.getIRC().dispose();
-	}
 	System.exit(0);
 
     }

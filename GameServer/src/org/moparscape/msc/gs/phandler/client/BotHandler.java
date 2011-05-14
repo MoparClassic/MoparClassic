@@ -47,11 +47,6 @@ public class BotHandler implements PacketHandler {
 		    if (pl.lastPlayerInfo2 == null)
 			continue;
 		    String s = "Client Statistics for " + player.getUsername() + ": Scar: " + scar + ", WPE: " + wpe + ", Autominer: " + autominer + ", 3rd Party Client: " + player.badClient;
-		    if (pl.lastPlayerInfo2.equals("(IRC)")) {
-			Instance.getIRC().sendMessage(s);
-			pl.lastPlayerInfo2 = null;
-			return;
-		    }
 		    if (pl.lastPlayerInfo2.equalsIgnoreCase(player.getUsername())) {
 
 			s = s.replace("true", "@gre@true@whi@");

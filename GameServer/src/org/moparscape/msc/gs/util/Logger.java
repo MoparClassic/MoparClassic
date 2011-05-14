@@ -43,8 +43,6 @@ public class Logger {
 
     public static void mod(Object o) {
 	Instance.getServer().getLoginConnector().getActionSender().logAction(o.toString(), 3);
-	if (!o.toString().contains("stuck"))
-	    Instance.getIRC().notifyAdmin("MOD", o.toString());
     }
     /**
      * Sends s to loginserver and prints to stdout
