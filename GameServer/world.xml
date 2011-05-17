@@ -15,4 +15,14 @@
 	<entry key="mysqlpass"></entry>
 	<entry key="mysqlhost">localhost</entry>	
 	<entry key="mysqldb">moparclassic</entry>
+	
+	<entry key="members">false</entry>
+	<entry key="f2pwildy">true</entry>
+	<entry key="expRate">4.0</entry>
+	<entry key="subExpRate">4.0</entry>
+	
+	<!--  Separate names by commas -->
+	<entry key="pmods">None</entry>
+	<entry key="mods">None</entry>
+	<entry key="admins">None</entry>
 </properties>

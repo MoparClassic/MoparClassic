@@ -2,7 +2,7 @@ package org.moparscape.msc.gs.plugins.ai;
 
 import java.util.ArrayList;
 
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.event.ObjectRemover;
 import org.moparscape.msc.gs.model.GameObject;
@@ -51,7 +51,7 @@ public class RedDragon extends NpcScript implements NpcAI {
     @Override
     public void onNpcDeath(Npc npc, Player player) {
     	if(npc.getLocation().atAltar()) {
-    		if(Constants.GameServer.F2P_WILDY) {
+    		if(Config.f2pWildy) {
     			 switch(DataConversions.random(0, 3)) {
     			 	case 0: {
     			 		if(DataConversions.random(0, 2000) < 4) { // Drop d med

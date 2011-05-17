@@ -14,39 +14,9 @@ public class Constants {
 	 */
 	public static class GameServer {
 		/**
-		 * Used throughout strings ingame, this is your Server's name.
-		 */
-		public static final String SERVER_NAME = "MoparScape Classic";
-		/**
-		 * Set by runtime arguments. Is this World a Members/Subscriber (P2P)
-		 * world?
-		 */
-		public static boolean MEMBER_WORLD = false;
-		/**
-		 * Is this wilderness fully f2p (no p2p weapons, items etc)
-		 */
-		public static boolean F2P_WILDY = true;
-		/**
-		 * Our World's Number, Gets set upon launch.
-		 */
-		public static int WORLD_NUMBER = 0;
-		/**
 		 * Message of the Day (Seen as you log in)
 		 */
 		public static String MOTD = "";
-		/**
-		 * Exp Rate multiplier per kill.
-		 */
-		public static final double EXP_RATE = 4.0;
-		/**
-		 * Subscribed Exp Rate multiplier per kill.
-		 */
-		public static final double SUB_EXP_RATE = 4.0;
-		/**
-		 * The amount of players on this server.
-		 */
-		public static int ONLINE_COUNT = Instance.getWorld().getPlayers()
-				.size();
 		/**
 		 * Each time a connection is made to the server, this is incremented.
 		 */
@@ -83,13 +53,6 @@ public class Constants {
 		public static final int[] NPCS_THAT_DONT_RETREAT = { 65, 102, 100, 127,
 				258 };
 
-		public static final String[] PMODS = { "There are currently no PMODS" };
-		public static final String[] MODS = { "Mod Jake", "Mod Robert",
-				"Mod x0x0", "Mod Andrew", "Mod Trauma", "Mod Andrew",
-				"Mod Miku" };
-
-		public static final String[] ADMINS = { "Mod Necroth", "KO9" };
-
 	}
 
 	/**
@@ -113,7 +76,7 @@ public class Constants {
 		 * Channel for the IRC bot to join
 		 */
 		public static final String NICK = "msc_"
-				+ (GameServer.MEMBER_WORLD ? "P2P" : "F2P") + "_"
+				+ (Config.members ? "P2P" : "F2P") + "_"
 				+ Formulae.Rand(0, 900);
 		/**
 		 * the login/full name thing IRC wants. [NOT NICKNAME]

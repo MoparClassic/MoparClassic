@@ -2,7 +2,7 @@ package org.moparscape.msc.gs.event;
 
 import java.util.ArrayList;
 
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.core.GameEngine;
@@ -96,7 +96,7 @@ public class RangeEvent extends DelayedEvent {
 		continue;
 	    }
 	    arrowID = aID;
-	    if(owner.getLocation().inWilderness() && Constants.GameServer.F2P_WILDY) {
+	    if(owner.getLocation().inWilderness() && Config.f2pWildy) {
 		if(arrowID != 11 && arrowID != 190) {
 		    owner.getActionSender().sendMessage("You may not use P2P (Member Item) Arrows in the F2P Wilderness");
 		    owner.resetRange();

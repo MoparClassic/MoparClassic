@@ -8,7 +8,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.external.EntityHandler;
@@ -142,14 +141,14 @@ public class WorldLoader {
     public void loadObjects() {
 	World world = Instance.getWorld();
 	for (GameObjectLoc gameObject : (List<GameObjectLoc>) PersistenceManager.load("locs/GameObjectLoc.xml.gz")) {
-	    if(Constants.GameServer.F2P_WILDY && Formulae.isP2P(true, gameObject))
+	    if(Config.f2pWildy && Formulae.isP2P(true, gameObject))
 		continue;
 	    if (Formulae.isP2P(gameObject) && !World.isMembers())
 		continue;
 	    world.registerGameObject(new GameObject(gameObject));
 	}
 	for (ItemLoc item : (List<ItemLoc>) PersistenceManager.load("locs/ItemLoc.xml.gz")) {
-	    if(Constants.GameServer.F2P_WILDY && Formulae.isP2P(true, item))
+	    if(Config.f2pWildy && Formulae.isP2P(true, item))
 		continue;
 	    if (Formulae.isP2P(item) && !World.isMembers())
 		continue;
@@ -157,7 +156,7 @@ public class WorldLoader {
 	}// ember
 	 
 	for (NPCLoc npc : (List<NPCLoc>) PersistenceManager.load("locs/NpcLoc.xml.gz")) {
-	    if(Constants.GameServer.F2P_WILDY && Formulae.isP2P(true, npc))
+	    if(Config.f2pWildy && Formulae.isP2P(true, npc))
 		continue;
 	    if (Formulae.isP2P(npc) && !World.isMembers())
 		continue;

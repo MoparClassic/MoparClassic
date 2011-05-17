@@ -3,7 +3,7 @@ package org.moparscape.msc.gs.phandler.client;
 import java.util.ArrayList;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
@@ -127,7 +127,7 @@ public class ObjectAction implements PacketHandler {
 		    }
 		    world.addEntryToSnapshots(new Activity(owner.getUsername(), owner.getUsername() + " used an Object (" + object.getID() + ") @ " + object.getX() + ", " + object.getY()));
 		    owner.resetAll();
-		    if (object.getX() == 621 && object.getY() == 596 && Constants.GameServer.F2P_WILDY) {
+		    if (object.getX() == 621 && object.getY() == 596 && Config.f2pWildy) {
 			owner.getActionSender().sendMessage("Currently disabled!1!");
 			return;
 		    }

@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.core.ClientUpdater;
 import org.moparscape.msc.gs.core.DelayedEventHandler;
@@ -128,7 +128,7 @@ public final class World {
 	}
 
 	public static boolean isMembers() {
-		return Constants.GameServer.MEMBER_WORLD;
+		return Config.members;
 	}
 	public WorldLoader wl;
 	/**

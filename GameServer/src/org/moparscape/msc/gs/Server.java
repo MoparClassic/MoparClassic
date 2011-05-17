@@ -44,23 +44,20 @@ public class Server {
 
 	if (args[2] != null && args[2].equalsIgnoreCase("no"))
 	    Constants.IRC.USE_IRC = false;
-	
-	Constants.GameServer.MEMBER_WORLD = args[1].equalsIgnoreCase("p2p");
-	Constants.GameServer.MOTD = "@yel@Welcome to @whi@" + Constants.GameServer.SERVER_NAME + "@yel@ - World @whi@" + (Constants.GameServer.WORLD_NUMBER == 0 ? 2 : Constants.GameServer.WORLD_NUMBER) + " (" + (Constants.GameServer.MEMBER_WORLD ? "P2P" : "F2P") + ")";
-	
+		
 	world = Instance.getWorld();
 	world.wl.loadObjects();
 
 	Config.initConfig(configFile);
 	World.initilizeDB();
 
-	Logger.println(Constants.GameServer.SERVER_NAME + " [" + (Constants.GameServer.MEMBER_WORLD ? "P2P" : "F2P") + "] " + "Server starting up...");
+	Logger.println(Config.SERVER_NAME + " [" + (Config.members ? "P2P" : "F2P") + "] " + "Server starting up...");
 	
 	new Server();
     }
 
     public static boolean isMembers() {
-	return Constants.GameServer.MEMBER_WORLD;
+	return Config.members;
     }
 
     /**
@@ -182,7 +179,7 @@ public class Server {
      * @throws InterruptedException
      */
     public void kill() {
-	Logger.print(Constants.GameServer.SERVER_NAME + " shutting down...");
+	Logger.print(Config.SERVER_NAME + " shutting down...");
 	running = false;
 	engine.emptyWorld();
 	connector.kill();

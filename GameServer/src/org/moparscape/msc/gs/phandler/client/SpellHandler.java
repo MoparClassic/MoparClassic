@@ -3,12 +3,12 @@ package org.moparscape.msc.gs.phandler.client;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
-import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
@@ -1037,14 +1037,14 @@ public class SpellHandler implements PacketHandler {
 									|| spell.getReqLevel() == 65
 									|| spell.getReqLevel() == 70
 									|| spell.getReqLevel() == 75) {
-								if (!Constants.GameServer.MEMBER_WORLD) {
+								if (!Config.members) {
 									player.getActionSender()
 											.sendMessage(
 													"Must be on a members server to use this");
 									return;
 								}
 								if (player.getLocation().inWilderness()
-										&& Constants.GameServer.F2P_WILDY) {
+										&& Config.f2pWildy) {
 									player.getActionSender()
 											.sendMessage(
 													"You can not cast this Members spell in F2P Wilderness");

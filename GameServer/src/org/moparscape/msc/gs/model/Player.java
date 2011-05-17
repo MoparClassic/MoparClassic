@@ -14,6 +14,7 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
@@ -22,7 +23,6 @@ import org.moparscape.msc.gs.builders.ls.SavePacketBuilder;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
-import org.moparscape.msc.gs.db.DBConnection;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.RangeEvent;
@@ -1511,9 +1511,9 @@ public final class Player extends Mob {
 			return;
 		}
 
-		double exprate = Constants.GameServer.EXP_RATE;
+		double exprate = Config.expRate;
 		if (isSubscriber()) {
-			exprate = Constants.GameServer.SUB_EXP_RATE;
+			exprate = Config.subExpRate;
 		}
 
 		if(getLocation().wildernessLevel() > 1) {
@@ -1741,7 +1741,7 @@ public final class Player extends Mob {
 	 * Restricts P2P stuff in wilderness.
 	 */
 	public void p2pWildy() {
-		if (Constants.GameServer.F2P_WILDY) {
+		if (Config.f2pWildy) {
 
 			boolean found = false;
 			for (InvItem i : getInventory().getItems()) {

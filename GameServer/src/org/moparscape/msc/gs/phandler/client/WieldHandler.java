@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
@@ -46,7 +46,7 @@ public class WieldHandler implements PacketHandler {
 	    player.setSuspiciousPlayer(true);
 	    return;
 	}
-	if(player.getLocation().inWilderness() && item.getDef().isMembers() && Constants.GameServer.F2P_WILDY) {
+	if(player.getLocation().inWilderness() && item.getDef().isMembers() && Config.f2pWildy) {
 		player.getActionSender().sendMessage("Can't wield a P2P item in wilderness");
 	    return;
 	}
@@ -91,7 +91,7 @@ public class WieldHandler implements PacketHandler {
 	    player.getActionSender().sendMessage("You must have at least " + youNeed.substring(0, youNeed.length() - 2) + " to use this item.");
 	    return;
 	}
-	if (Constants.GameServer.MEMBER_WORLD) {
+	if (Config.members) {
 	    if (item.getID() == 594) {
 		int count = 0;
 		for (Quest q : World.getQuestManager().getQuests()) {
