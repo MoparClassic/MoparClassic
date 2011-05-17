@@ -76,7 +76,7 @@ public class Config {
 		pmods = props.getProperty("pmods").replaceAll(", +", ",").split(",");
 		mods = props.getProperty("mods").replaceAll(", +", ",").split(",");
 		admins = props.getProperty("admins").replaceAll(", +", ",").split(",");
-
+		
 		props.clear();
 		
 		Constants.GameServer.MOTD = "@yel@Welcome to @whi@" + Config.SERVER_NAME + "@yel@ - World @whi@" + (Config.SERVER_NUM == 0 ? 2 : Config.SERVER_NUM) + " (" + (Config.members ? "P2P" : "F2P") + ")";
