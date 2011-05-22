@@ -675,6 +675,10 @@ public final class Player extends Mob {
 	 */
 	private long usernameHash;
 	/**
+	 * List of items needing to be removed from client.
+	 */
+	private ArrayList<Item> watchedItemsToRemove = new ArrayList<Item>();
+	/**
 	 * Nearby items that we should be aware of
 	 */
 	private StatefulEntityCollection<Item> watchedItems = new StatefulEntityCollection<Item>();
@@ -1402,7 +1406,9 @@ public final class Player extends Mob {
 	public long getUsernameHash() {
 		return usernameHash;
 	}
-
+	public ArrayList<Item> getItemsToRemove() {
+		return watchedItemsToRemove;
+	}
 	public StatefulEntityCollection<Item> getWatchedItems() {
 		return watchedItems;
 	}
