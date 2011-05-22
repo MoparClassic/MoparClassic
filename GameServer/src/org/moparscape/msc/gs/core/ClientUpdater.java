@@ -388,11 +388,11 @@ public final class ClientUpdater implements Processor {
 		if (curTime - p.getLastPing() >= 30000) {
 			p.destroy(false);
 		} else if (p.warnedToMove()) {
-			if (curTime - p.getLastMoved() >= 960000 && p.loggedIn()) {
+			if (curTime - p.getLastMoved() >= 360000 && p.loggedIn()) {
 				p.destroy(false);
 			}
-		} else if (curTime - p.getLastMoved() >= 900000) {
-			p.getActionSender().sendMessage("@cya@You have not moved for 15 mins, please move to a new area to avoid logout.");
+		} else if (curTime - p.getLastMoved() >= 300000) {
+			p.getActionSender().sendMessage("@cya@You have not moved for 5 mins, please move to a new area to avoid logout.");
 			p.warnToMove();
 		}
 	}
