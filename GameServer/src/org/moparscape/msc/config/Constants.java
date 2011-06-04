@@ -84,11 +84,9 @@ public class Constants {
 				258 };
 
 		public static final String[] PMODS = { "There are currently no PMODS" };
-		public static final String[] MODS = { "Mod Jake", "Mod Robert",
-				"Mod x0x0", "Mod Andrew", "Mod Trauma", "Mod Andrew",
-				"Mod Miku" };
+		public static final String[] MODS = { "Rodgerwilco", "Lothy", "Newty" };
 
-		public static final String[] ADMINS = { "Mod Necroth", "KO9" };
+		public static final String[] ADMINS = { "KO9", "Moparisthebest" };
 
 	}
 
@@ -124,7 +122,7 @@ public class Constants {
 		 * Moderator in-game activities will be sent to them via PM.
 		 */
 		public static final String[] ADMINISTRATORS = { "KO9", "ollie",
-				"Necroth", "Melshef" };
+				"Necroth", "Rodgerwilco", "Peeter"  };
 		/**
 		 * Banned words you don't want your IRCBot to say (Optional) {Banned
 		 * word, new mask}
