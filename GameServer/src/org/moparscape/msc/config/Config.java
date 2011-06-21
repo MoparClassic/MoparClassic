@@ -32,6 +32,8 @@ public class Config {
 	public static String[] pmods, mods, admins;
 	public static String UNUSED_IP;
 	public static int IP_BAN_REMOVAL_DELAY;
+	public static int GARBAGE_COLLECT_INTERVAL;
+	public static int SAVE_INTERVAL;
 		
 	static {
 		loadEnv();
@@ -81,6 +83,9 @@ public class Config {
 		
 		UNUSED_IP = props.getProperty("unused-ip");
 		IP_BAN_REMOVAL_DELAY = Integer.parseInt(props.getProperty("ip-ban-removal-delay"));
+		
+		GARBAGE_COLLECT_INTERVAL = Integer.parseInt(props.getProperty("garbage-collect-interval"));
+		SAVE_INTERVAL = Integer.parseInt(props.getProperty("save-interval"));
 		
 		props.clear();
 		

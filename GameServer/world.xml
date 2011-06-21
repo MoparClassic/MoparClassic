@@ -29,4 +29,9 @@
 	<!-- This only needs to be specified if you're using a Windows machine -->
 	<entry key="unused-ip">192.168.0.255</entry>
 	<entry key="ip-ban-removal-delay">1800000</entry>
+	
+	<!-- Every 100 minutes -->
+	<entry key="garbage-collect-interval">6000000</entry>
+	<!-- Every 5 minutes -->
+	<entry key="save-interval">300000</entry>
 </properties>

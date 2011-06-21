@@ -16,6 +16,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import org.apache.mina.common.IoSession;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
@@ -308,7 +309,7 @@ public final class GameEngine extends Thread {
 		}
 		time = System.currentTimeMillis();
 
-		eventHandler.add(new DelayedEvent(null, 300000 * 10 * 2) { // Ran every
+		eventHandler.add(new DelayedEvent(null, Config.GARBAGE_COLLECT_INTERVAL) { // Ran every
 																	// 50*2
 																	// minutes
 					@Override
@@ -320,12 +321,12 @@ public final class GameEngine extends Thread {
 						}).start();
 					}
 				});
-		eventHandler.add(new DelayedEvent(null, 300000) { // 5 min
+		eventHandler.add(new DelayedEvent(null, Config.SAVE_INTERVAL) { // 5 min
 					public void run() {
 						world.dbKeepAlive();
 						long now = GameEngine.getTime();
 						for (Player p : world.getPlayers()) {
-							if (now - p.getLastSaveTime() >= 900000) {
+							if (now - p.getLastSaveTime() >= Config.SAVE_INTERVAL) {
 								p.save();
 								p.setLastSaveTime(now);
 							}
