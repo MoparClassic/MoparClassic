@@ -30,6 +30,7 @@ public class Config {
 	public static double expRate, subExpRate;
 	
 	public static String[] pmods, mods, admins;
+	public static String UNUSED_IP;
 		
 	static {
 		loadEnv();
@@ -76,6 +77,8 @@ public class Config {
 		pmods = props.getProperty("pmods").replaceAll(", +", ",").split(",");
 		mods = props.getProperty("mods").replaceAll(", +", ",").split(",");
 		admins = props.getProperty("admins").replaceAll(", +", ",").split(",");
+		
+		UNUSED_IP = props.getProperty("unused-ip");
 		
 		props.clear();
 		

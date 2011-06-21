@@ -21,6 +21,7 @@ import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.PacketQueue;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.connection.filter.OSLevelBlocking;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.model.ActiveTile;
@@ -95,12 +96,6 @@ public final class GameEngine extends Thread {
 	public static long getTime() {
 		return time;
 	}
-
-	/**
-	 * Processes incoming packets.
-	 */
-	private Map<String, Integer> written = Collections
-			.synchronizedMap(new HashMap<String, Integer>());
 
 	/**
 	 * Constructs a new game engine with an empty packet queue.
@@ -208,6 +203,10 @@ public final class GameEngine extends Thread {
 	private void processEvents() {
 		eventHandler.doEvents();
 	}
+	
+	public DelayedEventHandler getEventHandler() {
+		return eventHandler;
+	}
 
 	/**
 	 * Redirects system err
@@ -242,29 +241,7 @@ public final class GameEngine extends Thread {
 					&& p.getID() != 77 && p.getID() != 0) {
 				final String ip = player.getCurrentIP();
 				// flagSession(session);
-				if (!written.containsKey(ip)) {
-					eventHandler.add(new DelayedEvent(null, 1800000) {
-
-						public void run() {
-							written.remove(ip);
-							try {
-								Runtime.getRuntime().exec(
-										"sudo /sbin/route delete " + ip);
-							} catch (Exception err) {
-								Logger.error(err);
-							}
-						}
-					});
-					try {
-						// Runtime.getRuntime().exec(
-						// "sudo /sbin/route add " + ip + " gw 127.0.0.1");
-					} catch (Exception err) {
-						Logger.error(err);
-					}
-					Logger.println("Dummy packet from " + player.getCurrentIP()
-							+ ": " + p.getID());
-					written.put(ip, 1);
-				}
+				OSLevelBlocking.block(ip);
 				continue;
 			}
 			PacketHandler handler = packetHandlers.get(p.getID());

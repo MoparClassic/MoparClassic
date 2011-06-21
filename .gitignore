@@ -1,11 +1,11 @@
 .classpath
 .project
-*.jar
+rscd.jar
+ls.jar
 *.ipr
 *.iws
 *.iml
 *.class
-Client/
 bin
 build
 .*

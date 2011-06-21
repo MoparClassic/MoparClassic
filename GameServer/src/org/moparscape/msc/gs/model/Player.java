@@ -851,7 +851,7 @@ public final class Player extends Mob {
 	}
 
 	public boolean canLogout() {
-		if(this.location.inWilderness()) {
+		if(this != null && this.location != null && this.location.inWilderness()) {
 			if(GameEngine.getTime() - this.getLastMoved() < 10000) {
 	    		getActionSender().sendMessage("You must stand peacefully in one place for 10 seconds!");
 	    		return false;

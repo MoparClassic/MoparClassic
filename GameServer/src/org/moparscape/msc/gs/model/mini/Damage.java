@@ -58,19 +58,19 @@ public class Damage {
 		// CBF typing out legit bounds checking...
 		this.damage[damageType % 3] += damage;
 	}
-	
+
 	public int getTotalDamage() {
 		return getCombatDamage() + getRangeDamage() + getMagicDamage();
 	}
-	
+
 	public double getRangePortion() {
 		return getRangeDamage() / getTotalDamage();
 	}
-	
+
 	public double getMagicPortion() {
 		return getMagicDamage() / getTotalDamage();
 	}
-	
+
 	public double getCombatPortion() {
 		return getCombatDamage() / getTotalDamage();
 	}
