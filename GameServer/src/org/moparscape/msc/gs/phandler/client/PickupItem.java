@@ -70,8 +70,11 @@ public class PickupItem implements PacketHandler {
 	}
 
 	player.setStatus(Action.TAKING_GITEM);
-	Instance.getDelayedEventHandler().add(new WalkToPointEvent(player, location, 1, false) {
-	    public void arrived() {
+	Instance.getDelayedEventHandler().add(new DelayedEvent(player, 0) {
+	    public void run() {
+		if(!owner.withinRange(location, 0)) {
+			return;
+		}
 		if (owner.isBusy() || owner.isRanging() || !tile.hasItem(item) || !owner.nextTo(item) || owner.getStatus() != Action.TAKING_GITEM) {
 		    return;
 		}
@@ -142,6 +145,7 @@ public class PickupItem implements PacketHandler {
 		owner.getActionSender().sendSound("takeobject");
 		owner.getInventory().add(invItem);
 		owner.getActionSender().sendInventory();
+		super.running = false;
 	    }
 	});
     }
