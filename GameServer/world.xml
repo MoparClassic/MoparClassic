@@ -25,4 +25,8 @@
 	<entry key="pmods">None</entry>
 	<entry key="mods">None</entry>
 	<entry key="admins">None</entry>
+	
+	<!-- This only needs to be specified if you're using a Windows machine -->
+	<entry key="unused-ip">192.168.0.255</entry>
+	<entry key="ip-ban-removal-delay">1800000</entry>
 </properties>

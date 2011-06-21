@@ -46,7 +46,7 @@ object OSLevelBlocking {
 
   def block(ip: String) {
     if (!blocked.contains(ip)) {
-      events.add(new DelayedEvent(null, 1800000) {
+      events.add(new DelayedEvent(null, Config.IP_BAN_REMOVAL_DELAY) {
 
         def run() {
           unblock(ip)

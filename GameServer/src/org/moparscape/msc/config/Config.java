@@ -31,6 +31,7 @@ public class Config {
 	
 	public static String[] pmods, mods, admins;
 	public static String UNUSED_IP;
+	public static int IP_BAN_REMOVAL_DELAY;
 		
 	static {
 		loadEnv();
@@ -79,6 +80,7 @@ public class Config {
 		admins = props.getProperty("admins").replaceAll(", +", ",").split(",");
 		
 		UNUSED_IP = props.getProperty("unused-ip");
+		IP_BAN_REMOVAL_DELAY = Integer.parseInt(props.getProperty("ip-ban-removal-delay"));
 		
 		props.clear();
 		
