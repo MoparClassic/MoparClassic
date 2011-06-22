@@ -18,7 +18,7 @@ import java.util.concurrent.Executors
 object AlertHandler extends Application {
 
   private val executor = Executors.newSingleThreadExecutor()
-
+  
   private var users: List[User] = Nil
 
   load

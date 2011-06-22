@@ -28,7 +28,7 @@ object OSLevelBlocking {
             case e: Exception => {
               Logger.error(e)
               Logger.println("Failed to unblock " + ip)
-              AlertHandler.sendAlert("Failed to unblock " + ip, 1);
+              AlertHandler.sendAlert("Failed to unblock " + ip, 2);
             }
           }
         }
