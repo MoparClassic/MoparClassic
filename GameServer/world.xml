@@ -34,4 +34,7 @@
 	<entry key="garbage-collect-interval">6000000</entry>
 	<!-- Every 5 minutes -->
 	<entry key="save-interval">300000</entry>
+	
+	<!-- Date format for logger -->
+	<entry key="date-format">yyyy.MM.dd HH:mm:ss</entry>
 </properties>
