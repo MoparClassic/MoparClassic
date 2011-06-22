@@ -1,0 +1,84 @@
+10:27:56 22-06-11: java.io.IOException: Connection reset by peer
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: java.io.IOException: Connection reset by peer
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.FileDispatcher.read0(Native Method)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:251)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: java.io.IOException: Connection reset by peer
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.FileDispatcher.read0(Native Method)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:251)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.IOUtil.read(IOUtil.java:218)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:254)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at org.apache.mina.transport.socket.nio.SocketIoProcessor.read(SocketIoProcessor.java:218)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at org.apache.mina.transport.socket.nio.SocketIoProcessor.process(SocketIoProcessor.java:198)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at org.apache.mina.transport.socket.nio.SocketIoProcessor.access$400(SocketIoProcessor.java:45)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: java.io.IOException: Connection reset by peer
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.FileDispatcher.read0(Native Method)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:251)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.IOUtil.read(IOUtil.java:218)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:254)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at org.apache.mina.transport.socket.nio.SocketIoProcessor.read(SocketIoProcessor.java:218)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at org.apache.mina.transport.socket.nio.SocketIoProcessor.process(SocketIoProcessor.java:198)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at org.apache.mina.transport.socket.nio.SocketIoProcessor.access$400(SocketIoProcessor.java:45)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at org.apache.mina.transport.socket.nio.SocketIoProcessor$Worker.run(SocketIoProcessor.java:485)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at org.apache.mina.util.NamePreservingRunnable.run(NamePreservingRunnable.java:51)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+10:27:56 22-06-11: 
+
+10:27:56 22-06-11: 	at java.lang.Thread.run(Thread.java:636)
+10:27:56 22-06-11: 
+

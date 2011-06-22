@@ -40,14 +40,11 @@ public class Server {
 				configFile = f.getName();
 			}
 		}
-
-		if (args[2] != null && args[2].equalsIgnoreCase("no"))
-			Constants.IRC.USE_IRC = false;
-
+		
+		Config.initConfig(configFile);
 		world = Instance.getWorld();
 		world.wl.loadObjects();
 
-		Config.initConfig(configFile);
 		World.initilizeDB();
 
 		Logger.println(Config.SERVER_NAME + " ["
@@ -183,7 +180,7 @@ public class Server {
 	}
 
 	/**
-	 * Kills the game engine and irc engine
+	 * Kills the game engine
 	 * 
 	 * @throws InterruptedException
 	 */
