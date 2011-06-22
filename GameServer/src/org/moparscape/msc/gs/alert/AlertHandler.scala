@@ -10,35 +10,38 @@ import javax.mail.Session
 import javax.mail.internet.MimeMessage
 import javax.mail.Message
 import javax.mail.internet.InternetAddress
+import java.util.concurrent.Executors
 
 /**
  * This is for out-of-game alerts.
  */
 object AlertHandler extends Application {
 
-  private var users : List[User] = Nil
-  
+  private val executor = Executors.newSingleThreadExecutor()
+
+  private var users: List[User] = Nil
+
   load
 
-  def sendAlert(msg : String, recip : String, priority : Int) {
+  def sendAlert(msg: String, recip: String, priority: Int) {
     for (u <- users; if (u.name == recip))
       sendAlert(msg, u, priority)
   }
 
-  private def sendAlert(msg : String, recip : User, priority : Int) {
-    val meds = recip.data.filter(p => p._1 <= priority)
-    for (m <- meds) {
-      Medium.send(m._2, msg)
-    }
+  private def sendAlert(msg: String, recip: User, priority: Int) {
+    executor.execute(new Runnable() {
+      override def run() {
+        val meds = recip.data.filter(p => p._1 <= priority)
+        for (m <- meds) {
+          Medium.send(m._2, msg)
+        }
+      }
+    })
   }
 
-  def sendAlert(msg : String, priority : Int) {
+  def sendAlert(msg: String, priority: Int) {
     for (u <- users)
       sendAlert(msg, u, priority)
-  }
-
-  def reload {
-    load
   }
 
   def load {
@@ -51,7 +54,7 @@ object AlertHandler extends Application {
     users = list.toList
   }
 
-  private def parseUser(u : Node) = {
+  private def parseUser(u: Node) = {
     val name = (u \ "name").text
     val credentials = {
       val map = new HashMap[Int, Medium]
@@ -78,7 +81,7 @@ private object Medium {
     meds += (("email", EMail.send _))
   }
 
-  def send(m : Medium, msg: String) {
+  def send(m: Medium, msg: String) {
     val pf = meds.get(m.identifier).get
     pf(msg, m.recip)
   }
@@ -90,11 +93,11 @@ private class Medium(identifier_ : String, recip_ : String) {
 }
 
 private trait Protocol {
-  def send(msg : String, recip : String)
+  def send(msg: String, recip: String)
 }
 
 private object EMail extends Protocol {
-  override def send(msg : String, recip : String) = {
+  override def send(msg: String, recip: String) = {
     val props = new Properties()
     val config = XML.loadFile("alert-config.xml") \\ "credentials"
     val sender = config \ "user" text

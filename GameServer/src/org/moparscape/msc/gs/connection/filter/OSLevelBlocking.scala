@@ -5,8 +5,9 @@ import java.util.concurrent.CopyOnWriteArrayList
 import org.moparscape.msc.gs.Server
 import org.moparscape.msc.gs.core.DelayedEventHandler
 import org.moparscape.msc.gs.event.DelayedEvent
-import org.moparscape.msc.gs.util.Logger;
+import org.moparscape.msc.gs.util.Logger
 import org.moparscape.msc.config.Config
+import org.moparscape.msc.gs.alert.AlertHandler
 
 object OSLevelBlocking {
 
@@ -27,12 +28,14 @@ object OSLevelBlocking {
             case e: Exception => {
               Logger.error(e)
               Logger.println("Failed to unblock " + ip)
+              AlertHandler.sendAlert("Failed to unblock " + ip, 1);
             }
           }
         }
       })
       Runtime.getRuntime.exec(Config.BLOCK_COMMAND.replaceAll("${ip}", ip));
       blocked.add(ip)
+      AlertHandler.sendAlert("Blocked " + ip, blocked.size / 10);
       Logger.println("Blocked " + ip)
     }
   }
