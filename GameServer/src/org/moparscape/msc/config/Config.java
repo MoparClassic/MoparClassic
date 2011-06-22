@@ -18,28 +18,29 @@ public class Config {
 	public static String MYSQL_USER;
 	public static String MYSQL_PASS;
 
+	public static String SERVER_IP, SERVER_NAME, RSCD_HOME, CONF_DIR,
+			SERVER_LOCATION, LS_IP;
 
-	public static String SERVER_IP, SERVER_NAME, RSCD_HOME, CONF_DIR, SERVER_LOCATION, LS_IP;
-
-	public static int SERVER_PORT, SERVER_VERSION, MAX_PLAYERS, LS_PORT, SERVER_NUM;
+	public static int SERVER_PORT, SERVER_VERSION, MAX_PLAYERS, LS_PORT,
+			SERVER_NUM;
 
 	public static long START_TIME;
-	
+
 	public static boolean members, f2pWildy;
-	
+
 	public static double expRate, subExpRate;
-	
+
 	public static String[] pmods, mods, admins;
-	public static String UNUSED_IP;
 	public static int IP_BAN_REMOVAL_DELAY;
 	public static int GARBAGE_COLLECT_INTERVAL;
 	public static int SAVE_INTERVAL;
 	public static String DATE_FORMAT;
-		
+	public static String BLOCK_COMMAND;
+	public static String UNBLOCK_COMMAND;
+
 	static {
 		loadEnv();
 	}
-
 
 	/**
 	 * Called to load config settings from the given file
@@ -71,28 +72,33 @@ public class Config {
 		LS_IP = props.getProperty("lsip");
 		LS_PORT = Integer.parseInt(props.getProperty("lsport"));
 		SERVER_NUM = Integer.parseInt(props.getProperty("servernum"));
-		
-		
+
 		members = Boolean.parseBoolean(props.getProperty("members", "false"));
 		f2pWildy = Boolean.parseBoolean(props.getProperty("f2pWildy", "true"));
 		expRate = Double.parseDouble(props.getProperty("expRate"));
 		subExpRate = Double.parseDouble(props.getProperty("subExpRate"));
-		
+
 		pmods = props.getProperty("pmods").replaceAll(", +", ",").split(",");
 		mods = props.getProperty("mods").replaceAll(", +", ",").split(",");
 		admins = props.getProperty("admins").replaceAll(", +", ",").split(",");
-		
-		UNUSED_IP = props.getProperty("unused-ip");
-		IP_BAN_REMOVAL_DELAY = Integer.parseInt(props.getProperty("ip-ban-removal-delay"));
-		
-		GARBAGE_COLLECT_INTERVAL = Integer.parseInt(props.getProperty("garbage-collect-interval"));
+
+		IP_BAN_REMOVAL_DELAY = Integer.parseInt(props
+				.getProperty("ip-ban-removal-delay"));
+		BLOCK_COMMAND = props.getProperty("block-command");
+		UNBLOCK_COMMAND = props.getProperty("unblock-command");
+
+		GARBAGE_COLLECT_INTERVAL = Integer.parseInt(props
+				.getProperty("garbage-collect-interval"));
 		SAVE_INTERVAL = Integer.parseInt(props.getProperty("save-interval"));
-		
+
 		DATE_FORMAT = props.getProperty("date-format");
-		
+
 		props.clear();
-		
-		Constants.GameServer.MOTD = "@yel@Welcome to @whi@" + Config.SERVER_NAME + "@yel@ - World @whi@" + (Config.SERVER_NUM == 0 ? 2 : Config.SERVER_NUM) + " (" + (Config.members ? "P2P" : "F2P") + ")";
+
+		Constants.GameServer.MOTD = "@yel@Welcome to @whi@"
+				+ Config.SERVER_NAME + "@yel@ - World @whi@"
+				+ (Config.SERVER_NUM == 0 ? 2 : Config.SERVER_NUM) + " ("
+				+ (Config.members ? "P2P" : "F2P") + ")";
 	}
 
 	/**

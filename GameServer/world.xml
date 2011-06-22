@@ -26,9 +26,9 @@
 	<entry key="mods">None</entry>
 	<entry key="admins">None</entry>
 	
-	<!-- This only needs to be specified if you're using a Windows machine -->
-	<entry key="unused-ip">192.168.0.255</entry>
 	<entry key="ip-ban-removal-delay">1800000</entry>
+	<entry key="block-command">sudo route add -host ${ip} reject</entry>
+	<entry key="unblock-command">sudo route del -host ${ip} reject</entry>
 	
 	<!-- Every 100 minutes -->
 	<entry key="garbage-collect-interval">6000000</entry>
