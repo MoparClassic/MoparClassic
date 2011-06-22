@@ -34,6 +34,7 @@ public class Config {
 	public static int IP_BAN_REMOVAL_DELAY;
 	public static int GARBAGE_COLLECT_INTERVAL;
 	public static int SAVE_INTERVAL;
+	public static String DATE_FORMAT;
 		
 	static {
 		loadEnv();
@@ -86,6 +87,8 @@ public class Config {
 		
 		GARBAGE_COLLECT_INTERVAL = Integer.parseInt(props.getProperty("garbage-collect-interval"));
 		SAVE_INTERVAL = Integer.parseInt(props.getProperty("save-interval"));
+		
+		DATE_FORMAT = props.getProperty("date-format");
 		
 		props.clear();
 		

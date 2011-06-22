@@ -3,6 +3,7 @@ package org.moparscape.msc.gs.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.model.World;
 
@@ -16,7 +17,7 @@ public class Logger {
 	 * Simple date formatter to keep a date on outputs
 	 */
 	private static SimpleDateFormat formatter = new SimpleDateFormat(
-			"yyyy.MM.dd HH:mm:ss");
+			Config.DATE_FORMAT);
 
 	public static void connection(Object o) {
 		// Logging.debug(o.toString());
