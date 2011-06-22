@@ -14,11 +14,13 @@ import java.util.concurrent.Executors
 
 /**
  * This is for out-of-game alerts.
+ *
+ * @author CodeForFame
  */
 object AlertHandler extends Application {
 
   private val executor = Executors.newSingleThreadExecutor()
-  
+
   private var users: List[User] = Nil
 
   load
@@ -33,18 +35,24 @@ object AlertHandler extends Application {
       override def run() {
         val meds = recip.data.filter(p => p._1 <= priority)
         for (m <- meds) {
-          Medium.send(m._2, msg)
+          Service.send(m._2, msg)
         }
       }
     })
   }
 
+  /**
+   * Sends an alert to all users.
+   */
   def sendAlert(msg: String, priority: Int) {
     for (u <- users)
       sendAlert(msg, u, priority)
   }
 
-  def load {
+  /**
+   * Loads the config file.
+   */
+  private def load {
     val config = XML.loadFile("alert-config.xml")
     val users1 = (config \\ "user")
     val list = new ListBuffer[User];
@@ -54,13 +62,16 @@ object AlertHandler extends Application {
     users = list.toList
   }
 
+  /**
+   * Parses the XML and creates a User from it.
+   */
   private def parseUser(u: Node) = {
     val name = (u \ "name").text
     val credentials = {
-      val map = new HashMap[Int, Medium]
+      val map = new HashMap[Int, Service]
       val creds = u \ "email"
       for (c <- creds) {
-        map.put(Integer.parseInt((c \ "priority").text), new Medium("email", (c \ "address").text))
+        map.put(Integer.parseInt((c \ "priority").text), new Service("email", (c \ "address").text))
       }
       map.toMap
     }
@@ -68,35 +79,64 @@ object AlertHandler extends Application {
   }
 }
 
-private class User(name_ : String, data_ : Map[Int, Medium]) {
+/**
+ * This class contains information for the user, such as name, and preferences for Services.
+ *
+ * @author CodeForFame
+ */
+private class User(name_ : String, data_ : Map[Int, Service]) {
   def name = name_
   def data = data_
 }
 
-private object Medium {
+/**
+ * The companion object for the Service class.
+ * This is where you 'register' services.
+ *
+ * @author CodeForFame
+ */
+private object Service {
 
-  var meds = new HashMap[String, (String, String) => Unit]
+  var services = new HashMap[String, (String, String) => Unit]
 
   {
-    meds += (("email", EMail.send _))
+    services += (("email", EMail.send _))
   }
 
-  def send(m: Medium, msg: String) {
-    val pf = meds.get(m.identifier).get
-    pf(msg, m.recip)
+  /**
+   * Sends a message via the specified service.
+   */
+  def send(s: Service, msg: String) {
+    val pf = services.get(s.identifier).get
+    pf(msg, s.recip)
   }
 }
 
-private class Medium(identifier_ : String, recip_ : String) {
+/**
+ * A class that is for defining a service.
+ *
+ * @author CodeForFame
+ */
+private class Service(identifier_ : String, recip_ : String) {
   def identifier = identifier_
   def recip = recip_
 }
 
-private trait Protocol {
+/**
+ * Services should have this trait, you should override the send method.
+ *
+ * @author CodeForFame
+ */
+private trait ServiceTrait {
   def send(msg: String, recip: String)
 }
 
-private object EMail extends Protocol {
+/**
+ * This Service sends an alert via e-mail.
+ *
+ * @author CodeForFame
+ */
+private object EMail extends ServiceTrait {
   override def send(msg: String, recip: String) = {
     val props = new Properties()
     val config = XML.loadFile("alert-config.xml") \\ "credentials"
