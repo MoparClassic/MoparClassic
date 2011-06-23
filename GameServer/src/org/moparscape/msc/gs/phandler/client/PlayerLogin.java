@@ -62,7 +62,7 @@ public class PlayerLogin implements PacketHandler {
 			}
 			else {
 				player.load(username, password, 0, reconnecting);
-				if (clientVersion < 39) {
+				if (clientVersion < Config.SERVER_VERSION) {
 					player.clientWarn(true);
 				}
 				return;

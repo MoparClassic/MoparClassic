@@ -10,10 +10,9 @@ import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Path;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
-import org.moparscape.msc.gs.model.mini.Damager;
+import org.moparscape.msc.gs.model.mini.Damage;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
-
 
 public class FightEvent extends DelayedEvent {
 
@@ -61,7 +60,9 @@ public class FightEvent extends DelayedEvent {
 	}
 
 	public void run() {
-		if (!owner.loggedIn() || (affectedMob instanceof Player && !((Player) affectedMob).loggedIn())) {
+		if (!owner.loggedIn()
+				|| (affectedMob instanceof Player && !((Player) affectedMob)
+						.loggedIn())) {
 			owner.resetCombat(CombatState.ERROR);
 			affectedMob.resetCombat(CombatState.ERROR);
 			return;
@@ -98,8 +99,8 @@ public class FightEvent extends DelayedEvent {
 			}
 		}
 		if (opponent instanceof Player && attacker instanceof Player) {
-			if(((Player)opponent).isSleeping()) {
-				((Player)opponent).getActionSender().sendWakeUp(false);
+			if (((Player) opponent).isSleeping()) {
+				((Player) opponent).getActionSender().sendWakeUp(false);
 			}
 		}
 
@@ -108,26 +109,32 @@ public class FightEvent extends DelayedEvent {
 		 * opponent.resetCombat(CombatState.LOST); return; }
 		 */
 		attacker.incHitsMade();
-		if (attacker instanceof Npc && opponent.isPrayerActivated(12) && ((Npc)attacker).getTeam() == 2) {
+		if (attacker instanceof Npc && opponent.isPrayerActivated(12)
+				&& ((Npc) attacker).getTeam() == 2) {
 			return;
 		}
-		int damage = (attacker instanceof Player && opponent instanceof Player ? Formulae.calcFightHit(attacker, opponent) : Formulae.calcFightHitWithNPC(attacker, opponent));
+		int damage = (attacker instanceof Player && opponent instanceof Player ? Formulae
+				.calcFightHit(attacker, opponent) : Formulae
+				.calcFightHitWithNPC(attacker, opponent));
 
 		if (attacker instanceof Player && opponent instanceof Npc) {
 			Npc npc = (Npc) opponent;
-			
+
 			int newDmg = damage;
 			if (npc.getCurHits() - damage <= 0 && npc.getCurHits() > 0) {
 				newDmg = npc.getCurHits();
 			}
-			npc.getSyndicate().addDamage(owner, newDmg, false, true, false);
+			npc.getSyndicate().addDamage(owner, newDmg, Damage.COMBAT_DAMAGE);
 		}
 
-		if (attacker instanceof Npc && opponent instanceof Player && attacker.getHitsMade() >= (attacked ? 4 : 3)) {
+		if (attacker instanceof Npc && opponent instanceof Player
+				&& attacker.getHitsMade() >= (attacked ? 4 : 3)) {
 			Npc npc = (Npc) attacker;
 			Player player = (Player) opponent;
-			if (npc.getCurHits() <= npc.getDef().hits * 0.10 && npc.getCurHits() > 0) {
-				if (!npc.getLocation().inWilderness() && npc.getDef().attackable && !npc.getDef().aggressive) {
+			if (npc.getCurHits() <= npc.getDef().hits * 0.10
+					&& npc.getCurHits() > 0) {
+				if (!npc.getLocation().inWilderness()
+						&& npc.getDef().attackable && !npc.getDef().aggressive) {
 					boolean go = true;
 					for (int i : Constants.GameServer.NPCS_THAT_DONT_RETREAT) {
 						if (i == npc.getID()) {
@@ -142,9 +149,14 @@ public class FightEvent extends DelayedEvent {
 						npc.resetCombat(CombatState.RUNNING);
 						player.resetCombat(CombatState.WAITING);
 						npc.setRan(true);
-						npc.setPath(new Path(attacker.getX(), attacker.getY(), DataConversions.random(npc.getLoc().minX(), npc.getLoc().maxX()), DataConversions.random(npc.getLoc().minY(), npc.getLoc().maxY())));
+						npc.setPath(new Path(attacker.getX(), attacker.getY(),
+								DataConversions.random(npc.getLoc().minX(), npc
+										.getLoc().maxX()), DataConversions
+										.random(npc.getLoc().minY(), npc
+												.getLoc().maxY())));
 						player.resetAll();
-						player.getActionSender().sendMessage("Your opponent is retreating");
+						player.getActionSender().sendMessage(
+								"Your opponent is retreating");
 						return;
 					}
 				}
@@ -161,7 +173,8 @@ public class FightEvent extends DelayedEvent {
 			double cur = n.getHits();
 			int percent = (int) ((cur / max) * 100);
 			if (n.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(opponent.getID()).onHealthPercentage(n, percent);
+				Instance.getPluginHandler().getNpcAIHandler(opponent.getID())
+						.onHealthPercentage(n, percent);
 			}
 		}
 
@@ -199,97 +212,32 @@ public class FightEvent extends DelayedEvent {
 
 		if (newHp <= 0) {
 
-			int tempDmg = 0;
 			Player toLoot = null;
 
-			//System.out.println(opponent+" killed by "+attacker);
+			// Logging.debug(opponent+" killed by "+attacker);
 
 			if (attacker instanceof Player) {
 				Player attackerPlayer = (Player) attacker;
 				toLoot = attackerPlayer;
-				int exp = DataConversions.roundUp(Formulae.combatExperience(opponent) / 4D);
-				int newXP = 0;
 				if (opponent instanceof Player) {
-					//System.out.println(opponent+" killed by "+attacker);
+					// Logging.debug(opponent+" killed by "+attacker);
 					opponent.killedBy(attackerPlayer, false);
 				}
 
-
 				if (attacker instanceof Player && opponent instanceof Npc) {
 					Npc npc = (Npc) opponent;
-
-					for (Damager fig : ((Npc) opponent).getSyndicate().getDamagers()) {
-						// boolean found = false;
-						if (fig.getPlayer().isDueling()) {
-							continue;
-						}
-						if (fig.getDamage() > tempDmg) {
-							toLoot = fig.getPlayer();
-							tempDmg = fig.getDamage();
-						}
-						if (fig.isUseMagic() && !fig.isUseCombat()) { // if they
-							// shot
-							// magic, and didn't
-							// kill the npc with
-							// melee
-							continue;
-						}
-						/*
-						 * for(Player p :
-						 * attackerPlayer.getViewArea().getPlayersInView()) if(p
-						 * == fig.player) found = true; if(!found) // skip a
-						 * person who is not in the area. continue;
-						 */// meh, no big deal, less cpu without it.
-
-						if (fig.getDamage() > npc.getDef().hits) {
-							fig.setDamage(npc.getDef().hits);
-						}
-						if (fig.getPlayer() != null) {
-							newXP = (exp * fig.getDamage()) / npc.getDef().hits;
-
-							if (fig.getPlayer() != attackerPlayer && fig.isUseRanged()) {
-								fig.getPlayer().incExp(4, newXP * 4, true, true);
-								fig.getPlayer().getActionSender().sendStat(4);
-								attacker.resetCombat(CombatState.WON);
-								opponent.resetCombat(CombatState.LOST);
-								continue;
-							}
-							switch (fig.getPlayer().getCombatStyle()) {
-							case 0:
-								for (int x = 0; x < 2; x++) {
-									fig.getPlayer().incExp(x, newXP, true, true);
-									fig.getPlayer().getActionSender().sendStat(x);
-								}
-								fig.getPlayer().incExp(2, newXP, true, true);
-								fig.getPlayer().getActionSender().sendStat(2);
-								break;
-							case 1:
-								fig.getPlayer().incExp(2, newXP * 3, true, true);
-								fig.getPlayer().getActionSender().sendStat(2);
-								break;
-							case 2:
-								fig.getPlayer().incExp(0, newXP * 3, true, true);
-								fig.getPlayer().getActionSender().sendStat(0);
-								break;
-							case 3:
-								fig.getPlayer().incExp(1, newXP * 3, true, true);
-								fig.getPlayer().getActionSender().sendStat(1);
-								break;
-							}
-							fig.getPlayer().incExp(3, newXP, true, true);
-							fig.getPlayer().getActionSender().sendStat(3);
-						}
-					}
-
+					npc.getSyndicate().distributeExp(npc);
 				} else {
+					int exp = DataConversions.roundUp(Formulae
+							.combatExperience(opponent) / 4D);
 					switch (attackerPlayer.getCombatStyle()) {
 					case 0:
 
 						for (int x = 0; x < 2; x++) {
-							attackerPlayer.incExp(x, newXP, true, true);
+							attackerPlayer.incExp(x, exp, true, true);
 							attackerPlayer.getActionSender().sendStat(x);
 						}
-						attackerPlayer.incExp(2, newXP, true, true);
+						attackerPlayer.incExp(2, exp, true, true);
 						attackerPlayer.getActionSender().sendStat(2);
 						break;
 					case 1:
@@ -309,7 +257,7 @@ public class FightEvent extends DelayedEvent {
 					attackerPlayer.getActionSender().sendStat(3);
 				}
 			}
-			//if the dead mob isn't a player...
+			// if the dead mob isn't a player...
 			if (!(affectedMob instanceof Player)) {
 				opponent.killedBy(toLoot, false);
 			}

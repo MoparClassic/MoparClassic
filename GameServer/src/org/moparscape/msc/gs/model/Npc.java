@@ -3,6 +3,7 @@ package org.moparscape.msc.gs.model;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
@@ -423,7 +424,7 @@ public class Npc extends Mob {
 			int hit = DataConversions.random(0, total);
 			total = 0;
 			if (!this.getDef().name.equalsIgnoreCase("ghost")) {
-				if (this.getCombatLevel() >= 90 && Constants.GameServer.MEMBER_WORLD) {
+				if (this.getCombatLevel() >= 90 && Config.members) {
 					if (Formulae.Rand(0, 3000) == 500) {
 						if (Formulae.Rand(0, 1) == 1) {
 							world.registerItem(new Item(1276, getX(), getY(), 1, owner));

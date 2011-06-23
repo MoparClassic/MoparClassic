@@ -56,7 +56,7 @@ public class RSCProtocolEncoder implements ProtocolEncoder {
 		buffer = ByteBuffer.allocate(dataLength);
 	    }
 	    // System.arraycopy(data, 0, debug, 4, dataLength);
-	    // System.out.println(java.util.Arrays.toString(data));
+	    // Logging.debug(java.util.Arrays.toString(data));
 	    buffer.put(data, 0, dataLength);
 	    buffer.flip();
 	    out.write(buffer);

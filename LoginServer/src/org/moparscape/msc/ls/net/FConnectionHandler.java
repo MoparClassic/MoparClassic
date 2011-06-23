@@ -83,7 +83,7 @@ public class FConnectionHandler implements IoHandler {
      */
     public void sessionCreated(IoSession session) {
 	session.getFilterChain().addFirst("protocolFilter", new ProtocolCodecFilter(new FCodecFactory()));
-	// System.out.println("Connection from: " +
+	// Logging.debug("Connection from: " +
 	// ((InetSocketAddress)session.getRemoteAddress()).getAddress().getHostAddress());
     }
 

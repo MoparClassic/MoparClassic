@@ -940,7 +940,7 @@ public class Formulae {
 	 * 0.25) newPrice = i.getDef().basePrice + (int) (i.getDef().basePrice *
 	 * getShopPercentage( i, 3, true)); } if (newPrice == -1) return
 	 * 99999999; // error? return newPrice; } else { // Sell if (i.getID()
-	 * == 117) System.out.println("Current stock: " + curAmount); int base =
+	 * == 117) Logging.debug("Current stock: " + curAmount); int base =
 	 * i.getDef().basePrice - (int) (i.getDef().basePrice / 2.5); // Sell
 	 * price is 125% // lower than base // price to begin // with if
 	 * (shop.isGeneral()) // 3rd party item (player sold) base = base -

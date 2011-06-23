@@ -88,8 +88,8 @@ public class RSCConnectionHandler implements IoHandler {
 		p.getActionSender().sendLogout();
 	session.close();
 	/*
-	 * System.out.println("---MINA Error from: " + p.getUsername() +
-	 * " -------"); cause.printStackTrace();System.out.println(
+	 * Logging.debug("---MINA Error from: " + p.getUsername() +
+	 * " -------"); cause.printStackTrace();Logging.debug(
 	 * "------------------------------------------------------------");
 	 */
 	cause.printStackTrace();
@@ -120,7 +120,7 @@ public class RSCConnectionHandler implements IoHandler {
 	    try {
 		c = counts.get(addr);
 	    } catch (Exception e) {
-		System.out.println("Error: " + e);
+		Logging.debug("Error: " + e);
 	    }
 	    if (c >= 5) {
 		if (!written.containsKey(addr)) {
@@ -136,7 +136,7 @@ public class RSCConnectionHandler implements IoHandler {
 		    // }
 		    try {
 			/*
-			 * System.out.println("ATTACKER IP: " + ip);
+			 * Logging.debug("ATTACKER IP: " + ip);
 			 * BufferedWriter bf2 = new BufferedWriter(new
 			 * FileWriter( "ddos.log", true));
 			 * bf2.write("sudo /sbin/route add " +
@@ -151,18 +151,18 @@ public class RSCConnectionHandler implements IoHandler {
 				try {
 				    Runtime.getRuntime().exec("sudo /sbin/route delete " + ip);
 				} catch (Exception err) {
-				    System.out.println(err);
+				    Logging.debug(err);
 				}
 			    }
 			});
 			try {
 			    Runtime.getRuntime().exec("sudo /sbin/route add " + ip + " gw 127.0.0.1");
 			} catch (Exception err) {
-			    System.out.println(err);
+			    Logging.debug(err);
 			}
 
 			// try { Runtime.getRuntime().exec(ip + ".bat"); }
-			// catch (Exception err) { System.out.println(err); }
+			// catch (Exception err) { Logging.debug(err); }
 			lastAttack = now;
 		    } catch (Exception e) {
 			System.err.println(e);

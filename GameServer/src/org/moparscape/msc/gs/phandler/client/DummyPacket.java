@@ -1,6 +1,7 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.builders.RSCPacketBuilder;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.model.Player;
@@ -14,7 +15,7 @@ public class DummyPacket implements PacketHandler {
 	    if (p.getLength() > 2) { // 1 for byte, 2 for short
 		byte b = p.readByte();
 		int clientVersion = p.readShort();
-		if (clientVersion > 34 && clientVersion < 40) {
+		if (clientVersion > Config.SERVER_VERSION - 5 && clientVersion < Config.SERVER_VERSION + 1) {
 		    RSCPacketBuilder pb = new RSCPacketBuilder();
 		    pb.setBare(true);
 		    pb.addByte((byte) 4); // client update

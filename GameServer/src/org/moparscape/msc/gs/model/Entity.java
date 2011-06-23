@@ -1,5 +1,6 @@
 package org.moparscape.msc.gs.model;
 
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
@@ -185,7 +186,7 @@ public class Entity {
     }
 
     public void setLocation(Point p) {
-	if(this instanceof Player && location != null && Constants.GameServer.F2P_WILDY) {
+	if(this instanceof Player && location != null && Config.f2pWildy) {
 	    Player pl = (Player)this;
 	    if(pl != null && getX() > 0 && getY() > 0) {
 		if(!Point.inWilderness(getX(), getY()) && Point.inWilderness(p.getX(), p.getY())) {

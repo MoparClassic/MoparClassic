@@ -2,6 +2,7 @@ package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.alert.AlertHandler;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.db.ReportHandlerQueries;
 import org.moparscape.msc.gs.model.Player;
@@ -36,7 +37,7 @@ public class ReportHandler implements PacketHandler {
 				player.getActionSender().sendMessage("You can't report yourself!");
 				return;
 			}
-			Instance.getIRC().handleReport(player.getUsername(), DataConversions.hashToUsername(temp), b);
+			AlertHandler.sendAlert(player.getUsername() + " sent a repot about: " + DataConversions.hashToUsername(temp), 1);
 			//Instance.getServer().getLoginConnector().getActionSender().reportUser(player.getUsernameHash(), temp, b);
 			Instance.getReport().submitRepot(player.getUsernameHash(), temp, b, player);
 			player.setLastReport();

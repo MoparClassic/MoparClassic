@@ -104,13 +104,13 @@ public class Server {
 	// if(s != null) {
 	// w.unassosiateSave(s);
 	// save = s;
-	// System.out.println("Found cached save for " +
+	// Logging.debug("Found cached save for " +
 	// DataConversions.hashToUsername(user));
 	// break;
 	// }
 	// }
 	// if(save == null) {
-	// System.out.println("No save found for " +
+	// Logging.debug("No save found for " +
 	// DataConversions.hashToUsername(user) + ", loading fresh");
 	save = PlayerSave.loadPlayer(user);
 	// }

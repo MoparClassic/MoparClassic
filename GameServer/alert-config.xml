@@ -1,0 +1,25 @@
+<alert>
+	<credentials>
+		<!-- This is used for e-mails. -->
+		<protocol>smtps</protocol>
+		<host>smtp.gmail.com</host>
+		<port>465</port>
+		<auth>true</auth>
+		<user>moparalert@gmail.com</user>
+		<pass>supersecretpass</pass>
+	</credentials>
+	<user>
+		<name>Example</name>
+		<email>
+			<address>codeforfame@gmail.com</address>
+			<priority>10</priority>
+		</email>
+	</user>
+	<user>
+		<name>Example1</name>
+		<email>
+			<address>codeforfame@gmail.com</address>
+			<priority>1</priority>
+		</email>
+	</user>
+</alert>

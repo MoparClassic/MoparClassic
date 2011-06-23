@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
@@ -152,7 +152,7 @@ public class AttackHandler implements PacketHandler {
 		player.resetPath();
 		return;
 	    }
-	    if(Constants.GameServer.F2P_WILDY && player.getLocation().inWilderness()) {
+	    if(Config.f2pWildy && player.getLocation().inWilderness()) {
 		
 		for(InvItem i : player.getInventory().getItems()) {
 		    if(i.getID() == 638 || i.getID() == 640 || i.getID() == 642 || i.getID() == 644 || i.getID() == 646) {

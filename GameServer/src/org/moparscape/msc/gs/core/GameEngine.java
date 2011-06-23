@@ -16,11 +16,13 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import org.apache.mina.common.IoSession;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.PacketQueue;
 import org.moparscape.msc.gs.connection.RSCPacket;
+import org.moparscape.msc.gs.connection.filter.OSLevelBlocking;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.model.ActiveTile;
@@ -97,12 +99,6 @@ public final class GameEngine extends Thread {
 	}
 
 	/**
-	 * Processes incoming packets.
-	 */
-	private Map<String, Integer> written = Collections
-			.synchronizedMap(new HashMap<String, Integer>());
-
-	/**
 	 * Constructs a new game engine with an empty packet queue.
 	 */
 	public GameEngine() {
@@ -132,9 +128,9 @@ public final class GameEngine extends Thread {
 	 * getAddress(session); String ip = addr.toString(); ip =
 	 * ip.replaceAll("/",""); long now = System.currentTimeMillis(); int c = 0;
 	 * if(counts.containsKey(addr) && clients.containsKey(addr)) { try { c =
-	 * counts.get(addr); } catch(Exception e) { System.out.println("Error: " +
+	 * counts.get(addr); } catch(Exception e) { Logging.debug("Error: " +
 	 * e); } if(c >= 10) { if(!written.containsKey(addr)) { try {
-	 * System.out.println("Dummy packet flooder IP: " + ip); BufferedWriter bf2
+	 * Logging.debug("Dummy packet flooder IP: " + ip); BufferedWriter bf2
 	 * = new BufferedWriter(new FileWriter("dummy.log", true));
 	 * bf2.write("sudo /sbin/route add " + addr.getHostAddress() +
 	 * " gw 127.0.0.1"); bf2.newLine(); bf2.close(); written.put(addr, 1); }
@@ -208,6 +204,10 @@ public final class GameEngine extends Thread {
 	private void processEvents() {
 		eventHandler.doEvents();
 	}
+	
+	public DelayedEventHandler getEventHandler() {
+		return eventHandler;
+	}
 
 	/**
 	 * Redirects system err
@@ -242,29 +242,7 @@ public final class GameEngine extends Thread {
 					&& p.getID() != 77 && p.getID() != 0) {
 				final String ip = player.getCurrentIP();
 				// flagSession(session);
-				if (!written.containsKey(ip)) {
-					eventHandler.add(new DelayedEvent(null, 1800000) {
-
-						public void run() {
-							written.remove(ip);
-							try {
-								Runtime.getRuntime().exec(
-										"sudo /sbin/route delete " + ip);
-							} catch (Exception err) {
-								System.out.println(err);
-							}
-						}
-					});
-					try {
-						// Runtime.getRuntime().exec(
-						// "sudo /sbin/route add " + ip + " gw 127.0.0.1");
-					} catch (Exception err) {
-						System.out.println(err);
-					}
-					Logger.println("Dummy packet from " + player.getCurrentIP()
-							+ ": " + p.getID());
-					written.put(ip, 1);
-				}
+				OSLevelBlocking.block(ip);
 				continue;
 			}
 			PacketHandler handler = packetHandlers.get(p.getID());
@@ -331,7 +309,7 @@ public final class GameEngine extends Thread {
 		}
 		time = System.currentTimeMillis();
 
-		eventHandler.add(new DelayedEvent(null, 300000 * 10 * 2) { // Ran every
+		eventHandler.add(new DelayedEvent(null, Config.GARBAGE_COLLECT_INTERVAL) { // Ran every
 																	// 50*2
 																	// minutes
 					@Override
@@ -343,12 +321,12 @@ public final class GameEngine extends Thread {
 						}).start();
 					}
 				});
-		eventHandler.add(new DelayedEvent(null, 300000) { // 5 min
+		eventHandler.add(new DelayedEvent(null, Config.SAVE_INTERVAL) { // 5 min
 					public void run() {
 						world.dbKeepAlive();
 						long now = GameEngine.getTime();
 						for (Player p : world.getPlayers()) {
-							if (now - p.getLastSaveTime() >= 900000) {
+							if (now - p.getLastSaveTime() >= Config.SAVE_INTERVAL) {
 								p.save();
 								p.setLastSaveTime(now);
 							}

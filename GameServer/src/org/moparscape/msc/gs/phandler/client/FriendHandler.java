@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.alert.AlertHandler;
 import org.moparscape.msc.gs.builders.ls.MiscPacketBuilder;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
@@ -68,7 +69,7 @@ public class FriendHandler implements PacketHandler {
 		s = s.replace(".", "");
 		if (s.contains("runeblast")) {
 			Logger.println(player.getUsername() + " pmed " + DataConversions.hashToUsername(friend) + ":" + k);
-		    Instance.getIRC().sendMessage(player.getUsername() + " pmed " + DataConversions.hashToUsername(friend) + ":" + k);
+			AlertHandler.sendAlert(player.getUsername() + " pmed " + DataConversions.hashToUsername(friend) + ":" + k, 2);
 		    return;
 		}
 		ArrayList<String> temp = new ArrayList<String>();

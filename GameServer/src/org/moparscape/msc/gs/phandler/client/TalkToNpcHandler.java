@@ -107,7 +107,7 @@ public class TalkToNpcHandler implements PacketHandler {
 					if (!(e instanceof InvocationTargetException)) {
 					    e.printStackTrace();
 					}
-					System.out.println(affectedNpc.getID());
+					Logger.println(affectedNpc.getID());
 					affectedNpc.unblock();
 					owner.setBusy(false);
 				    }

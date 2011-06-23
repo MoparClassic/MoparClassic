@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
@@ -36,7 +36,7 @@ public class InvUseOnItem implements PacketHandler {
 
     private boolean attachFeathers(Player player, final InvItem feathers, final InvItem item) {
 	int amount = 10;
-	if (!Constants.GameServer.MEMBER_WORLD) {
+	if (!Config.members) {
 	    player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 	    return true;
 	}
@@ -89,7 +89,7 @@ public class InvUseOnItem implements PacketHandler {
 
     private boolean doArrowHeads(Player player, final InvItem headlessArrows, final InvItem arrowHeads) {
 	final ItemArrowHeadDef headDef = EntityHandler.getItemArrowHeadDef(arrowHeads.getID());
-	if (!Constants.GameServer.MEMBER_WORLD) {
+	if (!Config.members) {
 	    player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 	    return true;
 	}
@@ -125,7 +125,7 @@ public class InvUseOnItem implements PacketHandler {
 
     private boolean doBowString(Player player, final InvItem bowString, final InvItem bow) {
 	final ItemBowStringDef stringDef = EntityHandler.getItemBowStringDef(bow.getID());
-	if (!Constants.GameServer.MEMBER_WORLD) {
+	if (!Config.members) {
 	    player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 	    return true;
 	}
@@ -180,7 +180,7 @@ public class InvUseOnItem implements PacketHandler {
 	if (glass.getID() != 623) {
 	    return false;
 	}
-	if (!Constants.GameServer.MEMBER_WORLD) {
+	if (!Config.members) {
 	    player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 	    return true;
 	}
@@ -254,7 +254,7 @@ public class InvUseOnItem implements PacketHandler {
 	if (herbDef == null) {
 	    return false;
 	}
-	if (!Constants.GameServer.MEMBER_WORLD) {
+	if (!Config.members) {
 	    player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 	    return true;
 	}
@@ -277,7 +277,7 @@ public class InvUseOnItem implements PacketHandler {
     }
 
     private boolean doHerbSecond(Player player, final InvItem second, final InvItem unfinished, final ItemHerbSecond def) {
-	if (!Constants.GameServer.MEMBER_WORLD) {
+	if (!Config.members) {
 	    player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 	    return true;
 	}
@@ -304,7 +304,7 @@ public class InvUseOnItem implements PacketHandler {
     private boolean doLogCut(final Player player, final InvItem knife, final InvItem log, int times) {
     	final int retries = --times;
 	final ItemLogCutDef cutDef = EntityHandler.getItemLogCutDef(log.getID());
-	if (!Constants.GameServer.MEMBER_WORLD) {
+	if (!Config.members) {
 	    player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 	    return true;
 	}
@@ -810,7 +810,7 @@ public class InvUseOnItem implements PacketHandler {
 
 	    for (int i = 0; i < combinePotions.length; i++) {
 		if ((item1.getID() == combinePotions[i][0] && item2.getID() == combinePotions[i][1]) || (item2.getID() == combinePotions[i][0] && item1.getID() == combinePotions[i][1])) {
-		    if (!Constants.GameServer.MEMBER_WORLD) {
+		    if (!Config.members) {
 			player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 			return;
 		    }
@@ -821,7 +821,7 @@ public class InvUseOnItem implements PacketHandler {
 			return;
 		    }
 		} else if (item1.getID() == combinePotions[i][1] && item2.getID() == combinePotions[i][1]) {
-		    if (!Constants.GameServer.MEMBER_WORLD) {
+		    if (!Config.members) {
 			player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 			return;
 		    }
@@ -835,7 +835,7 @@ public class InvUseOnItem implements PacketHandler {
 			player.getActionSender().sendMessage("You combine the Potions");
 			return;
 		    } else if (item1.getID() == combinePotions[i][0] && item2.getID() == combinePotions[i][0]) {
-			if (!Constants.GameServer.MEMBER_WORLD) {
+			if (!Config.members) {
 			    player.getActionSender().sendMessage("This feature is not avaliable in f2p");
 			    return;
 			}

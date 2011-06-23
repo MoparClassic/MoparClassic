@@ -2,7 +2,7 @@ package org.moparscape.msc.gs.event;
 
 import java.util.ArrayList;
 
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.core.GameEngine;
@@ -13,7 +13,7 @@ import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.PathGenerator;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Projectile;
-import org.moparscape.msc.gs.model.mini.Damager;
+import org.moparscape.msc.gs.model.mini.Damage;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.tools.DataConversions;
 
@@ -96,7 +96,7 @@ public class RangeEvent extends DelayedEvent {
 		continue;
 	    }
 	    arrowID = aID;
-	    if(owner.getLocation().inWilderness() && Constants.GameServer.F2P_WILDY) {
+	    if(owner.getLocation().inWilderness() && Config.f2pWildy) {
 		if(arrowID != 11 && arrowID != 190) {
 		    owner.getActionSender().sendMessage("You may not use P2P (Member Item) Arrows in the F2P Wilderness");
 		    owner.resetRange();
@@ -174,7 +174,7 @@ public class RangeEvent extends DelayedEvent {
     }
 	if (affectedMob instanceof Npc) {
 	    Npc npc = (Npc) affectedMob;
-	    npc.getSyndicate().addDamage(owner, damage, false, false, true);
+	    npc.getSyndicate().addDamage(owner, damage, Damage.RANGE_DAMAGE);
 	}
 	Projectile projectile = new Projectile(owner, affectedMob, 2);
 
@@ -212,49 +212,10 @@ public class RangeEvent extends DelayedEvent {
 		owner.resetRange();
 		if (owner instanceof Player) {
 		    Player attackerPlayer = (Player) owner;
-		    int exp = DataConversions.roundUp(Formulae.combatExperience(affectedMob) / 4D);
-		    int newXP = 0;
-		    if (owner instanceof Player && affectedMob instanceof Npc) {
+		    if (affectedMob instanceof Npc) {
 			Npc npc = (Npc) affectedMob;
 
-			for (Damager fig : ((Npc) affectedMob).getSyndicate().getDamagers()) {
-			    if (fig.isUseMagic() && attackerPlayer != fig.getPlayer())
-				continue;
-
-			    if (fig.getDamage() > npc.getDef().hits)
-				fig.setDamage(npc.getDef().hits);
-			    if (fig.getPlayer() != null) {
-				newXP = (exp * fig.getDamage()) / npc.getDef().hits;
-
-				if (fig.isUseRanged()) {
-				    fig.getPlayer().incExp(4, newXP * 4, true, true);
-				    fig.getPlayer().getActionSender().sendStat(4);
-				    continue;
-				}
-				switch (fig.getPlayer().getCombatStyle()) {
-				case 0:
-				    for (int x = 0; x < 3; x++) {
-					fig.getPlayer().incExp(x, newXP, true, true);
-					fig.getPlayer().getActionSender().sendStat(x);
-				    }
-				    break;
-				case 1:
-				    fig.getPlayer().incExp(2, newXP * 3, true, true);
-				    fig.getPlayer().getActionSender().sendStat(2);
-				    break;
-				case 2:
-				    fig.getPlayer().incExp(0, newXP * 3, true, true);
-				    fig.getPlayer().getActionSender().sendStat(0);
-				    break;
-				case 3:
-				    fig.getPlayer().incExp(1, newXP * 3, true, true);
-				    fig.getPlayer().getActionSender().sendStat(1);
-				    break;
-				}
-				fig.getPlayer().incExp(3, newXP, true, true);
-				fig.getPlayer().getActionSender().sendStat(3);
-			    }
-			}
+			npc.getSyndicate().distributeExp(npc);
 		    }
 		}
 	    } else {

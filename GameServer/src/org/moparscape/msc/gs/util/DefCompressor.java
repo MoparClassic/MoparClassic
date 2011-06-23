@@ -20,11 +20,11 @@ public class DefCompressor {
 	while ((read = fis.read(buf)) != -1) {
 	    out.write(buf, 0, read);
 	}
-	System.out.println("Done.");
+	Logger.println("Done.");
 	fis.close();
 	out.close();
 	long endSize = target.length();
-	System.out.println("Initial size: " + initialSize + "; Compressed size: " + endSize);
+	Logger.println("Initial size: " + initialSize + "; Compressed size: " + endSize);
     }
 
     public static void decompressFile(File f) throws IOException {
@@ -38,11 +38,11 @@ public class DefCompressor {
 	while ((read = in.read(buf)) != -1) {
 	    fos.write(buf, 0, read);
 	}
-	System.out.println("Done.");
+	Logger.println("Done.");
 	fos.close();
 	in.close();
 	long endSize = target.length();
-	System.out.println("Initial size: " + initialSize + "; Decompressed size: " + endSize);
+	Logger.println("Initial size: " + initialSize + "; Decompressed size: " + endSize);
     }
 
     public static void main(String[] argv) throws Exception {

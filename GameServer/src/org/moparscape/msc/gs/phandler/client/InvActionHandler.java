@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.connection.Packet;
@@ -42,7 +42,7 @@ public class InvActionHandler implements PacketHandler {
 	    player.setSuspiciousPlayer(true);
 	    return;
 	}
-	if(item.getDef().isMembers() && Constants.GameServer.F2P_WILDY && player.getLocation().inWilderness() && item.getID() != 814) {
+	if(item.getDef().isMembers() && Config.f2pWildy && player.getLocation().inWilderness() && item.getID() != 814) {
 	    player.getActionSender().sendMessage("Can not use a Member item in the wilderness");
 	    return;
 	}

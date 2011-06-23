@@ -1,6 +1,7 @@
 package org.moparscape.msc.gs.phandler;
 
 import org.apache.mina.common.IoSession;
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
@@ -140,7 +141,7 @@ public class PlayerLogin implements PacketHandler {
 
 	    player.setQuestPoints(p.readShort(), false);
 	    int questCount = p.readShort();
-	    // System.out.println(questCount);
+	    // Logging.debug(questCount);
 	    for (int i = 0; i < questCount; i++)
 		player.setQuestStage(p.readShort(), p.readShort(), false, false);
 
@@ -230,7 +231,7 @@ public class PlayerLogin implements PacketHandler {
 	    sender.sendOnlinePlayers();
 	    
 	    if(newchar)
-		player.getActionSender().sendMessage("@ran@Talk to the Community Instructor for information about " + Constants.GameServer.SERVER_NAME);
+		player.getActionSender().sendMessage("@ran@Talk to the Community Instructor for information about " + Config.SERVER_NAME);
 
 	    if (player.clientWarn()) {
 	    	player.getActionSender().sendAlert("@red@Alert! @whi@You are using an old client, please download the new client from our website. This client WILL stop working @red@soon.", false);

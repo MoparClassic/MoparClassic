@@ -421,7 +421,7 @@ public class Thieving {
 	    player.setBusy(false);
 	    affectedNpc.setBusy(false);
 	    affectedNpc.unblock();
-	    System.out.println(e.getMessage() + "\nStack: " + e.getStackTrace());
+	    Logger.error(e.getMessage() + "\nStack: " + e.getStackTrace());
 	    player.setSpam(false);
 	}
 
@@ -459,7 +459,7 @@ public class Thieving {
 		    return false;
 		}
 		for (Npc n : t.getNpcs()) {
-		    System.out.println(t.getNpcs().get(0));
+		    Logger.error(t.getNpcs().get(0));
 		}
 	    }
 	}
@@ -542,7 +542,7 @@ public class Thieving {
 		}
 	    });
 	} catch (Exception e) {
-	    System.out.println(e.getMessage());
+		Logger.error(e.getMessage());
 	}
     }
 
@@ -887,7 +887,7 @@ public class Thieving {
 		}
 	    });
 	} catch (Exception e) {
-	    System.out.println(e.getMessage());
+		Logger.error(e.getMessage());
 	}
     }
 

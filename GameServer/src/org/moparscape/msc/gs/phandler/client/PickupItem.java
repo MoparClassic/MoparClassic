@@ -51,17 +51,20 @@ public class PickupItem implements PacketHandler {
 	int id = p.readShort();
 	final ActiveTile tile = world.getTile(location);
 	final Item item = getItem(id, tile, player);
+	
+	if (item == null) {
+	    //player.setSuspiciousPlayer(true);
+	    player.resetPath();
+	    return;
+	}
+	
 	if(!item.getDef().canTrade()) {
 		if(item.droppedby() != 0 && org.moparscape.msc.gs.tools.DataConversions.usernameToHash(player.getUsername()) != item.droppedby()) {
 			player.getActionSender().sendMessage("This item is non-tradable.");
 			return;
 		}
 	}
-	if (item == null) {
-	    //player.setSuspiciousPlayer(true);
-	    player.resetPath();
-	    return;
-	}
+	
 	if(player.isPMod() && !player.isMod())
 	    return;
 	if (item.getDef().isMembers() && !World.isMembers()) {
@@ -70,7 +73,7 @@ public class PickupItem implements PacketHandler {
 	}
 
 	player.setStatus(Action.TAKING_GITEM);
-	Instance.getDelayedEventHandler().add(new WalkToPointEvent(player, location, 1, false) {
+	Instance.getDelayedEventHandler().add(new WalkToPointEvent(player, location, 0, true) {
 	    public void arrived() {
 		if (owner.isBusy() || owner.isRanging() || !tile.hasItem(item) || !owner.nextTo(item) || owner.getStatus() != Action.TAKING_GITEM) {
 		    return;

@@ -5,7 +5,6 @@ import org.moparscape.msc.gs.db.DBConnection;
 import org.moparscape.msc.gs.db.ReportHandlerQueries;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.plugins.dependencies.PluginHandler;
-import org.moparscape.msc.irc.IRC;
 
 /**
  * Holds instances to commonly used Objects.
@@ -14,10 +13,6 @@ import org.moparscape.msc.irc.IRC;
  * 
  */
 public class Instance {
-
-    public static IRC getIRC() {
-    	return getServer().getIRC();
-    }
 
     public static Server getServer() {
     	return World.getWorld().getServer();

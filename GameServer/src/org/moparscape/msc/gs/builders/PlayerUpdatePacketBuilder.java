@@ -40,7 +40,7 @@ public class PlayerUpdatePacketBuilder {
 				// talking
 				updates.addShort(cm.getSender().getIndex());
 				updates.addByte((byte) (cm.getRecipient() == null ? 1 : 6));
-				// System.out.println(cm.getRecipient() == null);
+				// Logging.debug(cm.getRecipient() == null);
 				updates.addByte((byte) cm.getLength());
 				updates.addBytes(cm.getMessage());
 			}
