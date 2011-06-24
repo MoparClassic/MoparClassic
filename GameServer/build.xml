@@ -25,13 +25,11 @@
 				<pathelement location="${lib}/mina.jar" />
 				<pathelement location="${lib}/xpp3.jar" />
 				<pathelement location="${lib}/slf4j.jar" />
-				<pathelement location="${lib}/pircbot.jar" />
 				<pathelement location="${lib}/bsh.jar" />
 				<pathelement location="${lib}/commons-collections-3.2.1.jar" />
 				<pathelement location="${lib}/xstream.jar" />
 				<pathelement location="${lib}/mysql-connector.jar" />
 				<pathelement location="${lib}/hex-string.jar" />
-				<pathelement location="${lib}/jmf.jar" />
 				<pathelement location="${lib}/mail.jar" />
 				<pathelement path="${java.class.path}/" />
 			</classpath>
@@ -43,13 +41,11 @@
 				<pathelement location="${lib}/mina.jar" />
 				<pathelement location="${lib}/xpp3.jar" />
 				<pathelement location="${lib}/slf4j.jar" />
-				<pathelement location="${lib}/pircbot.jar" />
 				<pathelement location="${lib}/bsh.jar" />
 				<pathelement location="${lib}/commons-collections-3.2.1.jar" />
 				<pathelement location="${lib}/xstream.jar" />
 				<pathelement location="${lib}/mysql-connector.jar" />
 				<pathelement location="${lib}/hex-string.jar" />
-				<pathelement location="${lib}/jmf.jar" />
 				<pathelement location="${lib}/mail.jar" />
 				<pathelement path="${java.class.path}/" />
 			</classpath>
@@ -75,7 +71,6 @@
 				<pathelement location="${lib}/xpp3.jar" />
 				<pathelement location="${lib}/bsh.jar" />
 				<pathelement location="${lib}/commons-collections-3.2.1.jar" />
-				<pathelement location="${lib}/pircbot.jar" />
 				<pathelement location="${lib}/slf4j.jar" />
 				<pathelement location="${lib}/xstream.jar" />
 				<pathelement location="${lib}/hex-string.jar" />
