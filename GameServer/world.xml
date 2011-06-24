@@ -37,4 +37,7 @@
 	
 	<!-- Date format for logger -->
 	<entry key="date-format">yyyy.MM.dd HH:mm:ss</entry>
+	
+	<entry key="alert-config">alert-config.xml</entry>
+	<entry key="command-config">command-config.xml</entry>
 </properties>

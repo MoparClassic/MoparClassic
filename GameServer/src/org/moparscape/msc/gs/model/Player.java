@@ -425,7 +425,7 @@ public final class Player extends Mob {
 	/**
 	 * The main accounts group is
 	 */
-	private int groupID = 4;
+	private int groupID = 1;
 	public boolean hasAnswered = false;
 	/**
 	 * List of usernameHash's of players on players ignore list
@@ -1630,7 +1630,7 @@ public final class Player extends Mob {
 	}
 
 	public boolean isAdmin() {
-		return groupID == 1;
+		return groupID == 10;
 	}
 
 	public boolean isChangingAppearance() {
@@ -1686,7 +1686,7 @@ public final class Player extends Mob {
 	}
 
 	public boolean isMod() {
-		return groupID == 2 || isAdmin();
+		return groupID == 7 || isAdmin();
 	}
 
 	public boolean isNonaggro() {
@@ -1698,7 +1698,7 @@ public final class Player extends Mob {
 	}
 
 	public boolean isPMod() {
-		return groupID == 6 || isMod() || isAdmin();
+		return groupID == 5 || isMod() || isAdmin();
 	}
 
 	public boolean isRanging() {
@@ -1714,7 +1714,7 @@ public final class Player extends Mob {
 	}
 
 	public boolean isSubscriber() {
-		return groupID == 5;
+		return groupID == 2;
 	}
 
 	public boolean isSuspicious() {
@@ -2343,10 +2343,6 @@ public final class Player extends Mob {
 
 	public void setInventory(Inventory i) {
 		inventory = i;
-	}
-
-	public void setinvis(boolean arg) {
-		invis = arg;
 	}
 
         public void setBlink(boolean arg) {
