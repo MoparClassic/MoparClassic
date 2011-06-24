@@ -11,13 +11,14 @@ import javax.mail.internet.MimeMessage
 import javax.mail.Message
 import javax.mail.internet.InternetAddress
 import java.util.concurrent.Executors
+import org.moparscape.msc.config.Config
 
 /**
  * This is for out-of-game alerts.
  *
  * @author CodeForFame
  */
-object AlertHandler extends Application {
+object AlertHandler {
 
   private val executor = Executors.newSingleThreadExecutor()
 
@@ -53,7 +54,7 @@ object AlertHandler extends Application {
    * Loads the config file.
    */
   private def load {
-    val config = XML.loadFile("alert-config.xml")
+    val config = XML.loadFile(Config.ALERT_CONFIG)
     val users1 = (config \\ "user")
     val list = new ListBuffer[User];
     for (u <- users1) {

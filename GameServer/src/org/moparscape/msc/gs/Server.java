@@ -33,7 +33,7 @@ public class Server {
 	private static World world = null;
 
 	public static void main(String[] args) throws IOException {
-		String configFile = "world.xml";
+		String configFile = "conf" + File.separator + "world.xml";
 		if (args.length > 0) {
 			File f = new File(args[0]);
 			if (f.exists()) {

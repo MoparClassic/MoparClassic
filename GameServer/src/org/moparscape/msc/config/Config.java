@@ -37,6 +37,8 @@ public class Config {
 	public static String DATE_FORMAT;
 	public static String BLOCK_COMMAND;
 	public static String UNBLOCK_COMMAND;
+	public static String ALERT_CONFIG;
+	public static String COMMAND_CONFIG;
 
 	static {
 		loadEnv();
@@ -92,6 +94,9 @@ public class Config {
 		SAVE_INTERVAL = Integer.parseInt(props.getProperty("save-interval"));
 
 		DATE_FORMAT = props.getProperty("date-format");
+		
+		ALERT_CONFIG = props.getProperty("alert-config");
+	 	COMMAND_CONFIG = props.getProperty("command-config");
 
 		props.clear();
 
@@ -110,7 +115,7 @@ public class Config {
 		if (home == null) { // the env var hasnt been set, fall back to .
 			home = ".";
 		}
-		CONF_DIR = home + File.separator + "conf" + File.separator + "server";
+		CONF_DIR = home + File.separator + "conf";
 		RSCD_HOME = home;
 	}
 }
