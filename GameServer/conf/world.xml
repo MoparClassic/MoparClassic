@@ -38,6 +38,8 @@
 	<!-- Date format for logger -->
 	<entry key="date-format">yyyy.MM.dd HH:mm:ss</entry>
 	
-	<entry key="alert-config">alert-config.xml</entry>
-	<entry key="command-config">command-config.xml</entry>
+	<!-- Location of configuration file for alerts -->
+	<entry key="alert-config">conf/alert-config.xml</entry>
+	<!-- Location of configuration file for commands -->
+	<entry key="command-config">conf/command-config.xml</entry>
 </properties>

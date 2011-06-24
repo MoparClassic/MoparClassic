@@ -257,7 +257,9 @@ class CommandHandler extends PacketHandler {
     }
     if (Instance.getServer().shutdownForUpdate()) {
       Logger.mod(p.getUsername() + " updated the server: " + reason)
-      world.getPlayers().asInstanceOf[List[Player]] foreach { p1 =>
+      val itr = world.getPlayers().iterator
+      while(itr.hasNext) {
+        val p1 = itr.next
         alert(p1, "The server will be shutting down in 60 seconds: " + reason, false)
         p1.getActionSender().startShutdown(60)
       }

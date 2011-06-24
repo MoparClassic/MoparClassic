@@ -31,7 +31,7 @@ public class Captcha {
 	/*
 	 * String that represents the folder to load the fonts from
 	 */
-	public String fontFolder = "." + File.separator + "conf" + File.separator + "server" + File.separator + "fonts" + File.separator;
+	public String fontFolder = "." + File.separator + "conf" + File.separator + "fonts" + File.separator;
 	private final int LETTERS_MAX = 5;
 	private final int LETTERS_MIN = 4;
 	private final int LINES_MAX = 10;
