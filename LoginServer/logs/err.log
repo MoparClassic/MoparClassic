@@ -1,0 +1,16 @@
+16:40:54 25-06-11: 20313 [SocketAcceptorIoProcessor-0.1] INFO org.moparscape.msc.gs.connection.RSCConnectionHandler - [/127.0.0.1:43186] Remote address in the blacklist; closing.
+
+16:40:54 25-06-11: 20315 [SocketAcceptorIoProcessor-0.1] INFO org.moparscape.msc.gs.connection.RSCConnectionHandler - [/127.0.0.1:43186] Remote address in the blacklist; closing.
+
+16:40:57 25-06-11: 23880 [SocketAcceptorIoProcessor-0.2] INFO org.moparscape.msc.gs.connection.RSCConnectionHandler - [/127.0.0.1:43187] Remote address in the blacklist; closing.
+
+16:40:57 25-06-11: 23882 [SocketAcceptorIoProcessor-0.2] INFO org.moparscape.msc.gs.connection.RSCConnectionHandler - [/127.0.0.1:43187] Remote address in the blacklist; closing.
+
+16:40:58 25-06-11: 24714 [SocketAcceptorIoProcessor-0.3] INFO org.moparscape.msc.gs.connection.RSCConnectionHandler - [/127.0.0.1:43188] Remote address in the blacklist; closing.
+
+16:40:58 25-06-11: 24715 [SocketAcceptorIoProcessor-0.3] INFO org.moparscape.msc.gs.connection.RSCConnectionHandler - [/127.0.0.1:43188] Remote address in the blacklist; closing.
+
+16:40:59 25-06-11: 25403 [SocketAcceptorIoProcessor-0.4] INFO org.moparscape.msc.gs.connection.RSCConnectionHandler - [/127.0.0.1:43189] Remote address in the blacklist; closing.
+
+16:40:59 25-06-11: 25405 [SocketAcceptorIoProcessor-0.4] INFO org.moparscape.msc.gs.connection.RSCConnectionHandler - [/127.0.0.1:43189] Remote address in the blacklist; closing.
+

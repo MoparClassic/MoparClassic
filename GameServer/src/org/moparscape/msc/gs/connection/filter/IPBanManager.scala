@@ -41,30 +41,35 @@ object IPBanManager extends Blocker {
     throttle(lookupIP(ip))
   }
 
-  override def block(ip: String) {
+  override def block(ip: String) = {
+    var ret = false
     if (ip != null && ip.length > 0) {
       if (Config.APPLICATION_LEVEL_BLOCKING)
-        ApplicationLevelBlocking.block(ip)
+        ret = ApplicationLevelBlocking.block(ip)
       if (Config.OS_LEVEL_BLOCKING)
-        OSLevelBlocking.block(ip)
+        ret = ret || OSLevelBlocking.block(ip)
     }
-
+    ret
   }
 
   def block(ip: java.util.List[String]) {
     ip foreach { block(_) }
   }
 
-  def block(ip: SocketAddress) {
+  def block(ip: SocketAddress): Boolean = {
     block(lookupIP(ip))
   }
 
-  override def unblock(ip: String) {
-    ApplicationLevelBlocking.unblock(ip)
-    OSLevelBlocking.unblock(ip)
+  override def unblock(ip: String) = {
+    var ret = false
+    if (ip != null && ip.length > 0) {
+      ret = ApplicationLevelBlocking.unblock(ip)
+      ret = ret || OSLevelBlocking.unblock(ip)
+    }
+    ret
   }
 
-  def unblock(ip: SocketAddress) {
+  def unblock(ip: SocketAddress): Boolean = {
     unblock(lookupIP(ip))
   }
 
@@ -79,8 +84,8 @@ object IPBanManager extends Blocker {
 
 trait Blocker {
   def isBlocked(ip: String): Boolean
-  def block(ip: String)
-  def unblock(ip: String)
+  def block(ip: String): Boolean
+  def unblock(ip: String): Boolean
   def throttle(ip: String)
 }
 
@@ -92,17 +97,14 @@ private object ApplicationLevelBlocking extends Blocker {
   private val events = Server.getServer().getEngine().getEventHandler()
 
   override def isBlocked(ip: String) = {
-    if (blocked.contains(ip)) {
-      true
-    }
-    false
+    blocked.contains(ip)
   }
 
-  override def block(ip: String) {
+  override def block(ip: String) = {
     blocked.addIfAbsent(ip)
   }
 
-  override def unblock(ip: String) {
+  override def unblock(ip: String) = {
     blocked.remove(ip)
   }
 
@@ -133,10 +135,7 @@ private object OSLevelBlocking extends Blocker {
   private val events = Server.getServer().getEngine().getEventHandler()
 
   override def isBlocked(ip: String) = {
-    if (blocked.contains(ip)) {
-      true
-    }
-    false
+    blocked.contains(ip)
   }
 
   override def throttle(ip: String) {
@@ -156,23 +155,25 @@ private object OSLevelBlocking extends Blocker {
     }
   }
 
-  override def block(ip: String) {
+  override def block(ip: String) = {
     Runtime.getRuntime.exec(Config.BLOCK_COMMAND.replaceAll("${ip}", ip))
     blocked addIfAbsent ip
   }
 
-  override def unblock(ip: String) {
+  override def unblock(ip: String) = {
     try {
       Runtime.getRuntime.exec(Config.UNBLOCK_COMMAND.replaceAll("${ip}", ip))
       blocked remove ip
       throttled.remove(ip)
       Logger.println("OS - Unblocked " + ip)
+      true
     } catch {
       case e: Exception => {
         Logger.println("OS - Failed to unblock " + ip)
         Logger.error(e)
         if (Config.OS_LEVEL_UNBLOCK_FAILED_ALERT)
           AlertHandler.sendAlert("OS - Failed to unblock " + ip, 2)
+        false
       }
     }
   }

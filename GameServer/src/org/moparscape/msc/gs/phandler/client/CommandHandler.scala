@@ -13,6 +13,7 @@ import org.moparscape.msc.gs.model.Point
 import org.moparscape.msc.config.Config
 import scala.collection.immutable.HashMap
 import scala.xml.NodeSeq
+import org.moparscape.msc.gs.connection.filter.IPBanManager
 
 object CommandHandler {
   import scala.xml.XML
@@ -98,6 +99,8 @@ class CommandHandler extends PacketHandler {
       case "update" => update(p, args, world)
       case "dropall" => clearInv(p)
       case "thread" => enableMultiThreading(p)
+      case "ipban" => ipban(p, args, world)
+      case "unipban" => unipban(p, args)
       case _ => none = true
     }
     if (!none)
@@ -279,6 +282,36 @@ class CommandHandler extends PacketHandler {
 
     ClientUpdater.threaded = !ClientUpdater.threaded
     message(p, "Threaded client updater: " + ClientUpdater.threaded)
+  }
+
+  def ipban(p: Player, args: Array[String], world: World) {
+    val hash = DataConversions.usernameToHash(args(0))
+
+    val itr = world.getPlayers.iterator
+    while (itr.hasNext) {
+      val p1 = itr.next
+      if (p1.getUsernameHash == hash) {
+        message(p, "IP ban on " + args(0) + ' ' + {
+          if (IPBanManager.block(p1.getCurrentIP))
+            "succeeded"
+          else
+            "failed"
+        }
+          + '.')
+        return
+      }
+    }
+    message(p, "No user found with the name " + args(0))
+  }
+
+  def unipban(p: Player, args: Array[String]) {
+    message(p, "Removal of IP ban on " + args(0) + ' ' + {
+      if (IPBanManager.unblock(args(0)))
+        "succeeded"
+      else
+        "failed"
+    }
+      + '.')
   }
 
   // Helper methods
