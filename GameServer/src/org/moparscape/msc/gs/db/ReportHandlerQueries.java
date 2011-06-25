@@ -29,7 +29,7 @@ public class ReportHandlerQueries {
 			insertNewReportRow = db
 					.getConnection()
 					.prepareStatement(
-							"INSERT INTO `msc2_reports` (`from`, `about`, `time`, `reason`, `snapshot_from`,`snapshot_about`,`chatlogs`, `from_x`, `from_y`, `about_x`, `about_y`) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+							"INSERT INTO `pk_reports` (`from`, `about`, `time`, `reason`, `snapshot_from`,`snapshot_about`,`chatlogs`, `from_x`, `from_y`, `about_x`, `about_y`) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
 			insertNewDupeDataRow = db
 					.getConnection()
 					.prepareStatement(

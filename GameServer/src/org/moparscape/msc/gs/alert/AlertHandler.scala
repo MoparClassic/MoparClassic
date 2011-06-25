@@ -140,7 +140,7 @@ private trait ServiceTrait {
 private object EMail extends ServiceTrait {
   override def send(msg: String, recip: String) = {
     val props = new Properties()
-    val config = XML.loadFile("alert-config.xml") \\ "credentials"
+    val config = XML.loadFile(Config.ALERT_CONFIG) \\ "credentials"
     val sender = config \ "user" text
     val pass = config \ "pass" text
     val host = config \ "host" text
