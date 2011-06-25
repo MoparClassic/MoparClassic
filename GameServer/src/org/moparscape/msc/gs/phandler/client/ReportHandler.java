@@ -38,16 +38,16 @@ public class ReportHandler implements PacketHandler {
 				return;
 			}
 			AlertHandler.sendAlert(
-					player.getUsername() + " sent a repot about: "
+					player.getUsername() + " sent a report about: "
 							+ DataConversions.hashToUsername(temp), 1);
 			// Instance.getServer().getLoginConnector().getActionSender().reportUser(player.getUsernameHash(),
 			// temp, b);
-			Instance.getReport().submitRepot(player.getUsernameHash(), temp, b,
+			Instance.getReport().submitReport(player.getUsernameHash(), temp, b,
 					player);
 			player.setLastReport();
 			world.addEntryToSnapshots(new Activity(player.getUsername(), player
 					.getUsername()
-					+ " sent a repot about: "
+					+ " sent a report about: "
 					+ DataConversions.hashToUsername(temp)));
 			player.getActionSender().sendMessage(
 					"Your report has been received, thank you.");

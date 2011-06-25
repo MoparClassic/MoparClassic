@@ -53,7 +53,7 @@ public class ReportHandlerQueries {
 	 * @param reason
 	 *            What type of a report is this
 	 */
-	public synchronized void submitRepot(long from, long about, byte reason,
+	public synchronized void submitReport(long from, long about, byte reason,
 			Player from2) {
 
 		long time = GameEngine.getTime() / 1000;
