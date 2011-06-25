@@ -1,7 +1,11 @@
-import org.rscdaemon.server.quest.*;
-import org.rscdaemon.server.model.*;
-import org.rscdaemon.server.event.*;
-import org.rscdaemon.server.entityhandling.EntityHandler;
+import org.moparscape.msc.gs.event.SingleEvent;
+import org.moparscape.msc.gs.external.EntityHandler;
+import org.moparscape.msc.gs.model.InvItem;
+import org.moparscape.msc.gs.model.MenuHandler;
+import org.moparscape.msc.gs.model.Npc;
+import org.moparscape.msc.gs.model.Player;
+import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.quest.QuestAction;
 
 /**
  * Quest: Imp Catcher (v1.0) 5/1/2009
@@ -57,7 +61,7 @@ public class ImpCatcher extends Quest
 	{
 		int stage = player.getQuestStage(this);
 		
-		if(action == action.TALKED_NPC)
+		if(action == QuestAction.TALKED_NPC)
 		{
 			if(!(args[0] instanceof Npc))
 				return;

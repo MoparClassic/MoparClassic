@@ -1,9 +1,14 @@
-import org.rscdaemon.server.quest.*;
-import org.rscdaemon.server.model.*;
-import org.rscdaemon.server.event.*;
-import org.rscdaemon.server.entityhandling.EntityHandler;
-import org.rscdaemon.server.entityhandling.defs.extras.ItemDropDef;
-import org.rscdaemon.server.util.DataConversions;
+import org.moparscape.msc.gs.external.EntityHandler;
+import org.moparscape.msc.gs.external.ItemDropDef;
+import org.moparscape.msc.gs.model.ActiveTile;
+import org.moparscape.msc.gs.model.InvItem;
+import org.moparscape.msc.gs.model.Item;
+import org.moparscape.msc.gs.model.Npc;
+import org.moparscape.msc.gs.model.Player;
+import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.quest.QuestAction;
+import org.moparscape.msc.gs.tools.DataConversions;
 
 /**
  * Quest: Christmas! (v1.0) 8/1/2009
@@ -36,7 +41,6 @@ public class Christmas extends Quest
 	private static final int TOY4_ID = 1320;
 	private static final int GIFT_ID = 1321;
 	private static final int DEFAULT_DELAY = 3200;
-	private static final int QUEST_POINTS = 0;
 	private World world = World.getWorld();
 	private static final ItemDropDef[] BOX_ITEMS = new ItemDropDef[]
 	{
@@ -184,7 +188,7 @@ public class Christmas extends Quest
 	{
 		int stage = player.getQuestStage(this);
 		
-		if(action == action.USED_ITEM)
+		if(action == QuestAction.USED_ITEM)
 		{
 			if(!(args[0] instanceof InvItem))
 				return;
@@ -193,7 +197,7 @@ public class Christmas extends Quest
 			
 			handleUseItem(item, player);
 		} else
-		if(action == action.TALKED_NPC)
+		if(action == QuestAction.TALKED_NPC)
 		{
 			if(!(args[0] instanceof Npc))
 				return;
@@ -226,7 +230,7 @@ public class Christmas extends Quest
 				handleWizardTalk(player, npc);
 			}
 		} else
-		if(action == action.KILLED_NPC)
+		if(action == QuestAction.KILLED_NPC)
 		{
 			if(!(args[0] instanceof Npc))
 				return;

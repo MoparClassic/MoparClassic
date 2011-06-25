@@ -1,6 +1,9 @@
-import org.rscdaemon.server.quest.*;
-import org.rscdaemon.server.model.*;
-import org.rscdaemon.server.event.*;
+import org.moparscape.msc.gs.event.SingleEvent;
+import org.moparscape.msc.gs.model.MenuHandler;
+import org.moparscape.msc.gs.model.Npc;
+import org.moparscape.msc.gs.model.Player;
+import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.quest.QuestAction;
 
 /**
  * Quest: Cook's Assistant (v1.0)
@@ -47,7 +50,7 @@ public class CooksAssistant extends Quest
 		
 		if(stage == -1) // Quest hasn't been started
 		{
-			if(action == action.TALKED_NPC)
+			if(action == QuestAction.TALKED_NPC)
 			{
 				if(!(args[0] instanceof Npc))
 					return;
@@ -172,7 +175,7 @@ public class CooksAssistant extends Quest
 		} else
 		if(stage == 1)
 		{
-			if(action == action.TALKED_NPC)
+			if(action == QuestAction.TALKED_NPC)
 			{
 				if(!(args[0] instanceof Npc))
 					return;
@@ -249,7 +252,7 @@ public class CooksAssistant extends Quest
 			}
 		} else
 		if (stage == 0) {
-                        if(action == action.TALKED_NPC)
+                        if(action == QuestAction.TALKED_NPC)
                         {
                                 if(!(args[0] instanceof Npc))
                                         return;

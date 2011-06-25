@@ -1,7 +1,9 @@
-import org.rscdaemon.server.quest.*;
-import org.rscdaemon.server.model.*;
-import org.rscdaemon.server.event.*;
-import org.rscdaemon.server.entityhandling.EntityHandler;
+import org.moparscape.msc.gs.event.SingleEvent;
+import org.moparscape.msc.gs.model.MenuHandler;
+import org.moparscape.msc.gs.model.Npc;
+import org.moparscape.msc.gs.model.Player;
+import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.quest.QuestAction;
 
 /**
  * Quest: Vampire Slayer (v1.0) 6/1/2009
@@ -17,9 +19,9 @@ public class VampireSlayer extends Quest
 {
 	private static final int MORGAN_ID = 97;
 	private static final int HARLOW_ID = 98;
-	private static final int REWARD_XP = 1000;
+	//private static final int REWARD_XP = 1000;
 	private static final int DEFAULT_EVENT_DELAY = 3200;
-	private static final int QUEST_POINTS = 3;
+	//private static final int QUEST_POINTS = 3;
 	private static final String[] FIRST_MENU = new String[] { "No. Vampires are scary", "Ok I'm up for an adventure", "I tried fighting him. He wouldn't die" };
 	private static final String[] SECOND_MENU = new String[] { "No, you've had enough", "Ok mate", "Morgan needs your help" };
 	
@@ -63,7 +65,7 @@ public class VampireSlayer extends Quest
 	{
 		int stage = player.getQuestStage(this);
 		
-		if(action == action.TALKED_NPC)
+		if(action == QuestAction.TALKED_NPC)
 		{
 			if(!(args[0] instanceof Npc))
 				return;
@@ -303,13 +305,6 @@ public class VampireSlayer extends Quest
 			}
 		});
 		player.getActionSender().sendMenu(SECOND_MENU);
-	}
-	
-	/**
-	 * Finishes the quest
-	 */
-	private void finishQuest(final Player player, final Npc npc)
-	{
 	}
 	
 	/**
