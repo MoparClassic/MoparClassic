@@ -111,9 +111,6 @@ public final class Player extends Mob {
 	public Interpreter interpreter = new Interpreter();
 	public int click = -1;
 	public int tempx = -1;
-	public boolean hasAdminPriv = false;
-	public boolean hasModPriv = false;
-	public boolean hasPmodPriv = false;
 	public long lastCommandUsed = GameEngine.getTime();
 	/**
 	 * Has the first major update for this player been sent? If not, we can't
@@ -3306,12 +3303,5 @@ public final class Player extends Mob {
 	@Override
 	public String toString() {
 		return "[Player:" + username + "]";
-	}
-	private int smithingbar = -1;
-	public void setSmithingBar(int id) {
-		this.smithingbar = id;
-		}
-	public int getSmithingBar() {
-		return smithingbar;
 	}
 }
