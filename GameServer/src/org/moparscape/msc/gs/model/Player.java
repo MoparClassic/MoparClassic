@@ -579,9 +579,8 @@ public final class Player extends Mob {
 	}
 
 	public void addMessageToChatQueue(byte[] messageData) {
-		chatQueue.add(new ChatMessage(this, messageData));
-		if (chatQueue.size() > 2) {
-			destroy(false);
+		if (chatQueue.size() <= 2) {
+			chatQueue.add(new ChatMessage(this, messageData));
 		}
 	}
 
