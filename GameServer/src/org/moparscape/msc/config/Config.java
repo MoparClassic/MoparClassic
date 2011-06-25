@@ -94,9 +94,9 @@ public class Config {
 		SAVE_INTERVAL = Integer.parseInt(props.getProperty("save-interval"));
 
 		DATE_FORMAT = props.getProperty("date-format");
-		
+
 		ALERT_CONFIG = props.getProperty("alert-config");
-	 	COMMAND_CONFIG = props.getProperty("command-config");
+		COMMAND_CONFIG = props.getProperty("command-config");
 
 		props.clear();
 

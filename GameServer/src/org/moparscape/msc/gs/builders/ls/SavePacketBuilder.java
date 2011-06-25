@@ -16,16 +16,14 @@ public class SavePacketBuilder {
 	private Player player;
 
 	public LSPacket getPacket() {
-		
+
 		LSPacketBuilder packet = new LSPacketBuilder();
 		packet.setID(20);
 		packet.addLong(player.getUsernameHash());
 		packet.addInt(player.getOwner());
 
-		packet
-				.addLong(player.getLastLogin() == 0L
-						&& player.isChangingAppearance() ? 0 : player
-						.getCurrentLogin());
+		packet.addLong(player.getLastLogin() == 0L
+				&& player.isChangingAppearance() ? 0 : player.getCurrentLogin());
 		packet.addLong(DataConversions.IPToLong(player.getCurrentIP()));
 		packet.addShort(player.getCombatLevel());
 		packet.addShort(player.getSkillTotal());
@@ -66,6 +64,7 @@ public class SavePacketBuilder {
 		}
 
 		packet.addShort(player.getQuestPoints());
+		@SuppressWarnings("unchecked")
 		java.util.HashMap<Integer, Integer> questStage = (java.util.HashMap<Integer, Integer>) player
 				.getQuestStages().clone();
 
@@ -76,7 +75,7 @@ public class SavePacketBuilder {
 			packet.addShort(i);
 			packet.addShort(questStage.get(i));
 		}
-                packet.addLong(player.getEventCD());
+		packet.addLong(player.getEventCD());
 		return packet.toPacket();
 	}
 

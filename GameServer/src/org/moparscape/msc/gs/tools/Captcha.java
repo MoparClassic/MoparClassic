@@ -5,18 +5,16 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
 import javax.imageio.ImageIO;
 
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.util.Logger;
-
 
 public class Captcha {
 	/*
@@ -31,7 +29,8 @@ public class Captcha {
 	/*
 	 * String that represents the folder to load the fonts from
 	 */
-	public String fontFolder = "." + File.separator + "conf" + File.separator + "fonts" + File.separator;
+	public String fontFolder = "." + File.separator + "conf" + File.separator
+			+ "fonts" + File.separator;
 	private final int LETTERS_MAX = 5;
 	private final int LETTERS_MIN = 4;
 	private final int LINES_MAX = 10;
@@ -54,14 +53,13 @@ public class Captcha {
 	public boolean verboseLoad = false;
 
 	public byte[] generateCaptcha(Player p) {
-		BufferedImage image = new BufferedImage(307, 49, BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new BufferedImage(307, 49,
+				BufferedImage.TYPE_INT_RGB);
 		Graphics2D gfx = image.createGraphics();
 		String captcha = "";
 
 		gfx.setColor(Color.white);
 		gfx.fillRect(0, 0, 308, 52);
-
-
 
 		int howManyLetters = random(LETTERS_MIN, LETTERS_MAX);
 		for (int i = 1; i <= howManyLetters; i++) {
@@ -74,17 +72,18 @@ public class Captcha {
 			gfx.setFont(loadedFonts[random(0, loadedFonts.length - 1)]);
 			double shear = (rand.nextDouble()) - 0.5;
 			gfx.shear(shear, 0);
-			gfx.drawString(String.valueOf(temp), i * random(40, 45), random(30, 40));
+			gfx.drawString(String.valueOf(temp), i * random(40, 45),
+					random(30, 40));
 			gfx.shear(-shear, 0);
 		}
-
 
 		int howManySquares = random(SQUARES_MIN, SQUARES_MAX);
 		for (int i = 0; i < howManySquares; i++) // Draw the squares, math by
 		// xEnt.
 		{
 			gfx.setColor(colors.get(random(0, colors.size() - 1)));
-			gfx.drawRect((int) random(0, image.getWidth() - 80), (int) random(0, image.getHeight()), 3, 3);
+			gfx.drawRect((int) random(0, image.getWidth() - 80),
+					(int) random(0, image.getHeight()), 3, 3);
 		}
 
 		int howManyLines = random(LINES_MIN, LINES_MAX);
@@ -111,8 +110,9 @@ public class Captcha {
 		try {
 			ImageIO.write(image, "PNG", baos);
 			returnVal = baos.toByteArray();
-			//DataOutputStream out = new DataOutputStream(new FileOutputStream("newcaptchas/" + captcha + ".png"));
-			//out.write(returnVal);
+			// DataOutputStream out = new DataOutputStream(new
+			// FileOutputStream("newcaptchas/" + captcha + ".png"));
+			// out.write(returnVal);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -155,11 +155,14 @@ public class Captcha {
 		loadedFonts = new Font[fonts.length];
 		for (int i = 0; i < fonts.length; i++) {
 			try {
-				FileInputStream fontStream = new FileInputStream(fontFolder + fonts[i]);
-				Font temp = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontStream);
+				FileInputStream fontStream = new FileInputStream(fontFolder
+						+ fonts[i]);
+				Font temp = java.awt.Font.createFont(
+						java.awt.Font.TRUETYPE_FONT, fontStream);
 				loadedFonts[i] = temp.deriveFont(Float.valueOf(random(35, 40)));
 				if (verboseLoad) {
-					Logger.println("Loaded font: " + loadedFonts[i].getFontName());
+					Logger.println("Loaded font: "
+							+ loadedFonts[i].getFontName());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

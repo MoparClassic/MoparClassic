@@ -52,21 +52,23 @@ object CommandHandler {
 
 class CommandHandler extends PacketHandler {
 
+  import org.moparscape.msc.gs.phandler.client.{ CommandHandler => CH }
+
   @throws(classOf[Exception])
   def handleCommand(cmd: String, args: Array[String], p: Player) {
 
     val ls = Instance.getServer().getLoginConnector().getActionSender()
     val world = Instance.getWorld
 
-    if (GameEngine.getTime() - p.lastCommandUsed < CommandHandler.COMMAND_DELAY) {
-      if (GameEngine.getTime() - p.lastCommandUsed < CommandHandler.COMMAND_DELAY_MESSAGE_DELAY) { // incase spammers
+    if (GameEngine.getTime - p.getLastCommandUsed < CH.COMMAND_DELAY) {
+      if (GameEngine.getTime - p.getLastCommandUsed < CH.COMMAND_DELAY_MESSAGE_DELAY) { // incase spammers
         return ;
       }
       p.getActionSender().sendMessage("2 second delay on using a new command")
       return ;
     }
 
-    val pm = CommandHandler.permissions.get(cmd)
+    val pm = CH.permissions.get(cmd)
 
     pm match {
       case Some(x) => if (p.getGroupID < x) return
@@ -99,7 +101,7 @@ class CommandHandler extends PacketHandler {
       case _ => none = true
     }
     if (!none)
-      p.lastCommandUsed = GameEngine.getTime
+      p.setLastCommandUsed(GameEngine.getTime)
   }
 
   def help(p: Player) {
@@ -136,21 +138,21 @@ class CommandHandler extends PacketHandler {
   }
 
   def stuck(p: Player) {
-    if (GameEngine.getTime() - p.getCurrentLogin() < CommandHandler.STUCK_LOGIN_WAIT_PERIOD) {
+    if (GameEngine.getTime() - p.getCurrentLogin() < CH.STUCK_LOGIN_WAIT_PERIOD) {
       p.getActionSender().sendMessage("You cannot do this after you have recently logged in")
       return ;
     }
     if (p.getLocation().inModRoom() && !p.isMod()) {
       message(p, "You cannot use ::stuck here")
-    } else if (!p.isMod() && GameEngine.getTime() - p.getLastMoved() < CommandHandler.STUCK_STAND_STILL_TIME && GameEngine.getTime() - p.getCastTimer() < 300000) {
-      message(p, "There is a 5 minute delay on using ::stuck, please stand still for " + (CommandHandler.STUCK_STAND_STILL_TIME / 1000 / 60) + " minutes.")
+    } else if (!p.isMod() && GameEngine.getTime() - p.getLastMoved() < CH.STUCK_STAND_STILL_TIME && GameEngine.getTime() - p.getCastTimer() < 300000) {
+      message(p, "There is a 5 minute delay on using ::stuck, please stand still for " + (CH.STUCK_STAND_STILL_TIME / 1000 / 60) + " minutes.")
       message(p, "This command is logged ONLY use it when you are REALLY stuck.")
-    } else if (!p.inCombat() && GameEngine.getTime() - p.getCombatTimer() > CommandHandler.STUCK_STAND_STILL_TIME || p.isMod()) {
+    } else if (!p.inCombat() && GameEngine.getTime() - p.getCombatTimer() > CH.STUCK_STAND_STILL_TIME || p.isMod()) {
       Logger.mod(p.getUsername() + " used stuck at " + p.getX() + ":" + p.getY())
       p.setCastTimer()
-      p.teleport(CommandHandler.STUCK_X, CommandHandler.STUCK_Y, true)
+      p.teleport(CH.STUCK_X, CH.STUCK_Y, true)
     } else {
-      message(p, "You cannot use ::stuck for " + (CommandHandler.STUCK_STAND_STILL_TIME / 1000 / 60) + " minutes after combat")
+      message(p, "You cannot use ::stuck for " + (CH.STUCK_STAND_STILL_TIME / 1000 / 60) + " minutes after combat")
     }
   }
 
@@ -168,7 +170,7 @@ class CommandHandler extends PacketHandler {
       message(p, args(0) + " is offline?")
       return ;
     }
-    p.lastPlayerInfo2 = p.getUsername()
+    p.setLastPlayerInfo2(p.getUsername())
     p1.getActionSender().sendInfo2()
     message(p, "Requesting info.. please wait")
   }
@@ -177,8 +179,8 @@ class CommandHandler extends PacketHandler {
     if (args(0) != null) {
       val p = world.getPlayer(DataConversions.usernameToHash(args(0)))
       var line = "@red@DONT SHOW THIS TO PUBLIC! @gre@Last 75 (Casting) Intervals for @yel@ " + p.getUsername() + ": @whi@"
-      for (i <- 0 to p.intervals.size()) {
-        line += " - " + p.intervals.get(i)
+      for (i <- 0 to p.getIntervals.size()) {
+        line += " - " + p.getIntervals.get(i)
       }
       alert(p, line)
     }
@@ -187,9 +189,9 @@ class CommandHandler extends PacketHandler {
   def town(p: Player, args: Array[String]) {
     val town = args(0);
     if (town != null) {
-      for (i <- 0 to CommandHandler.towns.length)
-        if (town.equalsIgnoreCase(CommandHandler.towns(i))) {
-          p.teleport(CommandHandler.townLocations(i).getX(), CommandHandler.townLocations(i).getY(), false)
+      for (i <- 0 to CH.towns.length)
+        if (town.equalsIgnoreCase(CH.towns(i))) {
+          p.teleport(CH.townLocations(i).getX(), CH.townLocations(i).getY(), false)
         }
     }
   }

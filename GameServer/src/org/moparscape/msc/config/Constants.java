@@ -1,7 +1,5 @@
 package org.moparscape.msc.config;
 
-import org.moparscape.msc.gs.Instance;
-
 /**
  * Holds all important, commonly tweaked variables.
  * 

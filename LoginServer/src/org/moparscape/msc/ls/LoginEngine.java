@@ -65,7 +65,7 @@ public class LoginEngine extends Thread {
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
-				Class c = Class.forName(className);
+				Class<?> c = Class.forName(className);
 				if (c != null) {
 					PacketHandler handler = (PacketHandler) c.newInstance();
 					for (int packetID : handlerDef.getAssociatedPackets()) {
@@ -81,7 +81,7 @@ public class LoginEngine extends Thread {
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
-				Class c = Class.forName(className);
+				Class<?> c = Class.forName(className);
 				if (c != null) {
 					PacketHandler handler = (PacketHandler) c.newInstance();
 					for (int packetID : handlerDef.getAssociatedPackets()) {

@@ -13,12 +13,13 @@ import org.apache.commons.collections.map.LRUMap;
 public class Cache<K, V> {
 
 	private final Map<K, V> cache;
-	
+
 	public Cache() {
 		this(100);
 	}
 
-	@SuppressWarnings("unchecked")  // Commons and their failure to support generics...
+	@SuppressWarnings("unchecked")
+	// Commons and their failure to support generics...
 	public Cache(int maxSize) {
 		cache = new LRUMap(maxSize);
 	}

@@ -27,7 +27,6 @@ import org.moparscape.msc.gs.util.EntityList;
 import org.moparscape.msc.gs.util.Logger;
 import org.moparscape.msc.gs.util.PersistenceManager;
 
-
 public final class World {
 
 	/**
@@ -45,18 +44,21 @@ public final class World {
 	public synchronized Deque<Snapshot> getSnapshots() {
 		return snapshots;
 	}
+
 	/**
 	 * Add entry to snapshots
 	 */
 	public synchronized void addEntryToSnapshots(Snapshot snapshot) {
 		snapshots.offerFirst(snapshot);
 	}
+
 	public void loadScripts() {
 		int npccount = 0;
 		int error = 0;
 		for (File files : new File("scripts/").listFiles()) {
 			try {
-				int id = Integer.parseInt(files.getName().substring(0, 3).trim());
+				int id = Integer.parseInt(files.getName().substring(0, 3)
+						.trim());
 				npcScripts.put(id, files.getAbsolutePath());
 			} catch (Exception e) {
 				error++;
@@ -65,15 +67,16 @@ public final class World {
 				npccount++;
 			}
 		}
-		Logger.println(npccount + " NPC Scripts loaded! " + (error > 1 ? ((error - 1) + " Error scripts") : ""));
+		Logger.println(npccount + " NPC Scripts loaded! "
+				+ (error > 1 ? ((error - 1) + " Error scripts") : ""));
 	}
-
 
 	public void sendWorldMessage(String msg) {
 		for (Player p : getPlayers()) {
 			p.getActionSender().sendMessage(msg);
 		}
 	}
+
 	public void sendWorldAnnouncement(String msg) {
 		for (Player p : getPlayers()) {
 			p.getActionSender().sendMessage("%" + msg);
@@ -85,19 +88,21 @@ public final class World {
 	}
 
 	/* Places */
-	protected Point[][] places = { { new Point(252,349), new Point(260,356) } };
+	protected Point[][] places = { { new Point(252, 349), new Point(260, 356) } };
 
 	/* Can attack in these places? */
 	public boolean[] wildAttackable = { false }; // 0 = No
 
 	public final Point[][] getPlaces() {
-			return places;
+		return places;
 	}
+
 	public final boolean wildAttackable(int i) {
-			return wildAttackable[i];
+		return wildAttackable[i];
 	}
+
 	/* End of Places */
-	
+
 	/**
 	 * Allow Dueling?
 	 */
@@ -130,12 +135,13 @@ public final class World {
 	public static boolean isMembers() {
 		return Config.members;
 	}
+
 	public WorldLoader wl;
 	/**
 	 * Database connection
 	 */
 	private static DBConnection db;
-	
+
 	public DBConnection getDB() {
 		return db;
 	}
@@ -143,11 +149,12 @@ public final class World {
 	public boolean dbKeepAlive() {
 		return db.isConnected();
 	}
-	
+
 	public static void initilizeDB() {
 		db = new DBConnection();
 		db.initilizePreparedStatements(db);
 	}
+
 	/**
 	 * returns the only instance of this world, if there is not already one,
 	 * makes it and loads everything
@@ -171,6 +178,7 @@ public final class World {
 		}
 		return worldInstance;
 	}
+
 	/**
 	 * The client updater instance
 	 */
@@ -253,7 +261,8 @@ public final class World {
 	/**
 	 * Adds a DelayedEvent that will spawn a GameObject
 	 */
-	public void delayedSpawnObject(final GameObjectLoc loc, final int respawnTime) {
+	public void delayedSpawnObject(final GameObjectLoc loc,
+			final int respawnTime) {
 		delayedEventHandler.add(new SingleEvent(null, respawnTime) {
 
 			public void action() {
@@ -300,7 +309,8 @@ public final class World {
 	 */
 	public Npc getNpc(int id, int minX, int maxX, int minY, int maxY) {
 		for (Npc npc : npcs) {
-			if (npc.getID() == id && npc.getX() >= minX && npc.getX() <= maxX && npc.getY() >= minY && npc.getY() <= maxY) {
+			if (npc.getID() == id && npc.getX() >= minX && npc.getX() <= maxX
+					&& npc.getY() >= minY && npc.getY() <= maxY) {
 				return npc;
 			}
 		}
@@ -310,12 +320,12 @@ public final class World {
 	/**
 	 * Gets an npc by their coords and id]
 	 */
-	public Npc getNpc(int id, int minX, int maxX, int minY, int maxY, boolean notNull) {
+	public Npc getNpc(int id, int minX, int maxX, int minY, int maxY,
+			boolean notNull) {
 		for (Npc npc : npcs) {
-			if (npc.getID() == id && npc.getX() >= minX && npc.getX() <= maxX && npc.getY() >= minY && npc.getY() <= maxY) {
-				if (npc == null) {
-					continue;
-				} else if (!npc.inCombat()) {
+			if (npc.getID() == id && npc.getX() >= minX && npc.getX() <= maxX
+					&& npc.getY() >= minY && npc.getY() <= maxY) {
+				if (!npc.inCombat()) {
 					return npc;
 				}
 			}
@@ -461,11 +471,12 @@ public final class World {
 	 */
 	private void loadNpcHandlers() {
 
-		NpcHandlerDef[] handlerDefs = (NpcHandlerDef[]) PersistenceManager.load("NpcHandlers.xml");
+		NpcHandlerDef[] handlerDefs = (NpcHandlerDef[]) PersistenceManager
+				.load("NpcHandlers.xml");
 		for (NpcHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
-				Class c = Class.forName(className);
+				Class<?> c = Class.forName(className);
 				if (c != null) {
 					NpcHandler handler = (NpcHandler) c.newInstance();
 					for (int npcID : handlerDef.getAssociatedNpcs()) {
@@ -513,6 +524,7 @@ public final class World {
 			break;
 		}
 	}
+
 	/**
 	 * Registers an item to be removed after 3 minutes
 	 */
@@ -520,7 +532,7 @@ public final class World {
 		try {
 			if (i.getLoc() == null) {
 				delayedEventHandler.add(new DelayedEvent(null, 180000) {
-	
+
 					public void run() {
 						ActiveTile tile = getTile(i.getLocation());
 						if (tile.hasItem(i)) {
@@ -530,8 +542,7 @@ public final class World {
 					}
 				});
 			}
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			i.remove();
 			e.printStackTrace();
 		}
@@ -542,8 +553,12 @@ public final class World {
 	 */
 	public void registerNpc(Npc n) {
 		NPCLoc npc = n.getLoc();
-		if (npc.startX < npc.minX || npc.startX > npc.maxX || npc.startY < npc.minY || npc.startY > npc.maxY || (getTileValue(npc.startX, npc.startY).mapValue & 64) != 0) {
-			Logger.println("Fucked Npc: <id>" + npc.id + "</id><startX>" + npc.startX + "</startX><startY>" + npc.startY + "</startY>");
+		if (npc.startX < npc.minX || npc.startX > npc.maxX
+				|| npc.startY < npc.minY || npc.startY > npc.maxY
+				|| (getTileValue(npc.startX, npc.startY).mapValue & 64) != 0) {
+			Logger.println("Fucked Npc: <id>" + npc.id + "</id><startX>"
+					+ npc.startX + "</startX><startY>" + npc.startY
+					+ "</startY>");
 		}
 		npcs.add(n);
 	}
@@ -552,7 +567,8 @@ public final class World {
 	 * Updates the map to include a new object
 	 */
 	public void registerObject(GameObject o) {
-		if (o.getGameObjectDef().getType() != 1 && o.getGameObjectDef().getType() != 2) {
+		if (o.getGameObjectDef().getType() != 1
+				&& o.getGameObjectDef().getType() != 2) {
 			return;
 		}
 		int dir = o.getDirection();
@@ -583,7 +599,7 @@ public final class World {
 				}
 			}
 		}
-		
+
 	}
 
 	/**
@@ -592,7 +608,8 @@ public final class World {
 	 */
 	public void registerPlayer(Player p) {
 		if (players.contains(p)) {
-			Logger.println("IMPORTANT. Players array already contains player:  " + p.getUsername() + ". I don't think this should happen ;c");
+			Logger.println("IMPORTANT. Players array already contains player:  "
+					+ p.getUsername() + ". I don't think this should happen ;c");
 		}
 		p.setInitialized();
 		players.add(p);
@@ -613,14 +630,17 @@ public final class World {
 
 	public void sendBroadcastMessage(String user, String message) {
 		for (Player p : getPlayers()) {
-			p.getActionSender().sendMessage("%#adm#" + user + ": @gre@" + message);
+			p.getActionSender().sendMessage(
+					"%#adm#" + user + ": @gre@" + message);
 		}
 	}
 
-	public void sendBroadcastMessage(String user, String message, boolean modonly) {
+	public void sendBroadcastMessage(String user, String message,
+			boolean modonly) {
 		for (Player p : getPlayers()) {
 			if (p.isPMod()) {
-				p.getActionSender().sendMessage("%#adm#" + user + ": @gre@" + message);
+				p.getActionSender().sendMessage(
+						"%#adm#" + user + ": @gre@" + message);
 			}
 		}
 	}
@@ -733,7 +753,8 @@ public final class World {
 	 * Removes an object from the map
 	 */
 	public void unregisterObject(GameObject o) {
-		if (o.getGameObjectDef().getType() != 1 && o.getGameObjectDef().getType() != 2) {
+		if (o.getGameObjectDef().getType() != 1
+				&& o.getGameObjectDef().getType() != 2) {
 			return;
 		}
 		int dir = o.getDirection();
@@ -778,7 +799,8 @@ public final class World {
 			p.resetCombat(CombatState.ERROR);
 			opponent.resetCombat(CombatState.ERROR);
 		}
-		server.getLoginConnector().getActionSender().playerLogout(p.getUsernameHash());
+		server.getLoginConnector().getActionSender()
+				.playerLogout(p.getUsernameHash());
 		delayedEventHandler.removePlayersEvents(p);
 		players.remove(p);
 		setLocation(p, p.getLocation(), null);

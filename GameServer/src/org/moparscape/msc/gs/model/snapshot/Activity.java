@@ -1,11 +1,11 @@
 package org.moparscape.msc.gs.model.snapshot;
 
-import org.moparscape.msc.gs.model.Player;
-
 /**
- * Activity log class, stores activity string, time of activity and activity owner
+ * Activity log class, stores activity string, time of activity and activity
+ * owner
+ * 
  * @author Pets
- *
+ * 
  */
 public class Activity extends Snapshot {
 
@@ -16,8 +16,11 @@ public class Activity extends Snapshot {
 
 	/**
 	 * Constructor
-	 * @param player player that performed the activity
-	 * @param activity the activity that was performed
+	 * 
+	 * @param player
+	 *            player that performed the activity
+	 * @param activity
+	 *            the activity that was performed
 	 */
 	public Activity(String sender, String activity) {
 		super(sender);

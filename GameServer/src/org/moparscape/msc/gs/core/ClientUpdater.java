@@ -23,7 +23,6 @@ import org.moparscape.msc.gs.util.Logger;
 import org.moparscape.msc.gs.util.Processor;
 import org.moparscape.msc.gs.util.WorkGroup;
 
-
 public final class ClientUpdater implements Processor {
 
 	public static int pktcount = 0;
@@ -39,11 +38,12 @@ public final class ClientUpdater implements Processor {
 
 	private EntityList<Player> players = world.getPlayers();
 	private WorkGroup<Player> clientInformerGroup = null;
-	
+
 	public ClientUpdater() {
 		world.setClientUpdater(this);
 		this.clientInformerGroup = new WorkGroup<Player>(this);
 	}
+
 	/**
 	 * Sends queued packets to each player
 	 */
@@ -64,6 +64,7 @@ public final class ClientUpdater implements Processor {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Update player/npc appearances, game objects, items, wall objects, ping
 	 */
@@ -92,13 +93,14 @@ public final class ClientUpdater implements Processor {
 
 		for (Npc n : npcs) {
 			n.setAppearnceChanged(false);
-			
+
 		}
 
 	}
 
 	public static boolean threaded = false;
 	public volatile boolean updatingCollections;
+
 	public void doMajor() {
 		Long delay;
 		Long now = System.currentTimeMillis();
@@ -106,66 +108,74 @@ public final class ClientUpdater implements Processor {
 		updateNpcPositions();
 
 		delay = System.currentTimeMillis() - now;
-		if(delay > 299) Logger.println("updateNpcPositions() is taking longer than it should, exactly " + delay + "ms");
+		if (delay > 299)
+			Logger.println("updateNpcPositions() is taking longer than it should, exactly "
+					+ delay + "ms");
 
 		now = System.currentTimeMillis();
 
 		updatePlayersPositions();
 
 		delay = System.currentTimeMillis() - now;
-		if(delay > 299) Logger.println("updatePlayersPositions() is taking longer than it should, exactly " + delay + "ms");
+		if (delay > 299)
+			Logger.println("updatePlayersPositions() is taking longer than it should, exactly "
+					+ delay + "ms");
 
 		now = System.currentTimeMillis();
 
 		updateMessageQueues();
 
 		delay = System.currentTimeMillis() - now;
-		if(delay > 299) Logger.println("updateMessageQueues() is taking longer than it should, exactly " + delay + "ms");
+		if (delay > 299)
+			Logger.println("updateMessageQueues() is taking longer than it should, exactly "
+					+ delay + "ms");
 
 		now = System.currentTimeMillis();
 
 		updateOffers();
 
-		if(threaded) {
+		if (threaded) {
 			try {
 				clientInformerGroup.processWorkload(players);
-			} catch(InterruptedException ie) {
+			} catch (InterruptedException ie) {
 				ie.printStackTrace();
 			}
-		}
-		else {
+		} else {
 			for (Player p : players) {
-				//Logging.debug("Process for player " + p.getUsername() + " | threaded: " + threaded);
-	
+				// Logging.debug("Process for player " + p.getUsername() +
+				// " | threaded: " + threaded);
+
 				updateTimeouts(p);
-	
+
 				updatePlayerPositions(p);
 				updateNpcPositions(p);
 				updateGameObjects(p);
 				updateWallObjects(p);
 				updateItems(p);
-	
+
 				p.setFirstMajorUpdateSent(true);
-				
+
 			}
 			updateCollections();
 		}
 	}
-	
+
 	public void process(Player p) {
-	
-		//Logging.debug("Process for player " + p.getUsername() + " | threaded: " + threaded);
-		
+
+		// Logging.debug("Process for player " + p.getUsername() +
+		// " | threaded: " + threaded);
+
 		updateTimeouts(p);
-		
-		updatePlayerPositions(p); // Must be done before updating any objects/items/npcs!
+
+		updatePlayerPositions(p); // Must be done before updating any
+									// objects/items/npcs!
 		updateNpcPositions(p);
 		updateGameObjects(p);
 		updateWallObjects(p);
 		updateItems(p);
-		
+
 		p.setFirstMajorUpdateSent(true);
-		}
+	}
 
 	/**
 	 * Updates collections, new becomes known, removing is removed etc.
@@ -183,19 +193,19 @@ public final class ClientUpdater implements Processor {
 			p.getWatchedItems().update();
 			p.getWatchedNpcs().update();
 
-			//p.clearProjectilesNeedingDisplayed();
-			//p.clearPlayersNeedingHitsUpdate();
-			//p.clearNpcsNeedingHitsUpdate();
-			//p.clearChatMessagesNeedingDisplayed();
-			//p.clearNpcMessagesNeedingDisplayed();
-			//p.clearBubblesNeedingDisplayed();
+			// p.clearProjectilesNeedingDisplayed();
+			// p.clearPlayersNeedingHitsUpdate();
+			// p.clearNpcsNeedingHitsUpdate();
+			// p.clearChatMessagesNeedingDisplayed();
+			// p.clearNpcMessagesNeedingDisplayed();
+			// p.clearBubblesNeedingDisplayed();
 
 			p.resetSpriteChanged();
-			//p.setAppearnceChanged(false);
+			// p.setAppearnceChanged(false);
 		}
 		for (Npc n : npcs) {
 			n.resetSpriteChanged();
-			//n.setAppearnceChanged(false);
+			// n.setAppearnceChanged(false);
 		}
 		updatingCollections = false;
 	}
@@ -208,7 +218,7 @@ public final class ClientUpdater implements Processor {
 		RSCPacket temp = gameObjectPositionBuilder.getPacket();
 		if (temp != null) {
 			p.getActionSender().addPacket(temp);
-			//p.getSession().write(temp);
+			// p.getSession().write(temp);
 		}
 	}
 
@@ -220,7 +230,7 @@ public final class ClientUpdater implements Processor {
 		RSCPacket temp = itemPositionBuilder.getPacket();
 		if (temp != null) {
 			p.getActionSender().addPacket(temp);
-			//p.getSession().write(temp);
+			// p.getSession().write(temp);
 		}
 	}
 
@@ -233,33 +243,43 @@ public final class ClientUpdater implements Processor {
 			if (message == null || !sender.loggedIn()) {
 				continue;
 			}
-			String s = DataConversions.byteToString(message.getMessage(), 0, message.getMessage().length);
+			String s = DataConversions.byteToString(message.getMessage(), 0,
+					message.getMessage().length);
 			s = s.toLowerCase();
 			String k = s;
 			s = s.replace(" ", "");
 			s = s.replace(".", "");
-			if (s.contains("#adm#") || s.contains("#mod#") || s.contains("#pmd#")) {
-			    sender.getActionSender().sendMessage("@red@Your last message was not sent out due to an illegal string");
-			    return;
-			}
-			if(sender.isMuted()) { 
-				sender.getActionSender().sendMessage("You are muted, you cannot send messages");
+			if (s.contains("#adm#") || s.contains("#mod#")
+					|| s.contains("#pmd#")) {
+				sender.getActionSender()
+						.sendMessage(
+								"@red@Your last message was not sent out due to an illegal string");
 				return;
-			}			
+			}
+			if (sender.isMuted()) {
+				sender.getActionSender().sendMessage(
+						"You are muted, you cannot send messages");
+				return;
+			}
 			List<Player> recievers = sender.getViewArea().getPlayersInView();
 			ArrayList<String> recieverUsernames = new ArrayList<String>();
-			for(Player p : recievers) 
+			for (Player p : recievers)
 				recieverUsernames.add(p.getUsername());
-			
-			world.addEntryToSnapshots(new Chatlog(sender.getUsername(), k, recieverUsernames));
+
+			world.addEntryToSnapshots(new Chatlog(sender.getUsername(), k,
+					recieverUsernames));
 			for (Player recipient : recievers) {
-				if (sender.getIndex() == recipient.getIndex() || !recipient.loggedIn()) {
+				if (sender.getIndex() == recipient.getIndex()
+						|| !recipient.loggedIn()) {
 					continue;
 				}
-				if (recipient.getPrivacySetting(0) && !recipient.isFriendsWith(sender.getUsernameHash()) && !sender.isPMod()) {
+				if (recipient.getPrivacySetting(0)
+						&& !recipient.isFriendsWith(sender.getUsernameHash())
+						&& !sender.isPMod()) {
 					continue;
 				}
-				if (recipient.isIgnoring(sender.getUsernameHash()) && !sender.isPMod()) {
+				if (recipient.isIgnoring(sender.getUsernameHash())
+						&& !sender.isPMod()) {
 					continue;
 				}
 				recipient.informOfChatMessage(message);
@@ -276,7 +296,7 @@ public final class ClientUpdater implements Processor {
 		RSCPacket temp = npcApperanceBuilder.getPacket();
 		if (temp != null) {
 			p.getActionSender().addPacket(temp);
-			//p.getSession().write(temp);
+			// p.getSession().write(temp);
 		}
 
 	}
@@ -301,7 +321,7 @@ public final class ClientUpdater implements Processor {
 		RSCPacket temp = npcPositionPacketBuilder.getPacket();
 		if (temp != null) {
 			p.getActionSender().addPacket(temp);
-			//p.getSession().write(temp);
+			// p.getSession().write(temp);
 		}
 	}
 
@@ -338,7 +358,7 @@ public final class ClientUpdater implements Processor {
 		RSCPacket temp = playerApperanceBuilder.getPacket();
 		if (temp != null) {
 			p.getActionSender().addPacket(temp);
-			//p.getSession().write(temp);
+			// p.getSession().write(temp);
 		}
 	}
 
@@ -351,7 +371,7 @@ public final class ClientUpdater implements Processor {
 		RSCPacket temp = playerPositionBuilder.getPacket();
 		if (temp != null) {
 			p.getActionSender().addPacket(temp);
-			//p.getSession().write(temp);
+			// p.getSession().write(temp);
 		}
 	}
 
@@ -392,7 +412,9 @@ public final class ClientUpdater implements Processor {
 				p.destroy(false);
 			}
 		} else if (curTime - p.getLastMoved() >= 900000) {
-			p.getActionSender().sendMessage("@cya@You have not moved for 15 mins, please move to a new area to avoid logout.");
+			p.getActionSender()
+					.sendMessage(
+							"@cya@You have not moved for 15 mins, please move to a new area to avoid logout.");
 			p.warnToMove();
 		}
 	}
@@ -404,9 +426,8 @@ public final class ClientUpdater implements Processor {
 		wallObjectPositionPacketBuilder.setPlayer(p);
 		RSCPacket temp = wallObjectPositionPacketBuilder.getPacket();
 		if (temp != null) {
-			//p.getSession().write(temp);
+			// p.getSession().write(temp);
 			p.getActionSender().addPacket(temp);
 		}
 	}
 }
-

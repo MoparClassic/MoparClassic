@@ -1,6 +1,5 @@
 package org.moparscape.msc.gs.model;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -34,8 +33,8 @@ public class Syndicate {
 
 	public void distributeExp(final Npc npc) {
 		final Map<Player, Damage> dmgs = getDamages();
-		final int exp = DataConversions.roundUp(Formulae
-				.combatExperience(npc) / 4D);
+		final int exp = DataConversions
+				.roundUp(Formulae.combatExperience(npc) / 4D);
 		int newXP = 0;
 		for (final Player p : dmgs.keySet()) {
 			Damage dmg = dmgs.get(p);
@@ -82,7 +81,7 @@ public class Syndicate {
 			}
 		}
 	}
-	
+
 	public int roundAndCast(double d) {
 		return (int) Math.round(d);
 	}

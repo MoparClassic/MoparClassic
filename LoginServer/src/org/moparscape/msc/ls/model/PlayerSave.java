@@ -25,7 +25,9 @@ public class PlayerSave {
 	    }
 
 	    long eventcd = result.getLong("eventcd");
-	    int subexp = result.getInt("subexp");
+	    @SuppressWarnings("unused")
+		int subexp = result.getInt("subexp");
+	    @SuppressWarnings("unused")
 	    long now = System.currentTimeMillis() / 1000;
 	    int sowner = result.getInt("owner");
 	    if (result.getInt("gid") == 8) {

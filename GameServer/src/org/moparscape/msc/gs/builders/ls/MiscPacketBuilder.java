@@ -20,7 +20,6 @@ import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.EntityList;
 import org.moparscape.msc.gs.util.Logger;
 
-
 public class MiscPacketBuilder {
 	/**
 	 * Connector instance
@@ -184,11 +183,10 @@ public class MiscPacketBuilder {
 							+ DataConversions.hashToUsername(user));
 
 					int world = p.readShort();
-					Point location = Point.location(p.readShort(), p
-							.readShort());
+					Point location = Point.location(p.readShort(),
+							p.readShort());
 					long loginDate = p.readLong();
-					int lastMoved = (int) ((GameEngine.getTime() - p
-							.readLong()) / 1000);
+					int lastMoved = (int) ((GameEngine.getTime() - p.readLong()) / 1000);
 					boolean chatBlock = p.readByte() == 1;
 					int fatigue = p.readShort();
 					String state = p.readString();
@@ -208,8 +206,7 @@ public class MiscPacketBuilder {
 									+ "@whi@. Fatigue is at @or1@" + fatigue
 									+ "@whi@.", false);
 				} else {
-					mod
-							.getActionSender()
+					mod.getActionSender()
 							.sendMessage(
 									"Invalid player, maybe they aren't currently online?");
 				}

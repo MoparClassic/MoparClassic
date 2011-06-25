@@ -18,7 +18,8 @@ public class ConnectionFilter extends BlacklistFilter {
 			final InetSocketAddress a = (InetSocketAddress) sa;
 			final Integer val = connections.get(a);
 			System.out.println(val);
-			final Integer retVal = connections.put(a, val == null ? 1 : val + 1);
+			final Integer retVal = connections
+					.put(a, val == null ? 1 : val + 1);
 			if (retVal != null && retVal > BLOCK_THRESHOLD) {
 				block(a.getAddress());
 			}
@@ -33,7 +34,8 @@ public class ConnectionFilter extends BlacklistFilter {
 			final InetSocketAddress a = (InetSocketAddress) sa;
 			final Integer val = connections.get(a);
 			System.out.println(val);
-			final Integer retVal = connections.put(a, val == null ? 1 : val + 1);
+			final Integer retVal = connections
+					.put(a, val == null ? 1 : val + 1);
 			if (retVal != null && retVal - 1 <= BLOCK_THRESHOLD) {
 				unblock(a.getAddress());
 			}

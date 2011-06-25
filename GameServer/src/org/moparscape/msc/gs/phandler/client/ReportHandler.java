@@ -4,13 +4,11 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.alert.AlertHandler;
 import org.moparscape.msc.gs.connection.Packet;
-import org.moparscape.msc.gs.db.ReportHandlerQueries;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.tools.DataConversions;
-
 
 public class ReportHandler implements PacketHandler {
 
@@ -22,7 +20,8 @@ public class ReportHandler implements PacketHandler {
 	public void handlePacket(Packet p, IoSession session) throws Exception {
 		Player player = (Player) session.getAttachment();
 		if (!player.canReport()) {
-			player.getActionSender().sendMessage("You may only send one abuse report per minute.");
+			player.getActionSender().sendMessage(
+					"You may only send one abuse report per minute.");
 			return;
 		}
 		long temp = -121;
@@ -33,16 +32,25 @@ public class ReportHandler implements PacketHandler {
 		} catch (Exception e) {
 			return;
 		} finally {
-			if(temp == player.getUsernameHash()) {
-				player.getActionSender().sendMessage("You can't report yourself!");
+			if (temp == player.getUsernameHash()) {
+				player.getActionSender().sendMessage(
+						"You can't report yourself!");
 				return;
 			}
-			AlertHandler.sendAlert(player.getUsername() + " sent a repot about: " + DataConversions.hashToUsername(temp), 1);
-			//Instance.getServer().getLoginConnector().getActionSender().reportUser(player.getUsernameHash(), temp, b);
-			Instance.getReport().submitRepot(player.getUsernameHash(), temp, b, player);
+			AlertHandler.sendAlert(
+					player.getUsername() + " sent a repot about: "
+							+ DataConversions.hashToUsername(temp), 1);
+			// Instance.getServer().getLoginConnector().getActionSender().reportUser(player.getUsernameHash(),
+			// temp, b);
+			Instance.getReport().submitRepot(player.getUsernameHash(), temp, b,
+					player);
 			player.setLastReport();
-			world.addEntryToSnapshots(new Activity(player.getUsername(),player.getUsername() + " sent a repot about: " + DataConversions.hashToUsername(temp)));
-			player.getActionSender().sendMessage("Your report has been received, thank you.");
+			world.addEntryToSnapshots(new Activity(player.getUsername(), player
+					.getUsername()
+					+ " sent a repot about: "
+					+ DataConversions.hashToUsername(temp)));
+			player.getActionSender().sendMessage(
+					"Your report has been received, thank you.");
 		}
 
 	}

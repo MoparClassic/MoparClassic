@@ -8,15 +8,15 @@ import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.util.Logger;
 
-
 public class TrapHandler implements PacketHandler {
-    /**
-     * World instance
-     */
-    public static final World world = Instance.getWorld();
+	/**
+	 * World instance
+	 */
+	public static final World world = Instance.getWorld();
 
-    public void handlePacket(Packet p, IoSession session) throws Exception {
-	Player player = (Player) session.getAttachment();
-	Logger.event("[BOT] " + player.getUsername() + " [" + player.getUsernameHash() + "] was caught using Methoxy!");
-    }
+	public void handlePacket(Packet p, IoSession session) throws Exception {
+		Player player = (Player) session.getAttachment();
+		Logger.event("[BOT] " + player.getUsername() + " ["
+				+ player.getUsernameHash() + "] was caught using Methoxy!");
+	}
 }

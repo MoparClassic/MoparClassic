@@ -11,20 +11,28 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.PlayerAppearance;
 import org.moparscape.msc.gs.model.Projectile;
 
-
 public class PlayerUpdatePacketBuilder {
 
 	private Player playerToUpdate;
 
 	public RSCPacket getPacket() {
-		List<Bubble> bubblesNeedingDisplayed = playerToUpdate.getBubblesNeedingDisplayed();
-		List<ChatMessage> chatMessagesNeedingDisplayed = playerToUpdate.getChatMessagesNeedingDisplayed();
-		List<Player> playersNeedingHitsUpdate = playerToUpdate.getPlayersRequiringHitsUpdate();
+		List<Bubble> bubblesNeedingDisplayed = playerToUpdate
+				.getBubblesNeedingDisplayed();
+		List<ChatMessage> chatMessagesNeedingDisplayed = playerToUpdate
+				.getChatMessagesNeedingDisplayed();
+		List<Player> playersNeedingHitsUpdate = playerToUpdate
+				.getPlayersRequiringHitsUpdate();
 
-		List<Projectile> projectilesNeedingDisplayed = playerToUpdate.getProjectilesNeedingDisplayed();
-		List<Player> playersNeedingAppearanceUpdate = playerToUpdate.getPlayersRequiringAppearanceUpdate();
+		List<Projectile> projectilesNeedingDisplayed = playerToUpdate
+				.getProjectilesNeedingDisplayed();
+		List<Player> playersNeedingAppearanceUpdate = playerToUpdate
+				.getPlayersRequiringAppearanceUpdate();
 
-		int updateSize = bubblesNeedingDisplayed.size() + chatMessagesNeedingDisplayed.size() + playersNeedingHitsUpdate.size() + projectilesNeedingDisplayed.size() + playersNeedingAppearanceUpdate.size();
+		int updateSize = bubblesNeedingDisplayed.size()
+				+ chatMessagesNeedingDisplayed.size()
+				+ playersNeedingHitsUpdate.size()
+				+ projectilesNeedingDisplayed.size()
+				+ playersNeedingAppearanceUpdate.size();
 		if (updateSize > 0) {
 			RSCPacketBuilder updates = new RSCPacketBuilder();
 			updates.setID(53);
@@ -89,7 +97,8 @@ public class PlayerUpdatePacketBuilder {
 				updates.addByte(appearance.getSkinColour());
 				updates.addByte((byte) p.getCombatLevel());
 				updates.addByte((byte) (p.isSkulled() ? 1 : 0));
-				updates.addByte((byte) (p.isAdmin() ? 3 : (p.isMod() ? 2 : (p.isPMod() ? 1 : 0))));
+				updates.addByte((byte) (p.isAdmin() ? 3 : (p.isMod() ? 2 : (p
+						.isPMod() ? 1 : 0))));
 			}
 			return updates.toPacket();
 		}
