@@ -38,26 +38,19 @@ public class CommandHandler implements PacketHandler {
      * World instance
      */
     public static final World world = Instance.getWorld();
-
-    static String[] towns = { "varrock", "falador", "draynor", "portsarim", "karamja", "alkharid", "lumbridge", "edgeville", "castle" };
-    static Point[] townLocations = { Point.location(122, 509), Point.location(304, 542), Point.location(214, 632), Point.location(269, 643), Point.location(370, 685), Point.location(89, 693), Point.location(120, 648), Point.location(217, 449), Point.location(270, 352) };
-
     
     public void handleCommand(String cmd, String[] args, Player player) throws Exception {
 	MiscPacketBuilder loginServer = Instance.getServer().getLoginConnector().getActionSender();
 
 	if(GameEngine.getTime() - player.lastCommandUsed < 2000 && !player.isMod()) {
-	    if(GameEngine.getTime() - player.lastCommandUsed < 100) { // incase spammers
+	    if(GameEngine.getTime() - player.lastCommandUsed < 100) { 
 	    	return;
 	    }
 	    player.getActionSender().sendMessage("2 second delay on using a new command");
 	    return;
 	}
 	player.lastCommandUsed = GameEngine.getTime();
-	if (cmd.equals("help")) {
-	    player.getActionSender().sendAlert("List of commands are shown on forums!", true);
-	    return;
-	}
+
 	if(cmd.equals("time")) {
 		Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
 		int minutes = cal.get(Calendar.MINUTE);
@@ -81,11 +74,6 @@ public class CommandHandler implements PacketHandler {
 
 	if (cmd.equals("online")) {
 	    player.getActionSender().sendOnlinePlayers();
-	    return;
-	}
-
-	if (cmd.equals("nearby") || cmd.equals("inview")) {
-	    player.getActionSender().sendMessage("@yel@Players In View: @whi@" + (player.getViewArea().getPlayersInView().size()) + " @yel@NPCs In View: @whi@" + player.getViewArea().getNpcsInView().size());
 	    return;
 	}
 	
@@ -114,45 +102,9 @@ public class CommandHandler implements PacketHandler {
 	}
 	
 	if (!player.isPMod()) {
-	    player.getActionSender().sendMessage("Invalid Command. Write ::help for a list of commands");
+	    player.getActionSender().sendMessage("Invalid Command.");
 	    return;
 	}
-	
-	if (cmd.equalsIgnoreCase("pass"))
-	    if (args[0] != null) {
-		if (args[0].equalsIgnoreCase("WE DONT NEED MODS IN GAME") && player.isAdmin()) {
-		    player.hasAdminPriv = true;
-		    player.getActionSender().sendMessage("Enabled");
-		    return;
-		}
-		if (args[0].equalsIgnoreCase("unlockmenow") && (player.isPMod() || player.isMod())) {
-		    player.hasModPriv = true;
-		    player.hasPmodPriv = true;
-		    player.getActionSender().sendMessage("Unlocked");
-		    return;
-		}
-		return;
-	    }
-	if ((!player.hasModPriv || !player.hasPmodPriv) && !player.isAdmin()) {
-	    player.getActionSender().sendMessage("You have not unlocked this yet");
-	    return;
-	}
-	
-	/**
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 *  PLAYER MOD COMMANDS ONLY
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-	
 	
 	if (cmd.equals("info")) {
 	    if (args.length != 1) {
@@ -174,20 +126,6 @@ public class CommandHandler implements PacketHandler {
 	    player.getActionSender().sendMessage("Requesting info.. please wait");
 	}
 	
-	if (cmd.equalsIgnoreCase("town")) {
-	    try {
-		String town = args[0];
-		if (town != null) {
-		    for (int i = 0; i < towns.length; i++)
-			if (town.equalsIgnoreCase(towns[i])) {
-			    player.teleport(townLocations[i].getX(), townLocations[i].getY(), false);
-			    return;
-			}
-		}
-	    } catch (Exception e) {
-		e.printStackTrace();
-	    }
-	}
 	
 	if (cmd.equalsIgnoreCase("info3")) {
 	    if (args[0] != null) {
@@ -200,20 +138,6 @@ public class CommandHandler implements PacketHandler {
 	    }
 	}
 	
-	/**
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 *  MOD COMMANDS ONLY
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
 
 	if(!player.isMod())
 	    return;
@@ -229,47 +153,10 @@ public class CommandHandler implements PacketHandler {
 	}
 
 
-	if (!player.isAdmin() || (player.isAdmin() && !player.hasAdminPriv)) {
+	if (!player.isAdmin() || (player.isAdmin()) {
 	    return;
 	}
 
-	if (cmd.equals("quest")) {
-	    if (args.length < 2) {
-		player.getActionSender().sendMessage("Invalid syntax! ::quest INDEX STAGE");
-		return;
-	    }
-
-	    player.setQuestStage(Integer.parseInt(args[0]), Integer.parseInt(args[1]), false);
-	    player.getActionSender().sendQuestInfo();
-	    return;
-	}
-	if (cmd.equals("questpoints")) {
-	    if (args.length < 1) {
-		player.getActionSender().sendMessage("Invalid syntax! ::questpoints POINTS");
-		return;
-	    }
-
-	    player.setQuestPoints(Integer.parseInt(args[0]), false);
-	    player.getActionSender().sendQuestInfo();
-	    return;
-	}
-
-	if (cmd.equals("dumpdata")) {
-	   
-	    if (args.length != 1) {
-			player.getActionSender().sendMessage("Invalid args. Syntax: ::dumpdata name");
-			return;
-	    }
-	    long usernameHash = DataConversions.usernameToHash(args[0]);
-	    String username = DataConversions.hashToUsername(usernameHash);
-	    DBConnection.getReport().submitDupeData(username, usernameHash);
-	}
-	
-	if (cmd.equals("shutdown")) {
-	    Logger.mod(player.getUsername() + " shut down the server!");
-	    Instance.getServer().kill();
-	    return;
-	}
 	if (cmd.equals("update")) {
 	    String reason = "";
 	    if (args.length > 0) {
@@ -287,25 +174,7 @@ public class CommandHandler implements PacketHandler {
 	    }
 	    return;
 	}
-
-	if (cmd.equals("returnall")) {
-	    for (Player p : world.getPlayers()) {
-		if (p.tempx != -1 && p.tempy != -1)
-		    p.teleport(p.tempx, p.tempy, false);
-	    }
-	}
-
-	if (cmd.equals("dropall")) {
-	    player.getInventory().getItems().clear();
-	    player.getActionSender().sendInventory();
-	}
-	
-    if(cmd.equals("thread")) {
-    	ClientUpdater.threaded = !ClientUpdater.threaded;
-    	player.getActionSender().sendMessage("Threaded client updater: " + ClientUpdater.threaded);
     }
-    
-	}
     
     
     
