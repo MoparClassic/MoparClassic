@@ -228,8 +228,7 @@ public final class GameEngine extends Thread {
 			if (player.getUsername() == null && p.getID() != 32
 					&& p.getID() != 77 && p.getID() != 0) {
 				final String ip = player.getCurrentIP();
-				// flagSession(session);
-				OSLevelBlocking.block(ip);
+				OSLevelBlocking.throttle(ip);
 				continue;
 			}
 			PacketHandler handler = packetHandlers.get(p.getID());

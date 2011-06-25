@@ -27,8 +27,25 @@
 	<entry key="admins">None</entry>
 
 	<entry key="ip-ban-removal-delay">1800000</entry>
-	<entry key="block-command">sudo route add -host ${ip} reject</entry>
-	<entry key="unblock-command">sudo route del -host ${ip} reject</entry>
+	<entry key="os-level-blocking">true</entry>
+	<entry key="os-level-block-command">sudo route add -host ${ip} reject</entry>
+	<entry key="os-level-unblock-command">sudo route del -host ${ip} reject</entry>
+	<entry key="application-level-blocking">true</entry>
+
+	<!-- Alert when someone is throttled at the application-level -->
+	<entry key="application-level-blocking-throttle-alert">false</entry>
+	<!-- Alert when someone is throttled at the os-level -->
+	<entry key="os-level-blocking-throttle-alert">true</entry>
+	<!-- Alert when unblocking at the os-level fails -->
+	<entry key="os-level-blocking-unblock-failed-alert">true</entry>
+
+	<entry key="connection-throttle-size">100</entry>
+	<!-- This is the threshold of how many connections that an IP can have. 
+		This uses a LRUMap, and only has a limited number of entries, so only the 
+		most active IPs will be stored at a time. -->
+	<entry key="connection-throttle">5</entry>
+
+
 
 	<!-- Every 100 minutes -->
 	<entry key="garbage-collect-interval">6000000</entry>

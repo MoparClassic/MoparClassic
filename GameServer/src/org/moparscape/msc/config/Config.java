@@ -22,11 +22,11 @@ public class Config {
 			SERVER_LOCATION, LS_IP;
 
 	public static int SERVER_PORT, SERVER_VERSION, MAX_PLAYERS, LS_PORT,
-			SERVER_NUM;
+			SERVER_NUM, CONENCTION_THROTTLE_THRESHOLD;
 
 	public static long START_TIME;
 
-	public static boolean members, f2pWildy;
+	public static boolean members, f2pWildy, APPLICATION_LEVEL_BLOCKING;
 
 	public static double expRate, subExpRate;
 
@@ -34,11 +34,11 @@ public class Config {
 	public static int IP_BAN_REMOVAL_DELAY;
 	public static int GARBAGE_COLLECT_INTERVAL;
 	public static int SAVE_INTERVAL;
-	public static String DATE_FORMAT;
-	public static String BLOCK_COMMAND;
-	public static String UNBLOCK_COMMAND;
-	public static String ALERT_CONFIG;
-	public static String COMMAND_CONFIG;
+	public static String DATE_FORMAT, BLOCK_COMMAND, UNBLOCK_COMMAND,
+			ALERT_CONFIG, COMMAND_CONFIG;
+	public static int CONNECTION_THROTTLE_SIZE;
+	public static boolean OS_LEVEL_BLOCKING, APPLICATION_LEVEL_THROTTLE_ALERT,
+	OS_LEVEL_THROTTLE_ALERT, OS_LEVEL_UNBLOCK_FAILED_ALERT;
 
 	static {
 		loadEnv();
@@ -88,6 +88,20 @@ public class Config {
 				.getProperty("ip-ban-removal-delay"));
 		BLOCK_COMMAND = props.getProperty("block-command");
 		UNBLOCK_COMMAND = props.getProperty("unblock-command");
+		CONNECTION_THROTTLE_SIZE = Integer.parseInt(props
+				.getProperty("connection-throttle-size"));
+		CONENCTION_THROTTLE_THRESHOLD = Integer.parseInt(props
+				.getProperty("connection-throttle"));
+		APPLICATION_LEVEL_BLOCKING = Boolean.parseBoolean(props
+				.getProperty("application-level-blocking"));
+		OS_LEVEL_BLOCKING = Boolean.parseBoolean(props
+				.getProperty("os-level-blocking"));
+		APPLICATION_LEVEL_THROTTLE_ALERT = Boolean.parseBoolean(props
+				.getProperty("application-level-blocking-throttle-alert"));
+		OS_LEVEL_THROTTLE_ALERT = Boolean.parseBoolean(props
+				.getProperty("os-level-blocking-throttle-alert"));
+		OS_LEVEL_UNBLOCK_FAILED_ALERT = Boolean.parseBoolean(props
+				.getProperty("os-level-blocking-unblock-failed-alert"));
 
 		GARBAGE_COLLECT_INTERVAL = Integer.parseInt(props
 				.getProperty("garbage-collect-interval"));
