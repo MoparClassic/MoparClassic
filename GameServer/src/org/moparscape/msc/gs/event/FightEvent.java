@@ -9,7 +9,6 @@ import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Path;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.mini.Damage;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -83,19 +82,11 @@ public class FightEvent extends DelayedEvent {
 			if (attacker.getHits() <= 0) {
 				n.resetCombat(CombatState.ERROR);
 			}
-			if (n == null) {
-				Player p = (Player) opponent;
-				p.resetCombat(CombatState.ERROR);
-			}
 		}
 		if (opponent instanceof Npc) {
 			Npc n = (Npc) opponent;
 			if (opponent.getHits() <= 0) {
 				n.resetCombat(CombatState.ERROR);
-			}
-			if (n == null) {
-				Player p = (Player) attacker;
-				p.resetCombat(CombatState.ERROR);
 			}
 		}
 		if (opponent instanceof Player && attacker instanceof Player) {

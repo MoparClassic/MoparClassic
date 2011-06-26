@@ -42,9 +42,9 @@ public class PersistenceManager {
 	    Properties aliases = new Properties();
 	    FileInputStream fis = new FileInputStream(new File(Config.CONF_DIR, "aliases.xml"));
 	    aliases.loadFromXML(fis);
-	    for (Enumeration e = aliases.propertyNames(); e.hasMoreElements();) {
+	    for (Enumeration<?> e = aliases.propertyNames(); e.hasMoreElements();) {
 		String alias = (String) e.nextElement();
-		Class c = Class.forName((String) aliases.get(alias));
+		Class<?> c = Class.forName((String) aliases.get(alias));
 		xstream.alias(alias, c);
 	    }
 	} catch (Exception ioe) {

@@ -3,9 +3,9 @@ package org.moparscape.msc.gs.phandler.client;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Config;
@@ -133,7 +133,7 @@ public class SpellHandler implements PacketHandler {
 	private Random r = new Random();
 
 	private void finalizeSpell(Player player, SpellDef spell) {
-		player.lastCast = GameEngine.getTime();
+		player.setLastCast(GameEngine.getTime());
 		player.getActionSender().sendSound("spellok");
 		player.getActionSender().sendMessage("Cast spell successfully");
 		player.setCastTimer();
@@ -480,13 +480,13 @@ public class SpellHandler implements PacketHandler {
 		if (affectedMob instanceof Player) {
 			Player other = (Player) affectedMob;
 			if (player.getLocation().inWilderness()
-					&& GameEngine.getTime() - other.lastRun < 1000) {
+					&& GameEngine.getTime() - other.getLastRun() < 1000) {
 				player.resetPath();
 				return;
 			}
 		}
 		if (player.getLocation().inWilderness()
-				&& GameEngine.getTime() - player.lastRun < 3000) {
+				&& GameEngine.getTime() - player.getLastRun() < 3000) {
 			player.resetPath();
 			return;
 		}
@@ -683,7 +683,6 @@ public class SpellHandler implements PacketHandler {
 								affectedMob.killedBy(owner, owner.isDueling());
 								if (owner instanceof Player
 										&& affectedMob instanceof Npc) {
-									Npc npc = (Npc) affectedMob;
 									((Npc) affectedMob).getSyndicate()
 											.distributeExp((Npc) affectedMob);
 								}

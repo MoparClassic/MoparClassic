@@ -119,7 +119,7 @@ public class KingBlackDragon extends NpcScript implements NpcAI {
 									new Object[] { npc }) {
 								public void action() {
 									Npc n = (Npc) super.args[0];
-									if (n != null || n.getHits() > 0) {
+									if (n != null && n.getHits() > 0) {
 										NpcScript script = new NpcScript();
 										final Map<Player, Damage> dmgs = n
 												.getSyndicate().getDamages();

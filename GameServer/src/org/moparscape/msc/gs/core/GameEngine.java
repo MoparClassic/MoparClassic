@@ -5,31 +5,19 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.TreeMap;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Constants;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.PacketQueue;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.connection.filter.OSLevelBlocking;
 import org.moparscape.msc.gs.event.DelayedEvent;
-import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.model.ActiveTile;
-import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
@@ -37,7 +25,6 @@ import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.tools.Captcha;
-import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
 import org.moparscape.msc.gs.util.PersistenceManager;
 
@@ -128,10 +115,10 @@ public final class GameEngine extends Thread {
 	 * getAddress(session); String ip = addr.toString(); ip =
 	 * ip.replaceAll("/",""); long now = System.currentTimeMillis(); int c = 0;
 	 * if(counts.containsKey(addr) && clients.containsKey(addr)) { try { c =
-	 * counts.get(addr); } catch(Exception e) { Logging.debug("Error: " +
-	 * e); } if(c >= 10) { if(!written.containsKey(addr)) { try {
-	 * Logging.debug("Dummy packet flooder IP: " + ip); BufferedWriter bf2
-	 * = new BufferedWriter(new FileWriter("dummy.log", true));
+	 * counts.get(addr); } catch(Exception e) { Logging.debug("Error: " + e); }
+	 * if(c >= 10) { if(!written.containsKey(addr)) { try {
+	 * Logging.debug("Dummy packet flooder IP: " + ip); BufferedWriter bf2 = new
+	 * BufferedWriter(new FileWriter("dummy.log", true));
 	 * bf2.write("sudo /sbin/route add " + addr.getHostAddress() +
 	 * " gw 127.0.0.1"); bf2.newLine(); bf2.close(); written.put(addr, 1); }
 	 * catch(Exception e) { System.err.println(e);} } } } if
@@ -204,7 +191,7 @@ public final class GameEngine extends Thread {
 	private void processEvents() {
 		eventHandler.doEvents();
 	}
-	
+
 	public DelayedEventHandler getEventHandler() {
 		return eventHandler;
 	}
@@ -241,8 +228,7 @@ public final class GameEngine extends Thread {
 			if (player.getUsername() == null && p.getID() != 32
 					&& p.getID() != 77 && p.getID() != 0) {
 				final String ip = player.getCurrentIP();
-				// flagSession(session);
-				OSLevelBlocking.block(ip);
+				OSLevelBlocking.throttle(ip);
 				continue;
 			}
 			PacketHandler handler = packetHandlers.get(p.getID());
@@ -309,9 +295,11 @@ public final class GameEngine extends Thread {
 		}
 		time = System.currentTimeMillis();
 
-		eventHandler.add(new DelayedEvent(null, Config.GARBAGE_COLLECT_INTERVAL) { // Ran every
-																	// 50*2
-																	// minutes
+		eventHandler
+				.add(new DelayedEvent(null, Config.GARBAGE_COLLECT_INTERVAL) { // Ran
+																				// every
+					// 50*2
+					// minutes
 					@Override
 					public void run() {
 						new Thread(new Runnable() {

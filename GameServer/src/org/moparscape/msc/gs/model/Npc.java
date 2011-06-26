@@ -19,7 +19,6 @@ import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
 
-
 public class Npc extends Mob {
 
 	/**
@@ -79,6 +78,7 @@ public class Npc extends Mob {
 	public boolean isRan() {
 		return ran;
 	}
+
 	private boolean ran = false;
 	/**
 	 * The identifier for the NPC block event
@@ -204,6 +204,7 @@ public class Npc extends Mob {
 	public void setLoc(NPCLoc loc) {
 		this.loc = loc;
 	}
+
 	/**
 	 * Should this npc respawn once it has been killed?
 	 **/
@@ -217,7 +218,8 @@ public class Npc extends Mob {
 	public int itemid = -1;
 	public int exp = -1; // used for events.
 
-	public Npc(int id, int startX, int startY, int minX, int maxX, int minY, int maxY) {
+	public Npc(int id, int startX, int startY, int minX, int maxX, int minY,
+			int maxY) {
 		this(new NPCLoc(id, startX, startY, minX, maxX, minY, maxY));
 	}
 
@@ -246,7 +248,8 @@ public class Npc extends Mob {
 		this.loc = loc;
 		super.setID(loc.getId());
 		super.setLocation(Point.location(loc.startX(), loc.startY()), true);
-		super.setCombatLevel(Formulae.getCombatLevel(def.getAtt(), def.getDef(), def.getStr(), def.getHits(), 0, 0, 0));
+		super.setCombatLevel(Formulae.getCombatLevel(def.getAtt(),
+				def.getDef(), def.getStr(), def.getHits(), 0, 0, 0));
 		if (this.loc.getId() == 189 || this.loc.getId() == 53) {
 			this.def.aggressive = true;
 		}
@@ -272,7 +275,8 @@ public class Npc extends Mob {
 		boolean eventExists = false;
 
 		if (timeout != null) {
-			ArrayList<DelayedEvent> events = Instance.getDelayedEventHandler().getEvents();
+			ArrayList<DelayedEvent> events = Instance.getDelayedEventHandler()
+					.getEvents();
 
 			// Damn punk, gettin threading problems here without it synced.
 			try {
@@ -331,16 +335,28 @@ public class Npc extends Mob {
 							continue;
 						}
 						/*
-						if(p.isBusy() || p.isNonaggro() || now - p.getCombatTimer() < (p.getCombatState() == CombatState.RUNNING || p.getCombatState() == CombatState.WAITING ? 3000 : 500) || !p.nextTo(this))) {
-							return p;
-						}
-						*/
-			
-						if (p.isBusy() || p.isNonaggro() || now - p.getCombatTimer() < (p.getCombatState() == CombatState.RUNNING || p.getCombatState() == CombatState.WAITING ? 3000 : 500) || !p.nextTo(this) || !p.getLocation().inBounds(loc.minX - 4, loc.minY - 4, loc.maxX + 4, loc.maxY + 4)) {
+						 * if(p.isBusy() || p.isNonaggro() || now -
+						 * p.getCombatTimer() < (p.getCombatState() ==
+						 * CombatState.RUNNING || p.getCombatState() ==
+						 * CombatState.WAITING ? 3000 : 500) ||
+						 * !p.nextTo(this))) { return p; }
+						 */
+
+						if (p.isBusy()
+								|| p.isNonaggro()
+								|| now - p.getCombatTimer() < (p
+										.getCombatState() == CombatState.RUNNING
+										|| p.getCombatState() == CombatState.WAITING ? 3000
+										: 500)
+								|| !p.nextTo(this)
+								|| !p.getLocation().inBounds(loc.minX - 4,
+										loc.minY - 4, loc.maxX + 4,
+										loc.maxY + 4)) {
 							continue;
 						}
-						
-						if (getLocation().inWilderness() || p.getCombatLevel() < (getCombatLevel() * 2) + 1) {
+
+						if (getLocation().inWilderness()
+								|| p.getCombatLevel() < (getCombatLevel() * 2) + 1) {
 							return p;
 						}
 					}
@@ -399,7 +415,8 @@ public class Npc extends Mob {
 			Player player = (Player) mob;
 			player.getActionSender().sendSound("victory");
 			if (this.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(getID()).onNpcDeath(this, player);
+				Instance.getPluginHandler().getNpcAIHandler(getID())
+						.onNpcDeath(this, player);
 			}
 		}
 
@@ -427,9 +444,11 @@ public class Npc extends Mob {
 				if (this.getCombatLevel() >= 90 && Config.members) {
 					if (Formulae.Rand(0, 3000) == 500) {
 						if (Formulae.Rand(0, 1) == 1) {
-							world.registerItem(new Item(1276, getX(), getY(), 1, owner));
+							world.registerItem(new Item(1276, getX(), getY(),
+									1, owner));
 						} else {
-							world.registerItem(new Item(1277, getX(), getY(), 1, owner));
+							world.registerItem(new Item(1277, getX(), getY(),
+									1, owner));
 						}
 					}
 				}
@@ -438,18 +457,22 @@ public class Npc extends Mob {
 						continue;
 					}
 					if (drop.getWeight() == 0) {
-						world.registerItem(new Item(drop.getID(), getX(), getY(), drop.getAmount(), owner));
+						world.registerItem(new Item(drop.getID(), getX(),
+								getY(), drop.getAmount(), owner));
 						continue;
 					}
 
 					if (hit >= total && hit < (total + drop.getWeight())) {
 						if (drop.getID() != -1) {
-							if (EntityHandler.getItemDef(drop.getID()).members && World.isMembers()) {
-								world.registerItem(new Item(drop.getID(), getX(), getY(), drop.getAmount(), owner));
+							if (EntityHandler.getItemDef(drop.getID()).members
+									&& World.isMembers()) {
+								world.registerItem(new Item(drop.getID(),
+										getX(), getY(), drop.getAmount(), owner));
 								break;
 							}
 							if (!EntityHandler.getItemDef(drop.getID()).members) {
-								world.registerItem(new Item(drop.getID(), getX(), getY(), drop.getAmount(), owner));
+								world.registerItem(new Item(drop.getID(),
+										getX(), getY(), drop.getAmount(), owner));
 								break;
 							}
 						}
@@ -460,7 +483,10 @@ public class Npc extends Mob {
 		} else {
 			if (itemid != -1) {
 				world.registerItem(new Item(itemid, getX(), getY(), 1, owner));
-				world.sendWorldMessage(owner.getUsername() + " has killed the correct " + getDef().name + " and found a " + EntityHandler.getItemDef(itemid).getName());
+				world.sendWorldMessage(owner.getUsername()
+						+ " has killed the correct " + getDef().name
+						+ " and found a "
+						+ EntityHandler.getItemDef(itemid).getName());
 				itemid = -1;
 			}
 			special = false;
@@ -470,17 +496,18 @@ public class Npc extends Mob {
 
 	public void remove() {
 		if (!removed && shouldRespawn && def.respawnTime() > 0) {
-			Instance.getDelayedEventHandler().add(new DelayedEvent(null, def.respawnTime() * 1000) {
+			Instance.getDelayedEventHandler().add(
+					new DelayedEvent(null, def.respawnTime() * 1000) {
 
-				public void run() {
-					world.registerNpc(new Npc(loc));
-					matchRunning = false;
-				}
-			});
+						public void run() {
+							world.registerNpc(new Npc(loc));
+							matchRunning = false;
+						}
+					});
 		}
 
 		removed = true;
-		
+
 	}
 
 	public void setChasing(Player player) {
@@ -538,22 +565,22 @@ public class Npc extends Mob {
 	public void updatePosition() {
 		long now = GameEngine.getTime();
 		Player victim = null;
-		if (!isBusy() && def.isAggressive() && now - getCombatTimer() > 3000 && (victim = findVictim()) != null) {
+		if (!isBusy() && def.isAggressive() && now - getCombatTimer() > 3000
+				&& (victim = findVictim()) != null) {
 			resetPath();
 			victim.resetPath();
 			victim.resetAll();
 			if (this.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(getID()).onNpcAttack(this, victim);
+				Instance.getPluginHandler().getNpcAIHandler(getID())
+						.onNpcAttack(this, victim);
 			}
 			victim.setStatus(Action.FIGHTING_MOB);
-			/* Do not want
-			if (victim.isSleeping()) {
-				victim.getActionSender().sendWakeUp(false);
-			}
-			*/
+			/*
+			 * Do not want if (victim.isSleeping()) {
+			 * victim.getActionSender().sendWakeUp(false); }
+			 */
 			victim.getActionSender().sendSound("underattack");
 			victim.getActionSender().sendMessage("You are under attack!");
-
 
 			setLocation(victim.getLocation(), true);
 			for (Player p : getViewArea().getPlayersInView()) {
@@ -591,12 +618,15 @@ public class Npc extends Mob {
 	public String toString() {
 		return "[NPC:" + EntityHandler.getNpcDef(id).getName() + "]";
 	}
+
 	public boolean hasArmor = false;
 	public boolean undead = false;
 	private int team = 2;
+
 	public int getTeam() {
 		return team;
 	}
+
 	public void setTeam(int team) {
 		this.team = team;
 	}

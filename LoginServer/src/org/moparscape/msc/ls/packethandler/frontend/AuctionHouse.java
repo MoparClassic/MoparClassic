@@ -1,7 +1,6 @@
 package org.moparscape.msc.ls.packethandler.frontend;
 
 import java.util.ArrayList;
-import java.io.DataInput;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;

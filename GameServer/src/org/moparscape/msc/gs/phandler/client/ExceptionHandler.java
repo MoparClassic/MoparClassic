@@ -8,23 +8,22 @@ import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.util.Logger;
 
-
 public class ExceptionHandler implements PacketHandler {
-    /**
-     * World instance
-     */
-    public static final World world = Instance.getWorld();
+	/**
+	 * World instance
+	 */
+	public static final World world = Instance.getWorld();
 
-    public void handlePacket(Packet p, IoSession session) throws Exception {
-    	try {
-	    	Player player = (Player) session.getAttachment();
-			Logger.error("[CLIENT] Exception from " + player.getUsername() + ": " + p.readString());
-    	}
-    	catch(Exception e) {
-    		e.printStackTrace();
-    	}
-    	
-		//player.getActionSender().sendLogout();
-		//player.destroy(false);
-    }
+	public void handlePacket(Packet p, IoSession session) throws Exception {
+		try {
+			Player player = (Player) session.getAttachment();
+			Logger.error("[CLIENT] Exception from " + player.getUsername()
+					+ ": " + p.readString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// player.getActionSender().sendLogout();
+		// player.destroy(false);
+	}
 }

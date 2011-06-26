@@ -10,7 +10,6 @@ import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.util.Logger;
 
-
 public class SessionRequest implements PacketHandler {
 
 	/**
@@ -20,7 +19,7 @@ public class SessionRequest implements PacketHandler {
 
 	public void handlePacket(Packet p, IoSession session) throws Exception {
 		Player player = (Player) session.getAttachment();
-		if(player.isInitialized()) {
+		if (player.isInitialized()) {
 			Logger.println("[WARNING] SessionRequest for already Initialized player!");
 			return;
 		}

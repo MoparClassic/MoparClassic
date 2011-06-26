@@ -5,45 +5,45 @@ package org.moparscape.msc.gs.external;
  */
 public class ObjectWoodcuttingDef {
 
-    /**
-     * How much experience identifying gives
-     */
-    public int exp;
-    /**
-     * Percent chance the tree will be felled
-     */
-    public int fell;
-    /**
-     * The id of the ore this turns into
-     */
-    private int logId;
-    /**
-     * Herblaw level required to identify
-     */
-    public int requiredLvl;
-    /**
-     * How long the tree takes to respawn afterwards
-     */
-    public int respawnTime;
+	/**
+	 * How much experience identifying gives
+	 */
+	public int exp;
+	/**
+	 * Percent chance the tree will be felled
+	 */
+	public int fell;
+	/**
+	 * The id of the ore this turns into
+	 */
+	private int logId;
+	/**
+	 * Herblaw level required to identify
+	 */
+	public int requiredLvl;
+	/**
+	 * How long the tree takes to respawn afterwards
+	 */
+	public int respawnTime;
 
-    public int getExp() {
-	return exp;
-    }
+	public int getExp() {
+		return exp;
+	}
 
-    public int getFell() {
-	return fell;
-    }
+	public int getFell() {
+		return fell;
+	}
 
-    public int getLogId() {
-	return logId;
-    }
+	public int getLogId() {
+		return logId;
+	}
 
-    public int getReqLevel() {
-	return requiredLvl;
-    }
+	public int getReqLevel() {
+		return requiredLvl;
+	}
 
-    public int getRespawnTime() {
-	return respawnTime;
-    }
+	public int getRespawnTime() {
+		return respawnTime;
+	}
 
 }

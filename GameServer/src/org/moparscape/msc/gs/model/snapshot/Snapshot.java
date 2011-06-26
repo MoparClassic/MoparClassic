@@ -2,11 +2,11 @@ package org.moparscape.msc.gs.model.snapshot;
 
 import org.moparscape.msc.gs.core.GameEngine;
 
-
 /**
  * Snapshot abstract class
+ * 
  * @author Pets
- *
+ * 
  */
 public abstract class Snapshot {
 
