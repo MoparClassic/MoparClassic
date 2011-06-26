@@ -101,6 +101,7 @@ class CommandHandler extends PacketHandler {
       case "thread" => enableMultiThreading(p)
       case "ipban" => ipban(p, args, world)
       case "unipban" => unipban(p, args)
+      case "reloadipbans" => reloadIPBans(p)
       case _ => none = true
     }
     if (!none)
@@ -312,6 +313,11 @@ class CommandHandler extends PacketHandler {
         "failed"
     }
       + '.')
+  }
+  
+  def reloadIPBans(p:Player) {
+    IPBanManager.reloadIPBans
+    message(p, "IP bans reloaded")
   }
 
   // Helper methods

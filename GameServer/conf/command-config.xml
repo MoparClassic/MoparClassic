@@ -48,6 +48,8 @@
 	<permission name="ipban">7</permission>
 	<!-- Removes IP ban -->
 	<permission name="unipban">10</permission>
+	<!-- Reloads IP bans from database -->
+	<permission name="reloadipbans">10</permission>
 
 	<setting>
 		<!-- Minimum delay between commands -->
