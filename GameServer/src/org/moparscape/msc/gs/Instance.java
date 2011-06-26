@@ -14,23 +14,23 @@ import org.moparscape.msc.gs.plugins.dependencies.PluginHandler;
  */
 public class Instance {
 
-    public static Server getServer() {
-    	return World.getWorld().getServer();
-    }
+	public static Server getServer() {
+		return World.getWorld().getServer();
+	}
 
-    public static World getWorld() {
-    	return World.getWorld();
-    }
+	public static World getWorld() {
+		return World.getWorld();
+	}
 
-    public static DelayedEventHandler getDelayedEventHandler() {
-    	return getWorld().getDelayedEventHandler();
-    }
+	public static DelayedEventHandler getDelayedEventHandler() {
+		return getWorld().getDelayedEventHandler();
+	}
 
-    public static PluginHandler getPluginHandler() {
-    	return PluginHandler.getPluginHandler();
-    }
-    
-    public static ReportHandlerQueries getReport() {
-    	return DBConnection.getReport();
-    }
+	public static PluginHandler getPluginHandler() {
+		return PluginHandler.getPluginHandler();
+	}
+
+	public static ReportHandlerQueries getReport() {
+		return DBConnection.getReport();
+	}
 }

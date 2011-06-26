@@ -11,10 +11,17 @@ import org.apache.commons.collections.map.LRUMap;
  * 
  */
 public class Cache<K, V> {
+	
+	private Map<K, V> cache;
 
-	// Shitty commons and their failure to support generics...
+	public Cache() {
+		this(100);
+	}
+
 	@SuppressWarnings("unchecked")
-	private Map<K, V> cache = new LRUMap();
+	public Cache(int size) {
+		cache = new LRUMap(size);
+	}
 
 	public V get(K key) {
 		return cache.get(key);

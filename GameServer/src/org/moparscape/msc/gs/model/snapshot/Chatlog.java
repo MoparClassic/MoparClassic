@@ -1,15 +1,13 @@
 package org.moparscape.msc.gs.model.snapshot;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import org.moparscape.msc.gs.model.Player;
-
 
 /**
- * Chat log class, stores chat string, time of message, message owner and set of players that saw the message
+ * Chat log class, stores chat string, time of message, message owner and set of
+ * players that saw the message
+ * 
  * @author Pets
- *
+ * 
  */
 public class Chatlog extends Snapshot {
 
@@ -24,9 +22,13 @@ public class Chatlog extends Snapshot {
 
 	/**
 	 * Constructor
-	 * @param sender player that sent the message
-	 * @param chatstring the message that was sent
-	 * @param recievers players that saw the public message
+	 * 
+	 * @param sender
+	 *            player that sent the message
+	 * @param chatstring
+	 *            the message that was sent
+	 * @param recievers
+	 *            players that saw the public message
 	 * 
 	 */
 	public Chatlog(String sender, String chatstring, ArrayList<String> recievers) {

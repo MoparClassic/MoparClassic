@@ -9,22 +9,21 @@ import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.util.Logger;
 
-
 public class PlayerListRequestHandler implements PacketHandler {
-    /**
-     * World instance
-     */
-    public static final World world = Instance.getWorld();
-    private PlayerListRequestPacketBuilder builder = new PlayerListRequestPacketBuilder();
+	/**
+	 * World instance
+	 */
+	public static final World world = Instance.getWorld();
+	private PlayerListRequestPacketBuilder builder = new PlayerListRequestPacketBuilder();
 
-    public void handlePacket(Packet p, IoSession session) throws Exception {
-	long uID = ((LSPacket) p).getUID();
-	Logger.event("LOGIN_SERVER requested player list (uID: " + uID + ")");
-	builder.setUID(uID);
-	LSPacket temp = builder.getPacket();
-	if (temp != null) {
-	    session.write(temp);
+	public void handlePacket(Packet p, IoSession session) throws Exception {
+		long uID = ((LSPacket) p).getUID();
+		Logger.event("LOGIN_SERVER requested player list (uID: " + uID + ")");
+		builder.setUID(uID);
+		LSPacket temp = builder.getPacket();
+		if (temp != null) {
+			session.write(temp);
+		}
 	}
-    }
 
 }

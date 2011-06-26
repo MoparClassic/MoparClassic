@@ -1,0 +1,68 @@
+<command>
+	<!-- Dev Mode 11 - Admin 10 - Mod 7 - PMod 5 - Sub 2 - Norm 1 -->
+
+	<!-- Displays "A list of commands is shown on the forums." -->
+	<permission name="help">11</permission>
+	<!-- Displays the time at UTC -->
+	<permission name="time">11</permission>
+	<!-- Skulls the player for 20 minutes -->
+	<permission name="skull">11</permission>
+	<!-- Sets fatigue to 100% -->
+	<permission name="fatigue">11</permission>
+	<!-- Displays the online players -->
+	<permission name="online">5</permission>
+	<!-- Displays number of players and NPCs in view -->
+	<permission name="nearby">5</permission>
+	<!-- Displays number of players and NPCs in view -->
+	<permission name="inview">5</permission>
+	<!-- Teleports the player to the stuck location -->
+	<permission name="stuck">11</permission>
+	<!-- Requests the following: Location, Login data/time, Last moved, Chat 
+		block status, fatigue, state -->
+	<permission name="info">7</permission>
+	<!-- Requests process info from client (scar, Autominer, methoxy, WPE) -->
+	<permission name="info2">7</permission>
+	<!-- Displays last 75 cast intervals -->
+	<permission name="info3">7</permission>
+	<!-- Teleports the player to the specified town -->
+	<permission name="town">11</permission>
+	<!-- Bans a player -->
+	<permission name="ban">7</permission>
+	<!-- Unbans a player -->
+	<permission name="unban">7</permission>
+	<!-- Sets the specified quest to the specified stage -->
+	<permission name="quest">11</permission>
+	<!-- Sets the players quest points to the specified value -->
+	<permission name="questpoints">11</permission>
+	<!-- Dumps duping data for a player -->
+	<permission name="dumpdata">11</permission>
+	<!-- Shuts down the server -->
+	<permission name="shutdown">10</permission>
+	<!-- Sends an update message, and shuts the server down in 60 seconds -->
+	<permission name="update">10</permission>
+	<!-- Wipes inv -->
+	<permission name="dropall">10</permission>
+	<!-- Uses threaded client update (messed up) -->
+	<permission name="thread">11</permission>
+	<!-- IP bans a user -->
+	<permission name="ipban">7</permission>
+	<!-- Removes IP ban -->
+	<permission name="unipban">10</permission>
+	<!-- Reloads IP bans from database -->
+	<permission name="reloadipbans">10</permission>
+
+	<setting>
+		<!-- Minimum delay between commands -->
+		<command-delay>2000</command-delay>
+		<!-- Minimum time before it sends the message about the delay -->
+		<command-delay-message-delay>100</command-delay-message-delay>
+		<!-- Time between login and using stuck -->
+		<stuck-login-wait-period>30000</stuck-login-wait-period>
+		<!-- Time between movement/combat that must be waited before using -->
+		<stuck-stand-still-time>300000</stuck-stand-still-time>
+		<!-- The x Coordinate the player is teleported to -->
+		<stuck-x>122</stuck-x>
+		<!-- The y Coordinate the player is teleported to -->
+		<stuck-y>647</stuck-y>
+	</setting>
+</command>

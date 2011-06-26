@@ -12,7 +12,6 @@ import org.apache.mina.transport.socket.nio.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
 import org.apache.mina.transport.socket.nio.SocketSessionConfig;
 import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.gs.connection.RSCConnectionHandler;
 import org.moparscape.msc.gs.connection.filter.ConnectionFilter;
 import org.moparscape.msc.gs.core.GameEngine;
@@ -33,14 +32,14 @@ public class Server {
 	private static World world = null;
 
 	public static void main(String[] args) throws IOException {
-		String configFile = "world.xml";
+		String configFile = "conf" + File.separator + "world.xml";
 		if (args.length > 0) {
 			File f = new File(args[0]);
 			if (f.exists()) {
 				configFile = f.getName();
 			}
 		}
-		
+
 		Config.initConfig(configFile);
 		world = Instance.getWorld();
 		world.wl.loadObjects();

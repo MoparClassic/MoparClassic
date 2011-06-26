@@ -7,7 +7,6 @@ import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.tools.DataConversions;
 
-
 public class ActiveTile {
 
 	/**
@@ -42,7 +41,9 @@ public class ActiveTile {
 		this.x = x;
 		this.y = y;
 	}
+
 	public boolean remove = false;
+
 	/**
 	 * Add an entity to the tile
 	 */
@@ -108,38 +109,46 @@ public class ActiveTile {
 	}
 
 	public boolean specificArea() {
-		boolean t = DataConversions.inPointArray(Formulae.noremoveTiles, new Point(this.getX(), this.getY()));
+		boolean t = DataConversions.inPointArray(Formulae.noremoveTiles,
+				new Point(this.getX(), this.getY()));
 		return t;
 	}
+
 	/**
 	 * Remove an entity from the tile
 	 */
 	public void remove(Entity entity) {
 		if (entity instanceof Player) {
 			players.remove(entity);
-			if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs() && !this.hasPlayers() && !this.specificArea()) {
+			if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs()
+					&& !this.hasPlayers() && !this.specificArea()) {
 				Instance.getWorld().tiles[this.getX()][this.getY()] = null;
 			}
 		} else if (entity instanceof Npc) {
 			npcs.remove(entity);
-			if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs() && !this.hasPlayers() && !this.specificArea()) {
+			if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs()
+					&& !this.hasPlayers() && !this.specificArea()) {
 				Instance.getWorld().tiles[this.getX()][this.getY()] = null;
 			}
 		} else if (entity instanceof Item) {
 			items.remove(entity);
-			if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs() && !this.hasPlayers() && !this.specificArea()) {
+			if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs()
+					&& !this.hasPlayers() && !this.specificArea()) {
 				Instance.getWorld().tiles[this.getX()][this.getY()] = null;
 			}
 		} else if (entity instanceof GameObject) {
 			object = null;
-			
-			if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs() && !this.hasPlayers() && !remove) {
+
+			if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs()
+					&& !this.hasPlayers() && !remove) {
 				Instance.getWorld().tiles[this.getX()][this.getY()] = null;
 			}
 		}
 	}
+
 	public void cleanItself() {
-		if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs() && !this.hasPlayers() && !this.specificArea()) {
+		if (!this.hasGameObject() && !this.hasItems() && !this.hasNpcs()
+				&& !this.hasPlayers() && !this.specificArea()) {
 			Instance.getWorld().tiles[this.getX()][this.getY()] = null;
 		}
 	}

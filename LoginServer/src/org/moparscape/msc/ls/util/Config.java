@@ -57,7 +57,7 @@ public class Config {
 	if (home == null) { // the env var hasnt been set, fall back to .
 	    home = ".";
 	}
-	CONF_DIR = home + File.separator + "conf" + File.separator + "ls";
+	CONF_DIR = home + File.separator + "conf";
 	LOG_DIR = home + File.separator + "logs";
 	RSCDLS_HOME = home;
     }

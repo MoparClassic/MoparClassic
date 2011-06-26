@@ -7,20 +7,18 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 
-
 public class PlayerLogoutRequest implements PacketHandler {
-    /**
-     * World instance
-     */
-    public static final World world = Instance.getWorld();
+	/**
+	 * World instance
+	 */
+	public static final World world = Instance.getWorld();
 
-    public void handlePacket(Packet p, IoSession session) throws Exception {
+	public void handlePacket(Packet p, IoSession session) throws Exception {
 		Player player = (Player) session.getAttachment();
 		if (player.canLogout()) {
 			player.destroy(true, true);
-		} 
-		else {
-		    player.getActionSender().sendCantLogout();
+		} else {
+			player.getActionSender().sendCantLogout();
 		}
-    }
+	}
 }
