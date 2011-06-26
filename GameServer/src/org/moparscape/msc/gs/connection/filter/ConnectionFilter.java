@@ -17,7 +17,7 @@ public class ConnectionFilter extends BlacklistFilter {
 		final SocketAddress sa = session.getRemoteAddress();
 		if (sa != null && sa instanceof InetSocketAddress) {
 			final InetSocketAddress a = (InetSocketAddress) sa;
-			if(IPBanManager.isBlocked(a)) {
+			if (IPBanManager.isBlocked(a)) {
 				block(a.getAddress());
 				return;
 			}
@@ -26,6 +26,7 @@ public class ConnectionFilter extends BlacklistFilter {
 					.put(a, val == null ? 1 : val + 1);
 			if (retVal != null && retVal > Config.CONENCTION_THROTTLE_THRESHOLD) {
 				block(a.getAddress());
+				return;
 			}
 		}
 		super.sessionCreated(nextFilter, session);

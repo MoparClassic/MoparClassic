@@ -11,8 +11,10 @@ import org.moparscape.msc.gs.alert.AlertHandler
 import java.net.InetSocketAddress
 import java.net.SocketAddress
 import scala.collection.JavaConversions._
+import org.moparscape.msc.gs.db.DataRequestHandler
 
 object IPBanManager extends Blocker {
+
   override def isBlocked(ip: String) = {
     var v = false
     if (Config.APPLICATION_LEVEL_BLOCKING)
@@ -80,6 +82,16 @@ object IPBanManager extends Blocker {
     }
     return null
   }
+
+  def reloadIPBans {
+    load
+  }
+
+  private def load {
+    block(DataRequestHandler.requestIPBans)
+  }
+
+  load
 }
 
 trait Blocker {
@@ -90,6 +102,10 @@ trait Blocker {
 }
 
 private object ApplicationLevelBlocking extends Blocker {
+  import org.moparscape.msc.gs.model.World
+  import java.sql.PreparedStatement
+  import java.sql.SQLException
+
   private val blocked = new CopyOnWriteArrayList[String];
 
   private val throttled = new CopyOnWriteArrayList[String]
@@ -101,11 +117,34 @@ private object ApplicationLevelBlocking extends Blocker {
   }
 
   override def block(ip: String) = {
-    blocked.addIfAbsent(ip)
+    var ret = false
+    try {
+      block.setString(1, ip)
+      block.executeUpdate
+      blocked.addIfAbsent(ip)
+      ret = true
+    } catch {
+      case e: SQLException => {
+        if (!e.getMessage.startsWith("Duplicate entry")) {
+          blocked.remove(ip)
+          ret = false
+        }
+      }
+      case e => {
+        Logger.error(e)
+        ret = false
+      }
+    }
+    ret
   }
 
   override def unblock(ip: String) = {
-    blocked.remove(ip)
+    val removed = blocked.remove(ip)
+    if (removed) {
+      unblock.setString(1, ip)
+      unblock.executeUpdate
+    }
+    removed
   }
 
   override def throttle(ip: String) {
@@ -125,6 +164,17 @@ private object ApplicationLevelBlocking extends Blocker {
       Logger.println("Application - Throttled " + ip)
     }
   }
+
+  val block: PreparedStatement = {
+    val conn = World.getWorld.getDB.getConnection
+    conn.prepareStatement("INSERT INTO `pk_ipbans` (`ip`) VALUES(?)")
+  }
+
+  val unblock: PreparedStatement = {
+    val conn = World.getWorld.getDB.getConnection
+    conn.prepareStatement("DELETE FROM `pk_ipbans` WHERE ip = ?")
+  }
+
 }
 
 private object OSLevelBlocking extends Blocker {
@@ -156,25 +206,33 @@ private object OSLevelBlocking extends Blocker {
   }
 
   override def block(ip: String) = {
-    Runtime.getRuntime.exec(Config.BLOCK_COMMAND.replaceAll("${ip}", ip))
-    blocked addIfAbsent ip
+    var ret = false
+    try {
+      Runtime.getRuntime.exec(Config.BLOCK_COMMAND.replaceAll("\\$\\{ip\\}", ip))
+      ret = true
+    } catch {
+      case _ => ret = false
+    }
+    ret
   }
 
   override def unblock(ip: String) = {
+    var ret = false
     try {
-      Runtime.getRuntime.exec(Config.UNBLOCK_COMMAND.replaceAll("${ip}", ip))
+      Runtime.getRuntime.exec(Config.UNBLOCK_COMMAND.replaceAll("\\$\\{ip\\}", ip))
       blocked remove ip
       throttled.remove(ip)
       Logger.println("OS - Unblocked " + ip)
-      true
+      ret = true
     } catch {
-      case e: Exception => {
+      case e: Any => {
         Logger.println("OS - Failed to unblock " + ip)
         Logger.error(e)
         if (Config.OS_LEVEL_UNBLOCK_FAILED_ALERT)
           AlertHandler.sendAlert("OS - Failed to unblock " + ip, 2)
-        false
+        ret = false
       }
     }
+    ret
   }
 }

@@ -2,6 +2,7 @@ package org.moparscape.msc.gs.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -86,6 +87,18 @@ public class DBConnection {
 			return true;
 		} catch (SQLException e) {
 			return false;
+		}
+	}
+
+	public ResultSet getQuery(String q) throws SQLException {
+		try {
+			return statement.executeQuery(q);
+		} catch (SQLException e) {
+			if (!isConnected() && createConnection()) {
+				return getQuery(q);
+			}
+			throw new SQLException(e.getMessage() + ": '" + q + "'",
+					e.getSQLState(), e.getErrorCode());
 		}
 	}
 

@@ -86,8 +86,8 @@ public class Config {
 
 		IP_BAN_REMOVAL_DELAY = Integer.parseInt(props
 				.getProperty("ip-ban-removal-delay"));
-		BLOCK_COMMAND = props.getProperty("block-command");
-		UNBLOCK_COMMAND = props.getProperty("unblock-command");
+		BLOCK_COMMAND = props.getProperty("os-level-block-command");
+		UNBLOCK_COMMAND = props.getProperty("os-level-unblock-command");
 		CONNECTION_THROTTLE_SIZE = Integer.parseInt(props
 				.getProperty("connection-throttle-size"));
 		CONENCTION_THROTTLE_THRESHOLD = Integer.parseInt(props
