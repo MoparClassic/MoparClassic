@@ -45,7 +45,7 @@
 	<entry key="admins">None</entry>
 
 	<entry key="ip-ban-removal-delay">1800000</entry>
-	<entry key="os-level-blocking">true</entry>
+	<entry key="os-level-blocking">false</entry>
 	<entry key="os-level-block-command">sudo route add -host ${ip} reject</entry>
 	<entry key="os-level-unblock-command">sudo route del -host ${ip} reject</entry>
 	<entry key="application-level-blocking">true</entry>
@@ -62,6 +62,9 @@
 		This uses a LRUMap, and only has a limited number of entries, so only the 
 		most active IPs will be stored at a time. -->
 	<entry key="connection-throttle">5</entry>
+	<!-- The amount of time (in ms) after a connection is closed that the count is kept. 
+		This is used to throttle spam logging. -->
+	<entry key="connection-throttle-remove-delay">180000</entry>
 
 	<!-- Every 100 minutes -->
 	<entry key="garbage-collect-interval">6000000</entry>

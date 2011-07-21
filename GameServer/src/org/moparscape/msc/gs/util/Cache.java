@@ -11,17 +11,16 @@ import org.apache.commons.collections.map.LRUMap;
  * 
  */
 public class Cache<K, V> {
-
-	private final Map<K, V> cache;
+	
+	private Map<K, V> cache;
 
 	public Cache() {
 		this(100);
 	}
 
 	@SuppressWarnings("unchecked")
-	// Commons and their failure to support generics...
-	public Cache(int maxSize) {
-		cache = new LRUMap(maxSize);
+	public Cache(int size) {
+		cache = new LRUMap(size);
 	}
 
 	public V get(K key) {
@@ -30,6 +29,18 @@ public class Cache<K, V> {
 
 	public V put(K key, V value) {
 		return cache.put(key, value);
+	}
+	
+	public V remove(K key) {
+		return cache.remove(key);
+	}
+	
+	public V remove(K key, V value) {
+		V v = cache.get(key);
+		if(v.equals(value)) {
+			return cache.remove(value);
+		}
+		return null;
 	}
 
 }
