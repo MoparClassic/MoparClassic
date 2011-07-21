@@ -584,6 +584,12 @@ public final class Player extends Mob {
 		}
 	}
 
+	/**
+	 * This method acts as a throttle for packets, and adds them to a list.<br>
+	 * If the player sends more than 20 packets per second they're disconnected (60 packets per 3000ms)
+	 * 
+	 * @param p - the packet to add...
+	 */
 	public void addPacket(RSCPacket p) {
 		long now = GameEngine.getTime();
 		if (now - lastCount > 3000) {
@@ -591,7 +597,7 @@ public final class Player extends Mob {
 			packetCount = 0;
 		}
 		if (!DataConversions.inArray(Formulae.safePacketIDs, p.getID())
-				&& packetCount++ >= 60) {
+				&& ++packetCount >= 60) {
 			destroy(false);
 		}
 		if (lastPackets.size() >= 60) {
