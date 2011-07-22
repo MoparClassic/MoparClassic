@@ -28,17 +28,20 @@ public class Config {
 
 	public static boolean members, f2pWildy, APPLICATION_LEVEL_BLOCKING;
 
-	public static double expRate, subExpRate;
+	public static double expRate, subExpRate, WILD_NON_COMBAT_BONUS,
+			WILD_COMBAT_BONUS;
 
 	public static String[] pmods, mods, admins;
-	public static int IP_BAN_REMOVAL_DELAY;
-	public static int GARBAGE_COLLECT_INTERVAL;
-	public static int SAVE_INTERVAL;
+	public static int IP_BAN_REMOVAL_DELAY, GARBAGE_COLLECT_INTERVAL,
+			SAVE_INTERVAL;
 	public static String DATE_FORMAT, BLOCK_COMMAND, UNBLOCK_COMMAND,
 			ALERT_CONFIG, COMMAND_CONFIG;
-	public static int CONNECTION_THROTTLE_SIZE;
+	public static int CONNECTION_THROTTLE_SIZE,
+			WILD_LEVEL_FOR_NON_COMBAT_BONUS, WILD_STAND_STILL_TIME,
+			DELAY_REMOVAL;
 	public static boolean OS_LEVEL_BLOCKING, APPLICATION_LEVEL_THROTTLE_ALERT,
-	OS_LEVEL_THROTTLE_ALERT, OS_LEVEL_UNBLOCK_FAILED_ALERT;
+			OS_LEVEL_THROTTLE_ALERT, OS_LEVEL_UNBLOCK_FAILED_ALERT,
+			CONGRATS_FOR_MAX_LEVEL;
 
 	static {
 		loadEnv();
@@ -102,6 +105,8 @@ public class Config {
 				.getProperty("os-level-blocking-throttle-alert"));
 		OS_LEVEL_UNBLOCK_FAILED_ALERT = Boolean.parseBoolean(props
 				.getProperty("os-level-blocking-unblock-failed-alert"));
+		DELAY_REMOVAL = Integer.parseInt(props
+				.getProperty("connection-throttle-remove-delay"));
 
 		GARBAGE_COLLECT_INTERVAL = Integer.parseInt(props
 				.getProperty("garbage-collect-interval"));
@@ -111,6 +116,17 @@ public class Config {
 
 		ALERT_CONFIG = props.getProperty("alert-config");
 		COMMAND_CONFIG = props.getProperty("command-config");
+
+		WILD_STAND_STILL_TIME = Integer.parseInt(props
+				.getProperty("wild-stand-still-time"));
+		WILD_LEVEL_FOR_NON_COMBAT_BONUS = Integer.parseInt(props
+				.getProperty("wild-non-combat-min-level"));
+		WILD_NON_COMBAT_BONUS = Double.parseDouble(props
+				.getProperty("wild-non-combat-bonus"));
+		WILD_COMBAT_BONUS = Double.parseDouble(props
+				.getProperty("wild-combat-bonus"));
+		CONGRATS_FOR_MAX_LEVEL = Boolean.parseBoolean(props
+				.getProperty("max-level-congrats"));
 
 		props.clear();
 

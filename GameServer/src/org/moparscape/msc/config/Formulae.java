@@ -79,6 +79,12 @@ public class Formulae {
 	private static Random r = new Random();
 	public static final int[] runeIDs = { 31, 32, 33, 34, 35, 36, 37, 38, 40,
 			41, 42, 46, 619, 825 };
+	/**
+	 * Safe packets:<br>
+	 * PlayerAppearanceUpdater<br>
+	 * FollowRequest<br>
+	 * InvUseOnItem<br>
+	 */
 	public static final int[] safePacketIDs = { 70, 123, 128, 255 };
 	public static final String[] statArray = { "attack", "defense", "strength",
 			"hits", "ranged", "prayer", "magic", "cooking", "woodcut",

@@ -13,7 +13,7 @@ import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.PacketQueue;
 import org.moparscape.msc.gs.connection.RSCPacket;
-import org.moparscape.msc.gs.connection.filter.OSLevelBlocking;
+import org.moparscape.msc.gs.connection.filter.IPBanManager;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.model.ActiveTile;
 import org.moparscape.msc.gs.model.Npc;
@@ -228,7 +228,7 @@ public final class GameEngine extends Thread {
 			if (player.getUsername() == null && p.getID() != 32
 					&& p.getID() != 77 && p.getID() != 0) {
 				final String ip = player.getCurrentIP();
-				OSLevelBlocking.throttle(ip);
+				IPBanManager.throttle(ip);
 				continue;
 			}
 			PacketHandler handler = packetHandlers.get(p.getID());

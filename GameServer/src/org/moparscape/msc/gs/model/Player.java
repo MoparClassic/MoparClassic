@@ -584,6 +584,12 @@ public final class Player extends Mob {
 		}
 	}
 
+	/**
+	 * This method acts as a throttle for packets, and adds them to a list.<br>
+	 * If the player sends more than 20 packets per second they're disconnected (60 packets per 3000ms)
+	 * 
+	 * @param p - the packet to add...
+	 */
 	public void addPacket(RSCPacket p) {
 		long now = GameEngine.getTime();
 		if (now - lastCount > 3000) {
@@ -591,7 +597,7 @@ public final class Player extends Mob {
 			packetCount = 0;
 		}
 		if (!DataConversions.inArray(Formulae.safePacketIDs, p.getID())
-				&& packetCount++ >= 60) {
+				&& ++packetCount >= 60) {
 			destroy(false);
 		}
 		if (lastPackets.size() >= 60) {
@@ -653,14 +659,14 @@ public final class Player extends Mob {
 	public boolean canLogout() {
 		if (this != null && this.location != null
 				&& this.location.inWilderness()) {
-			if (GameEngine.getTime() - this.getLastMoved() < 10000) {
+			if (GameEngine.getTime() - this.getLastMoved() < Config.WILD_STAND_STILL_TIME) {
 				getActionSender()
 						.sendMessage(
-								"You must stand peacefully in one place for 10 seconds!");
+								"You must stand peacefully in one place for " + Config.WILD_STAND_STILL_TIME + " seconds!");
 				return false;
 			}
 		}
-		return !isBusy() && GameEngine.getTime() - getCombatTimer() > 10000;
+		return !isBusy() && GameEngine.getTime() - getCombatTimer() > Config.WILD_STAND_STILL_TIME;
 	}
 
 	public boolean canReport() {
@@ -1564,7 +1570,6 @@ public final class Player extends Mob {
 		return wrongwords;
 	}
 
-	// incExp
 	public int ignoreCount() {
 		return ignoreList.size();
 	}
@@ -1600,13 +1605,8 @@ public final class Player extends Mob {
 			}
 		}
 		if (combat && i < 3
-				&& (combatStyleToIndex() != i && getCombatStyle() != 0)) { // fix
-			// for
-			// accidental
-			// exp
-			// in
-			// other
-			// stats?
+				&& (combatStyleToIndex() != i && getCombatStyle() != 0)) {
+			// fix for accidental exp in other stats?
 			return;
 		}
 
@@ -1617,9 +1617,9 @@ public final class Player extends Mob {
 
 		if (getLocation().wildernessLevel() > 1) {
 			if (combat)
-				exprate = exprate * 2;
-			if (getLocation().wildernessLevel() > 10 && !combat)
-				exprate = exprate * 2;
+				exprate += Config.WILD_COMBAT_BONUS;
+			if (getLocation().wildernessLevel() > Config.WILD_LEVEL_FOR_NON_COMBAT_BONUS && !combat)
+				exprate += Config.WILD_NON_COMBAT_BONUS;
 		}
 
 		exp[i] += amount * exprate;
@@ -1633,7 +1633,7 @@ public final class Player extends Mob {
 			incCurStat(i, advanced);
 			incMaxStat(i, advanced);
 			int stat = this.getMaxStat(i);
-			if (stat == 99) {
+			if (stat == 99 && Config.CONGRATS_FOR_MAX_LEVEL) {
 				for (Player p : world.getPlayers()) {
 					if (p != null) {
 						p.getActionSender()
