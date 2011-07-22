@@ -68,21 +68,21 @@ public class PlayerLoginHandler implements PacketHandler {
 	byte returnVal = 0;
 
 	try {
-	    ResultSet result = Server.db.getQuery("SELECT r.pass, r.banned, r.owner, u.group_id, b.id AS b_id FROM `pk_players` AS r INNER JOIN `users` AS u ON u.id=r.owner LEFT JOIN `bans` AS b on (b.username LIKE u.username OR b.ip LIKE '" + ip + "') WHERE `user`='" + user + "'");
+	    ResultSet result = Server.db.getQuery("SELECT banned, owner, group_id FROM `pk_players` WHERE `user` = '" + user + "'");
 	    if (!result.next()) {
-		return 2;
+	    	return 2;
 	    }
 	    if (!Auth.check_auth(DataConversions.hashToUsername(user), pass, new StringBuilder())) {
-		return 2;
+	    	return 2;
 	    }
 
-	    if (result.getInt("banned") == 1 || result.getInt("b_id") != 0) {
-		System.out.println("Banned player: " + DataConversions.hashToUsername(user) + " trying to login.");
-		return 6;
+	    if (result.getInt("banned") == 1) {
+			System.out.println("Banned player: " + DataConversions.hashToUsername(user) + " trying to login.");
+			return 6;
 	    }
 
-	    if (result.getInt("group_id") == 1 || result.getInt("group_id") == 2) {
-		returnVal = 99;
+	    if (result.getInt("group_id") >= 5) {
+	    	returnVal = 99;
 	    }
 
 	    int owner = result.getInt("owner");

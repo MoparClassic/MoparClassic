@@ -15,13 +15,12 @@ import org.moparscape.msc.gs.db.DataRequestHandler
 
 object IPBanManager extends Blocker {
 
-  override def isBlocked(ip: String) = {
-    var v = false
-    if (Config.APPLICATION_LEVEL_BLOCKING)
-      v = ApplicationLevelBlocking.isBlocked(ip)
-    if (Config.OS_LEVEL_BLOCKING)
-      v = v || OSLevelBlocking.isBlocked(ip)
-    v
+  override def isBlocked(ip: String): Boolean = {
+    if (Config.APPLICATION_LEVEL_BLOCKING && ApplicationLevelBlocking.isBlocked(ip))
+      return true
+    if (Config.OS_LEVEL_BLOCKING && OSLevelBlocking.isBlocked(ip))
+      return true
+    return false
   }
 
   def isBlocked(ip: SocketAddress): Boolean = {
@@ -113,7 +112,7 @@ private object ApplicationLevelBlocking extends Blocker {
   private val events = Server.getServer().getEngine().getEventHandler()
 
   override def isBlocked(ip: String) = {
-    blocked.contains(ip)
+    blocked.contains(ip) || throttled.contains(ip)
   }
 
   override def block(ip: String) = {
@@ -185,7 +184,7 @@ private object OSLevelBlocking extends Blocker {
   private val events = Server.getServer().getEngine().getEventHandler()
 
   override def isBlocked(ip: String) = {
-    blocked.contains(ip)
+    blocked.contains(ip) || throttled.contains(ip)
   }
 
   override def throttle(ip: String) {
