@@ -72,6 +72,11 @@ public class ConnectionFilter extends BlacklistFilter {
 		final Integer val;
 		synchronized (connections) {
 			val = connections.get(host);
+
+			// Prevents NPE caused by blocking connections 
+			if (val == null) {
+				return;
+			}
 			if (val == 1) {
 				connections.remove(host);
 			} else {
