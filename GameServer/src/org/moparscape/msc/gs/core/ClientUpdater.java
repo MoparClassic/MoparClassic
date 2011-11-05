@@ -20,9 +20,8 @@ import org.moparscape.msc.gs.model.snapshot.Chatlog;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.EntityList;
 import org.moparscape.msc.gs.util.Logger;
-import org.moparscape.msc.gs.util.Processor;
 
-public final class ClientUpdater implements Processor {
+public final class ClientUpdater {
 
 	public static int pktcount = 0;
 	private static World world = Instance.getWorld();
