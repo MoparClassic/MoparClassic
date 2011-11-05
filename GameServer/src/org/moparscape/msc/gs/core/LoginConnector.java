@@ -200,6 +200,9 @@ public class LoginConnector {
 						+ connectionAttempts + " tries");
 				System.exit(1);
 				return false;
+			} else {
+				// Add a delay so it doesn't instantly get to 100
+				Thread.sleep(1000);
 			}
 			return reconnect();
 

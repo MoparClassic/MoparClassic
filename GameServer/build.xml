@@ -1,84 +1,91 @@
-<project name="GameServer" default="build" basedir=".">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MoparClassic" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property name="src" location="src" />
-	<property name="build" location="build" />
-	<property name="doc" location="../doc" />
+	<property name="bin" location="bin" />
+	<property name="lib_managed" location="lib_managed" />
 	<property name="lib" location="lib" />
-	<property name="jar" location="rscd.jar" />
-	<property name="settings" location="settings.ini" />
-	<property name="quests" location="conf/server/quests" />
-	<property name="scala-library.jar" value="lib/scala-library.jar" />
+	<property name="doc" location="doc" />
+	<property name="jar" value="moparclassic.jar" />
+	<property name="main-class" value="org.moparscape.msc.gs.Server" />
+	<property name="scala-version" value="2.9.1" />
+	<property name="ivy.lib.dir" value="lib_managed"/>
 
-	<target name="build">
-		<delete file="${jar}" />
-		<delete dir="${build}" />
-		<mkdir dir="${build}" />
-		<taskdef resource="scala/tools/ant/antlib.xml">
+	<fileset id="libraries" dir="${lib}">
+		<include name="*.jar" />
+	</fileset>
+
+	<fileset id="libraries_managed" dir="${lib_managed}">
+		<include name="*.jar" />
+	</fileset>
+
+	<fileset id="production-classes" dir="${bin}">
+		<include name="**/*.class" />
+	</fileset>
+
+	<path id="binary-path">
+		<pathelement path="${bin}" />
+	</path>
+
+	<path id="library-path">
+		<fileset refid="libraries" />
+		<fileset refid="libraries_managed" />
+	</path>
+
+	<path id="master-path">
+		<path refid="binary-path" />
+		<path refid="library-path" />
+	</path>
+
+	<target name="init">
+		<mkdir dir="${bin}" />
+		<mkdir dir="${doc}" />
+		<mkdir dir="${lib}" />
+		<mkdir dir="${lib_managed}" />
+	</target>
+
+	<target name="resolve" depends="init">
+		<ivy:retrieve sync="true" />
+	</target>
+
+	<target name="build" depends="resolve">
+		<taskdef resource="scala/tools/ant/antlib.xml" classpathref="library-path">
 			<classpath>
-				<pathelement location="lib/scala-compiler.jar" />
-				<pathelement location="${scala-library.jar}" />
+				<pathelement location="${lib}/scala-compiler-${scala-version}.jar" />
+				<pathelement location="${lib}/scala-library-${scala-version}.jar" />
 			</classpath>
 		</taskdef>
-		<scalac srcdir="${src}" destdir="${build}">
-			<classpath>
-				<pathelement location="${scala-library.jar}" />
-				<pathelement location="${lib}/mina.jar" />
-				<pathelement location="${lib}/xpp3.jar" />
-				<pathelement location="${lib}/slf4j.jar" />
-				<pathelement location="${lib}/bsh.jar" />
-				<pathelement location="${lib}/commons-collections-3.2.1.jar" />
-				<pathelement location="${lib}/xstream.jar" />
-				<pathelement location="${lib}/mysql-connector.jar" />
-				<pathelement location="${lib}/hex-string.jar" />
-				<pathelement location="${lib}/mail.jar" />
-				<pathelement path="${java.class.path}/" />
-			</classpath>
-			<include name="**/*.scala" />
+		<scalac destdir="${bin}" classpathref="library-path">
+			<src path="${src}" />
 		</scalac>
-		<javac srcdir="${src}" destdir="${build}" debug="on" target="1.6">
-			<classpath>
-				<pathelement location="${scala-library.jar}" />
-				<pathelement location="${lib}/mina.jar" />
-				<pathelement location="${lib}/xpp3.jar" />
-				<pathelement location="${lib}/slf4j.jar" />
-				<pathelement location="${lib}/bsh.jar" />
-				<pathelement location="${lib}/commons-collections-3.2.1.jar" />
-				<pathelement location="${lib}/xstream.jar" />
-				<pathelement location="${lib}/mysql-connector.jar" />
-				<pathelement location="${lib}/hex-string.jar" />
-				<pathelement location="${lib}/mail.jar" />
-				<pathelement path="${java.class.path}/" />
-			</classpath>
+		<javac destdir="${bin}" includeantruntime="false">
+			<src path="${src}" />
+			<classpath refid="library-path" />
 		</javac>
-		<jar basedir="${build}" destfile="${jar}" />
+	</target>
 
+	<target name="clean">
+		<delete dir="${bin}" />
+		<delete dir="${doc}" />
+		<delete file="${jar}" />
+	</target>
+
+	<target name="run" depends="build">
+		<java classpathref="master-path" fork="true" classname="${main-class}" />
 	</target>
 
 	<target name="doc" depends="build">
-		<javadoc sourcepath="${src}" destdir="${doc}" verbose="on" />
+		<scaladoc srcdir="${src}" destdir="${doc}" deprecation="yes" unchecked="yes" doctitle="MoparClassic Documentation" classpathref="master-path">
+			<include name="**/*.scala" />
+		</scaladoc>
 	</target>
 
-	<target name="runf2p" depends="build">
-		<java classname="org.moparscape.msc.gs.Server" fork="true">
-			<jvmarg value="-Xms128m" />
-			<jvmarg value="-Xmx512m" />
-			<arg value="world.xml" />
-			<arg value="f2p" />
-			<arg value="no" />
-			<classpath>
-				<pathelement location="${lib}/mysql-connector.jar" />
-				<pathelement location="${lib}/mina.jar" />
-				<pathelement location="${lib}/xpp3.jar" />
-				<pathelement location="${lib}/bsh.jar" />
-				<pathelement location="${lib}/commons-collections-3.2.1.jar" />
-				<pathelement location="${lib}/slf4j.jar" />
-				<pathelement location="${lib}/xstream.jar" />
-				<pathelement location="${lib}/hex-string.jar" />
-				<pathelement location="${lib}/mail.jar" />
-				<pathelement location="${scala-library.jar}" />
-				<pathelement location="quests/" />
-				<pathelement path="${jar}/" />
-			</classpath>
-		</java>
+	<target name="jar" depends="build">
+		<jar destfile="${jar}">
+			<zipgroupfileset refid="libraries" />
+			<fileset refid="production-classes" />
+			<manifest>
+				<attribute name="Main-Class" value="${main-class}" />
+			</manifest>
+		</jar>
 	</target>
 </project>

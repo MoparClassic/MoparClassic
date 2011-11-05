@@ -328,38 +328,37 @@ public final class GameEngine extends Thread {
 				Thread.sleep(50);
 			} catch (InterruptedException ie) {
 			}
-			time = System.currentTimeMillis();
-			long Delay;
+			long deltaTime = updateTime();
 			processLoginServer();
-			Delay = System.currentTimeMillis() - time;
-			if (Delay >= 1000)
+			if ((deltaTime = getDeltaTime()) >= 1000)
 				Logger.println("processLoginServer is taking longer than it should, exactly "
-						+ Delay + "ms");
-			time = System.currentTimeMillis();
+						+ deltaTime + "ms");
 			processIncomingPackets();
-			Delay = System.currentTimeMillis() - time;
-			if (Delay >= 1000)
+			if ((deltaTime = getDeltaTime()) >= 1000)
 				Logger.println("processIncomingPackets is taking longer than it should, exactly "
-						+ Delay + "ms");
-			time = System.currentTimeMillis();
+						+ deltaTime + "ms");
 			processEvents();
-			Delay = System.currentTimeMillis() - time;
-			if (Delay >= 1000)
+			if ((deltaTime = getDeltaTime()) >= 1000)
 				Logger.println("processEvents is taking longer than it should, exactly "
-						+ Delay + "ms");
-			time = System.currentTimeMillis();
+						+ deltaTime + "ms");
 			processClients();
-			Delay = System.currentTimeMillis() - time;
-			if (Delay >= 1000)
+			if ((deltaTime = getDeltaTime()) >= 1000)
 				Logger.println("processClients is taking longer than it should, exactly "
-						+ Delay + "ms");
-			time = System.currentTimeMillis();
+						+ deltaTime + "ms");
 			cleanSnapshotDeque();
-			Delay = System.currentTimeMillis() - time;
-			if (Delay >= 1000)
+			if ((deltaTime = getDeltaTime()) >= 1000)
 				Logger.println("processSnapshotDeque is taking longer than it should, exactly "
-						+ Delay + "ms");
+						+ deltaTime + "ms");
 		}
+	}
+
+	public long getDeltaTime() {
+		long t1 = time;
+		return updateTime() - t1;
+	}
+
+	public long updateTime() {
+		return time = System.currentTimeMillis();
 	}
 
 	/**

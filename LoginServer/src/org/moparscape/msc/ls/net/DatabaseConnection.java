@@ -120,4 +120,8 @@ public class DatabaseConnection {
 	    throw new SQLException(e.getMessage() + ": '" + lastQuery + "'", e.getSQLState(), e.getErrorCode());
 	}
     }
+
+	public java.sql.PreparedStatement prepareStatement(String statement) throws SQLException {
+		return con.prepareStatement(statement);
+	}
 }

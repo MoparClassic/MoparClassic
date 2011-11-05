@@ -1,1 +1,22 @@
 An emulator for an old java MMORPG.
+
+Setup
+======
+Install the JRE and JDK
+Install Ant
+Install Ivy
+Install MySQL
+
+Ensure all the paths are set correctly.
+
+Import Database.sql
+
+If you have any questions regarding that use Google.
+
+Go to LoginServer in the terminal/command prompt and type--
+ant runls
+
+Go to GameServer in the terminal/command prompy and type--
+ant run
+
+You're now ready to start accept connections.

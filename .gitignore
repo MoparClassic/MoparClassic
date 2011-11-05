@@ -13,3 +13,6 @@ build
 !.gitmodules
 !.gitkeep
 !.gitattributes
+lib_managed
+doc
+

@@ -62,8 +62,8 @@
 		This uses a LRUMap, and only has a limited number of entries, so only the 
 		most active IPs will be stored at a time. -->
 	<entry key="connection-throttle">5</entry>
-	<!-- The amount of time (in ms) after a connection is closed that the count is kept. 
-		This is used to throttle spam logging. -->
+	<!-- The amount of time (in ms) after a connection is closed that the count 
+		is kept. This is used to throttle spam logging. -->
 	<entry key="connection-throttle-remove-delay">180000</entry>
 
 	<!-- Every 100 minutes -->

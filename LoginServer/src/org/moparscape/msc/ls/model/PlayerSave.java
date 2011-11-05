@@ -1,136 +1,16 @@
 package org.moparscape.msc.ls.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.moparscape.msc.ls.Server;
 import org.moparscape.msc.ls.util.DataConversions;
 
 public class PlayerSave {
-	public static final String[] statArray = { "attack", "defense", "strength",
-			"hits", "ranged", "prayer", "magic", "cooking", "woodcut",
-			"fletching", "fishing", "firemaking", "crafting", "smithing",
-			"mining", "herblaw", "agility", "thieving" };
 
 	public static PlayerSave loadPlayer(long user) {
-		PlayerSave save = new PlayerSave(user);
-		ResultSet result;
-
-		try {
-			result = Server.db
-					.getQuery("SELECT * FROM `pk_players` WHERE `user`='"
-							+ save.getUser() + "'");
-			if (!result.next()) {
-				return save;
-			}
-
-			long eventcd = result.getLong("eventcd");
-			long subexp = result.getLong("sub_expires");
-			@SuppressWarnings("unused")
-			long now = System.currentTimeMillis() / 1000;
-			int sowner = result.getInt("owner");
-			save.setOwner(sowner, result.getInt("group_id"), subexp);
-			save.setMuted(result.getLong("muted"));
-			/*
-			 * if(subexp - now < 1) {
-			 * Server.db.updateQuery("UPDATE users SET group_id='4' WHERE `id`='"
-			 * + sowner + "'"); save.setOwner(sowner, 0,
-			 * result.getLong("subexp")); }
-			 */
-
-			save.setLogin(result.getLong("login_date"),
-					DataConversions.IPToLong(result.getString("login_ip")));
-			save.setLocation(result.getInt("x"), result.getInt("y"));
-
-			save.setFatigue(result.getInt("fatigue"));
-			save.setCombatStyle((byte) result.getInt("combatstyle"));
-
-			save.setPrivacy(result.getInt("block_chat") == 1,
-					result.getInt("block_private") == 1,
-					result.getInt("block_trade") == 1,
-					result.getInt("block_duel") == 1);
-			save.setSettings(result.getInt("cameraauto") == 1,
-					result.getInt("onemouse") == 1,
-					result.getInt("soundoff") == 1,
-					result.getInt("showroof") == 1,
-					result.getInt("autoscreenshot") == 1,
-					result.getInt("combatwindow") == 1);
-
-			save.setAppearance((byte) result.getInt("haircolour"),
-					(byte) result.getInt("topcolour"),
-					(byte) result.getInt("trousercolour"),
-					(byte) result.getInt("skincolour"),
-					(byte) result.getInt("headsprite"),
-					(byte) result.getInt("bodysprite"),
-					result.getInt("male") == 1, result.getInt("skulled"));
-
-			save.setQuestPoints(result.getInt("quest_points"));
-
-			result = Server.db
-					.getQuery("SELECT * FROM `pk_experience` WHERE `user`='"
-							+ save.getUser() + "'");
-			if (!result.next()) {
-				return save;
-			}
-			for (int i = 0; i < 18; i++) {
-				save.setExp(i, result.getInt("exp_" + statArray[i]));
-			}
-
-			result = Server.db
-					.getQuery("SELECT * FROM `pk_curstats` WHERE `user`='"
-							+ save.getUser() + "'");
-			if (!result.next()) {
-				return save;
-			}
-			for (int i = 0; i < 18; i++) {
-				save.setLvl(i, result.getInt("cur_" + statArray[i]));
-			}
-
-			result = Server.db
-					.getQuery("SELECT id,amount,wielded FROM `pk_invitems` WHERE `user`='"
-							+ save.getUser() + "' ORDER BY `slot` ASC");
-			while (result.next()) {
-				save.addInvItem(result.getInt("id"), result.getInt("amount"),
-						result.getInt("wielded") == 1);
-			}
-
-			result = Server.db
-					.getQuery("SELECT id,amount FROM `pk_bank` WHERE `user`='"
-							+ save.getUser() + "' ORDER BY `slot` ASC");
-			while (result.next()) {
-				save.addBankItem(result.getInt("id"), result.getInt("amount"));
-			}
-
-			result = Server.db
-					.getQuery("SELECT friend FROM `pk_friends` WHERE `user`='"
-							+ save.getUser() + "'");
-			while (result.next()) {
-				save.addFriend(result.getLong("friend"));
-			}
-
-			result = Server.db
-					.getQuery("SELECT `ignore` FROM `pk_ignores` WHERE `user`='"
-							+ save.getUser() + "'");
-			while (result.next()) {
-				save.addIgnore(result.getLong("ignore"));
-			}
-			result = Server.db
-					.getQuery("SELECT * FROM `pk_quests` WHERE `user`='"
-							+ save.getUser() + "'");
-			while (result.next()) {
-				save.setQuestStage(result.getInt("id"), result.getInt("stage"));
-			}
-			save.setEventCD(eventcd);
-
-		} catch (SQLException e) {
-			Server.error("SQL Exception Loading "
-					+ DataConversions.hashToUsername(user) + ": "
-					+ e.getMessage());
-		}
-
-		return save;
+		return Server.storage.loadPlayer(user);
 	}
 
 	private long eventcd = 0;
@@ -141,7 +21,7 @@ public class PlayerSave {
 			combatWindow;
 	private int combat, skillTotal;
 	private byte combatStyle;
-	private long[] exp = new long[18];
+	private int[] exp = new int[18];
 	private int fatigue;
 	private ArrayList<Long> friendList = new ArrayList<Long>();
 	private byte hairColour, topColour, trouserColour, skinColour, headSprite,
@@ -162,7 +42,7 @@ public class PlayerSave {
 
 	private int x, y;
 
-	private PlayerSave(long user) {
+	public PlayerSave(long user) {
 		this.user = user;
 	}
 
@@ -173,9 +53,15 @@ public class PlayerSave {
 	public void addFriend(long friend) {
 		friendList.add(friend);
 	}
-
+	
+	public void addFriends(List<Long> friends) {
+		friendList.addAll(friends);
+	}
 	public void addIgnore(long friend) {
 		ignoreList.add(friend);
+	}
+	public void addIgnore(List<Long> ignored) {
+		ignoreList.addAll(ignored);
 	}
 
 	public void addInvItem(int id, int amount, boolean wielded) {
@@ -228,6 +114,10 @@ public class PlayerSave {
 
 	public BankItem getBankItem(int i) {
 		return bankItems.get(i);
+	}
+	
+	public List<BankItem> getBankItems() {
+		return bankItems;
 	}
 
 	public int getBodySprite() {
@@ -367,86 +257,7 @@ public class PlayerSave {
 	}
 
 	public boolean save() {
-		try {
-			String query;
-
-			Server.db.updateQuery("DELETE FROM `pk_bank` WHERE `user`='" + user
-					+ "'");
-			if (bankItems.size() > 0) {
-				query = "INSERT INTO `pk_bank`(`user`, `id`, `amount`, `slot`) VALUES";
-				int slot = 0;
-				for (BankItem item : bankItems) {
-					query += "('" + user + "', '" + item.getID() + "', '"
-							+ item.getAmount() + "', '" + (slot++) + "'),";
-				}
-				Server.db.updateQuery(query.substring(0, query.length() - 1));
-			}
-
-			Server.db.updateQuery("DELETE FROM `pk_invitems` WHERE `user`='"
-					+ user + "'");
-
-			ResultSet result = Server.db
-					.getQuery("Select 1 FROM `pk_players` WHERE `user`='"
-							+ user + "' AND `owner`='" + owner + "'");
-			if (!result.next())
-				return false;
-
-			Server.db.updateQuery("UPDATE `pk_players` SET `combat`=" + combat
-					+ ", skill_total=" + skillTotal + ", `x`=" + x + ", `y`='"
-					+ y + "', `fatigue`='" + fatigue + "', `haircolour`="
-					+ hairColour + ", `topcolour`=" + topColour
-					+ ", `trousercolour`=" + trouserColour + ", `skincolour`="
-					+ skinColour + ", `headsprite`=" + headSprite
-					+ ", `bodysprite`=" + bodySprite + ", `male`="
-					+ (male ? 1 : 0) + ", `skulled`=" + skulled
-					+ ", `combatstyle`=" + combatStyle + ", `quest_points`="
-					+ questPoints + " WHERE `user`='" + user + "'");
-
-			query = "UPDATE `pk_experience` SET ";
-			for (int i = 0; i < 18; i++)
-				query += "`exp_" + statArray[i] + "`=" + exp[i] + ",";
-
-			Server.db.updateQuery(query.substring(0, query.length() - 1)
-					+ " WHERE `user`='" + user + "'");
-
-			query = "UPDATE `pk_curstats` SET ";
-			for (int i = 0; i < 18; i++)
-				query += "`cur_" + statArray[i] + "`=" + lvl[i] + ",";
-
-			Server.db.updateQuery(query.substring(0, query.length() - 1)
-					+ " WHERE `user`='" + user + "'");
-
-			if (invItems.size() > 0) {
-				query = "INSERT INTO `pk_invitems`(`user`, `id`, `amount`, `wielded`, `slot`) VALUES";
-				int slot = 0;
-				for (InvItem item : invItems)
-					query += "('" + user + "', '" + item.getID() + "', '"
-							+ item.getAmount() + "', '"
-							+ (item.isWielded() ? 1 : 0) + "', '" + (slot++)
-							+ "'),";
-
-				Server.db.updateQuery(query.substring(0, query.length() - 1));
-			}
-
-			Server.db.updateQuery("DELETE FROM `pk_quests` WHERE `user`='"
-					+ user + "'");
-			query = "INSERT INTO `pk_quests` (`user`, `id`, `stage`) VALUES";
-			java.util.Set<Integer> keys = questStage.keySet();
-			for (int id : keys)
-				query += "('" + user + "', '" + id + "', '"
-						+ questStage.get(id) + "'),";
-
-			Server.db.updateQuery(query.substring(0, query.length() - 1));
-
-			Server.db.updateQuery("UPDATE `pk_players` SET eventcd='"
-					+ getEventCD() + "' WHERE user='" + user + "'");
-
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			Server.error(e);
-			return false;
-		}
+		return Server.storage.savePlayer(this);
 	}
 
 	public void setAppearance(byte hairColour, byte topColour,
@@ -461,13 +272,16 @@ public class PlayerSave {
 		this.male = male;
 		this.skulled = skulled;
 	}
-
 	public void setCombatStyle(byte combatStyle) {
 		this.combatStyle = combatStyle;
 	}
 
-	public void setExp(int stat, long exp) {
+	public void setExp(int stat, int exp) {
 		this.exp[stat] = exp;
+	}
+	
+	public void setExp(int[] is) {
+		this.exp = is;
 	}
 
 	public void setFatigue(int fatigue) {
@@ -521,6 +335,10 @@ public class PlayerSave {
 
 	public void setLvl(int stat, int lvl) {
 		this.lvl[stat] = lvl;
+	}
+	
+	public void setCurStats(int[] stats) {
+		this.lvl = stats;
 	}
 
 	public void setOwner(int owner) {
@@ -577,7 +395,7 @@ public class PlayerSave {
 		this.combatWindow = combatWindow;
 	}
 
-	public void setStat(int stat, long exp, int lvl) {
+	public void setStat(int stat, int exp, int lvl) {
 		this.exp[stat] = exp;
 		this.lvl[stat] = lvl;
 	}
@@ -601,5 +419,17 @@ public class PlayerSave {
 
 	public long getMuted() {
 		return muted;
+	}
+
+	public List<InvItem> getInvItems() {
+		return invItems;
+	}
+
+	public int getCombat() {
+		return combat;
+	}
+
+	public int getSkillTotal() {
+		return skillTotal;
 	}
 }
