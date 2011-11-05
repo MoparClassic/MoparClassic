@@ -12,9 +12,8 @@ import java.util.Random;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Point;
+import org.moparscape.msc.gs.util.HexString;
 import org.moparscape.msc.gs.util.Logger;
-
-import com.bombaydigital.vault.HexString;
 
 public final class DataConversions {
 	private static char characters[] = { ' ', 'e', 't', 'a', 'o', 'i', 'h',
@@ -261,7 +260,7 @@ public final class DataConversions {
 	public static String md5(String s) {
 		md.reset();
 		md.update(s.getBytes());
-		return HexString.bufferToHex(md.digest());
+		return new HexString(md.digest()).toString();
 	}
 
 	/**
