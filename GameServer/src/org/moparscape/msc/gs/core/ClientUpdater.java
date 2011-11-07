@@ -20,10 +20,8 @@ import org.moparscape.msc.gs.model.snapshot.Chatlog;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.EntityList;
 import org.moparscape.msc.gs.util.Logger;
-import org.moparscape.msc.gs.util.Processor;
-import org.moparscape.msc.gs.util.WorkGroup;
 
-public final class ClientUpdater implements Processor {
+public final class ClientUpdater {
 
 	public static int pktcount = 0;
 	private static World world = Instance.getWorld();
@@ -37,11 +35,9 @@ public final class ClientUpdater implements Processor {
 	private WallObjectPositionPacketBuilder wallObjectPositionPacketBuilder = new WallObjectPositionPacketBuilder();
 
 	private EntityList<Player> players = world.getPlayers();
-	private WorkGroup<Player> clientInformerGroup = null;
 
 	public ClientUpdater() {
 		world.setClientUpdater(this);
-		this.clientInformerGroup = new WorkGroup<Player>(this);
 	}
 
 	/**
@@ -134,30 +130,22 @@ public final class ClientUpdater implements Processor {
 
 		updateOffers();
 
-		if (threaded) {
-			try {
-				clientInformerGroup.processWorkload(players);
-			} catch (InterruptedException ie) {
-				ie.printStackTrace();
-			}
-		} else {
-			for (Player p : players) {
-				// Logging.debug("Process for player " + p.getUsername() +
-				// " | threaded: " + threaded);
+		for (Player p : players) {
+			// Logging.debug("Process for player " + p.getUsername() +
+			// " | threaded: " + threaded);
 
-				updateTimeouts(p);
+			updateTimeouts(p);
 
-				updatePlayerPositions(p);
-				updateNpcPositions(p);
-				updateGameObjects(p);
-				updateWallObjects(p);
-				updateItems(p);
+			updatePlayerPositions(p);
+			updateNpcPositions(p);
+			updateGameObjects(p);
+			updateWallObjects(p);
+			updateItems(p);
 
-				p.setFirstMajorUpdateSent(true);
+			p.setFirstMajorUpdateSent(true);
 
-			}
-			updateCollections();
 		}
+		updateCollections();
 	}
 
 	public void process(Player p) {

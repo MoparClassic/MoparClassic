@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>RSCD-LS Config</comment>
+	<entry key="mysqlhost">localhost</entry>
+	<entry key="mysqldb">moparclassic</entry>
+	<entry key="mysqluser">mc</entry>
+	<entry key="mysqlpass"></entry>
+	<entry key="lsip">localhost</entry>
+	<entry key="lsport">34526</entry>
+	<entry key="queryip">localhost</entry>
+	<entry key="queryport">8186</entry>
+	<entry key="authURL">http://localhost/auth.php</entry>
+	<entry key="storage-medium">org.moparscape.msc.ls.persistence.impl.MySQL</entry>
+</properties>

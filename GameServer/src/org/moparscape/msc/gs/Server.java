@@ -37,8 +37,15 @@ public class Server {
 			File f = new File(args[0]);
 			if (f.exists()) {
 				configFile = f.getName();
+			} else {
+				System.out.println("Config not found: " + f.getCanonicalPath());
+				displayConfigDefaulting(configFile);
 			}
+		} else {
+			System.out.println("No config file specified.");
+			displayConfigDefaulting(configFile);
 		}
+
 
 		Config.initConfig(configFile);
 		world = Instance.getWorld();
@@ -157,7 +164,12 @@ public class Server {
 			acceptor.bind(new InetSocketAddress(Config.SERVER_IP,
 					Config.SERVER_PORT), new RSCConnectionHandler(engine),
 					config);
-
+			Runtime.getRuntime().addShutdownHook(new Thread() {
+				@Override
+				public void run() {
+					acceptor.unbindAll();
+				}
+			});
 		} catch (Exception e) {
 			Logger.error(e);
 		}
@@ -234,5 +246,9 @@ public class Server {
 
 	public static Server getServer() {
 		return server;
+	}
+	
+	private static void displayConfigDefaulting(String file) {
+		System.out.println("Defaulting to use " + file);
 	}
 }

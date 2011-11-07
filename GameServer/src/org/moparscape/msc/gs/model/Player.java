@@ -532,6 +532,65 @@ public final class Player extends Mob {
 	private int[] wornItems = new int[12];
 	private int wrongwords = 0;
 
+	private int poisonPower = 0;
+	private DelayedEvent poisonEvent;
+
+	public boolean isPoisoned() {
+		return poisonPower > 0;
+	}
+
+	public void poison(int power) {
+		if (!isPoisoned()) {
+			this.poisonPower = power;
+			poisonEvent = new DelayedEvent(this, 19500) {
+				public void run() {
+					damagePoison(true);
+				}
+			};
+			World.getWorld().getDelayedEventHandler().add(poisonEvent);
+		} else
+			this.poisonPower = power;
+	}
+
+	public void curePoison() {
+		this.poisonPower = 0;
+		if (poisonEvent != null)
+			poisonEvent.stop();
+	}
+
+	public void startPoison(int power) {
+		this.poison(power);
+		this.poisonPower = power;
+
+		damagePoison(false);
+	}
+
+	public void damagePoison(boolean decrease) {
+		if (this.poisonPower > 0) {
+			double calcDamage = Math.ceil(poisonPower / 5);
+			int damage = (int) calcDamage + 1;
+
+			if (decrease)
+				poisonPower--;
+
+			setLastDamage(damage);
+			setCurStat(3, getCurStat(3) - damage);
+			getActionSender().sendStat(3);
+			getActionSender().sendMessage(
+					"@gr3@You @gr2@are @gr1@Poisoned! @gr2@You @gr3@lose "
+							+ damage + " @gr1@health.");
+
+			for (Player p : getViewArea().getPlayersInView())
+				p.informOfModifiedHits(this);
+			if (getCurStat(3) <= 0)
+				killedBy(null, false);
+		} else {
+			if (poisonEvent != null)
+				poisonEvent.stop();
+			this.poisonPower = 0;
+		}
+	}
+
 	public Player(IoSession ios) {
 
 		ioSession = ios;
@@ -586,9 +645,11 @@ public final class Player extends Mob {
 
 	/**
 	 * This method acts as a throttle for packets, and adds them to a list.<br>
-	 * If the player sends more than 20 packets per second they're disconnected (60 packets per 3000ms)
+	 * If the player sends more than 20 packets per second they're disconnected
+	 * (60 packets per 3000ms)
 	 * 
-	 * @param p - the packet to add...
+	 * @param p
+	 *            - the packet to add...
 	 */
 	public void addPacket(RSCPacket p) {
 		long now = GameEngine.getTime();
@@ -660,13 +721,14 @@ public final class Player extends Mob {
 		if (this != null && this.location != null
 				&& this.location.inWilderness()) {
 			if (GameEngine.getTime() - this.getLastMoved() < Config.WILD_STAND_STILL_TIME) {
-				getActionSender()
-						.sendMessage(
-								"You must stand peacefully in one place for " + Config.WILD_STAND_STILL_TIME + " seconds!");
+				getActionSender().sendMessage(
+						"You must stand peacefully in one place for "
+								+ Config.WILD_STAND_STILL_TIME + " seconds!");
 				return false;
 			}
 		}
-		return !isBusy() && GameEngine.getTime() - getCombatTimer() > Config.WILD_STAND_STILL_TIME;
+		return !isBusy()
+				&& GameEngine.getTime() - getCombatTimer() > Config.WILD_STAND_STILL_TIME;
 	}
 
 	public boolean canReport() {
@@ -1618,7 +1680,8 @@ public final class Player extends Mob {
 		if (getLocation().wildernessLevel() > 1) {
 			if (combat)
 				exprate += Config.WILD_COMBAT_BONUS;
-			if (getLocation().wildernessLevel() > Config.WILD_LEVEL_FOR_NON_COMBAT_BONUS && !combat)
+			if (getLocation().wildernessLevel() > Config.WILD_LEVEL_FOR_NON_COMBAT_BONUS
+					&& !combat)
 				exprate += Config.WILD_NON_COMBAT_BONUS;
 		}
 

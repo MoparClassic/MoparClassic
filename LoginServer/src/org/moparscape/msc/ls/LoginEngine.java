@@ -106,7 +106,7 @@ public class LoginEngine extends Thread {
 					handler.handlePacket(p, p.getSession());
 					uniqueHandlers.remove(p.getUID());
 				} catch (Exception e) {
-					Server.error("Exception with p[" + p.getID() + "]: " + e);
+					e.printStackTrace();
 				}
 			} else {
 				Server.error("Unhandled packet from server: " + p.getID());
@@ -118,7 +118,7 @@ public class LoginEngine extends Thread {
 				try {
 					handler.handlePacket(p, p.getSession());
 				} catch (Exception e) {
-					Server.error("Exception with p[" + p.getID() + "]: " + e);
+					e.printStackTrace();
 				}
 			} else {
 				Server.error("Unhandled packet from frontend: " + p.getID());

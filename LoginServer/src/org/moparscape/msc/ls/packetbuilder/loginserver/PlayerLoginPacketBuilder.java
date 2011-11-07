@@ -1,8 +1,6 @@
 package org.moparscape.msc.ls.packetbuilder.loginserver;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.moparscape.msc.ls.Server;
 import org.moparscape.msc.ls.model.BankItem;
@@ -89,19 +87,7 @@ public class PlayerLoginPacketBuilder {
 		packet.addInt(item.getAmount());
 	    }
 
-	    ArrayList<Long> friendsWithUs = new ArrayList<Long>();
-	    try {
-		ResultSet result = Server.db.getQuery("SELECT p.user FROM `pk_friends` AS f INNER JOIN `pk_players` AS p ON p.user=f.friend WHERE p.block_private=0 AND f.user='" + save.getUser() + "'");
-		while (result.next()) {
-		    friendsWithUs.add(result.getLong("user"));
-		}
-		result = Server.db.getQuery("SELECT user FROM `pk_friends` WHERE friend='" + save.getUser() + "'");
-		while (result.next()) {
-		    friendsWithUs.add(result.getLong("user"));
-		}
-	    } catch (SQLException e) {
-		Server.error(e);
-	    }
+	    List<Long> friendsWithUs = Server.storage.getFriendsOnline(save.getUser());
 
 	    int friendCount = save.getFriendCount();
 	    packet.addShort(friendCount);
