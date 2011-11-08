@@ -36,7 +36,7 @@ public class PlayerSaveHandler implements PacketHandler {
 	//save.setPoints(p.readInt());
 
 	for (int i = 0; i < 18; i++) {
-	    save.setStat(i, p.readLong(), p.readShort());
+	    save.setStat(i, p.readInt(), p.readShort());
 	}
 
 	int invCount = p.readShort();
