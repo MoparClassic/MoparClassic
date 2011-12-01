@@ -69,7 +69,7 @@
 		<delete file="${jar}" />
 	</target>
 
-	<target name="run" depends="build">
+	<target name="run">
 		<java classpathref="master-path" fork="true" classname="${main-class}" />
 	</target>
 
