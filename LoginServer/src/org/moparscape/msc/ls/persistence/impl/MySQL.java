@@ -108,7 +108,6 @@ public class MySQL implements StorageMedium {
 
 			conn.updateQuery(query.substring(0, query.length() - 1)
 					+ " WHERE `user`=" + s.getUser());
-			System.out.println(s.getEventCD());
 			updateLongs(Statements.save_SetEventCD, s.getEventCD() / 1000, s.getUser());
 
 			return true;
