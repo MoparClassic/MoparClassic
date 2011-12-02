@@ -11,5 +11,5 @@
 	<entry key="queryip">localhost</entry>
 	<entry key="queryport">8186</entry>
 	<entry key="authURL">http://localhost/auth.php</entry>
-	<entry key="storage-medium">org.moparscape.msc.ls.persistence.impl.MySQL</entry>
+	<entry key="storage-medium">org.moparscape.msc.ls.persistence.impl.DummyStorageMedium</entry>
 </properties>
