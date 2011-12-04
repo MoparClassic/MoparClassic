@@ -1,120 +1,95 @@
 package org.moparscape.msc.gs.external;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.TelePoint;
-import org.moparscape.msc.gs.util.PersistenceManager;
+import org.moparscape.msc.gs.persistence.DataStore;
 
 /**
  * This class handles the loading of entities from the conf files, and provides
  * methods for relaying these entities to the user.
  */
-@SuppressWarnings("unchecked")
 public class EntityHandler {
-
-	private static HashMap<Integer, AgilityCourseDef> agilityCourses;
-	private static HashMap<Integer, AgilityDef> agilityObjects;
-	private static HashMap<Integer, ItemArrowHeadDef> arrowHeads;
-	private static HashMap<Integer, ItemBowStringDef> bowString;
-	private static HashMap<Integer, CerterDef> certers;
-	private static HashMap<Integer, ItemDartTipDef> dartTips;
+	private static Map<Integer, AgilityCourseDef> agilityCourses;
+	private static Map<Integer, AgilityDef> agilityObjects;
+	private static Map<Integer, ItemArrowHeadDef> arrowHeads;
+	private static Map<Integer, ItemBowStringDef> bowString;
+	private static Map<Integer, CerterDef> certers;
+	private static Map<Integer, ItemDartTipDef> dartTips;
 
 	private static DoorDef[] doors;
-	private static HashMap<Integer, FiremakingDef> firemaking;
+	private static Map<Integer, FiremakingDef> firemaking;
 	private static GameObjectDef[] gameObjects;
-	private static HashMap<Integer, ItemGemDef> gems;
+	private static Map<Integer, ItemGemDef> gems;
 	private static ItemHerbSecond[] herbSeconds;
-	private static HashMap<Integer, int[]> itemAffectedTypes;
-	private static HashMap<Integer, ItemCookingDef> itemCooking;
+	private static Map<Integer, int[]> itemAffectedTypes;
+	private static Map<Integer, ItemCookingDef> itemCooking;
 	private static ItemCraftingDef[] itemCrafting;
-	private static HashMap<Integer, Integer> itemEdibleHeals;
-	private static HashMap<Integer, ItemHerbDef> itemHerb;
+	private static Map<Integer, Integer> itemEdibleHeals;
+	private static Map<Integer, ItemHerbDef> itemHerb;
 	private static ItemDef[] items;
-	private static HashMap<Integer, ItemSmeltingDef> itemSmelting;
+	private static Map<Integer, ItemSmeltingDef> itemSmelting;
 	private static ItemSmithingDef[] itemSmithing;
-	private static HashMap<Integer, ItemUnIdentHerbDef> itemUnIdentHerb;
-	private static HashMap<Integer, ItemWieldableDef> itemWieldable;
-	private static List<?>[] keyChestLoots;
-	private static HashMap<Integer, ItemLogCutDef> logCut;
+	private static Map<Integer, ItemUnIdentHerbDef> itemUnIdentHerb;
+	private static Map<Integer, ItemWieldableDef> itemWieldable;
+	private static List<InvItem>[] keyChestLoots;
+	private static Map<Integer, ItemLogCutDef> logCut;
 
 	private static NPCDef[] npcs;
-	private static HashMap<Integer, ObjectFishingDef[]> objectFishing;
+	private static Map<Integer, ObjectFishingDef[]> objectFishing;
 
-	private static HashMap<Integer, ObjectMiningDef> objectMining;
-	private static HashMap<Point, TelePoint> objectTelePoints;
-	private static HashMap<Integer, ObjectWoodcuttingDef> objectWoodcutting;
+	private static Map<Integer, ObjectMiningDef> objectMining;
+	private static Map<Point, TelePoint> objectTelePoints;
+	private static Map<Integer, ObjectWoodcuttingDef> objectWoodcutting;
 	private static PrayerDef[] prayers;
-	private static HashMap<Integer, Integer> spellAggressiveLvl;
+	private static Map<Integer, Integer> spellAggressiveLvl;
 	private static SpellDef[] spells;
 	private static TileDef[] tiles;
 
 	static {
-		doors = (DoorDef[]) PersistenceManager.load("defs/DoorDef.xml.gz");
-		gameObjects = (GameObjectDef[]) PersistenceManager
-				.load("defs/GameObjectDef.xml.gz");
-		npcs = (NPCDef[]) PersistenceManager.load("defs/NPCDef.xml.gz");
+		DataStore dataStore = Instance.getDataStore();
+		doors = dataStore.loadDoorDefs();
+		gameObjects = dataStore.loadGameObjectDefs();
+		npcs = dataStore.loadNPCDefs();
 		for (NPCDef n : npcs) {
 			if (n.isAttackable()) {
 				n.respawnTime -= (n.respawnTime / 3);
 			}
 		}
-		prayers = (PrayerDef[]) PersistenceManager
-				.load("defs/PrayerDef.xml.gz");
-		items = (ItemDef[]) PersistenceManager.load("defs/ItemDef.xml.gz");
-		spells = (SpellDef[]) PersistenceManager.load("defs/SpellDef.xml.gz");
-		tiles = (TileDef[]) PersistenceManager.load("defs/TileDef.xml.gz");
-		keyChestLoots = (List[]) PersistenceManager
-				.load("defs/extras/KeyChestLoot.xml.gz");
-		herbSeconds = (ItemHerbSecond[]) PersistenceManager
-				.load("defs/extras/ItemHerbSecond.xml.gz");
-		dartTips = (HashMap<Integer, ItemDartTipDef>) PersistenceManager
-				.load("defs/extras/ItemDartTipDef.xml.gz");
-		gems = (HashMap<Integer, ItemGemDef>) PersistenceManager
-				.load("defs/extras/ItemGemDef.xml.gz");
-		logCut = (HashMap<Integer, ItemLogCutDef>) PersistenceManager
-				.load("defs/extras/ItemLogCutDef.xml.gz");
-		bowString = (HashMap<Integer, ItemBowStringDef>) PersistenceManager
-				.load("defs/extras/ItemBowStringDef.xml.gz");
-		arrowHeads = (HashMap<Integer, ItemArrowHeadDef>) PersistenceManager
-				.load("defs/extras/ItemArrowHeadDef.xml.gz");
-		firemaking = (HashMap<Integer, FiremakingDef>) PersistenceManager
-				.load("defs/extras/FiremakingDef.xml.gz");
-		itemAffectedTypes = (HashMap<Integer, int[]>) PersistenceManager
-				.load("defs/extras/ItemAffectedTypes.xml.gz");
-		itemWieldable = (HashMap<Integer, ItemWieldableDef>) PersistenceManager
-				.load("defs/extras/ItemWieldableDef.xml.gz");
-		itemUnIdentHerb = (HashMap<Integer, ItemUnIdentHerbDef>) PersistenceManager
-				.load("defs/extras/ItemUnIdentHerbDef.xml.gz");
-		itemHerb = (HashMap<Integer, ItemHerbDef>) PersistenceManager
-				.load("defs/extras/ItemHerbDef.xml.gz");
-		itemEdibleHeals = (HashMap<Integer, Integer>) PersistenceManager
-				.load("defs/extras/ItemEdibleHeals.xml.gz");
-		itemCooking = (HashMap<Integer, ItemCookingDef>) PersistenceManager
-				.load("defs/extras/ItemCookingDef.xml.gz");
-		itemSmelting = (HashMap<Integer, ItemSmeltingDef>) PersistenceManager
-				.load("defs/extras/ItemSmeltingDef.xml.gz");
-		itemSmithing = (ItemSmithingDef[]) PersistenceManager
-				.load("defs/extras/ItemSmithingDef.xml.gz");
-		itemCrafting = (ItemCraftingDef[]) PersistenceManager
-				.load("defs/extras/ItemCraftingDef.xml.gz");
-		objectMining = (HashMap<Integer, ObjectMiningDef>) PersistenceManager
-				.load("defs/extras/ObjectMining.xml.gz");
-		objectWoodcutting = (HashMap<Integer, ObjectWoodcuttingDef>) PersistenceManager
-				.load("defs/extras/ObjectWoodcutting.xml.gz");
-		objectFishing = (HashMap<Integer, ObjectFishingDef[]>) PersistenceManager
-				.load("defs/extras/ObjectFishing.xml.gz");
-		spellAggressiveLvl = (HashMap<Integer, Integer>) PersistenceManager
-				.load("defs/extras/SpellAggressiveLvl.xml.gz");
-		objectTelePoints = (HashMap<Point, TelePoint>) PersistenceManager
-				.load("locs/extras/ObjectTelePoints.xml.gz");
-		certers = (HashMap<Integer, CerterDef>) PersistenceManager
-				.load("defs/extras/NpcCerters.xml.gz");
-		agilityObjects = (HashMap<Integer, AgilityDef>) PersistenceManager
-				.load("defs/extras/AgilityDef.xml.gz");
-		agilityCourses = (HashMap<Integer, AgilityCourseDef>) PersistenceManager
-				.load("defs/extras/AgilityCourseDef.xml.gz");
+		prayers = dataStore.loadPrayerDefs();
+		items = dataStore.loadItemDefs();
+		spells = dataStore.loadSpellDefs();
+		tiles = dataStore.loadTileDefs();
+		keyChestLoots = dataStore.loadKeyChestLoots();
+		herbSeconds = dataStore.loadItemHerbSeconds();
+		dartTips = dataStore.loadDartTips();
+		gems = dataStore.loadGemDefs();
+		logCut = dataStore.loadItemLogCutDefs();
+		bowString = dataStore.loadItemBowStringDefs();
+		arrowHeads = dataStore.loadItemArrowHeadDefs();
+		firemaking = dataStore.loadFiremakingDefs();
+		itemAffectedTypes = dataStore.loadItemAffectedTypes();
+		itemWieldable = dataStore.loadItemWieldableDefs();
+		itemUnIdentHerb = dataStore.loadItemUnIdentHerbDefs();
+		itemHerb = dataStore.loadItemHerbDefs();
+		itemEdibleHeals = dataStore.loadItemEdibleHeals();
+		itemCooking = dataStore.loadItemCookingDefs();
+		itemSmelting = dataStore.loadItemSmeltingDefs();
+		itemSmithing = dataStore.loadItemSmithingDefs();
+		itemCrafting = dataStore.loadItemCraftingDefs();
+		objectMining = dataStore.loadObjectMiningDefs();
+		objectWoodcutting = dataStore.loadObjectWoodcuttingDefs();
+		objectFishing = dataStore.loadObjectFishDefs();
+		spellAggressiveLvl = dataStore.loadSpellAgressiveLevel();
+		objectTelePoints = dataStore.loadTelePoints();
+		certers = dataStore.loadCerterDefs();
+		agilityObjects = dataStore.loadAgilityDefs();
+		agilityCourses = dataStore.loadAgilityCourseDefs();
+		dataStore.dispose();
 	}
 
 	/**

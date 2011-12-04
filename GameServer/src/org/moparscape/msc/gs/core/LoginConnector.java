@@ -11,6 +11,7 @@ import org.apache.mina.transport.socket.nio.SocketConnector;
 import org.apache.mina.transport.socket.nio.SocketConnectorConfig;
 import org.apache.mina.transport.socket.nio.SocketSessionConfig;
 import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.ls.MiscPacketBuilder;
 import org.moparscape.msc.gs.connection.LSConnectionHandler;
 import org.moparscape.msc.gs.connection.LSPacket;
@@ -18,7 +19,6 @@ import org.moparscape.msc.gs.connection.PacketQueue;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 import org.moparscape.msc.gs.util.Logger;
-import org.moparscape.msc.gs.util.PersistenceManager;
 
 public class LoginConnector {
 	/**
@@ -139,8 +139,7 @@ public class LoginConnector {
 	}
 
 	private void loadPacketHandlers() {
-		PacketHandlerDef[] handlerDefs = (PacketHandlerDef[]) PersistenceManager
-				.load("LSPacketHandlers.xml");
+		PacketHandlerDef[] handlerDefs = Instance.getDataStore().loadLSPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();

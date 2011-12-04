@@ -58,7 +58,7 @@ public class Server {
 		System.out.println("Login Server starting up...");
 		Config.initConfig(configFile);
 		try {
-			storage = StorageMediumFactory.createMedium(Config.STORAGE_MEDIUM);
+			storage = StorageMediumFactory.create(Config.STORAGE_MEDIUM);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;

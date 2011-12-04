@@ -26,14 +26,13 @@ import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.tools.Captcha;
 import org.moparscape.msc.gs.util.Logger;
-import org.moparscape.msc.gs.util.PersistenceManager;
 
 /**
  * The central motor of the game. This class is responsible for the primary
  * operation of the entire game.
  */
 public final class GameEngine extends Thread {
-
+	
 	private static Captcha captcha;
 	/**
 	 * World instance
@@ -149,8 +148,7 @@ public final class GameEngine extends Thread {
 	 * Loads the packet handling classes from the persistence manager.
 	 */
 	protected void loadPacketHandlers() {
-		PacketHandlerDef[] handlerDefs = (PacketHandlerDef[]) PersistenceManager
-				.load("PacketHandlers.xml");
+		PacketHandlerDef[] handlerDefs = Instance.getDataStore().loadPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();

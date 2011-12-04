@@ -15,5 +15,8 @@
 		<dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
 
 		<dependency org="org.slf4j" name="slf4j-simple" rev="1.6.3"/>
+		
+		<dependency org="net.jcip" name="jcip-annotations" rev="1.0"/>
+		
 	</dependencies>
 </ivy-module>

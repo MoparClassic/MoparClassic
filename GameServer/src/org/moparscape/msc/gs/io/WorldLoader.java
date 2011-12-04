@@ -3,7 +3,6 @@ package org.moparscape.msc.gs.io;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.nio.ByteBuffer;
-import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -22,7 +21,6 @@ import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
-import org.moparscape.msc.gs.util.PersistenceManager;
 
 public class WorldLoader {
 	private ZipFile tileArchive;
@@ -129,7 +127,6 @@ public class WorldLoader {
 	 * }
 	 */
 
-	@SuppressWarnings("unchecked")
 	public void loadWorld(World world) {
 		try {
 			tileArchive = new ZipFile(new File(Config.CONF_DIR,
@@ -154,26 +151,22 @@ public class WorldLoader {
 		}
 		Logger.error((System.currentTimeMillis() - now) / 1000 + "s to parse");
 		// try { out.close(); } catch(Exception e) { Logger.error(e); }
-		for (Shop shop : (List<Shop>) PersistenceManager
-				.load("locs/Shops.xml.gz")) {
+		for (Shop shop : Instance.getDataStore().loadShops()) {
 			world.registerShop(shop);
 		}
 		System.gc();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void loadObjects() {
 		World world = Instance.getWorld();
-		for (GameObjectLoc gameObject : (List<GameObjectLoc>) PersistenceManager
-				.load("locs/GameObjectLoc.xml.gz")) {
+		for (GameObjectLoc gameObject : Instance.getDataStore().loadGameObjectLocs()) {
 			if (Config.f2pWildy && Formulae.isP2P(true, gameObject))
 				continue;
 			if (Formulae.isP2P(gameObject) && !World.isMembers())
 				continue;
 			world.registerGameObject(new GameObject(gameObject));
 		}
-		for (ItemLoc item : (List<ItemLoc>) PersistenceManager
-				.load("locs/ItemLoc.xml.gz")) {
+		for (ItemLoc item : Instance.getDataStore().loadItemLocs()) {
 			if (Config.f2pWildy && Formulae.isP2P(true, item))
 				continue;
 			if (Formulae.isP2P(item) && !World.isMembers())
@@ -181,8 +174,7 @@ public class WorldLoader {
 			world.registerItem(new Item(item));
 		}// ember
 
-		for (NPCLoc npc : (List<NPCLoc>) PersistenceManager
-				.load("locs/NpcLoc.xml.gz")) {
+		for (NPCLoc npc : Instance.getDataStore().loadNPCLocs()) {
 			if (Config.f2pWildy && Formulae.isP2P(true, npc))
 				continue;
 			if (Formulae.isP2P(npc) && !World.isMembers())
