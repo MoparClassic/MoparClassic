@@ -1,4 +1,6 @@
-package org.moparscape.msc.gs.persistence;
+package org.moparscape.msc.gs.persistence.impl;
+
+import org.moparscape.msc.gs.persistence.DataStore;
 
 public class DataStoreFactory {
 

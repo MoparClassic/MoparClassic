@@ -36,11 +36,15 @@ import com.thoughtworks.xstream.XStream;
  * A DataStore that parses XML using XStream.
  * 
  * @author Joe Pritzel
- *
+ * 
  */
 @NotThreadSafe
 @SuppressWarnings("unchecked")
 public class XMLUsingXStream implements DataStore {
+
+	protected XMLUsingXStream() {
+		// To conform to the contract specified by the DataStore interface.
+	}
 
 	private static final XStream xstream = new XStream();
 

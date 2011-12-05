@@ -6,7 +6,7 @@ import org.moparscape.msc.gs.db.DBConnection;
 import org.moparscape.msc.gs.db.ReportHandlerQueries;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.persistence.DataStore;
-import org.moparscape.msc.gs.persistence.DataStoreFactory;
+import org.moparscape.msc.gs.persistence.impl.DataStoreFactory;
 import org.moparscape.msc.gs.plugins.dependencies.PluginHandler;
 
 /**

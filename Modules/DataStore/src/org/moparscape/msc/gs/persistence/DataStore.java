@@ -13,12 +13,17 @@ import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 
 /**
- * Any retrieval of unchanging data should be done through this interface.
+ * Any retrieval of unchanging data should be done through this interface. All
+ * implementations should be only accessable by the
+ * org.moparscape.msc.gs.persistence.impl package.<br>
+ * Implementations should also use JCIP annotations to specify their degree of thread
+ * saftey.
  * 
  * @author Joe Pritzel
  * 
  */
-public interface DataStore {
+public abstract interface DataStore {
+
 	public PacketHandlerDef[] loadPacketHandlerDefs();
 
 	public PacketHandlerDef[] loadLSPacketHandlerDefs();
