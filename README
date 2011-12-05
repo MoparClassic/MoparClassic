@@ -1,4 +1,4 @@
-An emulator for an old java MMORPG.
+An emulator for an old Java MMORPG.
 
 Setup
 ======
@@ -6,6 +6,7 @@ Install the JRE and JDK
 Install Ant
 Install Ivy
 Install MySQL
+Install a Web-Server
 
 Ensure all the paths are set correctly.
 
@@ -13,10 +14,21 @@ Import Database.sql
 
 If you have any questions regarding that use Google.
 
+For account authentication (using the default config) you need to copy the auth.php in the LoginServer folder, and ensure that localhost/auth.php is pointed to it.
+
+It is highly recommended that you modify it so that it checks the credentials provided against the database.
+
 Go to LoginServer in the terminal/command prompt and type--
-ant runls
+ant run
 
 Go to GameServer in the terminal/command prompy and type--
 ant run
 
 You're now ready to start accept connections.
+
+Modules
+========
+To compile modules go in the module's directory and run the following command--
+ant build
+
+To use the module copy the newly created JAR into the modules folder in the respective server.  You may need to change some configuration files for the module to be used.
