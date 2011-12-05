@@ -16,93 +16,187 @@ import org.moparscape.msc.gs.phandler.PacketHandlerDef;
  * Any retrieval of unchanging data should be done through this interface. All
  * implementations should be only accessable by the
  * org.moparscape.msc.gs.persistence.impl package.<br>
- * Implementations should also use JCIP annotations to specify their degree of thread
- * saftey.
+ * Implementations should also use JCIP annotations to specify their degree of
+ * thread saftey.
  * 
  * @author Joe Pritzel
  * 
  */
 public abstract interface DataStore {
 
-	public PacketHandlerDef[] loadPacketHandlerDefs();
+	public PacketHandlerDef[] loadPacketHandlerDefs() throws Exception;
 
-	public PacketHandlerDef[] loadLSPacketHandlerDefs();
+	public void savePacketHandlerDefs(PacketHandlerDef[] defs) throws Exception;
 
-	public NpcHandlerDef[] loadNpcHandlers();
+	public PacketHandlerDef[] loadLSPacketHandlerDefs() throws Exception;
 
-	public Map<Point, TelePoint> loadTelePoints();
+	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
+			throws Exception;
 
-	public List<Shop> loadShops();
+	public NpcHandlerDef[] loadNpcHandlers() throws Exception;
 
-	public Map<Integer, CerterDef> loadCerterDefs();
+	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception;
 
-	public List<GameObjectLoc> loadGameObjectLocs();
+	public Map<Point, TelePoint> loadTelePoints() throws Exception;
 
-	public List<ItemLoc> loadItemLocs();
+	public void saveTelePoints(Map<Point, TelePoint> points) throws Exception;
 
-	public List<NPCLoc> loadNPCLocs();
+	public List<Shop> loadShops() throws Exception;
 
-	public TileDef[] loadTileDefs();
+	public void saveShops(List<Shop> shops) throws Exception;
 
-	public GameObjectDef[] loadGameObjectDefs();
+	public Map<Integer, CerterDef> loadCerterDefs() throws Exception;
 
-	public DoorDef[] loadDoorDefs();
+	public void saveCerterDefs(Map<Integer, CerterDef> certers)
+			throws Exception;
 
-	public ItemDef[] loadItemDefs();
+	public List<GameObjectLoc> loadGameObjectLocs() throws Exception;
 
-	public PrayerDef[] loadPrayerDefs();
+	public void saveGameObjectLocs(List<GameObjectLoc> locs) throws Exception;
 
-	public SpellDef[] loadSpellDefs();
+	public List<ItemLoc> loadItemLocs() throws Exception;
 
-	public NPCDef[] loadNPCDefs();
+	public void saveItemLocs(List<ItemLoc> locs) throws Exception;
 
-	public ItemCraftingDef[] loadItemCraftingDefs();
+	public List<NPCLoc> loadNPCLocs() throws Exception;
 
-	public ItemHerbSecond[] loadItemHerbSeconds();
+	public void saveNPCLocs(List<NPCLoc> locs) throws Exception;
 
-	public Map<Integer, ItemDartTipDef> loadItemDartTipDefs();
+	public TileDef[] loadTileDefs() throws Exception;
 
-	public Map<Integer, ItemGemDef> loadGemDefs();
+	public void saveTileDefs(TileDef[] defs) throws Exception;
 
-	public Map<Integer, ItemLogCutDef> loadItemLogCutDefs();
+	public GameObjectDef[] loadGameObjectDefs() throws Exception;
 
-	public Map<Integer, ItemBowStringDef> loadItemBowStringDefs();
+	public void saveGameObjectDefs(GameObjectDef[] defs) throws Exception;
 
-	public Map<Integer, ItemArrowHeadDef> loadItemArrowHeadDefs();
+	public DoorDef[] loadDoorDefs() throws Exception;
 
-	public Map<Integer, FiremakingDef> loadFiremakingDefs();
+	public void saveDoorDefs(DoorDef[] defs) throws Exception;
 
-	public Map<Integer, int[]> loadItemAffectedTypes();
+	public ItemDef[] loadItemDefs() throws Exception;
 
-	public Map<Integer, ItemWieldableDef> loadItemWieldableDefs();
+	public void saveItemDefs(ItemDef[] defs) throws Exception;
 
-	public Map<Integer, ItemUnIdentHerbDef> loadItemUnIdentHerbDefs();
+	public PrayerDef[] loadPrayerDefs() throws Exception;
 
-	public Map<Integer, ItemHerbDef> loadItemHerbDefs();
+	public void savePrayerDefs(PrayerDef[] defs) throws Exception;
 
-	public Map<Integer, Integer> loadItemEdibleHeals();
+	public SpellDef[] loadSpellDefs() throws Exception;
 
-	public Map<Integer, ItemCookingDef> loadItemCookingDefs();
+	public void saveSpellDefs(SpellDef[] defs) throws Exception;
 
-	public Map<Integer, ItemSmeltingDef> loadItemSmeltingDefs();
+	public NPCDef[] loadNPCDefs() throws Exception;
 
-	public ItemSmithingDef[] loadItemSmithingDefs();
+	public void saveNPCDefs(NPCDef[] defs) throws Exception;
 
-	public Map<Integer, ObjectMiningDef> loadObjectMiningDefs();
+	public ItemCraftingDef[] loadItemCraftingDefs() throws Exception;
 
-	public Map<Integer, ObjectWoodcuttingDef> loadObjectWoodcuttingDefs();
+	public void saveItemCraftingDefs(ItemCraftingDef[] defs) throws Exception;
 
-	public Map<Integer, ObjectFishingDef[]> loadObjectFishDefs();
+	public ItemHerbSecond[] loadItemHerbSeconds() throws Exception;
 
-	public Map<Integer, Integer> loadSpellAgressiveLevel();
+	public void saveItemHerbSeconds(ItemHerbSecond[] seconds) throws Exception;
 
-	public Map<Integer, AgilityDef> loadAgilityDefs();
+	public Map<Integer, ItemDartTipDef> loadItemDartTipDefs() throws Exception;
 
-	public Map<Integer, AgilityCourseDef> loadAgilityCourseDefs();
+	public void saveItemDartTipDefs(Map<Integer, ItemDartTipDef> defs)
+			throws Exception;
 
-	public List<InvItem>[] loadKeyChestLoots();
+	public Map<Integer, ItemGemDef> loadGemDefs() throws Exception;
 
-	public HashMap<Integer, ItemDartTipDef> loadDartTips();
+	public void saveGemDefs(Map<Integer, ItemGemDef> defs) throws Exception;
+
+	public Map<Integer, ItemLogCutDef> loadItemLogCutDefs() throws Exception;
+
+	public void saveItemLogCutDefs(Map<Integer, ItemLogCutDef> defs)
+			throws Exception;
+
+	public Map<Integer, ItemBowStringDef> loadItemBowStringDefs()
+			throws Exception;
+
+	public void saveItemBowStringDefs(Map<Integer, ItemBowStringDef> defs)
+			throws Exception;
+
+	public Map<Integer, ItemArrowHeadDef> loadItemArrowHeadDefs()
+			throws Exception;
+
+	public void saveItemArrowHeadDefs(Map<Integer, ItemArrowHeadDef> defs)
+			throws Exception;
+
+	public Map<Integer, FiremakingDef> loadFiremakingDefs() throws Exception;
+
+	public void saveFiremakingDefs(Map<Integer, FiremakingDef> defs)
+			throws Exception;
+
+	public Map<Integer, int[]> loadItemAffectedTypes() throws Exception;
+	
+	public void saveItemAffectedTypes(Map<Integer, int[]> types) throws Exception;
+
+	public Map<Integer, ItemWieldableDef> loadItemWieldableDefs()
+			throws Exception;
+	
+	public void saveItemWieldableDefs(Map<Integer, ItemWieldableDef> defs) throws Exception;
+
+	public Map<Integer, ItemUnIdentHerbDef> loadItemUnIdentHerbDefs()
+			throws Exception;
+	
+	public void saveItemUnIdentHerbDefs(Map<Integer, ItemUnIdentHerbDef> defs) throws Exception;
+
+	public Map<Integer, ItemHerbDef> loadItemHerbDefs() throws Exception;
+	
+	public void saveItemHerbDefs(Map<Integer, ItemHerbDef> defs) throws Exception;
+
+	public Map<Integer, Integer> loadItemEdibleHeals() throws Exception;
+	
+	public void saveItemEdibleHeals(Map<Integer, Integer> defs) throws Exception;
+
+	public Map<Integer, ItemCookingDef> loadItemCookingDefs() throws Exception;
+	
+	public void saveItemCookingDefs(Map<Integer, ItemCookingDef> defs) throws Exception;
+
+	public Map<Integer, ItemSmeltingDef> loadItemSmeltingDefs()
+			throws Exception;
+	
+	public void saveItemSmeltingDefs(Map<Integer, ItemSmeltingDef> defs) throws Exception;
+
+	public ItemSmithingDef[] loadItemSmithingDefs() throws Exception;
+	
+	public void saveItemSmithingDefs(ItemSmithingDef[] defs) throws Exception;
+
+	public Map<Integer, ObjectMiningDef> loadObjectMiningDefs()
+			throws Exception;
+
+	public void saveObjectMiningDefs(Map<Integer, ObjectMiningDef> defs) throws Exception;
+	
+	public Map<Integer, ObjectWoodcuttingDef> loadObjectWoodcuttingDefs()
+			throws Exception;
+	
+	public void saveObjectWoodcuttingDefs(Map<Integer, ObjectWoodcuttingDef> defs) throws Exception;
+
+	public Map<Integer, ObjectFishingDef[]> loadObjectFishDefs()
+			throws Exception;
+	
+	public void saveObjectFishingDefs(Map<Integer, ObjectFishingDef> defs) throws Exception;
+
+	public Map<Integer, Integer> loadSpellAgressiveLevel() throws Exception;
+	
+	public void saveSpellAgressiveLevel(Map<Integer, Integer> defs) throws Exception;
+
+	public Map<Integer, AgilityDef> loadAgilityDefs() throws Exception;
+	
+	public void saveAgilityDefs(Map<Integer, AgilityDef> defs) throws Exception;
+
+	public Map<Integer, AgilityCourseDef> loadAgilityCourseDefs()
+			throws Exception;
+	
+	public void saveAgilityCourseDef(Map<Integer, AgilityCourseDef> defs) throws Exception;
+
+	public List<InvItem>[] loadKeyChestLoots() throws Exception;
+	
+	public void saveKeyChestLoots(List<InvItem>[] loots) throws Exception;
+
+	public HashMap<Integer, ItemDartTipDef> loadDartTips() throws Exception;
 
 	public void dispose();
 

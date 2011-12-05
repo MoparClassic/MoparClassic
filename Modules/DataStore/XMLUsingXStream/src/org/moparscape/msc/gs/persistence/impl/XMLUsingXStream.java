@@ -310,4 +310,218 @@ public class XMLUsingXStream implements DataStore {
 	public void dispose() {
 
 	}
+
+	@Override
+	public void savePacketHandlerDefs(PacketHandlerDef[] defs) throws Exception {
+		write("PacketHandlers.xml", defs);
+	}
+
+	@Override
+	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
+			throws Exception {
+		write("LSPacketHanlders.xml", defs);
+	}
+
+	@Override
+	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception {
+		write("NpcHandlers.xml", defs);
+	}
+
+	@Override
+	public void saveTelePoints(Map<Point, TelePoint> points) throws Exception {
+		write("locs/extras/ObjectTelePoints.xml.gz", points);
+	}
+
+	@Override
+	public void saveShops(List<Shop> shops) throws Exception {
+		write("locs/Shops.xml.gz", shops);
+	}
+
+	@Override
+	public void saveCerterDefs(Map<Integer, CerterDef> certers)
+			throws Exception {
+		write("defs/extras/NpcCerters.xml.gz", certers);
+	}
+
+	@Override
+	public void saveGameObjectLocs(List<GameObjectLoc> locs) throws Exception {
+		write("locs/GameObjectLocs.xml.gz", locs);
+	}
+
+	@Override
+	public void saveItemLocs(List<ItemLoc> locs) throws Exception {
+		write("locs/ItemLoc.xml.gz", locs);
+	}
+
+	@Override
+	public void saveNPCLocs(List<NPCLoc> locs) throws Exception {
+		write("locs/NpcLoc.xml.gz", locs);
+	}
+
+	@Override
+	public void saveTileDefs(TileDef[] defs) throws Exception {
+		write("defs/TileDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveGameObjectDefs(GameObjectDef[] defs) throws Exception {
+		write("defs/GameObjectDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveDoorDefs(DoorDef[] defs) throws Exception {
+		write("defs/DoorDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemDefs(ItemDef[] defs) throws Exception {
+		write("defs/ItemDef.xml.gz", defs);
+	}
+
+	@Override
+	public void savePrayerDefs(PrayerDef[] defs) throws Exception {
+		write("defs/PrayerDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveSpellDefs(SpellDef[] defs) throws Exception {
+		write("defs/SpellDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveNPCDefs(NPCDef[] defs) throws Exception {
+		write("defs/NPCDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemCraftingDefs(ItemCraftingDef[] defs) throws Exception {
+		write("defs/extras/ItemCraftingDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemHerbSeconds(ItemHerbSecond[] seconds) throws Exception {
+		write("defs/extras/ItemHerbSecond.xml.gz", seconds);
+	}
+
+	@Override
+	public void saveItemDartTipDefs(Map<Integer, ItemDartTipDef> defs)
+			throws Exception {
+		write("defs/extras/ItemDartTipDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveGemDefs(Map<Integer, ItemGemDef> defs) throws Exception {
+		write("def/extras/ItemGemDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemLogCutDefs(Map<Integer, ItemLogCutDef> defs)
+			throws Exception {
+		write("def/extras/ItemLogCutDefs.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemBowStringDefs(Map<Integer, ItemBowStringDef> defs)
+			throws Exception {
+		write("defs/extras/ItemBowStringDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemArrowHeadDefs(Map<Integer, ItemArrowHeadDef> defs)
+			throws Exception {
+		write("defs/extras/ItemArrowHeadDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveFiremakingDefs(Map<Integer, FiremakingDef> defs)
+			throws Exception {
+		write("defs/extras/FiremakingDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemAffectedTypes(Map<Integer, int[]> types)
+			throws Exception {
+		write("defs/extras/ItemAffectedTypes.xml.gz", types);
+	}
+
+	@Override
+	public void saveItemWieldableDefs(Map<Integer, ItemWieldableDef> defs)
+			throws Exception {
+		write("defs/extras/ItemWieldableDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemUnIdentHerbDefs(Map<Integer, ItemUnIdentHerbDef> defs)
+			throws Exception {
+		write("defs/extras/Item.UnIdentHerbDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemHerbDefs(Map<Integer, ItemHerbDef> defs)
+			throws Exception {
+		write("defs/extras/ItemHerbDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemEdibleHeals(Map<Integer, Integer> defs)
+			throws Exception {
+		write("defs/extras/ItemEdibleHeals.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemCookingDefs(Map<Integer, ItemCookingDef> defs)
+			throws Exception {
+		write("defs/extras/ItemCookingDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemSmeltingDefs(Map<Integer, ItemSmeltingDef> defs)
+			throws Exception {
+		write("defs/extras/ItemSmeltingDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveItemSmithingDefs(ItemSmithingDef[] defs) throws Exception {
+		write("defs/extras/ItemSmithingDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveObjectMiningDefs(Map<Integer, ObjectMiningDef> defs)
+			throws Exception {
+		write("defs/extras/ObjectMiningDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveObjectWoodcuttingDefs(
+			Map<Integer, ObjectWoodcuttingDef> defs) throws Exception {
+		write("defs/extras/ObjectWoodcuttingDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveObjectFishingDefs(Map<Integer, ObjectFishingDef> defs)
+			throws Exception {
+		write("defs/extras/ObjectFishingDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveSpellAgressiveLevel(Map<Integer, Integer> defs)
+			throws Exception {
+		write("defs/extras/SpellAgressiveLvl.xml.gz", defs);
+	}
+
+	@Override
+	public void saveAgilityDefs(Map<Integer, AgilityDef> defs) throws Exception {
+		write("defs/extras/AgilityDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveAgilityCourseDef(Map<Integer, AgilityCourseDef> defs)
+			throws Exception {
+		write("defs/extras/AgilityCourseDef.xml.gz", defs);
+	}
+
+	@Override
+	public void saveKeyChestLoots(List<InvItem>[] loots) throws Exception {
+		write("defs/extras/KeyChestLoot.xml.gz", loots);
+	}
 }
