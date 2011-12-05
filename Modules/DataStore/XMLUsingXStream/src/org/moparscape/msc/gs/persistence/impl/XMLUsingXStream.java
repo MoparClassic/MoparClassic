@@ -302,7 +302,7 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public HashMap<Integer, ItemDartTipDef> loadDartTips() {
+	public Map<Integer, ItemDartTipDef> loadDartTips() {
 		return (HashMap<Integer, ItemDartTipDef>) load("defs/extras/ItemDartTipDef.xml.gz");
 	}
 

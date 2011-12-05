@@ -1,6 +1,5 @@
 package org.moparscape.msc.gs.persistence;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -196,7 +195,7 @@ public abstract interface DataStore {
 	
 	public void saveKeyChestLoots(List<InvItem>[] loots) throws Exception;
 
-	public HashMap<Integer, ItemDartTipDef> loadDartTips() throws Exception;
+	public Map<Integer, ItemDartTipDef> loadDartTips() throws Exception;
 
 	public void dispose();
 
