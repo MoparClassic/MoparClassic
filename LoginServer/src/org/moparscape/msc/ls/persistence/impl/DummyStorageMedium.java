@@ -168,12 +168,14 @@ class DummyStorageMedium implements StorageMedium {
 		save.setAppearance((byte) 2, (byte) 8, (byte) 14, (byte) 0, (byte) 1,
 				(byte) 2, true, 0l);
 
-		int[] arrayOfOnes = new int[Config.statArray.length];
-		Arrays.fill(arrayOfOnes, 1);
-
-		save.setExp(arrayOfOnes.clone());
-		save.setCurStats(arrayOfOnes.clone());
-
+		int[] exp = new int[Config.statArray.length];
+		Arrays.fill(exp, 1);
+		int[] stats = exp.clone();
+		
+		exp[3] = 1200;
+		save.setExp(exp);
+		stats[3] = 10;
+		save.setCurStats(stats);
 		return save;
 	}
 
