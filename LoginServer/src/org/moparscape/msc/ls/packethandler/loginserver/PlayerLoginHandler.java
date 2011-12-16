@@ -61,13 +61,14 @@ public class PlayerLoginHandler implements PacketHandler {
 			session.write(packet);
 		}
 	}
-	
+
 	private static Auth auth;
-	
+
 	static {
 		try {
 			auth = AuthFactory.create(Config.AUTH_CLASS);
-			System.out.println("Authentication Scheme: " + auth.getClass().getSimpleName());
+			System.out.println("Authentication Scheme: "
+					+ auth.getClass().getSimpleName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,8 +80,7 @@ public class PlayerLoginHandler implements PacketHandler {
 
 		if (!Server.storage.playerExists(user))
 			return 2;
-		if (!auth.validate(DataConversions.hashToUsername(user), pass,
-				new StringBuilder())) {
+		if (!auth.validate(user, pass, new StringBuilder())) {
 			return 2;
 		}
 

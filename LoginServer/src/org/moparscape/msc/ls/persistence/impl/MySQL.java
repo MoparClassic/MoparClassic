@@ -714,4 +714,20 @@ class MySQL implements StorageMedium {
 
 		}
 	}
+
+	@Override
+	public String getPass(long user) {
+		ResultSet result = resultSetFromLongs(Statements.playerData, user);
+		try {
+			if (!result.next()) {
+				return null;
+			}
+			return result.getString("pass");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 }

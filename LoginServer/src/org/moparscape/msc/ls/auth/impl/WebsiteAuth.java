@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.ls.auth.Auth;
 import org.moparscape.msc.ls.util.Config;
 
@@ -14,7 +15,8 @@ class WebsiteAuth implements Auth {
 	
 	private final double version = 1.0;
 
-    public boolean validate(String user, String pass, StringBuilder response) {
+    public boolean validate(long hash, String pass, StringBuilder response) {
+    	String user = DataConversions.hashToUsername(hash);
         // if authURL is null, then we are just running the server for test purposes
         // this will never be so in production
         if(Config.AUTH_META_DATA == null){

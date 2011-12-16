@@ -14,6 +14,11 @@ class DummyStorageMedium implements StorageMedium {
 
 		return true;
 	}
+	
+	@Override
+	public String getPass(long user) {
+		return "";
+	}
 
 	@Override
 	public void shutdown() {

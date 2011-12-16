@@ -1,8 +1,7 @@
 package org.moparscape.msc.ls.auth;
 
 public interface Auth {
-
-	public boolean validate(String hashToUsername, String pass,
-			StringBuilder stringBuilder);
+	
+	boolean validate(long hash, String pass, StringBuilder stringBuilder);
 
 }
