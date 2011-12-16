@@ -7,9 +7,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.ls.auth.Auth;
 import org.moparscape.msc.ls.util.Config;
+import org.moparscape.msc.ls.util.DataConversions;
 
 class WebsiteAuth implements Auth {
 	
