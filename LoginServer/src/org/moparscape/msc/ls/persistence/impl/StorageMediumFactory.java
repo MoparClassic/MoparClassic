@@ -1,4 +1,6 @@
-package org.moparscape.msc.ls.persistence;
+package org.moparscape.msc.ls.persistence.impl;
+
+import org.moparscape.msc.ls.persistence.StorageMedium;
 
 public class StorageMediumFactory {
 

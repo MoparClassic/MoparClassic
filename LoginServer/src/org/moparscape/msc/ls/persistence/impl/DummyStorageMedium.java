@@ -7,7 +7,7 @@ import org.moparscape.msc.ls.model.PlayerSave;
 import org.moparscape.msc.ls.persistence.StorageMedium;
 import org.moparscape.msc.ls.util.Config;
 
-public class DummyStorageMedium implements StorageMedium {
+class DummyStorageMedium implements StorageMedium {
 
 	@Override
 	public boolean savePlayer(PlayerSave s) {
@@ -129,9 +129,11 @@ public class DummyStorageMedium implements StorageMedium {
 		return 11;
 	}
 
+	private long ownerId = 0;
+
 	@Override
 	public long getOwner(long user) {
-		return 0;
+		return ownerId++;
 	}
 
 	@Override
@@ -160,13 +162,13 @@ public class DummyStorageMedium implements StorageMedium {
 		save.setLocation(213, 452);
 		save.setAppearance((byte) 2, (byte) 8, (byte) 14, (byte) 0, (byte) 1,
 				(byte) 2, true, 0l);
-		
+
 		int[] arrayOfOnes = new int[Config.statArray.length];
 		Arrays.fill(arrayOfOnes, 1);
-		
+
 		save.setExp(arrayOfOnes.clone());
 		save.setCurStats(arrayOfOnes.clone());
-		
+
 		return save;
 	}
 

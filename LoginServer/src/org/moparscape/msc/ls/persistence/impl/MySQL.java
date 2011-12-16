@@ -15,11 +15,11 @@ import org.moparscape.msc.ls.persistence.StorageMedium;
 import org.moparscape.msc.ls.util.Config;
 import org.moparscape.msc.ls.util.DataConversions;
 
-public class MySQL implements StorageMedium {
+class MySQL implements StorageMedium {
 
 	private final DatabaseConnection conn;
 
-	public MySQL() {
+	MySQL() {
 		conn = new DatabaseConnection();
 	}
 

@@ -17,7 +17,7 @@ import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.FConnectionHandler;
 import org.moparscape.msc.ls.net.LSConnectionHandler;
 import org.moparscape.msc.ls.persistence.StorageMedium;
-import org.moparscape.msc.ls.persistence.StorageMediumFactory;
+import org.moparscape.msc.ls.persistence.impl.StorageMediumFactory;
 import org.moparscape.msc.ls.util.Config;
 
 public class Server {
