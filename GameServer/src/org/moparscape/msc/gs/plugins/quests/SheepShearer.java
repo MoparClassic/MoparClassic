@@ -8,9 +8,10 @@ import org.moparscape.msc.gs.quest.QuestAction;
 
 /**
  * Quest: Sheep Shearer (v1.0) Status: COMPLETE Start: Fred the farmer (id 77),
- * 159, 619 Items: 207x20 Reward: 1 quest point, 60 gold, Crafting 350 xp
+ * 159, 619 Items: 207x20 Reward: 1 quest point, 330 gold, Crafting 350 xp
  * 
  * @author Konijn
+ * edited by Latifundio
  */
 public class SheepShearer extends Quest {
 	private final int FRED_ID = 77;
@@ -18,9 +19,11 @@ public class SheepShearer extends Quest {
 	private final int REWARD_XP = 350;
 	private final int REWARD_GP = 330;
 	private final String[] FIRST_MENU = new String[] {
-			"Sure, what do I need to do?", "No thanks, I'm good." };
+			"I'm lost.", "I'm looking for a quest.", "I'm looking for something to kill." };
 	private final String[] SECOND_MENU = new String[] {
-			"Sorry, I don't like the sound of that.", "I'd be happy to help." };
+			"That doesn't sound like an exciting quest.", "The thing? What do you mean?" };
+	private final String[] THIRD_MENU = new String[] {
+			"I'm not sure about this..", "Yes okay, I can do that." };
 
 	public void init() {
 		associateNpc(FRED_ID);
@@ -55,7 +58,11 @@ public class SheepShearer extends Quest {
 				player.setBusy(true);
 				npc.blockedBy(player);
 
-				sendChat("Hi there, traveller. Care to make some money?", npc,
+				sendChat("What are you doing on my land?", npc,
+						player);						
+				sendChat("Aren't you the one who keeps all my gates open", npc,
+						player);						
+				sendChat("and letting out all my sheep?", npc,
 						player);
 
 				player.setBusy(false);
@@ -63,54 +70,112 @@ public class SheepShearer extends Quest {
 				sleep();
 				player.setBusy(true);
 				switch (option) {
-				case 1:
+				case 2:
+					sendChat("What on my land?",
+							npc, player);							
+					sendChat("Leave my livestock alone you scoundrel.",
+							npc, player);
+
+					player.setBusy(false);
+					npc.unblock();
+					break;
+				case 0:
+					sendChat("How can you be lost?",
+							npc, player);
+							
+					sendChat("Just follow the road east and south.",
+							npc, player);
+							
+					sendChat("You'll end up in Lundbridge fairly quickly.",
+							npc, player);
+							
 					player.setBusy(false);
 					npc.unblock();
 
 					break;
-				case 0:
-
-					sendChat(
-							"If you collect 20 balls of wool for me, I'll pay you 500 coins.",
+				case 1:
+					sendChat("You're after a quest, you say?",
 							npc, player);
 
-					sendChat(
-							"Maybe I'll teach you a thing or two about crafting, too.",
+					sendChat("Actually I could do with a bit of help.",
 							npc, player);
 
-					sendChat(
-							"I'm afraid you'll have to find your own shears, but the sheep are outside.",
+					sendChat("My sheep are getting mighty woolly.",
 							npc, player);
-
+					
+					sendChat("Maybe you could sheer them",
+							npc, player);
+							
+					sendChat("and while you're at it, spin the wool for me too.",
+							npc, player);
+							
+					sendChat("Yes that's it, bring me 20 balls of wool.",
+							npc, player);
+							
+					sendChat("And I'm sure I could sort out some kind of payment.",
+							npc, player);
+							
+					sendChat("Of course, there's the small matter of the thing.",
+							npc, player);
+							
 					player.setBusy(false);
 					option = getMenuOption(player, SECOND_MENU);
 					sleep();
 					player.setBusy(true);
 					switch (option) {
-					case 1:
-						sendChat(
-								"Great! Come back and see me when you're done.",
-								npc, player);
 
-						player.setQuestStage(getUniqueID(), 1);
-						player.setBusy(false);
-						npc.unblock();
-
-						break;
 					case 0:
-
-						sendChat(
-								"Suit yourself. Come and see me if you change your mind.",
+						sendChat("Well, what do you expect if you ask a farmer for a quest?",
 								npc, player);
+
 						player.setBusy(false);
 						npc.unblock();
-
 						break;
+					case 1:
+						sendChat("I wouldn't worry about it",
+								npc, player);
+						sendChat("Something eat all the previous shearers..",
+								npc, player);
+						sendChat("They probably just got unlucky",
+								npc, player);
+						sendChat("I'm sure it is nothing to worry about.",
+								npc, player);
+						sendChat("Now are you going to help me or not?",
+								npc, player);
+
+						player.setBusy(false);
+						option = getMenuOption(player, THIRD_MENU);
+						sleep();
+						player.setBusy(true);
+						switch (option) {
+
+						case 1:
+							sendChat("Okay, I will see you when you have some wool.",
+									npc, player);
+
+							player.setQuestStage(getUniqueID(), 1);
+							player.setBusy(false);
+							npc.unblock();
+						break;
+						case 0:
+							sendChat("Why are you so worried?",
+									npc, player);
+							sendChat("Probably they're just hiding or somethig",
+									npc, player);
+
+							player.setBusy(false);
+							npc.unblock();
+							break;
+						default:
+							player.setBusy(false);
+							npc.unblock();
+							break;
+						}
+
 					default:
 						player.setBusy(false);
 						npc.unblock();
 						break;
-
 					}
 
 					break;
@@ -134,12 +199,12 @@ public class SheepShearer extends Quest {
 
 				player.setBusy(true);
 				npc.blockedBy(player);
-				sendChat("Ahh, you've returned! Do you have my wool?", npc,
+				sendChat("How are you doing getting those balls of wool?", npc,
 						player);
 
 				player.setBusy(false);
-				int option = getMenuOption(player, "I'm afraid not.",
-						"Yes, I do.");
+				int option = getMenuOption(player, "I'm not sure how to do it",
+						"I got some here.");
 
 				if (option == -1) {
 					npc.unblock();
@@ -151,8 +216,7 @@ public class SheepShearer extends Quest {
 				// SingleEvent
 				if (option == 0) {
 
-					sendChat(
-							"Well, come and see me when you do. The offer still stands",
+					sendChat("Well, find a spinning wheel to spin the wool.",
 							npc, player);
 					player.setBusy(false);
 					npc.unblock();
@@ -164,14 +228,12 @@ public class SheepShearer extends Quest {
 							&& player.getInventory().countId(ITEM_WOOL) >= 20) {
 						finishQuest(player, npc);
 					} else {
-						sendChat(
-								"Um, no you don't. Get back to me when you do. The reward still stands!",
+						sendChat("Um, you still don't have all of them.",
 								npc, player);
 						player.setBusy(false);
 						npc.unblock();
 					}
 				}
-
 			}
 		} else if (stage == 0) {
 			if (action == QuestAction.TALKED_NPC) {
@@ -185,7 +247,10 @@ public class SheepShearer extends Quest {
 
 				player.setBusy(true);
 				npc.blockedBy(player);
-				sendChat("Hello " + player.getUsername() + "!", npc, player);
+				sendChat("What are you still doing in my land?", 
+						npc, player);
+				sendChat("Err.. nothing.", player, npc);
+
 				player.setBusy(false);
 				npc.unblock();
 			}
@@ -198,7 +263,7 @@ public class SheepShearer extends Quest {
 			npc.unblock();
 			return;
 		}
-		sendChat("Thank you very much! As promised, here's your reward.", npc,
+		sendChat("I guess I did better pay you then.", npc,
 				player);
 
 		player.incExp(12, REWARD_XP, false);
