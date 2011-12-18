@@ -338,6 +338,7 @@ public class InvActionHandler implements PacketHandler {
 								if (object != null) {
 									world.unregisterGameObject(object);
 								}
+								this.stop();
 							}
 						});
 			}

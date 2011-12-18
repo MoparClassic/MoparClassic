@@ -32,7 +32,7 @@ import org.moparscape.msc.gs.util.Logger;
  * operation of the entire game.
  */
 public final class GameEngine extends Thread {
-	
+
 	private static Captcha captcha;
 	/**
 	 * World instance
@@ -148,7 +148,8 @@ public final class GameEngine extends Thread {
 	 * Loads the packet handling classes from the persistence manager.
 	 */
 	protected void loadPacketHandlers() {
-		PacketHandlerDef[] handlerDefs = Instance.getDataStore().loadPacketHandlerDefs();
+		PacketHandlerDef[] handlerDefs = Instance.getDataStore()
+				.loadPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
@@ -169,25 +170,21 @@ public final class GameEngine extends Thread {
 		clientUpdater.sendQueuedPackets();
 		long now = GameEngine.getTime();
 		if (now - lastSentClientUpdate >= 600) {
-			if (now - lastSentClientUpdate >= 1000) {
-				// Logger.println("MAJOR UPDATE DELAYED: " + (now -
-				// lastSentClientUpdate));
-			}
 			lastSentClientUpdate = now;
 			clientUpdater.doMajor();
 		}
 		if (now - lastSentClientUpdateFast >= 104) {
-			if (now - lastSentClientUpdateFast >= 6000) {
-				// Logger.println("MINOR UPDATE DELAYED: " + (now -
-				// lastSentClientUpdateFast));
-			}
 			lastSentClientUpdateFast = now;
 			clientUpdater.doMinor();
 		}
 	}
-
+	
+	private long lastEventTick;
 	private void processEvents() {
-		eventHandler.doEvents();
+		if (getTime() - lastEventTick >= 100) {
+			eventHandler.doEvents();
+			lastEventTick = getTime();
+		}
 	}
 
 	public DelayedEventHandler getEventHandler() {

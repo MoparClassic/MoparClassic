@@ -34,7 +34,6 @@ public final class DelayedEventHandler {
 				events.addAll(toAdd);
 				toAdd.clear();
 			}
-
 			Iterator<DelayedEvent> iterator = events.iterator();
 			while (iterator.hasNext()) {
 				DelayedEvent event = iterator.next();

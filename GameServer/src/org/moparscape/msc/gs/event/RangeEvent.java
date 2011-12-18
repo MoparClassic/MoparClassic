@@ -68,6 +68,7 @@ public class RangeEvent extends DelayedEvent {
 						.loggedIn()) || affectedMob.getHits() <= 0
 				|| !owner.checkAttack(affectedMob, true) || bowID < 0) {
 			owner.resetRange();
+			this.stop();
 			return;
 		}
 		if (owner.withinRange(affectedMob, 5)) {
@@ -86,6 +87,7 @@ public class RangeEvent extends DelayedEvent {
 			owner.getActionSender().sendMessage(
 					"I can't get a clear shot from here");
 			owner.resetPath();
+			this.stop();
 			return;
 		}
 		boolean xbow = DataConversions.inArray(Formulae.xbowIDs, bowID);
@@ -106,6 +108,7 @@ public class RangeEvent extends DelayedEvent {
 							.sendMessage(
 									"You may not use P2P (Member Item) Arrows in the F2P Wilderness");
 					owner.resetRange();
+					this.stop();
 					return;
 				}
 			}
@@ -126,6 +129,7 @@ public class RangeEvent extends DelayedEvent {
 					owner.getActionSender().sendMessage(
 							"Your arrows are too powerful for your Bow.");
 					owner.resetRange();
+					this.stop();
 					return;
 				}
 			}
@@ -143,11 +147,13 @@ public class RangeEvent extends DelayedEvent {
 			owner.getActionSender().sendMessage(
 					"You have run out of " + (xbow ? "bolts" : "arrows"));
 			owner.resetRange();
+			this.stop();
 			return;
 		}
 		if (affectedMob.isPrayerActivated(13)) {
 			if (!owner.shouldRangePass()) {
-				owner.getActionSender().sendMessage("Your missile got blocked");
+				owner.getActionSender().sendMessage("Your missile was blocked");
+				this.stop();
 				return;
 			}
 		}
@@ -259,6 +265,7 @@ public class RangeEvent extends DelayedEvent {
 								public void arrived() {
 									if (affectedMob.isBusy() || player.isBusy()) {
 										npc.setChasing(null);
+										this.stop();
 										return;
 									}
 
@@ -298,12 +305,14 @@ public class RangeEvent extends DelayedEvent {
 									fighting.setLastRun(0);
 									Instance.getDelayedEventHandler().add(
 											fighting);
+									this.stop();
 								}
 
 								public void failed() {
 									npc.setChasing(null);
 								}
 							});
+					this.stop();
 				}
 			}
 		}

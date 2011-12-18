@@ -621,13 +621,4 @@ public class Npc extends Mob {
 
 	public boolean hasArmor = false;
 	public boolean undead = false;
-	private int team = 2;
-
-	public int getTeam() {
-		return team;
-	}
-
-	public void setTeam(int team) {
-		this.team = team;
-	}
 }
