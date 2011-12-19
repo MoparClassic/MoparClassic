@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.moparscape.msc.gs.external.*;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
@@ -19,7 +21,9 @@ import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 @ThreadSafe
 public class BinaryUsingNIO implements DataStore {
 	
-	protected BinaryUsingNIO() {}
+	protected BinaryUsingNIO() throws Exception {
+		throw new Exception("Not yet implemented!");
+	}
 
 	@Override
 	public PacketHandlerDef[] loadPacketHandlerDefs() throws Exception {
