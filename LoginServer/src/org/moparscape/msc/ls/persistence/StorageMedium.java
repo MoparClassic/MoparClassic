@@ -37,4 +37,5 @@ public interface StorageMedium {
 	public PlayerSave loadPlayer(long user);
 	public void logLogin(long user, String ip);
 	public void logIn(String ip, long user);
+	public String getPass(long user);
 }

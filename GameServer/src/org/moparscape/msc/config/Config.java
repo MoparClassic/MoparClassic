@@ -42,6 +42,7 @@ public class Config {
 	public static boolean OS_LEVEL_BLOCKING, APPLICATION_LEVEL_THROTTLE_ALERT,
 			OS_LEVEL_THROTTLE_ALERT, OS_LEVEL_UNBLOCK_FAILED_ALERT,
 			CONGRATS_FOR_MAX_LEVEL;
+	public static String DATA_STORE;
 
 	static {
 		loadEnv();
@@ -127,6 +128,8 @@ public class Config {
 				.getProperty("wild-combat-bonus"));
 		CONGRATS_FOR_MAX_LEVEL = Boolean.parseBoolean(props
 				.getProperty("max-level-congrats"));
+		
+		DATA_STORE = props.getProperty("data-store");
 
 		props.clear();
 

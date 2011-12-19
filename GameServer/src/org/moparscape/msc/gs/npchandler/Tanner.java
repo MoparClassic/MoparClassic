@@ -95,6 +95,7 @@ public class Tanner implements NpcHandler {
 																				1));
 																owner.getActionSender()
 																		.sendInventory();
+																this.stop();
 															} else {
 																matchRunning = false;
 																owner.setBusy(false);

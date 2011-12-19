@@ -6,11 +6,13 @@ import java.util.Map.Entry;
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;
 import org.moparscape.msc.ls.auth.Auth;
+import org.moparscape.msc.ls.auth.impl.AuthFactory;
 import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.LSPacket;
 import org.moparscape.msc.ls.net.Packet;
 import org.moparscape.msc.ls.packetbuilder.loginserver.PlayerLoginPacketBuilder;
 import org.moparscape.msc.ls.packethandler.PacketHandler;
+import org.moparscape.msc.ls.util.Config;
 import org.moparscape.msc.ls.util.DataConversions;
 
 public class PlayerLoginHandler implements PacketHandler {
@@ -60,14 +62,25 @@ public class PlayerLoginHandler implements PacketHandler {
 		}
 	}
 
+	private static Auth auth;
+
+	static {
+		try {
+			auth = AuthFactory.create(Config.AUTH_CLASS);
+			System.out.println("Authentication Scheme: "
+					+ auth.getClass().getSimpleName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private byte validatePlayer(long user, String pass, String ip) {
 		Server server = Server.getServer();
 		byte returnVal = 0;
 
 		if (!Server.storage.playerExists(user))
 			return 2;
-		if (!Auth.check_auth(DataConversions.hashToUsername(user), pass,
-				new StringBuilder())) {
+		if (!auth.validate(user, pass, new StringBuilder())) {
 			return 2;
 		}
 

@@ -81,12 +81,16 @@ public class FightEvent extends DelayedEvent {
 			Npc n = (Npc) attacker;
 			if (attacker.getHits() <= 0) {
 				n.resetCombat(CombatState.ERROR);
+				owner.resetCombat(CombatState.ERROR);
+				this.stop();
 			}
 		}
 		if (opponent instanceof Npc) {
 			Npc n = (Npc) opponent;
 			if (opponent.getHits() <= 0) {
 				n.resetCombat(CombatState.ERROR);
+				owner.resetCombat(CombatState.ERROR);
+				this.stop();
 			}
 		}
 		if (opponent instanceof Player && attacker instanceof Player) {
@@ -100,8 +104,7 @@ public class FightEvent extends DelayedEvent {
 		 * opponent.resetCombat(CombatState.LOST); return; }
 		 */
 		attacker.incHitsMade();
-		if (attacker instanceof Npc && opponent.isPrayerActivated(12)
-				&& ((Npc) attacker).getTeam() == 2) {
+		if (attacker instanceof Npc && opponent.isPrayerActivated(12)) {
 			return;
 		}
 		int damage = (attacker instanceof Player && opponent instanceof Player ? Formulae
@@ -148,6 +151,7 @@ public class FightEvent extends DelayedEvent {
 						player.resetAll();
 						player.getActionSender().sendMessage(
 								"Your opponent is retreating");
+						this.stop();
 						return;
 					}
 				}
@@ -254,6 +258,7 @@ public class FightEvent extends DelayedEvent {
 			}
 			attacker.resetCombat(CombatState.WON);
 			opponent.resetCombat(CombatState.LOST);
+			this.stop();
 		} else {
 			ArrayList<Player> playersToInform = new ArrayList<Player>();
 			playersToInform.addAll(opponent.getViewArea().getPlayersInView());

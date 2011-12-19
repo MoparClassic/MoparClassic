@@ -26,7 +26,6 @@ import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.tools.Captcha;
 import org.moparscape.msc.gs.util.Logger;
-import org.moparscape.msc.gs.util.PersistenceManager;
 
 /**
  * The central motor of the game. This class is responsible for the primary
@@ -92,7 +91,12 @@ public final class GameEngine extends Thread {
 		captcha = new Captcha();
 		captcha.init();
 		packetQueue = new PacketQueue<RSCPacket>();
-		loadPacketHandlers();
+		try {
+			loadPacketHandlers();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 		for (Shop shop : world.getShops()) {
 			shop.initRestock();
 		}
@@ -147,10 +151,11 @@ public final class GameEngine extends Thread {
 
 	/**
 	 * Loads the packet handling classes from the persistence manager.
+	 * @throws Exception 
 	 */
-	protected void loadPacketHandlers() {
-		PacketHandlerDef[] handlerDefs = (PacketHandlerDef[]) PersistenceManager
-				.load("PacketHandlers.xml");
+	protected void loadPacketHandlers() throws Exception {
+		PacketHandlerDef[] handlerDefs = Instance.getDataStore()
+				.loadPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
@@ -171,25 +176,21 @@ public final class GameEngine extends Thread {
 		clientUpdater.sendQueuedPackets();
 		long now = GameEngine.getTime();
 		if (now - lastSentClientUpdate >= 600) {
-			if (now - lastSentClientUpdate >= 1000) {
-				// Logger.println("MAJOR UPDATE DELAYED: " + (now -
-				// lastSentClientUpdate));
-			}
 			lastSentClientUpdate = now;
 			clientUpdater.doMajor();
 		}
 		if (now - lastSentClientUpdateFast >= 104) {
-			if (now - lastSentClientUpdateFast >= 6000) {
-				// Logger.println("MINOR UPDATE DELAYED: " + (now -
-				// lastSentClientUpdateFast));
-			}
 			lastSentClientUpdateFast = now;
 			clientUpdater.doMinor();
 		}
 	}
-
+	
+	private long lastEventTick;
 	private void processEvents() {
-		eventHandler.doEvents();
+		if (getTime() - lastEventTick >= 100) {
+			eventHandler.doEvents();
+			lastEventTick = getTime();
+		}
 	}
 
 	public DelayedEventHandler getEventHandler() {

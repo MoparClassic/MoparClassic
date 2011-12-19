@@ -49,7 +49,12 @@ public class Server {
 
 		Config.initConfig(configFile);
 		world = Instance.getWorld();
-		world.wl.loadObjects();
+		try {
+			world.wl.loadObjects();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		World.initilizeDB();
 

@@ -17,7 +17,7 @@ import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.FConnectionHandler;
 import org.moparscape.msc.ls.net.LSConnectionHandler;
 import org.moparscape.msc.ls.persistence.StorageMedium;
-import org.moparscape.msc.ls.persistence.StorageMediumFactory;
+import org.moparscape.msc.ls.persistence.impl.StorageMediumFactory;
 import org.moparscape.msc.ls.util.Config;
 
 public class Server {
@@ -58,7 +58,7 @@ public class Server {
 		System.out.println("Login Server starting up...");
 		Config.initConfig(configFile);
 		try {
-			storage = StorageMediumFactory.createMedium(Config.STORAGE_MEDIUM);
+			storage = StorageMediumFactory.create(Config.STORAGE_MEDIUM);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
