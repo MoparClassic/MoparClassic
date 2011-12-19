@@ -3,6 +3,7 @@ package org.moparscape.msc.ls.persistence.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +45,7 @@ class MySQL implements StorageMedium {
 					statement.addBatch();
 				}
 				statement.executeBatch();
+				close(statement);
 			}
 
 			updateLongs(Statements.save_DeleteInv, s.getUser());
@@ -60,6 +62,7 @@ class MySQL implements StorageMedium {
 					statement.addBatch();
 				}
 				statement.executeBatch();
+				close(statement);
 			}
 
 			updateLongs(Statements.save_DeleteQuests, s.getUser());
@@ -73,6 +76,7 @@ class MySQL implements StorageMedium {
 				statement.addBatch();
 			}
 			statement.executeBatch();
+			close(statement);
 
 			statement = conn.prepareStatement(Statements.save_UpdateBasicInfo);
 			statement.setInt(1, s.getCombat());
@@ -92,6 +96,7 @@ class MySQL implements StorageMedium {
 			statement.setInt(15, s.getQuestPoints());
 			statement.setLong(16, s.getUser());
 			statement.executeUpdate();
+			close(statement);
 
 			String query = "UPDATE `" + Statements.PREFIX + "experience` SET ";
 			for (int i = 0; i < 18; i++)
@@ -108,7 +113,8 @@ class MySQL implements StorageMedium {
 
 			conn.updateQuery(query.substring(0, query.length() - 1)
 					+ " WHERE `user`=" + s.getUser());
-			updateLongs(Statements.save_SetEventCD, s.getEventCD() / 1000, s.getUser());
+			updateLongs(Statements.save_SetEventCD, s.getEventCD() / 1000,
+					s.getUser());
 
 			return true;
 		} catch (Exception e) {
@@ -143,6 +149,7 @@ class MySQL implements StorageMedium {
 			logTrade.setInt(8, type);
 
 			logTrade.executeUpdate();
+			close(logTrade);
 		} catch (SQLException e) {
 			if (logTrade != null)
 				e.printStackTrace();
@@ -177,6 +184,7 @@ class MySQL implements StorageMedium {
 						+ Statements.logReport);
 
 		}
+		close(logReport);
 	}
 
 	@Override
@@ -199,6 +207,7 @@ class MySQL implements StorageMedium {
 						+ Statements.logKill);
 
 		}
+		close(logKill);
 	}
 
 	@Override
@@ -218,6 +227,7 @@ class MySQL implements StorageMedium {
 						+ Statements.resetOnlineFlag);
 
 		}
+		close(resetOnlineFlag);
 	}
 
 	@Override
@@ -261,7 +271,7 @@ class MySQL implements StorageMedium {
 			List<Long> list = longListFromResultSet(
 					resultSetFromLongs(Statements.friendsList0, user), "user");
 			list.addAll(longListFromResultSet(
-					resultSetFromLongs(Statements.friendsList1,user), "user"));
+					resultSetFromLongs(Statements.friendsList1, user), "user"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -311,38 +321,47 @@ class MySQL implements StorageMedium {
 
 	@Override
 	public boolean isBanned(long user) {
+		ResultSet res = null;
 		try {
-			ResultSet res = resultSetFromLongs(Statements.basicInfo, user);
+			res = resultSetFromLongs(Statements.basicInfo, user);
 			res.next();
 			return res.getInt("banned") == 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return true;
+		} finally {
+			close(res);
 		}
 	}
 
 	@Override
 	public int getGroupID(long user) {
+		ResultSet res = null;
 		try {
-			ResultSet res = resultSetFromLongs(Statements.basicInfo, user);
+			res = resultSetFromLongs(Statements.basicInfo, user);
 			res.next();
 			return res.getInt("group_id");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// Normal user = 1
 			return 1;
+		} finally {
+			close(res);
 		}
 	}
 
 	@Override
 	public long getOwner(long user) {
+		ResultSet res = null;
 		try {
-			ResultSet res = resultSetFromLongs(Statements.basicInfo, user);
+			res = resultSetFromLongs(Statements.basicInfo, user);
 			res.next();
 			return res.getLong("owner");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 0L;
+		} finally {
+			close(res);
 		}
 	}
 
@@ -425,16 +444,23 @@ class MySQL implements StorageMedium {
 					Config.statArray, user));
 			save.setCurStats(intArrayFromStringArray(Statements.playerCurExp,
 					"cur_", Config.statArray, user));
+			
+			close(result);
 			result = resultSetFromLongs(Statements.playerInvItems, user);
+			
 			while (result.next()) {
 				save.addInvItem(result.getInt("id"), result.getInt("amount"),
 						result.getInt("wielded") == 1);
 			}
 
+			close(result);
 			result = resultSetFromLongs(Statements.playerBankItems, user);
+			
 			while (result.next()) {
 				save.addBankItem(result.getInt("id"), result.getInt("amount"));
 			}
+			
+			close(result);
 
 			save.addFriends(longListFromResultSet(
 					resultSetFromLongs(Statements.playerFriends, user),
@@ -447,6 +473,7 @@ class MySQL implements StorageMedium {
 			while (result.next()) {
 				save.setQuestStage(result.getInt("id"), result.getInt("stage"));
 			}
+			close(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -470,6 +497,7 @@ class MySQL implements StorageMedium {
 				System.out.println("Failed to create prepared statement: "
 						+ statement);
 		}
+		close(prepared);
 	}
 
 	private void updateIntsLongs(String statement, int[] intA, long[] longA) {
@@ -493,6 +521,7 @@ class MySQL implements StorageMedium {
 				System.out.println("Failed to create prepared statement: "
 						+ statement);
 		}
+		close(prepared);
 	}
 
 	private int[] intArrayFromStringArray(String statement, String prefix,
@@ -516,6 +545,7 @@ class MySQL implements StorageMedium {
 				return null;
 			}
 		}
+		close(result);
 		return data;
 	}
 
@@ -526,7 +556,7 @@ class MySQL implements StorageMedium {
 		while (result.next()) {
 			list.add(result.getLong(param));
 		}
-
+		close(result);
 		return list;
 	}
 
@@ -548,7 +578,6 @@ class MySQL implements StorageMedium {
 				System.out.println("Failed to create prepared statement: "
 						+ statement);
 		}
-
 		return result;
 	}
 
@@ -575,6 +604,32 @@ class MySQL implements StorageMedium {
 			return result.next();
 		} catch (Exception e) {
 			return false;
+		} finally {
+			close(result);
+		}
+	}
+
+	private void close(ResultSet res) {
+		if(res == null) {
+			return;
+		}
+		
+		try {
+			close(res.getStatement());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void close(Statement s) {
+		if(s == null) {
+			return;
+		}
+		
+		try {
+			s.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -692,6 +747,7 @@ class MySQL implements StorageMedium {
 						+ Statements.logLogin);
 
 		}
+		close(logLogin);
 	}
 
 	@Override
@@ -713,6 +769,7 @@ class MySQL implements StorageMedium {
 						+ Statements.logIn);
 
 		}
+		close(login);
 	}
 
 	@Override
@@ -723,11 +780,12 @@ class MySQL implements StorageMedium {
 				return null;
 			}
 			return result.getString("pass");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close(result);
 		}
 		return null;
 	}
-	
-	
+
 }
