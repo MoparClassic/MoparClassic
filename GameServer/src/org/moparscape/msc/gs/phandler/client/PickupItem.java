@@ -75,8 +75,9 @@ public class PickupItem implements PacketHandler {
 		}
 
 		player.setStatus(Action.TAKING_GITEM);
+		int distance = tile.hasGameObject() ? 1 : 0;
 		Instance.getDelayedEventHandler().add(
-				new WalkToPointEvent(player, location, 0, true) {
+				new WalkToPointEvent(player, location, distance, true) {
 					public void arrived() {
 						if (owner.isBusy() || owner.isRanging()
 								|| !tile.hasItem(item) || !owner.nextTo(item)

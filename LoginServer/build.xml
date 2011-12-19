@@ -9,7 +9,7 @@
 		<delete file="${jar}" />
 		<delete dir="${build}" />
 		<mkdir dir="${build}" />
-		<javac srcdir="${src}" destdir="${build}" debug="on" target="1.6">
+		<javac srcdir="${src}" destdir="${build}" debug="on">
 			<classpath>
 				<pathelement location="${lib}/mina.jar" />
 				<pathelement location="${lib}/xpp3.jar" />
@@ -26,7 +26,7 @@
 	</target>
 
 
-	<target name="runls" depends="build">
+	<target name="run" depends="build">
 		<java classname="org.moparscape.msc.ls.Server" fork="true">
 			<classpath>
 				<pathelement location="${lib}/mina.jar" />

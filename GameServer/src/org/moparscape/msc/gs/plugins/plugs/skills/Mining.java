@@ -138,7 +138,6 @@ public class Mining implements ObjectListener {
 						owner.getActionSender().sendMessage(
 								"You manage to obtain some "
 										+ ore.getDef().getName() + ".");
-						owner.setSkillLoops(0);
 						owner.incExp(14, def.getExp(), true);
 						owner.getActionSender().sendStat(14);
 						world.registerGameObject(new GameObject(object
@@ -147,10 +146,12 @@ public class Mining implements ObjectListener {
 						world.delayedSpawnObject(newobject.getLoc(),
 								def.getRespawnTime() * 1000);
 					}
+					owner.isMining(false);
+					owner.setSkillLoops(0);
 					owner.getActionSender().sendInventory();
 				} else {
 					boolean retry = false;
-					if (retrytime >= swings)
+					if (retrytime - swings > 0)
 						retry = true;
 					owner.getActionSender().sendMessage(
 							"You only succeed in scratching the rock.");

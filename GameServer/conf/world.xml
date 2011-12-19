@@ -78,4 +78,7 @@
 	<entry key="alert-config">conf/alert-config.xml</entry>
 	<!-- Location of configuration file for commands -->
 	<entry key="command-config">conf/command-config.xml</entry>
+	
+	<!-- The class that should be used for the DataStore -->
+	<entry key="data-store">org.moparscape.msc.gs.persistence.impl.XMLUsingXStream</entry>
 </properties>

@@ -582,8 +582,10 @@ public final class Player extends Mob {
 
 			for (Player p : getViewArea().getPlayersInView())
 				p.informOfModifiedHits(this);
-			if (getCurStat(3) <= 0)
+			if (getCurStat(3) <= 0) {
 				killedBy(null, false);
+				poisonEvent.stop();
+			}
 		} else {
 			if (poisonEvent != null)
 				poisonEvent.stop();
@@ -697,6 +699,7 @@ public final class Player extends Mob {
 
 				public void run() {
 					removeSkull();
+					this.stop();
 				}
 			};
 			Instance.getDelayedEventHandler().add(skullEvent);
@@ -2121,6 +2124,7 @@ public final class Player extends Mob {
 
 			Instance.getServer().getLoginConnector().getActionSender()
 					.playerLogin(this);
+			final Player p = this;
 			Instance.getDelayedEventHandler().add(
 					new DelayedEvent(this, 60000) {
 
@@ -2137,6 +2141,9 @@ public final class Player extends Mob {
 						}
 
 						public void run() {
+							if(p == null || p.isDestroy()) {
+								this.stop();
+							}
 							for (int statIndex = 0; statIndex < 18; statIndex++) {
 								if (statIndex == 5) {
 									continue;
@@ -2159,6 +2166,9 @@ public final class Player extends Mob {
 			drainer = new DelayedEvent(this, Integer.MAX_VALUE) {
 
 				public void run() {
+					if(p == null || p.isDestroy()) {
+						this.stop();
+					}
 					int curPrayer = getCurStat(5);
 					if (getDrainRate() > 0 && curPrayer > 0) {
 						incCurStat(5, -1);
@@ -2681,6 +2691,7 @@ public final class Player extends Mob {
 				if (!owner.withinRange(mob) || mob.isRemoved()
 						|| (owner.isBusy() && !owner.isDueling())) {
 					resetFollowing();
+					this.stop();
 				} else if (!owner.finishedPath()
 						&& owner.withinRange(mob, radius)) {
 					owner.resetPath();

@@ -1132,7 +1132,7 @@ public class Formulae {
 	 *            - ItemLoc, GameObjectLoc, NPCLoc or an Integer.
 	 * @return - true if inside P2P area, otherwise false.
 	 */
-	public static boolean isP2P(boolean f2pwildy, Object... objs) {
+	public static boolean isP2P(Boolean f2pwildy, Object... objs) {
 		int x = -1;
 		int y = -1;
 		if (objs.length == 1) {

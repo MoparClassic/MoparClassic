@@ -47,6 +47,7 @@ public class DuelEvent extends DelayedEvent {
 		if (opponent.getHits() <= 0) {
 			attacker.resetCombat(CombatState.WON);
 			opponent.resetCombat(CombatState.LOST);
+			this.stop();
 			return;
 		}
 		attacker.incHitsMade();
@@ -102,6 +103,7 @@ public class DuelEvent extends DelayedEvent {
 
 			attacker.resetDueling();
 			opponent.resetDueling();
+			this.stop();
 		}
 	}
 }

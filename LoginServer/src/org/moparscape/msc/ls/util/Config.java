@@ -15,9 +15,11 @@ public class Config {
 	public static int LS_PORT, QUERY_PORT;
 
 	public static String RSCDLS_HOME, CONF_DIR, LOG_DIR, MYSQL_HOST, MYSQL_DB,
-			MYSQL_USER, MYSQL_PASS, LS_IP, QUERY_IP, AUTH_URL;
+			MYSQL_USER, MYSQL_PASS, LS_IP, QUERY_IP, AUTH_META_DATA;
 
 	public static long START_TIME;
+
+	public static String AUTH_CLASS;
 
 	static {
 		loadEnv();
@@ -46,10 +48,11 @@ public class Config {
 		LS_PORT = Integer.parseInt(props.getProperty("lsport"));
 		QUERY_IP = props.getProperty("queryip");
 		QUERY_PORT = Integer.parseInt(props.getProperty("queryport"));
-		AUTH_URL = props.getProperty("authURL",
-				"https://www.moparscape.org/auth.php?field=");
 		STORAGE_MEDIUM = props.getProperty("storage-medium",
 				"org.moparscape.msc.ls.persistence.impl.MySQL");
+		AUTH_CLASS = props.getProperty("auth-class", "org.moparscape.msc.ls.auth.impl.WebsiteAuth");
+		AUTH_META_DATA = props.getProperty("auth-meta-data",
+				"https://www.moparscape.org/auth.php?field=");
 
 		props.clear();
 	}

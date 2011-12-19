@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.core.ClientUpdater;
 import org.moparscape.msc.gs.core.DelayedEventHandler;
@@ -25,7 +26,6 @@ import org.moparscape.msc.gs.quest.QuestManager;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.util.EntityList;
 import org.moparscape.msc.gs.util.Logger;
-import org.moparscape.msc.gs.util.PersistenceManager;
 
 public final class World {
 
@@ -468,11 +468,11 @@ public final class World {
 
 	/**
 	 * Loads the npc handling classes
+	 * @throws Exception 
 	 */
-	private void loadNpcHandlers() {
+	private void loadNpcHandlers() throws Exception {
 
-		NpcHandlerDef[] handlerDefs = (NpcHandlerDef[]) PersistenceManager
-				.load("NpcHandlers.xml");
+		NpcHandlerDef[] handlerDefs = Instance.getDataStore().loadNpcHandlers();
 		for (NpcHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();

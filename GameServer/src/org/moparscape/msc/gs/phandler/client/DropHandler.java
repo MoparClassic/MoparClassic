@@ -52,6 +52,7 @@ public class DropHandler implements PacketHandler {
 					return;
 				}
 				if (owner.hasMoved()) {
+					this.stop();
 					return;
 				}
 				world.addEntryToSnapshots(new Activity(owner.getUsername(),

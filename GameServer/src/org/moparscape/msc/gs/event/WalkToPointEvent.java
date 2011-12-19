@@ -29,8 +29,8 @@ public abstract class WalkToPointEvent extends DelayedEvent {
 
 	public final void run() {
 		if (stop && owner.withinRange(location, radius)) {
-			owner.resetPath();
 			arrived();
+			owner.resetPath();
 		} else if (owner.hasMoved()) {
 			return; // We're still moving
 		} else if (owner.withinRange(location, radius)) {
