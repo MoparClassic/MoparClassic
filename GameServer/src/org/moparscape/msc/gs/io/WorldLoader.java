@@ -127,7 +127,7 @@ public class WorldLoader {
 	 * }
 	 */
 
-	public void loadWorld(World world) {
+	public void loadWorld(World world) throws Exception {
 		try {
 			tileArchive = new ZipFile(new File(Config.CONF_DIR,
 					"data/Landscape.rscd"));
@@ -157,7 +157,7 @@ public class WorldLoader {
 		System.gc();
 	}
 
-	public void loadObjects() {
+	public void loadObjects() throws Exception {
 		World world = Instance.getWorld();
 		for (GameObjectLoc gameObject : Instance.getDataStore().loadGameObjectLocs()) {
 			if (Config.f2pWildy && Formulae.isP2P(true, gameObject))

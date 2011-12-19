@@ -91,7 +91,12 @@ public final class GameEngine extends Thread {
 		captcha = new Captcha();
 		captcha.init();
 		packetQueue = new PacketQueue<RSCPacket>();
-		loadPacketHandlers();
+		try {
+			loadPacketHandlers();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 		for (Shop shop : world.getShops()) {
 			shop.initRestock();
 		}
@@ -146,8 +151,9 @@ public final class GameEngine extends Thread {
 
 	/**
 	 * Loads the packet handling classes from the persistence manager.
+	 * @throws Exception 
 	 */
-	protected void loadPacketHandlers() {
+	protected void loadPacketHandlers() throws Exception {
 		PacketHandlerDef[] handlerDefs = Instance.getDataStore()
 				.loadPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {

@@ -112,7 +112,12 @@ public class LoginConnector {
 
 	public LoginConnector() {
 		packetQueue = new PacketQueue<LSPacket>();
-		loadPacketHandlers();
+		try {
+			loadPacketHandlers();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 		reconnect();
 	}
 
@@ -138,7 +143,7 @@ public class LoginConnector {
 		actionSender.unregisterWorld();
 	}
 
-	private void loadPacketHandlers() {
+	private void loadPacketHandlers() throws Exception {
 		PacketHandlerDef[] handlerDefs = Instance.getDataStore().loadLSPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {

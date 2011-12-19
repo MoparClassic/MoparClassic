@@ -52,43 +52,48 @@ public class EntityHandler {
 
 	static {
 		DataStore dataStore = Instance.getDataStore();
-		doors = dataStore.loadDoorDefs();
-		gameObjects = dataStore.loadGameObjectDefs();
-		npcs = dataStore.loadNPCDefs();
-		for (NPCDef n : npcs) {
-			if (n.isAttackable()) {
-				n.respawnTime -= (n.respawnTime / 3);
+		try {
+			doors = dataStore.loadDoorDefs();
+			gameObjects = dataStore.loadGameObjectDefs();
+			npcs = dataStore.loadNPCDefs();
+			for (NPCDef n : npcs) {
+				if (n.isAttackable()) {
+					n.respawnTime -= (n.respawnTime / 3);
+				}
 			}
+			prayers = dataStore.loadPrayerDefs();
+			items = dataStore.loadItemDefs();
+			spells = dataStore.loadSpellDefs();
+			tiles = dataStore.loadTileDefs();
+			keyChestLoots = dataStore.loadKeyChestLoots();
+			herbSeconds = dataStore.loadItemHerbSeconds();
+			dartTips = dataStore.loadDartTips();
+			gems = dataStore.loadGemDefs();
+			logCut = dataStore.loadItemLogCutDefs();
+			bowString = dataStore.loadItemBowStringDefs();
+			arrowHeads = dataStore.loadItemArrowHeadDefs();
+			firemaking = dataStore.loadFiremakingDefs();
+			itemAffectedTypes = dataStore.loadItemAffectedTypes();
+			itemWieldable = dataStore.loadItemWieldableDefs();
+			itemUnIdentHerb = dataStore.loadItemUnIdentHerbDefs();
+			itemHerb = dataStore.loadItemHerbDefs();
+			itemEdibleHeals = dataStore.loadItemEdibleHeals();
+			itemCooking = dataStore.loadItemCookingDefs();
+			itemSmelting = dataStore.loadItemSmeltingDefs();
+			itemSmithing = dataStore.loadItemSmithingDefs();
+			itemCrafting = dataStore.loadItemCraftingDefs();
+			objectMining = dataStore.loadObjectMiningDefs();
+			objectWoodcutting = dataStore.loadObjectWoodcuttingDefs();
+			objectFishing = dataStore.loadObjectFishDefs();
+			spellAggressiveLvl = dataStore.loadSpellAgressiveLevel();
+			objectTelePoints = dataStore.loadTelePoints();
+			certers = dataStore.loadCerterDefs();
+			agilityObjects = dataStore.loadAgilityDefs();
+			agilityCourses = dataStore.loadAgilityCourseDefs();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
 		}
-		prayers = dataStore.loadPrayerDefs();
-		items = dataStore.loadItemDefs();
-		spells = dataStore.loadSpellDefs();
-		tiles = dataStore.loadTileDefs();
-		keyChestLoots = dataStore.loadKeyChestLoots();
-		herbSeconds = dataStore.loadItemHerbSeconds();
-		dartTips = dataStore.loadDartTips();
-		gems = dataStore.loadGemDefs();
-		logCut = dataStore.loadItemLogCutDefs();
-		bowString = dataStore.loadItemBowStringDefs();
-		arrowHeads = dataStore.loadItemArrowHeadDefs();
-		firemaking = dataStore.loadFiremakingDefs();
-		itemAffectedTypes = dataStore.loadItemAffectedTypes();
-		itemWieldable = dataStore.loadItemWieldableDefs();
-		itemUnIdentHerb = dataStore.loadItemUnIdentHerbDefs();
-		itemHerb = dataStore.loadItemHerbDefs();
-		itemEdibleHeals = dataStore.loadItemEdibleHeals();
-		itemCooking = dataStore.loadItemCookingDefs();
-		itemSmelting = dataStore.loadItemSmeltingDefs();
-		itemSmithing = dataStore.loadItemSmithingDefs();
-		itemCrafting = dataStore.loadItemCraftingDefs();
-		objectMining = dataStore.loadObjectMiningDefs();
-		objectWoodcutting = dataStore.loadObjectWoodcuttingDefs();
-		objectFishing = dataStore.loadObjectFishDefs();
-		spellAggressiveLvl = dataStore.loadSpellAgressiveLevel();
-		objectTelePoints = dataStore.loadTelePoints();
-		certers = dataStore.loadCerterDefs();
-		agilityObjects = dataStore.loadAgilityDefs();
-		agilityCourses = dataStore.loadAgilityCourseDefs();
 		dataStore.dispose();
 	}
 

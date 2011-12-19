@@ -468,8 +468,9 @@ public final class World {
 
 	/**
 	 * Loads the npc handling classes
+	 * @throws Exception 
 	 */
-	private void loadNpcHandlers() {
+	private void loadNpcHandlers() throws Exception {
 
 		NpcHandlerDef[] handlerDefs = Instance.getDataStore().loadNpcHandlers();
 		for (NpcHandlerDef handlerDef : handlerDefs) {
