@@ -1,5 +1,6 @@
 package org.moparscape.msc.ls.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,12 @@ import java.util.List;
 import org.moparscape.msc.ls.Server;
 import org.moparscape.msc.ls.util.DataConversions;
 
-public class PlayerSave {
+public class PlayerSave implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2613872958788286998L;
 
 	public static PlayerSave loadPlayer(long user) {
 		return Server.storage.loadPlayer(user);
