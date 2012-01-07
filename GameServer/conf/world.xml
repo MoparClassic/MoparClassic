@@ -81,4 +81,12 @@
 	
 	<!-- The class that should be used for the DataStore -->
 	<entry key="data-store">org.moparscape.msc.gs.persistence.impl.XMLUsingXStream</entry>
+	
+	<!-- The amount of packets per second before the user is disconnected. -->
+	<entry key="packet-per-second-threshold">15</entry>
+	<!-- Alert when someone has broken the threshold? -->
+	<entry key="packet-per-second-alert">true</entry>
+	
+	<!-- The afk timeout in minutes -->
+	<entry key="afk-timeout">5</entry>
 </properties>

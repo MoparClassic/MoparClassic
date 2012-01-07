@@ -43,6 +43,9 @@ public class Config {
 			OS_LEVEL_THROTTLE_ALERT, OS_LEVEL_UNBLOCK_FAILED_ALERT,
 			CONGRATS_FOR_MAX_LEVEL;
 	public static String DATA_STORE;
+	public static int PACKET_PER_SECOND_THRESHOLD;
+	public static boolean PACKET_PER_SECOND_ALERT;
+	public static int AFK_TIMEOUT;
 
 	static {
 		loadEnv();
@@ -130,6 +133,11 @@ public class Config {
 				.getProperty("max-level-congrats"));
 		
 		DATA_STORE = props.getProperty("data-store");
+		
+		PACKET_PER_SECOND_THRESHOLD = Integer.parseInt(props.getProperty("packet-per-second-threshold"));
+		PACKET_PER_SECOND_ALERT = Boolean.parseBoolean(props.getProperty("packet-per-second-alert"));
+		
+		AFK_TIMEOUT = Integer.parseInt(props.getProperty("afk-timeout"));
 
 		props.clear();
 
