@@ -7,9 +7,7 @@ import java.io.File;
  * @author xEnt
  */
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
@@ -23,6 +21,14 @@ import org.moparscape.msc.ls.util.DataConversions;
 public class SerializedStorageMedium implements StorageMedium {
 
 	ObjectOutputStream oos;
+	private static final String baseDir = "player_data";
+	
+	static {
+		File f = new File(baseDir);
+		if(!f.exists()) {
+			f.mkdir();
+		}
+	}
 
 	@Override
 	public boolean savePlayer(PlayerSave s) {
