@@ -1,6 +1,8 @@
 package org.moparscape.msc.ls.model;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private int amount;
     private int id;
 

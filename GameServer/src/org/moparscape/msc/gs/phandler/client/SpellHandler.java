@@ -118,6 +118,7 @@ public class SpellHandler implements PacketHandler {
 			player.getInventory().remove(((Integer) e.getKey()).intValue(),
 					((Integer) e.getValue()).intValue());
 		}
+		
 		return true;
 	}
 
@@ -133,6 +134,7 @@ public class SpellHandler implements PacketHandler {
 	private Random r = new Random();
 
 	private void finalizeSpell(Player player, SpellDef spell) {
+		player.incExp(6, spell.getExp(), true);
 		player.setLastCast(GameEngine.getTime());
 		player.getActionSender().sendSound("spellok");
 		player.getActionSender().sendMessage("Cast spell successfully");
