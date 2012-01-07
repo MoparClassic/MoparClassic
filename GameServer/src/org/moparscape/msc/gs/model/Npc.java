@@ -14,6 +14,7 @@ import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.external.ItemDropDef;
 import org.moparscape.msc.gs.external.NPCDef;
 import org.moparscape.msc.gs.external.NPCLoc;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;

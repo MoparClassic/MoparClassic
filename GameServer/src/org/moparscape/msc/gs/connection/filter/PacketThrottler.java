@@ -101,8 +101,13 @@ public class PacketThrottler extends IoFilterAdapter {
 		// needs to be synchronized.
 		synchronized (playerToPacketCount) {
 
-			// If it is null, it will default to 0
-			count = playerToPacketCount.get(hash) + 1;
+			// If it is null, default to 0
+			Integer i = playerToPacketCount.get(hash);
+			if(i == null) {
+				count = 1;
+			} else {
+				count = i + 1;
+			}
 
 			// Update/Create entry
 			playerToPacketCount.put(hash, count);

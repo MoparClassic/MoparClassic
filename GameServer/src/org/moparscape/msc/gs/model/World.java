@@ -19,6 +19,9 @@ import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.external.GameObjectLoc;
 import org.moparscape.msc.gs.external.NPCLoc;
 import org.moparscape.msc.gs.io.WorldLoader;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
+import org.moparscape.msc.gs.model.landscape.MutableTileValue;
+import org.moparscape.msc.gs.model.landscape.TileValue;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
 import org.moparscape.msc.gs.npchandler.NpcHandler;
 import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
@@ -427,7 +430,7 @@ public final class World {
 		}
 		TileValue t = tileType[x][y];
 		if (t == null) {
-			t = new TileValue();
+			t = TileValue.create(0, new byte[6]);
 			tileType[x][y] = t;
 		}
 		return t;
@@ -468,7 +471,8 @@ public final class World {
 
 	/**
 	 * Loads the npc handling classes
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	private void loadNpcHandlers() throws Exception {
 
@@ -498,17 +502,23 @@ public final class World {
 		}
 		int dir = o.getDirection();
 		int x = o.getX(), y = o.getY();
+		MutableTileValue t = new MutableTileValue(getTileValue(x, y));
 		if (dir == 0) {
-			getTileValue(x, y).objectValue |= 1;
-			getTileValue(x, y - 1).objectValue |= 4;
+			t.objectValue |= 1;
+			MutableTileValue t1 = new MutableTileValue(getTileValue(x, y - 1));
+			t1.objectValue |= 4;
+			setTileValue(x, y - 1, t1.toTileValue());
 		} else if (dir == 1) {
-			getTileValue(x, y).objectValue |= 2;
-			getTileValue(x - 1, y).objectValue |= 8;
+			t.objectValue |= 2;
+			MutableTileValue t1 = new MutableTileValue(getTileValue(x - 1, y));
+			t1.objectValue |= 8;
+			setTileValue(x - 1, y, t1.toTileValue());
 		} else if (dir == 2) {
-			getTileValue(x, y).objectValue |= 0x10;
+			t.objectValue |= 0x10;
 		} else if (dir == 3) {
-			getTileValue(x, y).objectValue |= 0x20;
+			t.objectValue |= 0x20;
 		}
+		setTileValue(x, y, t.toTileValue());
 	}
 
 	/**
@@ -582,21 +592,31 @@ public final class World {
 		}
 		for (int x = o.getX(); x < o.getX() + width; x++) {
 			for (int y = o.getY(); y < o.getY() + height; y++) {
+				MutableTileValue t = new MutableTileValue(getTileValue(x, y));
 				if (o.getGameObjectDef().getType() == 1) {
-					getTileValue(x, y).objectValue |= 0x40;
+					t.objectValue |= 0x40;
 				} else if (dir == 0) {
-					getTileValue(x, y).objectValue |= 2;
-					getTileValue(x - 1, y).objectValue |= 8;
+					t.objectValue |= 2;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x - 1, y));
+					t1.objectValue |= 8;
+					setTileValue(x - 1, y, t1.toTileValue());
 				} else if (dir == 2) {
-					getTileValue(x, y).objectValue |= 4;
-					getTileValue(x, y + 1).objectValue |= 1;
+					t.objectValue |= 4;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x, y + 1));
+					t1.objectValue |= 1;
+					setTileValue(x, y + 1, t1.toTileValue());
 				} else if (dir == 4) {
-					getTileValue(x, y).objectValue |= 8;
-					getTileValue(x + 1, y).objectValue |= 2;
+					t.objectValue |= 8;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x + 1, y));
+					t1.objectValue |= 2;
+					setTileValue(x + 1, y, t1.toTileValue());
 				} else if (dir == 6) {
-					getTileValue(x, y).objectValue |= 1;
-					getTileValue(x, y - 1).objectValue |= 4;
+					t.objectValue |= 1;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x, y - 1));
+					t1.objectValue |= 4;
+					setTileValue(x, y - 1, t1.toTileValue());
 				}
+				setTileValue(x, y, t.toTileValue());
 			}
 		}
 
@@ -702,17 +722,24 @@ public final class World {
 		}
 		int dir = o.getDirection();
 		int x = o.getX(), y = o.getY();
+		MutableTileValue t = new MutableTileValue(getTileValue(x, y));
+
 		if (dir == 0) {
-			getTileValue(x, y).objectValue &= 0xfffe;
-			getTileValue(x, y - 1).objectValue &= 65535 - 4;
+			t.objectValue &= 0xfffe;
+			MutableTileValue t1 = new MutableTileValue(getTileValue(x, y - 1));
+			t1.objectValue &= 65535 - 4;
+			setTileValue(x, y - 1, t1.toTileValue());
 		} else if (dir == 1) {
-			getTileValue(x, y).objectValue &= 0xfffd;
-			getTileValue(x - 1, y).objectValue &= 65535 - 8;
+			t.objectValue &= 0xfffd;
+			MutableTileValue t1 = new MutableTileValue(getTileValue(x - 1, y));
+			t1.objectValue &= 65535 - 8;
+			setTileValue(x - 1, y, t1.toTileValue());
 		} else if (dir == 2) {
-			getTileValue(x, y).objectValue &= 0xffef;
+			t.objectValue &= 0xffef;
 		} else if (dir == 3) {
-			getTileValue(x, y).objectValue &= 0xffdf;
+			t.objectValue &= 0xffdf;
 		}
+		setTileValue(x, y, t.toTileValue());
 	}
 
 	/**
@@ -768,21 +795,32 @@ public final class World {
 		}
 		for (int x = o.getX(); x < o.getX() + width; x++) {
 			for (int y = o.getY(); y < o.getY() + height; y++) {
+				MutableTileValue t = new MutableTileValue(getTileValue(x, y));
+
 				if (o.getGameObjectDef().getType() == 1) {
-					getTileValue(x, y).objectValue &= 0xffbf;
+					t.objectValue &= 0xffbf;
 				} else if (dir == 0) {
-					getTileValue(x, y).objectValue &= 0xfffd;
-					getTileValue(x - 1, y).objectValue &= 65535 - 8;
+					t.objectValue &= 0xfffd;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x - 1, y));
+					t1.objectValue &= 65535 - 8;
+					setTileValue(x - 1, y, t1.toTileValue());
 				} else if (dir == 2) {
-					getTileValue(x, y).objectValue &= 0xfffb;
-					getTileValue(x, y + 1).objectValue &= 65535 - 1;
+					t.objectValue &= 0xfffb;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x, y + 1));
+					t1.objectValue &= 65535 - 1;
+					setTileValue(x, y + 1, t1.toTileValue());
 				} else if (dir == 4) {
-					getTileValue(x, y).objectValue &= 0xfff7;
-					getTileValue(x + 1, y).objectValue &= 65535 - 2;
+					t.objectValue &= 0xfff7;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x + 1, y));
+					t1.objectValue &= 65535 - 2;
+					setTileValue(x + 1, y, t1.toTileValue());
 				} else if (dir == 6) {
-					getTileValue(x, y).objectValue &= 0xfffe;
-					getTileValue(x, y - 1).objectValue &= 65535 - 4;
+					t.objectValue &= 0xfffe;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x, y - 1));
+					t1.objectValue &= 65535 - 4;
+					setTileValue(x, y - 1, t1.toTileValue());
 				}
+				setTileValue(x, y, t.toTileValue());
 			}
 		}
 	}
@@ -811,5 +849,9 @@ public final class World {
 	 */
 	public boolean withinWorld(int x, int y) {
 		return x >= 0 && x < MAX_WIDTH && y >= 0 && y < MAX_HEIGHT;
+	}
+
+	public void setTileValue(int x, int y, TileValue tileValue) {
+		tileType[x][y] = tileValue;
 	}
 }

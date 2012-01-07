@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.SingleEvent;
-import org.moparscape.msc.gs.model.ActiveTile;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
@@ -16,6 +15,7 @@ import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.util.Logger;
 
 /**

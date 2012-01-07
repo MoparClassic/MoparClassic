@@ -1,6 +1,7 @@
 package org.moparscape.msc.gs.model;
 
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.model.landscape.TileValue;
 
 public class PathHandler {
 	/**
