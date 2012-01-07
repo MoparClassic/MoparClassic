@@ -114,6 +114,7 @@ public class Mining implements ObjectListener {
 			return;
 		}
 		owner.setBusy(true);
+		owner.isMining(true);
 
 		owner.getActionSender().sendSound("mine");
 		Bubble bubble = new Bubble(owner, axeId);
@@ -127,6 +128,10 @@ public class Mining implements ObjectListener {
 				"You swing your pick at the rock...");
 		Instance.getDelayedEventHandler().add(new ShortEvent(owner) {
 			public void action() {
+				if(!owner.isMining()) {
+					owner.setBusy(false);
+					return;
+				}
 				if (Formulae.getOre(def, owner.getCurStat(14), axeID)) {
 					if (DataConversions.random(0, 200) == 0) {
 						InvItem gem = new InvItem(Formulae.getGem(), 1);
