@@ -1,4 +1,4 @@
 @echo off
 title GameServer
-ant runf2p
+ant run
 pause
