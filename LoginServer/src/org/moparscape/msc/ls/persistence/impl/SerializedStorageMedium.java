@@ -33,7 +33,7 @@ public class SerializedStorageMedium implements StorageMedium {
 	@Override
 	public boolean savePlayer(PlayerSave s) {
 		try {
-			File f = new File(s.getUsername());
+			File f = new File(baseDir + File.separator + s.getUsername());
 			if(!f.exists())
 				f.createNewFile();
 			oos = new ObjectOutputStream(new FileOutputStream(f));
@@ -261,7 +261,7 @@ public class SerializedStorageMedium implements StorageMedium {
 	
 	
 	public PlayerSave getPlayerData(long user) {
-		File userr = new File(DataConversions.hashToUsername(user));
+		File userr = new File(baseDir + File.separator + DataConversions.hashToUsername(user));
 		if (!userr.exists() )
 		{
 			return null;
