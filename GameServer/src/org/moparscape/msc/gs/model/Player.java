@@ -2808,10 +2808,6 @@ public final class Player extends Mob {
 		this.menuHandler = menuHandler;
 	}
 
-	public void setMining(boolean isMining) {
-		this.isMining = isMining;
-	}
-
 	/**
 	 * Sets the mute time.
 	 * 

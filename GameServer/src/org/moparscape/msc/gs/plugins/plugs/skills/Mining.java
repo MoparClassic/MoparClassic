@@ -157,8 +157,12 @@ public class Mining implements ObjectListener {
 							"You only succeed in scratching the rock.");
 					if (retry) {
 						world.getDelayedEventHandler().add(
+																
 								new SingleEvent(owner, 500) {
 									public void action() {
+										if(!owner.isMining() || owner.inCombat()) {
+											return;
+										}
 										owner.setSkillLoops(swings + 1);
 										handleMining(object, owner,
 												owner.getClick());
