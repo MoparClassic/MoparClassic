@@ -305,7 +305,7 @@ public class Thieving {
 			Instance.getDelayedEventHandler().add(
 					new WalkToMobEvent(player, affectedMob, 1) {
 						public void arrived() {
-							if (owner.getSpam()) {
+							if (owner.isPacketSpam()) {
 								return;
 							} else {
 

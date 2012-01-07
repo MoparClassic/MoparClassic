@@ -116,7 +116,7 @@ public class WallObjectAction implements PacketHandler {
 														"This feature is only avaliable on a members server");
 										return;
 									}
-									if (owner.getSpam()) {
+									if (owner.isPacketSpam()) {
 										return;
 									}
 									Thieving thiev = new Thieving(owner, object);

@@ -401,7 +401,7 @@ public class ObjectAction implements PacketHandler {
 								if (object == null) {
 									return;
 								}
-								if (owner.getSpam()) {
+								if (owner.isPacketSpam()) {
 									return;
 								} else {
 									owner.setSpam(true);
@@ -419,7 +419,7 @@ public class ObjectAction implements PacketHandler {
 								if (object == null) {
 									return;
 								}
-								if (owner.getSpam()) {
+								if (owner.isPacketSpam()) {
 									return;
 								} else {
 									owner.setSpam(true);
@@ -497,7 +497,7 @@ public class ObjectAction implements PacketHandler {
 								if (object == null) {
 									return;
 								}
-								if (owner.getSpam())
+								if (owner.isPacketSpam())
 									return;
 
 								Thieving lock = new Thieving(owner, object);
