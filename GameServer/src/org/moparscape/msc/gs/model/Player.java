@@ -720,15 +720,6 @@ public final class Player extends Mob {
 	}
 
 	public boolean canLogout() {
-		if (this != null && this.location != null
-				&& this.location.inWilderness()) {
-			if (GameEngine.getTime() - this.getLastMoved() < Config.WILD_STAND_STILL_TIME) {
-				getActionSender().sendMessage(
-						"You must stand peacefully in one place for "
-								+ Config.WILD_STAND_STILL_TIME + " seconds!");
-				return false;
-			}
-		}
 		return !isBusy()
 				&& GameEngine.getTime() - getCombatTimer() > Config.WILD_STAND_STILL_TIME;
 	}
