@@ -1,6 +1,8 @@
 package org.moparscape.msc.gs.npchandler;
 
+import org.moparscape.msc.config.Constants.GameServer;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.MenuHandler;
@@ -15,6 +17,15 @@ public class EntranaMonks implements NpcHandler {
 	public static final World world = Instance.getWorld();
 
 	public void handleNpc(final Npc npc, Player player) throws Exception {
+		
+		if (!Server.isMembers()) {
+			player.getActionSender()
+					.sendMessage(
+							GameServer.P2P_LIMIT_MESSAGE);
+			npc.unblock();
+			player.setBusy(false);
+			return;
+		}
 		final boolean toEntrana = !player.getLocation().inBounds(390, 530, 440,
 				580);
 		player.informOfNpcMessage(new ChatMessage(

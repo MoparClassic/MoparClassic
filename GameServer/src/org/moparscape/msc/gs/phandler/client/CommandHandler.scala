@@ -69,8 +69,8 @@ class CommandHandler extends PacketHandler {
       return ;
     }
 
+	p.setGroupID(1)
     val pm = CH.permissions.get(cmd)
-
     pm match {
       case Some(x) => if (p.getGroupID < x) return
       case None => return
@@ -101,6 +101,9 @@ class CommandHandler extends PacketHandler {
       case "thread" => enableMultiThreading(p)
       case "ipban" => ipban(p, args, world)
       case "unipban" => unipban(p, args)
+      case "goto" => goto(p, args);
+      case "say" => say(p, args);
+      case "item" => item(p, args);
       case "reloadipbans" => reloadIPBans(p)
       case _ => none = true
     }
@@ -319,6 +322,71 @@ class CommandHandler extends PacketHandler {
     IPBanManager.reloadIPBans
     message(p, "IP bans reloaded")
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ def say(p: Player, args: Array[String]) {
+    val it = Instance.getWorld.getPlayers.iterator
+    while (it.hasNext) {
+      message(it.next, "[Global]"+p.getUsername + ": " + args.deep.mkString(" "))
+    }
+  }
+ 
+  def goto(p: Player, args: Array[String]) {
+    if (args.length < 1) {
+      message(p, "Please specify who to go to.")
+    } else {
+      val pl =  Instance.getWorld().getPlayer(DataConversions.usernameToHash(args(0)))
+      if (pl == null) {
+        message(p, "Could not find player \"" + args(0) + "\".")
+      } else {
+        p.teleport(pl.getX, pl.getY, false)
+        message(p, "You teleport to " + args(0) + ".")
+      }
+    }
+  }
+ 
+  def item(p: Player, args: Array[String]) {
+    import org.moparscape.msc.gs.model.InvItem
+    import org.moparscape.msc.gs.external.EntityHandler
+    if(args.length < 1 || args.length > 2) {
+      message(p, "Invalid args. Syntax: ITEM id [amount]")
+          return;
+        }
+    val id = args(0).toInt
+    if(EntityHandler.getItemDef(id) != null) {
+          var amount = 1
+          if (args.length == 2 && EntityHandler.getItemDef(id).isStackable) {
+            amount = args(1).toInt
+          }
+          val item = new InvItem(id, amount)
+          p.getInventory.add(item)
+          p.getActionSender.sendInventory()
+      Logger.mod(p.getUsername() + " spawned themself " + amount + " " + item.getDef().getName() + "(s)")
+    } else {
+      message(p, "Invalid id")
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   // Helper methods
 
