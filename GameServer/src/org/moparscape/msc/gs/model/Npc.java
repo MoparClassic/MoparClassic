@@ -7,6 +7,7 @@ import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.FightEvent;
@@ -449,7 +450,10 @@ public class Npc extends Mob {
 					continue;
 				}
 				if (drop.getWeight() == 0) {
-					world.registerItem(new Item(drop.getID(), getX(),getY(), drop.getAmount(), owner));
+					Item i = new Item(drop.getID(), getX(),getY(), drop.getAmount(), owner);
+					if(i.getDef().members && !Server.isMembers())
+						continue;
+					world.registerItem(i);
 					continue;
 				}
 
