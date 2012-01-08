@@ -135,6 +135,7 @@ public class WorldLoader {
 	 */
 
 	public void loadWorld(World world) throws Exception {
+		Logger.println("Loading world.");
 		try {
 			tileArchive = new ZipFile(new File(Config.CONF_DIR,
 					"data/Landscape.rscd"));
@@ -156,7 +157,7 @@ public class WorldLoader {
 				}
 			}
 		}
-		Logger.error((System.currentTimeMillis() - now) / 1000 + "s to parse");
+		Logger.println(((System.currentTimeMillis() - now) / 1000) + "s to load landscape");
 		// try { out.close(); } catch(Exception e) { Logger.error(e); }
 		for (Shop shop : Instance.getDataStore().loadShops()) {
 			world.registerShop(shop);

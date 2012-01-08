@@ -39,13 +39,15 @@ public class Config {
 	public static int CONNECTION_THROTTLE_SIZE,
 			WILD_LEVEL_FOR_NON_COMBAT_BONUS, WILD_STAND_STILL_TIME,
 			DELAY_REMOVAL;
-	public static boolean OS_LEVEL_BLOCKING, APPLICATION_LEVEL_THROTTLE_ALERT,
-			OS_LEVEL_THROTTLE_ALERT, OS_LEVEL_UNBLOCK_FAILED_ALERT,
+	public static boolean OS_LEVEL_BLOCKING, THROTTLE_ALERT, OS_LEVEL_UNBLOCK_FAILED_ALERT,
 			CONGRATS_FOR_MAX_LEVEL;
 	public static String DATA_STORE;
 	public static int PACKET_PER_SECOND_THRESHOLD;
 	public static boolean PACKET_PER_SECOND_ALERT;
 	public static int AFK_TIMEOUT;
+	public static String DATA_SERVICE;
+	public static String REPORT_HANDLER;
+	public static String MOTD;
 
 	static {
 		loadEnv();
@@ -99,14 +101,10 @@ public class Config {
 				.getProperty("connection-throttle-size"));
 		CONENCTION_THROTTLE_THRESHOLD = Integer.parseInt(props
 				.getProperty("connection-throttle"));
-		APPLICATION_LEVEL_BLOCKING = Boolean.parseBoolean(props
-				.getProperty("application-level-blocking"));
 		OS_LEVEL_BLOCKING = Boolean.parseBoolean(props
 				.getProperty("os-level-blocking"));
-		APPLICATION_LEVEL_THROTTLE_ALERT = Boolean.parseBoolean(props
-				.getProperty("application-level-blocking-throttle-alert"));
-		OS_LEVEL_THROTTLE_ALERT = Boolean.parseBoolean(props
-				.getProperty("os-level-blocking-throttle-alert"));
+		THROTTLE_ALERT = Boolean.parseBoolean(props
+				.getProperty("throttle-alert"));
 		OS_LEVEL_UNBLOCK_FAILED_ALERT = Boolean.parseBoolean(props
 				.getProperty("os-level-blocking-unblock-failed-alert"));
 		DELAY_REMOVAL = Integer.parseInt(props
@@ -131,20 +129,22 @@ public class Config {
 				.getProperty("wild-combat-bonus"));
 		CONGRATS_FOR_MAX_LEVEL = Boolean.parseBoolean(props
 				.getProperty("max-level-congrats"));
-		
+
 		DATA_STORE = props.getProperty("data-store");
-		
-		PACKET_PER_SECOND_THRESHOLD = Integer.parseInt(props.getProperty("packet-per-second-threshold"));
-		PACKET_PER_SECOND_ALERT = Boolean.parseBoolean(props.getProperty("packet-per-second-alert"));
-		
+
+		PACKET_PER_SECOND_THRESHOLD = Integer.parseInt(props
+				.getProperty("packet-per-second-threshold"));
+		PACKET_PER_SECOND_ALERT = Boolean.parseBoolean(props
+				.getProperty("packet-per-second-alert"));
+
 		AFK_TIMEOUT = Integer.parseInt(props.getProperty("afk-timeout"));
 
-		props.clear();
+		DATA_SERVICE = props.getProperty("data-service");
+		REPORT_HANDLER = props.getProperty("report-handler");
+		
+		MOTD = props.getProperty("MOTD");
 
-		Constants.GameServer.MOTD = "@yel@Welcome to @whi@"
-				+ Config.SERVER_NAME + "@yel@ - World @whi@"
-				+ (Config.SERVER_NUM == 0 ? 2 : Config.SERVER_NUM) + " ("
-				+ (Config.members ? "P2P" : "F2P") + ")";
+		props.clear();
 	}
 
 	/**

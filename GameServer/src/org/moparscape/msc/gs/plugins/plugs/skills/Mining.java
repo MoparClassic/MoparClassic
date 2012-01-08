@@ -114,7 +114,6 @@ public class Mining implements ObjectListener {
 			return;
 		}
 		owner.setBusy(true);
-		owner.isMining(true);
 
 		owner.getActionSender().sendSound("mine");
 		Bubble bubble = new Bubble(owner, axeId);
@@ -128,7 +127,7 @@ public class Mining implements ObjectListener {
 				"You swing your pick at the rock...");
 		Instance.getDelayedEventHandler().add(new ShortEvent(owner) {
 			public void action() {
-				if(!owner.isMining()) {
+				if (!owner.isMining()) {
 					owner.setBusy(false);
 					return;
 				}
@@ -154,6 +153,7 @@ public class Mining implements ObjectListener {
 					owner.isMining(false);
 					owner.setSkillLoops(0);
 					owner.getActionSender().sendInventory();
+					owner.setBusy(false);
 				} else {
 					boolean retry = false;
 					if (retrytime - swings > 0)
@@ -162,12 +162,8 @@ public class Mining implements ObjectListener {
 							"You only succeed in scratching the rock.");
 					if (retry) {
 						world.getDelayedEventHandler().add(
-																
 								new SingleEvent(owner, 500) {
 									public void action() {
-										if(!owner.isMining() || owner.inCombat()) {
-											return;
-										}
 										owner.setSkillLoops(swings + 1);
 										handleMining(object, owner,
 												owner.getClick());
@@ -175,11 +171,11 @@ public class Mining implements ObjectListener {
 								});
 					}
 					if (!retry) {
+						owner.setBusy(false);
 						owner.isMining(false);
 						owner.setSkillLoops(0);
 					}
 				}
-				owner.setBusy(false);
 			}
 		});
 	}

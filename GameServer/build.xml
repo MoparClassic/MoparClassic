@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="MoparClassic" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="MoparClassic" default="build" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
 	<property name="src" location="src" />
 	<property name="bin" location="bin" />
 	<property name="lib_managed" location="lib_managed" />
 	<property name="lib" location="lib" />
-	<property name="module" location="module" />
 	<property name="doc" location="doc" />
 	<property name="jar" value="moparclassic.jar" />
 	<property name="main-class" value="org.moparscape.msc.gs.Server" />
@@ -19,10 +18,6 @@
 		<include name="*.jar" />
 	</fileset>
 
-	<fileset id="modules" dir="${module}">
-		<include name="*.jar" />
-	</fileset>
-
 	<fileset id="production-classes" dir="${bin}">
 		<include name="**/*.class" />
 	</fileset>
@@ -31,16 +26,33 @@
 		<pathelement path="${bin}" />
 	</path>
 
+	<path id="library-managed-path">
+		<fileset refid="libraries_managed" />
+	</path>
+
+	<pathconvert property="manifest-classpath" pathsep=" ">
+		<path refid="library-managed-path" />
+		<mapper>
+			<chainedmapper>
+				<flattenmapper />
+				<globmapper from="*.jar" to="${lib_managed}/*.jar" />
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+
 	<path id="library-path">
 		<fileset refid="libraries" />
 		<fileset refid="libraries_managed" />
-		<fileset refid="modules" />
 	</path>
 
 	<path id="master-path">
 		<path refid="binary-path" />
 		<path refid="library-path" />
 	</path>
+
+	<manifestclasspath property="jar-classpath" jarfile="${jar}">
+		<classpath refid="library-managed-path" />
+	</manifestclasspath>
 
 	<target name="init">
 		<mkdir dir="${bin}" />
@@ -85,12 +97,17 @@
 		</scaladoc>
 	</target>
 
+	<target name="run-jar">
+		<java fork="true" jar="${jar}" />
+	</target>
+
 	<target name="jar" depends="build">
 		<jar destfile="${jar}">
 			<zipgroupfileset refid="libraries" />
 			<fileset refid="production-classes" />
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}" />
+				<attribute name="Class-Path" value=". ${jar-classpath}" />
 			</manifest>
 		</jar>
 	</target>

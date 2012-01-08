@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="XML Using XStream" default="build" basedir="../../../">
-	<property name="base" location="Modules/DataStore/XMLUsingXStream" />
+	<property name="name" value="XMLUsingXStream" />
+	<property name="package" value="DataStore" />
+	<property name="base" location="Modules/${package}/${name}" />
 	<property name="src" location="${base}/src" />
 	<property name="bin" location="${base}/bin" />
 	<property name="lib" location="${base}/lib" />
 	<property name="common-lib" location="${base}/../lib" />
-	<property name="jar" value="${base}/XMLUsingXStreamDataStore.jar" />
+	<property name="jar" value="${base}/${name}.jar" />
 
 	<fileset id="mopar" dir="GameServer">
 		<include name="moparclassic.jar" />
@@ -17,10 +19,6 @@
 
 	<fileset id="common-libraries" dir="${common-lib}">
 		<include name="*.jar" />
-	</fileset>
-
-	<fileset id="datastore-core" dir="${base}/../">
-		<include name="DataStoreCore.jar" />
 	</fileset>
 
 	<fileset id="production-classes" dir="${bin}">
@@ -35,7 +33,6 @@
 		<fileset refid="common-libraries" />
 		<fileset refid="libraries" />
 		<fileset refid="mopar" />
-		<fileset refid="datastore-core" />
 	</path>
 
 	<path id="master-path">

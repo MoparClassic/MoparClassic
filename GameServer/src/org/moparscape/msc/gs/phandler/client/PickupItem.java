@@ -5,7 +5,7 @@ import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.ls.MiscPacketBuilder;
 import org.moparscape.msc.gs.connection.Packet;
-import org.moparscape.msc.gs.db.DBConnection;
+import org.moparscape.msc.gs.db.DataManager;
 import org.moparscape.msc.gs.event.FightEvent;
 import org.moparscape.msc.gs.event.WalkToPointEvent;
 import org.moparscape.msc.gs.model.ChatMessage;
@@ -169,7 +169,7 @@ public class PickupItem implements PacketHandler {
 								+ item.getX() + "/" + item.getY()));
 						if (item.getAmount() > 10000000
 								|| Formulae.isRareItem(item.getID()))
-							DBConnection.getReport().submitDupeData(
+							DataManager.reportHandler.submitDupeData(
 									owner.getUsername(),
 									owner.getUsernameHash());
 

@@ -39,24 +39,23 @@ public class Server {
 			if (f.exists()) {
 				configFile = f.getName();
 			} else {
-				System.out.println("Config not found: " + f.getCanonicalPath());
+				Logger.println("Config not found: " + f.getCanonicalPath());
 				displayConfigDefaulting(configFile);
 			}
 		} else {
-			System.out.println("No config file specified.");
+			Logger.println("No config file specified.");
 			displayConfigDefaulting(configFile);
 		}
 
 		Config.initConfig(configFile);
 		world = Instance.getWorld();
 		try {
+			Logger.println("Loading world objects.");
 			world.wl.loadObjects();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
 		}
-
-		World.initilizeDB();
 
 		Logger.println(Config.SERVER_NAME + " ["
 				+ (Config.members ? "P2P" : "F2P") + "] "
@@ -256,6 +255,6 @@ public class Server {
 	}
 
 	private static void displayConfigDefaulting(String file) {
-		System.out.println("Defaulting to use " + file);
+		Logger.println("Defaulting to use " + file);
 	}
 }

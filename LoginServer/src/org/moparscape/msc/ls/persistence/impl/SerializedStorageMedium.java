@@ -2,7 +2,6 @@ package org.moparscape.msc.ls.persistence.impl;
 
 import java.io.File;
 
-
 /**
  * @author xEnt
  */
@@ -22,10 +21,10 @@ public class SerializedStorageMedium implements StorageMedium {
 
 	ObjectOutputStream oos;
 	private static final String baseDir = "player_data";
-	
+
 	static {
 		File f = new File(baseDir);
-		if(!f.exists()) {
+		if (!f.exists()) {
 			f.mkdir();
 		}
 	}
@@ -34,14 +33,13 @@ public class SerializedStorageMedium implements StorageMedium {
 	public boolean savePlayer(PlayerSave s) {
 		try {
 			File f = new File(baseDir + File.separator + s.getUsername());
-			if(!f.exists())
+			if (!f.exists())
 				f.createNewFile();
 			oos = new ObjectOutputStream(new FileOutputStream(f));
 			oos.writeObject(s);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			try {
 				if (oos != null) {
 					oos.flush();
@@ -178,8 +176,13 @@ public class SerializedStorageMedium implements StorageMedium {
 
 	@Override
 	public int getGroupID(long user) {
-		// TODO Auto-generated method stub
+		////////////////////////////////////
+		////////// For Alpha Only //////////
+		////////////////////////////////////
 		return 11;
+		////////////////////////////////////
+		//////// End For Alpha Only ////////
+		////////////////////////////////////
 	}
 
 	private long ownerId = 0;
@@ -217,34 +220,46 @@ public class SerializedStorageMedium implements StorageMedium {
 	public PlayerSave loadPlayer(long user) {
 
 		PlayerSave ps = getPlayerData(user);
-	
+
 		if (ps == null) // new char
 		{
 			PlayerSave save = new PlayerSave(user);
-	
+
 			save.setLocation(213, 452);
-			save.setAppearance((byte) 2, (byte) 8, (byte) 14, (byte) 0, (byte) 1,
-					(byte) 2, true, 01);
+			save.setAppearance((byte) 2, (byte) 8, (byte) 14, (byte) 0,
+					(byte) 1, (byte) 2, true, 01);
 
 			int[] exp = new int[Config.statArray.length];
 			int[] stats = new int[Config.statArray.length];
 			Arrays.fill(exp, 0);
-			Arrays.fill(exp, 1);
-			
+			Arrays.fill(stats, 1);
 
 			exp[3] = 1154;
 			save.setExp(exp);
 			stats[3] = 10;
 			save.setCurStats(stats);
-			
+
+			////////////////////////////////////
+			////////// For Alpha Only //////////
+			////////////////////////////////////
+			save.setOwner((int) ownerId, 11, 0L);
+			////////////////////////////////////
+			//////// End For Alpha Only ////////
+			////////////////////////////////////
+
 			return save;
-		} else {
-			return ps;
-		}	
+		}
 
+		////////////////////////////////////
+		////////// For Alpha Only //////////
+		////////////////////////////////////
+		ps.setOwner((int) ownerId, 11, 0L);
+		////////////////////////////////////
+		//////// End For Alpha Only ////////
+		////////////////////////////////////
+
+		return ps;
 	}
-
-
 
 	@Override
 	public void logLogin(long user, String ip) {
@@ -259,15 +274,14 @@ public class SerializedStorageMedium implements StorageMedium {
 	}
 
 	@Override
-	public String getPass(long user) {		
+	public String getPass(long user) {
 		return "";
 	}
-	
-	
+
 	public PlayerSave getPlayerData(long user) {
-		File userr = new File(baseDir + File.separator + DataConversions.hashToUsername(user));
-		if (!userr.exists() )
-		{
+		File userr = new File(baseDir + File.separator
+				+ DataConversions.hashToUsername(user));
+		if (!userr.exists()) {
 			return null;
 		}
 
@@ -275,7 +289,7 @@ public class SerializedStorageMedium implements StorageMedium {
 			FileInputStream fis = new FileInputStream(userr);
 
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			PlayerSave ps = (PlayerSave)ois.readObject();
+			PlayerSave ps = (PlayerSave) ois.readObject();
 			return ps;
 
 		} catch (Exception e) {

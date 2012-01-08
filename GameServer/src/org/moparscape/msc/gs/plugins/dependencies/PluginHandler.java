@@ -1,15 +1,11 @@
 package org.moparscape.msc.gs.plugins.dependencies;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.plugins.listeners.ObjectListener;
+import org.moparscape.msc.gs.util.JarUtil;
 import org.moparscape.msc.gs.util.Logger;
 
 /**
@@ -155,37 +151,8 @@ public class PluginHandler {
 	 */
 	public static void getClassesFromFileJarFile(String pckgname,
 			String baseDirPath) throws ClassNotFoundException {
-		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
-		String path = pckgname.replace('.', '/') + "/";
-		File mF = new File(baseDirPath);
-		String[] files = mF.list();
-		ArrayList<String> jars = new ArrayList<String>();
-		for (int i = 0; i < files.length; i++)
-			if (files[i].endsWith(".jar"))
-				jars.add(files[i]);
-
-		for (int i = 0; i < jars.size(); i++) {
-			try {
-				JarFile currentFile = new JarFile(jars.get(i).toString());
-				for (Enumeration<?> e = currentFile.entries(); e
-						.hasMoreElements();) {
-					JarEntry current = (JarEntry) e.nextElement();
-					if (current.getName().contains("$"))
-						continue;
-					if (current.getName().length() > path.length()
-							&& current.getName().substring(0, path.length())
-									.equals(path)
-							&& current.getName().endsWith(".class"))
-						classes.add(Class.forName(current.getName()
-								.replaceAll("/", ".").replace(".class", "")));
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		Class<?>[] classesA = new Class<?>[classes.size()];
-		classes.toArray(classesA);
-		for (Class<?> c : classesA) {
+		
+		for (Class<?> c : JarUtil.getClassesFromFileJarFile(pckgname, baseDirPath)) {
 			allClasses.add(c);
 		}
 

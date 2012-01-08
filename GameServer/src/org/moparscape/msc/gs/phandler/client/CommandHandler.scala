@@ -14,6 +14,7 @@ import org.moparscape.msc.config.Config
 import scala.collection.immutable.HashMap
 import scala.xml.NodeSeq
 import org.moparscape.msc.gs.connection.filter.IPBanManager
+import java.net.InetSocketAddress
 
 object CommandHandler {
   import scala.xml.XML
@@ -58,18 +59,17 @@ class CommandHandler extends PacketHandler {
   @throws(classOf[Exception])
   def handleCommand(cmd: String, args: Array[String], p: Player) {
 
-    val ls = Instance.getServer().getLoginConnector().getActionSender()
+    val ls = Instance.getServer.getLoginConnector.getActionSender
     val world = Instance.getWorld
 
     if (GameEngine.getTime - p.getLastCommandUsed < CH.COMMAND_DELAY) {
       if (GameEngine.getTime - p.getLastCommandUsed < CH.COMMAND_DELAY_MESSAGE_DELAY) { // incase spammers
         return ;
       }
-      p.getActionSender().sendMessage("2 second delay on using a new command")
+      p.getActionSender.sendMessage("2 second delay on using a new command")
       return ;
     }
 
-	p.setGroupID(1)
     val pm = CH.permissions.get(cmd)
     pm match {
       case Some(x) => if (p.getGroupID < x) return
@@ -130,33 +130,33 @@ class CommandHandler extends PacketHandler {
 
   def fatigue(p: Player) {
     p.setFatigue(100)
-    p.getActionSender().sendFatigue()
+    p.getActionSender.sendFatigue
     message(p, "Your fatigue is now 100%")
   }
 
   def online(p: Player) {
-    p.getActionSender.sendOnlinePlayers()
+    p.getActionSender.sendOnlinePlayers
   }
 
   def inView(p: Player) {
     message(p, "@yel@Players In View: @whi@" +
-      (p.getViewArea().getPlayersInView().size()) +
-      " @yel@NPCs In View: @whi@" + p.getViewArea().getNpcsInView().size())
+      (p.getViewArea.getPlayersInView.size) +
+      " @yel@NPCs In View: @whi@" + p.getViewArea.getNpcsInView.size)
   }
 
   def stuck(p: Player) {
-    if (GameEngine.getTime() - p.getCurrentLogin() < CH.STUCK_LOGIN_WAIT_PERIOD) {
-      p.getActionSender().sendMessage("You cannot do this after you have recently logged in")
+    if (GameEngine.getTime - p.getCurrentLogin < CH.STUCK_LOGIN_WAIT_PERIOD) {
+      p.getActionSender.sendMessage("You cannot do this after you have recently logged in")
       return ;
     }
-    if (p.getLocation().inModRoom() && !p.isMod()) {
+    if (p.getLocation.inModRoom && !p.isMod) {
       message(p, "You cannot use ::stuck here")
-    } else if (!p.isMod() && GameEngine.getTime() - p.getLastMoved() < CH.STUCK_STAND_STILL_TIME && GameEngine.getTime() - p.getCastTimer() < 300000) {
+    } else if (!p.isMod && GameEngine.getTime - p.getLastMoved < CH.STUCK_STAND_STILL_TIME && GameEngine.getTime - p.getCastTimer < 300000) {
       message(p, "There is a 5 minute delay on using ::stuck, please stand still for " + (CH.STUCK_STAND_STILL_TIME / 1000 / 60) + " minutes.")
       message(p, "This command is logged ONLY use it when you are REALLY stuck.")
-    } else if (!p.inCombat() && GameEngine.getTime() - p.getCombatTimer() > CH.STUCK_STAND_STILL_TIME || p.isMod()) {
-      Logger.mod(p.getUsername() + " used stuck at " + p.getX() + ":" + p.getY())
-      p.setCastTimer()
+    } else if (!p.inCombat && GameEngine.getTime - p.getCombatTimer > CH.STUCK_STAND_STILL_TIME || p.isMod) {
+      Logger.mod(p.getUsername + " used stuck at " + p.getX + ":" + p.getY)
+      p.setCastTimer
       p.teleport(CH.STUCK_X, CH.STUCK_Y, true)
     } else {
       message(p, "You cannot use ::stuck for " + (CH.STUCK_STAND_STILL_TIME / 1000 / 60) + " minutes after combat")
@@ -177,16 +177,16 @@ class CommandHandler extends PacketHandler {
       message(p, args(0) + " is offline?")
       return ;
     }
-    p.setLastPlayerInfo2(p.getUsername())
-    p1.getActionSender().sendInfo2()
+    p.setLastPlayerInfo2(p.getUsername)
+    p1.getActionSender.sendInfo2
     message(p, "Requesting info.. please wait")
   }
 
   def info_(p: Player, args: Array[String], world: World) {
     if (args(0) != null) {
       val p = world.getPlayer(DataConversions.usernameToHash(args(0)))
-      var line = "@red@DONT SHOW THIS TO PUBLIC! @gre@Last 75 (Casting) Intervals for @yel@ " + p.getUsername() + ": @whi@"
-      for (i <- 0 to p.getIntervals.size()) {
+      var line = "@red@DONT SHOW THIS TO PUBLIC! @gre@Last 75 (Casting) Intervals for @yel@ " + p.getUsername + ": @whi@"
+      for (i <- 0 to p.getIntervals.size) {
         line += " - " + p.getIntervals.get(i)
       }
       alert(p, line)
@@ -198,7 +198,7 @@ class CommandHandler extends PacketHandler {
     if (town != null) {
       for (i <- 0 to CH.towns.length)
         if (town.equalsIgnoreCase(CH.towns(i))) {
-          p.teleport(CH.townLocations(i).getX(), CH.townLocations(i).getY(), false)
+          p.teleport(CH.townLocations(i).getX, CH.townLocations(i).getY, false)
         }
     }
   }
@@ -226,7 +226,7 @@ class CommandHandler extends PacketHandler {
     }
 
     p.setQuestStage(Integer.parseInt(args(0)), Integer.parseInt(args(1)), false)
-    p.getActionSender().sendQuestInfo()
+    p.getActionSender.sendQuestInfo
   }
 
   def questPoints(p: Player, args: Array[String]) {
@@ -236,11 +236,11 @@ class CommandHandler extends PacketHandler {
     }
 
     p.setQuestPoints(Integer.parseInt(args(0)), false);
-    p.getActionSender().sendQuestInfo();
+    p.getActionSender.sendQuestInfo;
   }
 
   def dumpData(p: Player, args: Array[String]) {
-    import org.moparscape.msc.gs.db.DBConnection
+    import org.moparscape.msc.gs.db.DataManager
 
     if (args.length != 1) {
       message(p, "Invalid args. Syntax: ::dumpdata name")
@@ -248,12 +248,12 @@ class CommandHandler extends PacketHandler {
     }
     val usernameHash = DataConversions.usernameToHash(args(0))
     val username = DataConversions.hashToUsername(usernameHash)
-    DBConnection.getReport().submitDupeData(username, usernameHash)
+    DataManager.reportHandler.submitDupeData(username, usernameHash)
   }
 
   def shutdown(p: Player) {
-    Logger.mod(p.getUsername() + " shut down the server!");
-    Instance.getServer().kill()
+    Logger.mod(p.getUsername + " shut down the server!");
+    Instance.getServer.kill
   }
 
   def update(p: Player, args: Array[String], world: World) {
@@ -262,23 +262,23 @@ class CommandHandler extends PacketHandler {
       args foreach { s =>
         reason += (s + " ")
       }
-      reason = reason.substring(0, reason.length() - 1)
+      reason = reason.substring(0, reason.length - 1)
     }
-    if (Instance.getServer().shutdownForUpdate()) {
-      Logger.mod(p.getUsername() + " updated the server: " + reason)
-      val itr = world.getPlayers().iterator
+    if (Instance.getServer.shutdownForUpdate) {
+      Logger.mod(p.getUsername + " updated the server: " + reason)
+      val itr = world.getPlayers.iterator
       while (itr.hasNext) {
         val p1 = itr.next
         alert(p1, "The server will be shutting down in 60 seconds: " + reason, false)
-        p1.getActionSender().startShutdown(60)
+        p1.getActionSender.startShutdown(60)
       }
 
     }
   }
 
   def clearInv(p: Player) {
-    p.getInventory().getItems().clear()
-    p.getActionSender().sendInventory()
+    p.getInventory.getItems.clear
+    p.getActionSender.sendInventory
   }
 
   def enableMultiThreading(p: Player) {
@@ -295,13 +295,9 @@ class CommandHandler extends PacketHandler {
     while (itr.hasNext) {
       val p1 = itr.next
       if (p1.getUsernameHash == hash) {
-        message(p, "IP ban on " + args(0) + ' ' + {
-          if (IPBanManager.block(p1.getCurrentIP))
-            "succeeded"
-          else
-            "failed"
-        }
-          + '.')
+        IPBanManager.block(p1.getIoSession().getRemoteAddress.asInstanceOf[InetSocketAddress].getAddress.getHostAddress)
+        p1.destroy(true)
+        message(p, "IP banned " + args(0) + '.')
         return
       }
     }
@@ -309,40 +305,27 @@ class CommandHandler extends PacketHandler {
   }
 
   def unipban(p: Player, args: Array[String]) {
-    message(p, "Removal of IP ban on " + args(0) + ' ' + {
-      if (IPBanManager.unblock(args(0)))
-        "succeeded"
-      else
-        "failed"
-    }
-      + '.')
+    IPBanManager.unblock(args(0))
+    message(p, "Ban on " + args(0) + " removed.")
   }
-  
-  def reloadIPBans(p:Player) {
+
+  def reloadIPBans(p: Player) {
     IPBanManager.reloadIPBans
     message(p, "IP bans reloaded")
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
- def say(p: Player, args: Array[String]) {
+
+  def say(p: Player, args: Array[String]) {
     val it = Instance.getWorld.getPlayers.iterator
     while (it.hasNext) {
-      message(it.next, "[Global]"+p.getUsername + ": " + args.deep.mkString(" "))
+      message(it.next, "[Global]" + p.getUsername + ": " + args.mkString(" "))
     }
   }
- 
+
   def goto(p: Player, args: Array[String]) {
     if (args.length < 1) {
       message(p, "Please specify who to go to.")
     } else {
-      val pl =  Instance.getWorld().getPlayer(DataConversions.usernameToHash(args(0)))
+      val pl = Instance.getWorld.getPlayer(DataConversions.usernameToHash(args(0)))
       if (pl == null) {
         message(p, "Could not find player \"" + args(0) + "\".")
       } else {
@@ -351,42 +334,28 @@ class CommandHandler extends PacketHandler {
       }
     }
   }
- 
+
   def item(p: Player, args: Array[String]) {
     import org.moparscape.msc.gs.model.InvItem
     import org.moparscape.msc.gs.external.EntityHandler
-    if(args.length < 1 || args.length > 2) {
+    if (args.length < 1 || args.length > 2) {
       message(p, "Invalid args. Syntax: ITEM id [amount]")
-          return;
-        }
+      return ;
+    }
     val id = args(0).toInt
-    if(EntityHandler.getItemDef(id) != null) {
-          var amount = 1
-          if (args.length == 2 && EntityHandler.getItemDef(id).isStackable) {
-            amount = args(1).toInt
-          }
-          val item = new InvItem(id, amount)
-          p.getInventory.add(item)
-          p.getActionSender.sendInventory()
-      Logger.mod(p.getUsername() + " spawned themself " + amount + " " + item.getDef().getName() + "(s)")
+    if (EntityHandler.getItemDef(id) != null) {
+      var amount = 1
+      if (args.length == 2 && EntityHandler.getItemDef(id).isStackable) {
+        amount = args(1).toInt
+      }
+      val item = new InvItem(id, amount)
+      p.getInventory.add(item)
+      p.getActionSender.sendInventory
+      Logger.mod(p.getUsername + " spawned themself " + amount + " " + item.getDef.getName + "(s)")
     } else {
       message(p, "Invalid id")
     }
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   // Helper methods
 
@@ -406,22 +375,22 @@ class CommandHandler extends PacketHandler {
 
   @throws(classOf[Exception])
   override def handlePacket(p: Packet, session: IoSession) {
-    val player = session.getAttachment().asInstanceOf[Player]
-    if (player.isBusy()) {
-      player.resetPath()
+    val player = session.getAttachment.asInstanceOf[Player]
+    if (player.isBusy) {
+      player.resetPath
       return ;
     }
-    player.resetAll()
-    val s = new String(p.getData()).trim()
+    player.resetAll
+    val s = new String(p.getData).trim
     val firstSpace = s.indexOf(" ")
     var cmd = s
     var args = new Array[String](0)
     if (firstSpace != -1) {
-      cmd = s.substring(0, firstSpace).trim();
-      args = s.substring(firstSpace + 1).trim().split(" ")
+      cmd = s.substring(0, firstSpace).trim;
+      args = s.substring(firstSpace + 1).trim.split(" ")
     }
     try {
-      handleCommand(cmd.toLowerCase(), args, player)
+      handleCommand(cmd.toLowerCase, args, player)
     } catch {
       case e: Exception => e.printStackTrace
     }

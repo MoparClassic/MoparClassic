@@ -2,7 +2,7 @@ package org.moparscape.msc.gs.model;
 
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.core.GameEngine;
-import org.moparscape.msc.gs.db.DBConnection;
+import org.moparscape.msc.gs.db.DataManager;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.external.ItemDef;
@@ -57,7 +57,7 @@ public class Item extends Entity {
 				username = owner.getUsername();
 				usernameHash = owner.getUsernameHash();
 			}
-			DBConnection.getReport().submitDupeData(username, usernameHash);
+			DataManager.reportHandler.submitDupeData(username, usernameHash);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class Item extends Entity {
 				username = owner.getUsername();
 				usernameHash = owner.getUsernameHash();
 			}
-			DBConnection.getReport().submitDupeData(username, usernameHash);
+			DataManager.reportHandler.submitDupeData(username, usernameHash);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class Item extends Entity {
 				username = this.owner.getUsername();
 				usernameHash = this.owner.getUsernameHash();
 			}
-			DBConnection.getReport().submitDupeData(username, usernameHash);
+			DataManager.reportHandler.submitDupeData(username, usernameHash);
 		}
 	}
 

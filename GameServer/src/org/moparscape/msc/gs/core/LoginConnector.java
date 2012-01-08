@@ -240,7 +240,7 @@ public class LoginConnector {
 	public void setRegistered(boolean registered) {
 		if (registered) {
 			this.registered = true;
-			Logger.print("World successfully registered with LS");
+			Logger.println("World successfully registered with LS");
 		} else {
 			Logger.error(new Exception("Error registering world"));
 		}

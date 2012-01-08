@@ -9,7 +9,7 @@ import org.moparscape.msc.gs.builders.ls.MiscPacketBuilder;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
-import org.moparscape.msc.gs.db.DBConnection;
+import org.moparscape.msc.gs.db.DataManager;
 import org.moparscape.msc.gs.external.ItemDef;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Inventory;
@@ -286,7 +286,7 @@ public class TradeHandler implements PacketHandler {
 						senddata = true;
 				}
 				if (senddata)
-					DBConnection.getReport().submitDupeData(
+					DataManager.reportHandler.submitDupeData(
 							DataConversions.hashToUsername(playerhash),
 							playerhash);
 				senddata = false;
@@ -299,7 +299,7 @@ public class TradeHandler implements PacketHandler {
 						senddata = true;
 				}
 				if (senddata)
-					DBConnection.getReport().submitDupeData(
+					DataManager.reportHandler.submitDupeData(
 							DataConversions.hashToUsername(affectedPlayerhash),
 							affectedPlayerhash);
 

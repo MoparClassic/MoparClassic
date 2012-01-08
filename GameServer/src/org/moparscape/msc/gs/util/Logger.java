@@ -11,13 +11,25 @@ public class Logger {
 	/**
 	 * World instance
 	 */
-	private static final World world = Instance.getWorld();
+	private static final World getWorld() {
+		return Instance.getWorld();
+	}
+	
+	private static SimpleDateFormat formatter;
 
 	/**
 	 * Simple date formatter to keep a date on outputs
 	 */
-	private static SimpleDateFormat formatter = new SimpleDateFormat(
-			Config.DATE_FORMAT);
+	private static SimpleDateFormat getFormatter() {
+		try {
+			if(formatter == null) {
+				formatter = new SimpleDateFormat(Config.DATE_FORMAT);;
+			}
+			return formatter;
+		} catch (Exception e) {
+			return new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		}
+	}
 
 	public static void connection(Object o) {
 		// Logging.debug(o.toString());
@@ -27,7 +39,7 @@ public class Logger {
 		if (o instanceof Exception) {
 			Exception e = (Exception) o;
 			e.printStackTrace();
-			if (world == null || !Instance.getServer().isInitialized()) {
+			if (getWorld() == null || !Instance.getServer().isInitialized()) {
 				System.exit(1);
 			} else {
 				Instance.getServer().kill();
@@ -64,7 +76,7 @@ public class Logger {
 	 *            Object to print
 	 */
 	public static void print(Object o) {
-		System.out.print(formatter.format(new Date()) + " " + o.toString());
+		System.out.print(getFormatter().format(new Date()) + " " + o.toString());
 	}
 
 	/**
@@ -74,6 +86,6 @@ public class Logger {
 	 *            Object to print
 	 */
 	public static void println(Object o) {
-		System.out.println(formatter.format(new Date()) + " " + o.toString());
+		System.out.println(getFormatter().format(new Date()) + " " + o.toString());
 	}
 }

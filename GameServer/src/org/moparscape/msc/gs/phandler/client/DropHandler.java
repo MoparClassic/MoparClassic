@@ -37,11 +37,6 @@ public class DropHandler implements PacketHandler {
 		}
 		if (player.isPMod() && !player.isMod())
 			return;
-		if (item.getDef().isMembers() && !World.isMembers()) {
-			player.getActionSender().sendMessage(
-					"This feature is only avaliable on a members server");
-			return;
-		}
 
 		player.setStatus(Action.DROPPING_GITEM);
 		Instance.getDelayedEventHandler().add(new DelayedEvent(player, 500) {

@@ -312,7 +312,6 @@ public final class GameEngine extends Thread {
 				});
 		eventHandler.add(new DelayedEvent(null, Config.SAVE_INTERVAL) { // 5 min
 					public void run() {
-						world.dbKeepAlive();
 						long now = GameEngine.getTime();
 						for (Player p : world.getPlayers()) {
 							if (now - p.getLastSaveTime() >= Config.SAVE_INTERVAL) {

@@ -51,7 +51,8 @@ public class PlayerLogin implements PacketHandler {
 		player.getSession().write(pb.toPacket());
 		if (loginCode == 0 || loginCode == 1 || loginCode == 99) {
 			player.setOwner(p.readInt());
-			player.setGroupID(p.readInt());
+			int gid = p.readInt();
+			player.setGroupID(gid);
 
 			player.setSubscriptionExpires(p.readLong());
 
@@ -243,12 +244,9 @@ public class PlayerLogin implements PacketHandler {
 
 			player.getActionSender().sendWakeUp(false);
 			sender.sendLoginBox();
-			sender.sendMessage(Constants.GameServer.MOTD);
 			sender.sendOnlinePlayers();
-			sender.sendMessage("Welcome to MoparClassic Alpha, report all bugs on forums");
-			sender.sendMessage("Commands: ::town <townname>, ::item <id>, ::say <msg>, ::goto <name>");
-
-		
+			for (String m : Config.MOTD.split("\n"))
+				sender.sendMessage(m);
 
 			if (player.clientWarn()) {
 				player.getActionSender()

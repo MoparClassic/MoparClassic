@@ -2,8 +2,6 @@ package org.moparscape.msc.gs;
 
 import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.core.DelayedEventHandler;
-import org.moparscape.msc.gs.db.DBConnection;
-import org.moparscape.msc.gs.db.ReportHandlerQueries;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.persistence.DataStore;
 import org.moparscape.msc.gs.persistence.impl.DataStoreFactory;
@@ -31,10 +29,6 @@ public class Instance {
 
 	public static PluginHandler getPluginHandler() {
 		return PluginHandler.getPluginHandler();
-	}
-
-	public static ReportHandlerQueries getReport() {
-		return DBConnection.getReport();
 	}
 
 	private static DataStore dataStore;

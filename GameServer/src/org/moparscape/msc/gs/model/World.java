@@ -13,7 +13,6 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.core.ClientUpdater;
 import org.moparscape.msc.gs.core.DelayedEventHandler;
-import org.moparscape.msc.gs.db.DBConnection;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.external.GameObjectLoc;
@@ -139,20 +138,6 @@ public final class World {
 	/**
 	 * Database connection
 	 */
-	private static DBConnection db;
-
-	public DBConnection getDB() {
-		return db;
-	}
-
-	public boolean dbKeepAlive() {
-		return db.isConnected();
-	}
-
-	public static void initilizeDB() {
-		db = new DBConnection();
-		db.initilizePreparedStatements(db);
-	}
 
 	/**
 	 * returns the only instance of this world, if there is not already one,
