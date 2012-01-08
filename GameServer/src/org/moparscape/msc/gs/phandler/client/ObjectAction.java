@@ -46,7 +46,7 @@ public class ObjectAction implements PacketHandler {
 	 * World instance
 	 */
 	public static final World world = Instance.getWorld();
-
+//mining
 	public void handlePacket(Packet p, IoSession session) {
 		Player player = (Player) session.getAttachment();
 		int pID = ((RSCPacket) p).getID();
@@ -351,7 +351,8 @@ public class ObjectAction implements PacketHandler {
 								} else {
 									world.registerItem(new Item(23, 166, 599,
 											1, owner));
-								}
+								}//champ
+								//600
 								object.containsItem(-1);
 							} else if (object.getID() == 223
 									&& object.getX() == 274
@@ -374,7 +375,7 @@ public class ObjectAction implements PacketHandler {
 													owner.setBusy(false);
 													owner.getActionSender()
 															.sendMessage(
-																	"You need a mining level of 66 to enter");
+																	"You need a mining level of 60 to enter");
 												}
 											});
 								} else {

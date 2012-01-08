@@ -197,7 +197,12 @@ public class WallObjectAction implements PacketHandler {
 										owner.teleport(586, 524, false);
 									}
 									break;
-								case 55: // Mining Guild Door
+								case 55: 
+									
+									if(true) {
+										owner.getActionSender().sendMessage("Currently closed off at the moment!");
+										return;
+									}
 									// Hi jacking for champs etc guild doors.
 									if (object.getX() == 150
 											&& object.getY() == 554) { // Champs
@@ -206,12 +211,7 @@ public class WallObjectAction implements PacketHandler {
 											owner.teleport(150, 553, false);
 											return;
 										}
-										if (owner.getSkillTotal() < 600) {
-											owner.getActionSender()
-													.sendMessage(
-															"You need a skill total of 600 or more to enter");
-											return;
-										}
+										
 										doDoor();
 										owner.teleport(150, 554, false);
 										return;

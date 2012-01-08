@@ -104,10 +104,6 @@ public final class World {
 	/* End of Places */
 
 	/**
-	 * Allow Dueling?
-	 */
-	public static boolean DUEL = false;
-	/**
 	 * The maximum height of the map (944 squares per level)
 	 */
 	public static final int MAX_HEIGHT = 3776;
@@ -193,10 +189,7 @@ public final class World {
 	 */
 	public int eventx = 0;
 	public int eventy = 0;
-	/**
-	 * Grim reaper pickpocketable
-	 */
-	public boolean grimpock = false;
+
 	public String lastAnswer = null;
 	/**
 	 * The mapping of npc IDs to their handler
@@ -210,8 +203,7 @@ public final class World {
 	 * A list of all players on the server
 	 */
 	private EntityList<Player> players = new EntityList<Player>(2000);
-	public boolean Quiz = false;
-	public boolean QuizSignup = true;
+
 	/**
 	 * The server instance
 	 */
@@ -433,13 +425,6 @@ public final class World {
 		return t;
 	}
 
-	public boolean GrimPK() {
-		return grimpock;
-	}
-
-	public void GrimPK(boolean arg) {
-		grimpock = arg;
-	}
 
 	/**
 	 * Checks if the given npc is on the server

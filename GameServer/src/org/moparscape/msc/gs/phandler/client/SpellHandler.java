@@ -11,7 +11,9 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
+import org.moparscape.msc.config.Constants.GameServer;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
@@ -196,6 +198,13 @@ public class SpellHandler implements PacketHandler {
 			finalizeSpell(player, spell);
 			break;
 		case 48: // Charge
+			
+			if (!Server.isMembers()) {
+				player.getActionSender()
+						.sendMessage(
+								GameServer.P2P_LIMIT_MESSAGE);
+				return;
+			}
 			if (world.getTile(player.getLocation()).hasGameObject()) {
 				player.getActionSender()
 						.sendMessage(
@@ -233,6 +242,12 @@ public class SpellHandler implements PacketHandler {
 			}
 			break;
 		case 10: // Low level alchemy
+			if (!Server.isMembers() && affectedItem.getDef().members) {
+				player.getActionSender()
+						.sendMessage(
+								GameServer.P2P_LIMIT_MESSAGE);
+				return;
+			}
 			if (affectedItem.getID() == 10) {
 				player.getActionSender().sendMessage("You cannot alchemy that");
 				return;
@@ -326,6 +341,12 @@ public class SpellHandler implements PacketHandler {
 			}
 			break;
 		case 28: // High level alchemy
+			if (!Server.isMembers() && affectedItem.getDef().members) {
+				player.getActionSender()
+						.sendMessage(
+								GameServer.P2P_LIMIT_MESSAGE);
+				return;
+			}
 			if (affectedItem.getID() == 10) {
 				player.getActionSender().sendMessage("You cannot alchemy that");
 				return;
@@ -354,6 +375,12 @@ public class SpellHandler implements PacketHandler {
 			}
 			break;
 		case 43: // Enchant lvl-5 dragonstone amulet
+			if (!Server.isMembers() && affectedItem.getDef().members) {
+				player.getActionSender()
+						.sendMessage(
+								GameServer.P2P_LIMIT_MESSAGE);
+				return;
+			}
 			if (affectedItem.getID() == 610) {
 				if (!checkAndRemoveRunes(player, spell)) {
 					return;
@@ -410,24 +437,7 @@ public class SpellHandler implements PacketHandler {
 										"You may not telegrab this item");
 								return;
 							}
-							if (affectedItem.getLocation().inBounds(490, 464,
-									500, 471)
-									|| affectedItem.getLocation().inBounds(490,
-											1408, 500, 1415)) {
-								owner.getActionSender()
-										.sendMessage(
-												"Telekinetic grab cannot be used in here");
-								return;
-							}
-							if (affectedItem.getLocation().inBounds(97, 1428,
-									106, 1440)
-									|| affectedItem.getLocation().inBounds(490,
-											1408, 500, 1415)) {
-								owner.getActionSender()
-										.sendMessage(
-												"Telekinetic grab cannot be used in here");
-								return;
-							}
+							
 							if (DataConversions.inArray(
 									Formulae.telegrabBlocked,
 									affectedItem.getID())) {
@@ -1430,15 +1440,31 @@ public class SpellHandler implements PacketHandler {
 			player.teleport(313, 550, true);
 			break;
 		case 22: // Camalot
+			if (!Server.isMembers()) {
+				player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+				return;
+			}
 			player.teleport(465, 456, true);
 			break;
 		case 26: // Ardougne
+			if (!Server.isMembers()) {
+				player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+				return;
+			}
 			player.teleport(585, 621, true);
 			break;
 		case 31: // Watchtower
+			if (!Server.isMembers()) {
+				player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+				return;
+			}
 			player.teleport(637, 2628, true);
 			break;
 		case 37: // Lost city
+			if (!Server.isMembers()) {
+				player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+				return;
+			}
 			player.teleport(131, 3544, true);
 			break;
 		}
