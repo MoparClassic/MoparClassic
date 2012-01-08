@@ -27,6 +27,7 @@ public class MonkHealer implements NpcHandler {
 						if (owner.isBusy()) {
 							return;
 						}
+						
 						owner.informOfChatMessage(new ChatMessage(owner, reply,
 								npc));
 						owner.setBusy(true);

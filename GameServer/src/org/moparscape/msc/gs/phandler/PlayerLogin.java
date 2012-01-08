@@ -245,11 +245,10 @@ public class PlayerLogin implements PacketHandler {
 			sender.sendLoginBox();
 			sender.sendMessage(Constants.GameServer.MOTD);
 			sender.sendOnlinePlayers();
+			sender.sendMessage("Welcome to MoparClassic Alpha, report all bugs on forums");
+			sender.sendMessage("Commands: ::town <townname>, ::item <id>, ::say <msg>, ::goto <name>");
 
-			if (newchar)
-				player.getActionSender().sendMessage(
-						"@ran@Talk to the Community Instructor for information about "
-								+ Config.SERVER_NAME);
+		
 
 			if (player.clientWarn()) {
 				player.getActionSender()

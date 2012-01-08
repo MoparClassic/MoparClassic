@@ -3,6 +3,7 @@ package org.moparscape.msc.gs.phandler.client;
 import java.util.List;
 
 import org.apache.mina.common.IoSession;
+import org.moparscape.msc.config.Constants.GameServer;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
@@ -42,7 +43,7 @@ public class InvUseOnObject implements PacketHandler {
 	 * World instance
 	 */
 	public static final World world = Instance.getWorld();
-
+//f2p
 	private void handleDoor(final Player player, final ActiveTile tile,
 			final GameObject object, final int dir, final InvItem item) {
 		player.setStatus(Action.USING_INVITEM_ON_DOOR);
@@ -331,7 +332,7 @@ public class InvUseOnObject implements PacketHandler {
 						case 282: // Fountain of Heroes
 							if (!Server.isMembers()) {
 								owner.getActionSender().sendMessage(
-										"This feature is not avaliable in f2p");
+										GameServer.P2P_LIMIT_MESSAGE);
 								return;
 							}
 							if (item.getID() == 522) {
@@ -600,7 +601,7 @@ public class InvUseOnObject implements PacketHandler {
 								if (!Server.isMembers()) {
 									owner.getActionSender()
 											.sendMessage(
-													"This feature is not avaliable in f2p");
+													GameServer.P2P_LIMIT_MESSAGE);
 									return;
 								}
 								if (player.getInventory().countId(624) < 1) {
@@ -678,6 +679,10 @@ public class InvUseOnObject implements PacketHandler {
 														handleSmithing(item.getID(), 0);
 														break;
 													case 1:
+														if(Server.isMembers()) {
+															player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+															break;
+														}
 														handleSmithing(item.getID(), 1);
 														break;
 													case 2:
@@ -832,6 +837,11 @@ public class InvUseOnObject implements PacketHandler {
       										owner.getActionSender().sendMenu(options);
       										break;
       									case 2:
+      										
+      										if(Server.isMembers()) {
+												player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+												break;
+											}
       										options = new String[]{"Make 10 Arrow Heads", "Make 50 Arrow Heads (5 bars)", "Forge Dart Tips", "Cancel"};
       										owner.setMenuHandler(new MenuHandler(options) {
       											public void handleReply(int option, String reply) {
@@ -887,7 +897,7 @@ public class InvUseOnObject implements PacketHandler {
 							}
 							if (!Server.isMembers()) {
 								owner.getActionSender().sendMessage(
-										"This feature is not avaliable in f2p");
+										GameServer.P2P_LIMIT_MESSAGE);
 								return;
 							}
 							owner.getActionSender().sendMessage(
@@ -1169,7 +1179,7 @@ public class InvUseOnObject implements PacketHandler {
 						final int retries = --times;
 						if (!Server.isMembers()) {
 							owner.getActionSender().sendMessage(
-									"This feature is not avaliable in f2p");
+									GameServer.P2P_LIMIT_MESSAGE);
 							return;
 						}
 						if (owner.getCurStat(12) < 10) {
@@ -1341,7 +1351,7 @@ public class InvUseOnObject implements PacketHandler {
 						if (item.getID() == 622) { // Seaweed (Glass)
 							if (!Server.isMembers()) {
 								owner.getActionSender().sendMessage(
-										"This feature is not avaliable in f2p");
+										GameServer.P2P_LIMIT_MESSAGE);
 								return;
 							}
 							owner.setBusy(true);

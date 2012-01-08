@@ -348,11 +348,11 @@ public class Npc extends Mob {
 								|| now - p.getCombatTimer() < (p
 										.getCombatState() == CombatState.RUNNING
 										|| p.getCombatState() == CombatState.WAITING ? 3000
-										: 500)
-								|| !p.nextTo(this)
-								|| !p.getLocation().inBounds(loc.minX - 4,
-										loc.minY - 4, loc.maxX + 4,
-										loc.maxY + 4)) {
+												: 500)
+												|| !p.nextTo(this)
+												|| !p.getLocation().inBounds(loc.minX - 4,
+														loc.minY - 4, loc.maxX + 4,
+														loc.maxY + 4)) {
 							continue;
 						}
 
@@ -417,7 +417,7 @@ public class Npc extends Mob {
 			player.getActionSender().sendSound("victory");
 			if (this.isScripted()) {
 				Instance.getPluginHandler().getNpcAIHandler(getID())
-						.onNpcDeath(this, player);
+				.onNpcDeath(this, player);
 			}
 		}
 
@@ -431,67 +431,44 @@ public class Npc extends Mob {
 		remove();
 
 		Player owner = mob instanceof Player ? (Player) mob : null;
-		if (!this.special) {
-			ItemDropDef[] drops = def.getDrops();
 
-			int total = 0;
+		ItemDropDef[] drops = def.getDrops();
+
+		int total = 0;
+		for (ItemDropDef drop : drops) {
+			total += drop.getWeight();
+		}
+		//
+		int hit = DataConversions.random(0, total);
+		total = 0;
+		if (!this.getDef().name.equalsIgnoreCase("ghost")) {
+			
+		
 			for (ItemDropDef drop : drops) {
+				if (drop == null) {
+					continue;
+				}
+				if (drop.getWeight() == 0) {
+					world.registerItem(new Item(drop.getID(), getX(),getY(), drop.getAmount(), owner));
+					continue;
+				}
+
+				if (hit >= total && hit < (total + drop.getWeight())) {
+					if (drop.getID() != -1) {
+						if (EntityHandler.getItemDef(drop.getID()).members && World.isMembers()) {
+							world.registerItem(new Item(drop.getID(),
+									getX(), getY(), drop.getAmount(), owner));
+							break;
+						}
+					
+					}
+				}
 				total += drop.getWeight();
 			}
-			//
-			int hit = DataConversions.random(0, total);
-			total = 0;
-			if (!this.getDef().name.equalsIgnoreCase("ghost")) {
-				if (this.getCombatLevel() >= 90 && Config.members) {
-					if (Formulae.Rand(0, 3000) == 500) {
-						if (Formulae.Rand(0, 1) == 1) {
-							world.registerItem(new Item(1276, getX(), getY(),
-									1, owner));
-						} else {
-							world.registerItem(new Item(1277, getX(), getY(),
-									1, owner));
-						}
-					}
-				}
-				for (ItemDropDef drop : drops) {
-					if (drop == null) {
-						continue;
-					}
-					if (drop.getWeight() == 0) {
-						world.registerItem(new Item(drop.getID(), getX(),
-								getY(), drop.getAmount(), owner));
-						continue;
-					}
-
-					if (hit >= total && hit < (total + drop.getWeight())) {
-						if (drop.getID() != -1) {
-							if (EntityHandler.getItemDef(drop.getID()).members
-									&& World.isMembers()) {
-								world.registerItem(new Item(drop.getID(),
-										getX(), getY(), drop.getAmount(), owner));
-								break;
-							}
-							if (!EntityHandler.getItemDef(drop.getID()).members) {
-								world.registerItem(new Item(drop.getID(),
-										getX(), getY(), drop.getAmount(), owner));
-								break;
-							}
-						}
-					}
-					total += drop.getWeight();
-				}
-			}
-		} else {
-			if (itemid != -1) {
-				world.registerItem(new Item(itemid, getX(), getY(), 1, owner));
-				world.sendWorldMessage(owner.getUsername()
-						+ " has killed the correct " + getDef().name
-						+ " and found a "
-						+ EntityHandler.getItemDef(itemid).getName());
-				itemid = -1;
-			}
-			special = false;
 		}
+
+
+
 		World.getQuestManager().handleNpcKilled(this, owner);
 	}
 
@@ -573,7 +550,7 @@ public class Npc extends Mob {
 			victim.resetAll();
 			if (this.isScripted()) {
 				Instance.getPluginHandler().getNpcAIHandler(getID())
-						.onNpcAttack(this, victim);
+				.onNpcAttack(this, victim);
 			}
 			victim.setStatus(Action.FIGHTING_MOB);
 			/*
