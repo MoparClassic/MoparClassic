@@ -5,12 +5,12 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.ObjectMiningDef;
 import org.moparscape.msc.gs.model.Bubble;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDefinition;
 import org.moparscape.msc.gs.plugins.listeners.ObjectListener;
 import org.moparscape.msc.gs.tools.DataConversions;
 
@@ -53,7 +53,7 @@ public class Mining implements ObjectListener {
 			return;
 		final GameObject newobject = Instance.getWorld()
 				.getTile(object.getX(), object.getY()).getGameObject();
-		final ObjectMiningDef def = EntityHandler.getObjectMiningDef(newobject
+		final ObjectMiningDefinition def = EntityHandler.getObjectMiningDef(newobject
 				.getID());
 		if (def == null || def.getRespawnTime() < 1) {
 			owner.getActionSender().sendMessage(

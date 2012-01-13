@@ -7,8 +7,6 @@ import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToPointEvent;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.FiremakingDef;
 import org.moparscape.msc.gs.model.Bubble;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
@@ -16,6 +14,8 @@ import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.skill.FiremakingDefinition;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -138,7 +138,7 @@ public class InvUseOnGroundItem implements PacketHandler {
 
 						private void handleFireMaking(int tries) {
 							final int retries = --tries;
-							final FiremakingDef def = EntityHandler
+							final FiremakingDefinition def = EntityHandler
 									.getFiremakingDef(item.getID());
 							if (!itemId(new int[] { 166 }) || def == null) {
 								owner.getActionSender().sendMessage(

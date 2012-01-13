@@ -3,8 +3,8 @@
 
 <properties>
 	<comment>Stores aliases for the XStream engine</comment>
-	<entry key="PacketHandler">org.moparscape.msc.gs.phandler.PacketHandlerDef</entry>
-	<entry key="NpcHandler">org.moparscape.msc.gs.npchandler.NpcHandlerDef</entry>
+	<entry key="PacketHandler">org.moparscape.msc.gs.phandler.PacketHandlerDefinition</entry>
+	<entry key="NpcHandler">org.moparscape.msc.gs.npchandler.NpcHandlerDefinition</entry>
 	
 	<entry key="Point">org.moparscape.msc.gs.model.Point</entry>
 	<entry key="TelePoint">org.moparscape.msc.gs.model.TelePoint</entry>
@@ -12,41 +12,41 @@
 	<entry key="Shop">org.moparscape.msc.gs.model.Shop</entry>
 	<entry key="InvItem">org.moparscape.msc.gs.model.InvItem</entry>
 	
-	<entry key="CerterDef">org.moparscape.msc.gs.external.CerterDef</entry>
-	<entry key="CertDef">org.moparscape.msc.gs.external.CertDef</entry>
 
-	<entry key="GameObjectLoc">org.moparscape.msc.gs.external.GameObjectLoc</entry>
-	<entry key="ItemLoc">org.moparscape.msc.gs.external.ItemLoc</entry>
-	<entry key="NPCLoc">org.moparscape.msc.gs.external.NPCLoc</entry>
+	<entry key="GameObjectLoc">org.moparscape.msc.gs.model.definition.GameObjectLoc</entry>
+	<entry key="ItemLoc">org.moparscape.msc.gs.model.definition.ItemLoc</entry>
+	<entry key="NPCLoc">org.moparscape.msc.gs.model.definition.NPCLoc</entry>
+	<entry key="GameObjectDef">org.moparscape.msc.gs.model.definition.GameObjectDefinition</entry>
+	<entry key="ItemDef">org.moparscape.msc.gs.model.definition.ItemDefinition</entry>
+	<entry key="NPCDef">org.moparscape.msc.gs.model.definition.NPCDefinition</entry>
 	
-	<entry key="TileDef">org.moparscape.msc.gs.external.TileDef</entry>
-	<entry key="GameObjectDef">org.moparscape.msc.gs.external.GameObjectDef</entry>
-	<entry key="DoorDef">org.moparscape.msc.gs.external.DoorDef</entry>
-	<entry key="ItemDef">org.moparscape.msc.gs.external.ItemDef</entry>
-	<entry key="PrayerDef">org.moparscape.msc.gs.external.PrayerDef</entry>
-	<entry key="SpellDef">org.moparscape.msc.gs.external.SpellDef</entry>
-	<entry key="NPCDef">org.moparscape.msc.gs.external.NPCDef</entry>
+	<entry key="TileDef">org.moparscape.msc.gs.model.definition.extra.TileDefinition</entry>
+	<entry key="DoorDef">org.moparscape.msc.gs.model.definition.extra.DoorDefinition</entry>
+	<entry key="CerterDef">org.moparscape.msc.gs.model.definition.CerterDefinition</entry>
+	<entry key="CertDef">org.moparscape.msc.gs.model.definition.CertDefinition</entry>
 	
-	<entry key="ItemCraftingDef">org.moparscape.msc.gs.external.ItemCraftingDef</entry>
-	<entry key="ItemHerbSecond">org.moparscape.msc.gs.external.ItemHerbSecond</entry>
-	<entry key="ItemDartTipDef">org.moparscape.msc.gs.external.ItemDartTipDef</entry>
-	<entry key="ItemGemDef">org.moparscape.msc.gs.external.ItemGemDef</entry>
-	<entry key="ItemLogCutDef">org.moparscape.msc.gs.external.ItemLogCutDef</entry>
-	<entry key="ItemBowStringDef">org.moparscape.msc.gs.external.ItemBowStringDef</entry>
-	<entry key="ItemArrowHeadDef">org.moparscape.msc.gs.external.ItemArrowHeadDef</entry>
-	<entry key="FiremakingDef">org.moparscape.msc.gs.external.FiremakingDef</entry>
-	<entry key="ReqOreDef">org.moparscape.msc.gs.external.ReqOreDef</entry>
-	<entry key="ItemWieldableDef">org.moparscape.msc.gs.external.ItemWieldableDef</entry>
-	<entry key="ItemUnIdentHerbDef">org.moparscape.msc.gs.external.ItemUnIdentHerbDef</entry>
-	<entry key="ItemHerbDef">org.moparscape.msc.gs.external.ItemHerbDef</entry>
-	<entry key="ItemCookingDef">org.moparscape.msc.gs.external.ItemCookingDef</entry>
-	<entry key="ItemSmeltingDef">org.moparscape.msc.gs.external.ItemSmeltingDef</entry>
-	<entry key="ItemSmithingDef">org.moparscape.msc.gs.external.ItemSmithingDef</entry>
-	<entry key="ObjectMiningDef">org.moparscape.msc.gs.external.ObjectMiningDef</entry>
-	<entry key="ObjectWoodcuttingDef">org.moparscape.msc.gs.external.ObjectWoodcuttingDef</entry>
-	<entry key="ObjectFishingDef">org.moparscape.msc.gs.external.ObjectFishingDef</entry>
-	<entry key="ObjectFishDef">org.moparscape.msc.gs.external.ObjectFishDef</entry>
-	<entry key="ItemDropDef">org.moparscape.msc.gs.external.ItemDropDef</entry>
-	<entry key="AgilityDef">org.moparscape.msc.gs.external.AgilityDef</entry>
-	<entry key="AgilityCourseDef">org.moparscape.msc.gs.external.AgilityCourseDef</entry>
+	<entry key="PrayerDef">org.moparscape.msc.gs.model.definition.PrayerDefinition</entry>
+	<entry key="SpellDef">org.moparscape.msc.gs.model.definition.SpellDefinition</entry>
+	<entry key="ItemCraftingDef">org.moparscape.msc.gs.model.definition.ItemCraftingDefinition</entry>
+	<entry key="ItemHerbSecond">org.moparscape.msc.gs.model.definition.ItemHerbSecondDefinition</entry>
+	<entry key="ItemDartTipDef">org.moparscape.msc.gs.model.definition.ItemDartTipDefinition</entry>
+	<entry key="ItemGemDef">org.moparscape.msc.gs.model.definition.ItemGemDefinition</entry>
+	<entry key="ItemLogCutDef">org.moparscape.msc.gs.model.definition.ItemLogCutDefinition</entry>
+	<entry key="ItemBowStringDef">org.moparscape.msc.gs.model.definition.ItemBowStringDefinition</entry>
+	<entry key="ItemArrowHeadDef">org.moparscape.msc.gs.model.definition.ItemArrowHeadDefinition</entry>
+	<entry key="FiremakingDef">org.moparscape.msc.gs.model.definition.FiremakingDefinition</entry>
+	<entry key="ReqOreDef">org.moparscape.msc.gs.model.definition.ReqOreDefinition</entry>
+	<entry key="ItemWieldableDef">org.moparscape.msc.gs.model.definition.ItemWieldableDefinition</entry>
+	<entry key="ItemUnIdentHerbDef">org.moparscape.msc.gs.model.definition.ItemUnIdentHerbDefinition</entry>
+	<entry key="ItemHerbDef">org.moparscape.msc.gs.model.definition.ItemHerbDefinition</entry>
+	<entry key="ItemCookingDef">org.moparscape.msc.gs.model.definition.ItemCookingDefinition</entry>
+	<entry key="ItemSmeltingDef">org.moparscape.msc.gs.model.definition.ItemSmeltingDefinition</entry>
+	<entry key="ItemSmithingDef">org.moparscape.msc.gs.model.definition.ItemSmithingDefinition</entry>
+	<entry key="ObjectMiningDef">org.moparscape.msc.gs.model.definition.ObjectMiningDefinition</entry>
+	<entry key="ObjectWoodcuttingDef">org.moparscape.msc.gs.model.definition.ObjectWoodcuttingDefinition</entry>
+	<entry key="ObjectFishingDef">org.moparscape.msc.gs.model.definition.ObjectFishingDefinition</entry>
+	<entry key="ObjectFishDef">org.moparscape.msc.gs.model.definition.ObjectFishDefinition</entry>
+	<entry key="ItemDropDef">org.moparscape.msc.gs.model.definition.ItemDropDefinition</entry>
+	<entry key="AgilityDef">org.moparscape.msc.gs.model.definition.AgilityDefinition</entry>
+	<entry key="AgilityCourseDef">org.moparscape.msc.gs.model.definition.AgilityCourseDefinition</entry>
 </properties>

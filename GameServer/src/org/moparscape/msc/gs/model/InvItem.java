@@ -1,11 +1,11 @@
 package org.moparscape.msc.gs.model;
 
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.ItemCookingDef;
-import org.moparscape.msc.gs.external.ItemDef;
-import org.moparscape.msc.gs.external.ItemSmeltingDef;
-import org.moparscape.msc.gs.external.ItemUnIdentHerbDef;
-import org.moparscape.msc.gs.external.ItemWieldableDef;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.entity.ItemDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemCookingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDefinition;
 
 public class InvItem extends Entity implements Comparable<InvItem> {
 
@@ -51,23 +51,23 @@ public class InvItem extends Entity implements Comparable<InvItem> {
 		return amount;
 	}
 
-	public ItemCookingDef getCookingDef() {
+	public ItemCookingDefinition getCookingDef() {
 		return EntityHandler.getItemCookingDef(id);
 	}
 
-	public ItemDef getDef() {
+	public ItemDefinition getDef() {
 		return EntityHandler.getItemDef(id);
 	}
 
-	public ItemSmeltingDef getSmeltingDef() {
+	public ItemSmeltingDefinition getSmeltingDef() {
 		return EntityHandler.getItemSmeltingDef(id);
 	}
 
-	public ItemUnIdentHerbDef getUnIdentHerbDef() {
+	public ItemUnIdentHerbDefinition getUnIdentHerbDef() {
 		return EntityHandler.getItemUnIdentHerbDef(id);
 	}
 
-	public ItemWieldableDef getWieldableDef() {
+	public ItemWieldableDefinition getWieldableDef() {
 		return EntityHandler.getItemWieldableDef(id);
 	}
 

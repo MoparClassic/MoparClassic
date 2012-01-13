@@ -1,9 +1,9 @@
 package org.moparscape.msc.gs.plugins.quests;
 
-import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.quest.Quest;
 import org.moparscape.msc.gs.quest.QuestAction;
 

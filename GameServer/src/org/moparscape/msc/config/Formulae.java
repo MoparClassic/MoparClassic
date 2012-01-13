@@ -4,15 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.FiremakingDef;
-import org.moparscape.msc.gs.external.GameObjectLoc;
-import org.moparscape.msc.gs.external.ItemLoc;
-import org.moparscape.msc.gs.external.NPCLoc;
-import org.moparscape.msc.gs.external.ObjectFishDef;
-import org.moparscape.msc.gs.external.ObjectMiningDef;
-import org.moparscape.msc.gs.external.ObjectWoodcuttingDef;
-import org.moparscape.msc.gs.external.SpellDef;
 import org.moparscape.msc.gs.model.Entity;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
@@ -21,6 +12,15 @@ import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.Shop;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.ItemLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.NPCLocationDefinition;
+import org.moparscape.msc.gs.model.definition.skill.FiremakingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectFishDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.SpellDefinition;
 import org.moparscape.msc.gs.tools.DataConversions;
 
 public class Formulae {
@@ -514,7 +514,7 @@ public class Formulae {
 	/**
 	 * Should the spell cast or fail?
 	 */
-	public static boolean castSpell(SpellDef def, int magicLevel, int magicEquip) {
+	public static boolean castSpell(SpellDefinition def, int magicLevel, int magicEquip) {
 		int levelDiff = magicLevel - def.getReqLevel();
 
 		if (magicEquip >= 30 && levelDiff >= 5)
@@ -709,9 +709,9 @@ public class Formulae {
 	/**
 	 * Decide what fish, if any, we should get from the water
 	 */
-	public static ObjectFishDef getFish(int waterId, int fishingLevel, int click) {
-		ArrayList<ObjectFishDef> fish = new ArrayList<ObjectFishDef>();
-		for (ObjectFishDef def : EntityHandler.getObjectFishingDef(waterId,
+	public static ObjectFishDefinition getFish(int waterId, int fishingLevel, int click) {
+		ArrayList<ObjectFishDefinition> fish = new ArrayList<ObjectFishDefinition>();
+		for (ObjectFishDefinition def : EntityHandler.getObjectFishingDef(waterId,
 				click).getFishDefs()) {
 			if (fishingLevel >= def.getReqLevel()) {
 				fish.add(def);
@@ -720,7 +720,7 @@ public class Formulae {
 		if (fish.size() <= 0) {
 			return null;
 		}
-		ObjectFishDef thisFish = fish.get(DataConversions.random(0,
+		ObjectFishDefinition thisFish = fish.get(DataConversions.random(0,
 				fish.size() - 1));
 		int levelDiff = fishingLevel - thisFish.getReqLevel();
 		if (levelDiff < 0) {
@@ -779,7 +779,7 @@ public class Formulae {
 	/**
 	 * Should we get a log from the tree?
 	 */
-	public static boolean getLog(ObjectWoodcuttingDef def, int woodcutLevel,
+	public static boolean getLog(ObjectWoodcuttingDefinition def, int woodcutLevel,
 			int axeId) {
 		int levelDiff = woodcutLevel - def.getReqLevel();
 		if (levelDiff < 0) {
@@ -901,7 +901,7 @@ public class Formulae {
 	/**
 	 * Should we can get an ore from the rock?
 	 */
-	public static boolean getOre(ObjectMiningDef def, int miningLevel, int axeId) {
+	public static boolean getOre(ObjectMiningDefinition def, int miningLevel, int axeId) {
 
 		int levelDiff = miningLevel - def.getReqLevel();
 		if (levelDiff > 50)
@@ -1137,15 +1137,15 @@ public class Formulae {
 		int y = -1;
 		if (objs.length == 1) {
 			Object obj = objs[0];
-			if (obj instanceof GameObjectLoc) {
-				x = ((GameObjectLoc) obj).x;
-				y = ((GameObjectLoc) obj).y;
-			} else if ((obj instanceof ItemLoc)) {
-				x = ((ItemLoc) obj).x;
-				y = ((ItemLoc) obj).y;
-			} else if (obj instanceof NPCLoc) {
-				x = ((NPCLoc) obj).startX;
-				y = ((NPCLoc) obj).startY;
+			if (obj instanceof GameObjectLocationDefinition) {
+				x = ((GameObjectLocationDefinition) obj).x;
+				y = ((GameObjectLocationDefinition) obj).y;
+			} else if ((obj instanceof ItemLocationDefinition)) {
+				x = ((ItemLocationDefinition) obj).x;
+				y = ((ItemLocationDefinition) obj).y;
+			} else if (obj instanceof NPCLocationDefinition) {
+				x = ((NPCLocationDefinition) obj).startX;
+				y = ((NPCLocationDefinition) obj).startY;
 			}
 		} else {
 			if (objs[0] instanceof Integer && objs[1] instanceof Integer) {
@@ -1190,7 +1190,7 @@ public class Formulae {
 	/**
 	 * Should the fire light or fail?
 	 */
-	public static boolean lightLogs(FiremakingDef def, int firemakingLvl) {
+	public static boolean lightLogs(FiremakingDefinition def, int firemakingLvl) {
 		int levelDiff = firemakingLvl - def.getRequiredLevel();
 		if (levelDiff < 0) {
 			return false;

@@ -11,10 +11,10 @@ import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.FightEvent;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.ItemDropDef;
-import org.moparscape.msc.gs.external.NPCDef;
-import org.moparscape.msc.gs.external.NPCLoc;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.entity.ItemDropDefinition;
+import org.moparscape.msc.gs.model.definition.entity.NPCDefinition;
+import org.moparscape.msc.gs.model.definition.entity.NPCLocationDefinition;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.states.Action;
@@ -111,13 +111,13 @@ public class Npc extends Mob {
 	/**
 	 * The definition of this npc
 	 */
-	private NPCDef def;
+	private NPCDefinition def;
 	private Syndicate syndicate = new Syndicate();
 	private boolean goingToAttack = false;
 	/**
 	 * The location of this npc
 	 */
-	private NPCLoc loc;
+	private NPCLocationDefinition loc;
 
 	public boolean hasRan() {
 		return ran;
@@ -199,11 +199,11 @@ public class Npc extends Mob {
 		this.weakend = weakend;
 	}
 
-	public void setDef(NPCDef def) {
+	public void setDef(NPCDefinition def) {
 		this.def = def;
 	}
 
-	public void setLoc(NPCLoc loc) {
+	public void setLoc(NPCLocationDefinition loc) {
 		this.loc = loc;
 	}
 
@@ -222,7 +222,7 @@ public class Npc extends Mob {
 
 	public Npc(int id, int startX, int startY, int minX, int maxX, int minY,
 			int maxY) {
-		this(new NPCLoc(id, startX, startY, minX, maxX, minY, maxY));
+		this(new NPCLocationDefinition(id, startX, startY, minX, maxX, minY, maxY));
 	}
 
 	public boolean isScripted() {
@@ -233,7 +233,7 @@ public class Npc extends Mob {
 		this.scripted = scripted;
 	}
 
-	public Npc(NPCLoc loc) {
+	public Npc(NPCLocationDefinition loc) {
 		for (int i : Constants.GameServer.UNDEAD_NPCS) {
 			if (loc.getId() == i) {
 				this.undead = true;
@@ -384,7 +384,7 @@ public class Npc extends Mob {
 		return 0;
 	}
 
-	public NPCDef getDef() {
+	public NPCDefinition getDef() {
 		return EntityHandler.getNpcDef(getID());
 	}
 
@@ -396,7 +396,7 @@ public class Npc extends Mob {
 		return curHits;
 	}
 
-	public NPCLoc getLoc() {
+	public NPCLocationDefinition getLoc() {
 		return loc;
 	}
 
@@ -433,10 +433,10 @@ public class Npc extends Mob {
 
 		Player owner = mob instanceof Player ? (Player) mob : null;
 
-		ItemDropDef[] drops = def.getDrops();
+		ItemDropDefinition[] drops = def.getDrops();
 
 		int total = 0;
-		for (ItemDropDef drop : drops) {
+		for (ItemDropDefinition drop : drops) {
 			total += drop.getWeight();
 		}
 		//
@@ -445,7 +445,7 @@ public class Npc extends Mob {
 		if (!this.getDef().name.equalsIgnoreCase("ghost")) {
 			
 		
-			for (ItemDropDef drop : drops) {
+			for (ItemDropDefinition drop : drops) {
 				if (drop == null) {
 					continue;
 				}

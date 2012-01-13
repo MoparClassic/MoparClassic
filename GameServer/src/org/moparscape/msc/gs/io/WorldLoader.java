@@ -9,15 +9,15 @@ import java.util.zip.ZipFile;
 import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.GameObjectLoc;
-import org.moparscape.msc.gs.external.ItemLoc;
-import org.moparscape.msc.gs.external.NPCLoc;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.ItemLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.NPCLocationDefinition;
 import org.moparscape.msc.gs.model.landscape.MutableTileValue;
 import org.moparscape.msc.gs.model.landscape.Sector;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -167,14 +167,14 @@ public class WorldLoader {
 
 	public void loadObjects() throws Exception {
 		World world = Instance.getWorld();
-		for (GameObjectLoc gameObject : Instance.getDataStore().loadGameObjectLocs()) {
+		for (GameObjectLocationDefinition gameObject : Instance.getDataStore().loadGameObjectLocs()) {
 			if (Config.f2pWildy && Formulae.isP2P(true, gameObject))
 				continue;
 			if (Formulae.isP2P(gameObject) && !World.isMembers())
 				continue;
 			world.registerGameObject(new GameObject(gameObject));
 		}
-		for (ItemLoc item : Instance.getDataStore().loadItemLocs()) {
+		for (ItemLocationDefinition item : Instance.getDataStore().loadItemLocs()) {
 			if (Config.f2pWildy && Formulae.isP2P(true, item))
 				continue;
 			if (Formulae.isP2P(item) && !World.isMembers())
@@ -182,7 +182,7 @@ public class WorldLoader {
 			world.registerItem(new Item(item));
 		}// ember
 
-		for (NPCLoc npc : Instance.getDataStore().loadNPCLocs()) {
+		for (NPCLocationDefinition npc : Instance.getDataStore().loadNPCLocs()) {
 			if (Config.f2pWildy && Formulae.isP2P(true, npc))
 				continue;
 			if (Formulae.isP2P(npc) && !World.isMembers())

@@ -3,13 +3,13 @@ package org.moparscape.msc.gs.npchandler;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
-import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.MenuHandler;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
 
 /**
  * 

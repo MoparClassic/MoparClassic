@@ -10,11 +10,11 @@ import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.db.DataManager;
-import org.moparscape.msc.gs.external.ItemDef;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.entity.ItemDefinition;
 import org.moparscape.msc.gs.model.landscape.PathGenerator;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -374,7 +374,7 @@ public class TradeHandler implements PacketHandler {
 					player.setRequiresOfferUpdate(true);
 					continue;
 				}
-				ItemDef def = tItem.getDef();
+				ItemDefinition def = tItem.getDef();
 				if (!def.canTrade() && !player.isMod()) {
 					player.getActionSender().sendMessage(
 							def.getName()

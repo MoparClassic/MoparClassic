@@ -8,14 +8,14 @@ import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToPointEvent;
-import org.moparscape.msc.gs.external.DoorDef;
-import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.extra.DoorDefinition;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -60,7 +60,7 @@ public class WallObjectAction implements PacketHandler {
 							false) {
 						public void arrived() {
 							owner.resetPath();
-							DoorDef def = object.getDoorDef();
+							DoorDefinition def = object.getDoorDef();
 							if (owner.isBusy() || owner.isRanging()
 									|| !owner.nextTo(object) || def == null
 									|| owner.getStatus() != Action.USING_DOOR) {

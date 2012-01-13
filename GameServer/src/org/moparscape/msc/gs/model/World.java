@@ -15,15 +15,15 @@ import org.moparscape.msc.gs.core.ClientUpdater;
 import org.moparscape.msc.gs.core.DelayedEventHandler;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
-import org.moparscape.msc.gs.external.GameObjectLoc;
-import org.moparscape.msc.gs.external.NPCLoc;
 import org.moparscape.msc.gs.io.WorldLoader;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.NPCLocationDefinition;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.landscape.MutableTileValue;
 import org.moparscape.msc.gs.model.landscape.TileValue;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
 import org.moparscape.msc.gs.npchandler.NpcHandler;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
+import org.moparscape.msc.gs.npchandler.NpcHandlerDefinition;
 import org.moparscape.msc.gs.quest.QuestManager;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.util.EntityList;
@@ -241,7 +241,7 @@ public final class World {
 	/**
 	 * Adds a DelayedEvent that will spawn a GameObject
 	 */
-	public void delayedSpawnObject(final GameObjectLoc loc,
+	public void delayedSpawnObject(final GameObjectLocationDefinition loc,
 			final int respawnTime) {
 		delayedEventHandler.add(new SingleEvent(null, respawnTime) {
 
@@ -446,8 +446,8 @@ public final class World {
 	 */
 	private void loadNpcHandlers() throws Exception {
 
-		NpcHandlerDef[] handlerDefs = Instance.getDataStore().loadNpcHandlers();
-		for (NpcHandlerDef handlerDef : handlerDefs) {
+		NpcHandlerDefinition[] handlerDefs = Instance.getDataStore().loadNpcHandlers();
+		for (NpcHandlerDefinition handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
 				Class<?> c = Class.forName(className);
@@ -532,7 +532,7 @@ public final class World {
 	 * Registers an npc with the world
 	 */
 	public void registerNpc(Npc n) {
-		NPCLoc npc = n.getLoc();
+		NPCLocationDefinition npc = n.getLoc();
 		if (npc.startX < npc.minX || npc.startX > npc.maxX
 				|| npc.startY < npc.minY || npc.startY > npc.maxY
 				|| (getTileValue(npc.startX, npc.startY).mapValue & 64) != 0) {

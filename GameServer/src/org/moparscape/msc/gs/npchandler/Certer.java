@@ -2,14 +2,14 @@ package org.moparscape.msc.gs.npchandler;
 
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.event.ShortEvent;
-import org.moparscape.msc.gs.external.CerterDef;
-import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.MenuHandler;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.extra.CerterDefinition;
 
 public class Certer implements NpcHandler {
 	/**
@@ -18,7 +18,7 @@ public class Certer implements NpcHandler {
 	public static final World world = Instance.getWorld();
 
 	public void handleNpc(final Npc npc, Player player) throws Exception {
-		final CerterDef certerDef = EntityHandler.getCerterDef(npc.getID());
+		final CerterDefinition certerDef = EntityHandler.getCerterDef(npc.getID());
 		if (certerDef == null) {
 			return;
 		}

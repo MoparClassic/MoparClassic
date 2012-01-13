@@ -13,13 +13,6 @@ import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToObjectEvent;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.ItemCookingDef;
-import org.moparscape.msc.gs.external.ItemCraftingDef;
-import org.moparscape.msc.gs.external.ItemSmeltingDef;
-import org.moparscape.msc.gs.external.ItemSmithingDef;
-import org.moparscape.msc.gs.external.ItemWieldableDef;
-import org.moparscape.msc.gs.external.ReqOreDef;
 import org.moparscape.msc.gs.model.Bubble;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
@@ -28,6 +21,13 @@ import org.moparscape.msc.gs.model.MenuHandler;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.skill.ItemCookingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemCraftingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmithingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ReqOreDefinition;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -62,7 +62,7 @@ public class InvUseOnObject implements PacketHandler {
 						owner.resetAll();
 						switch (object.getID()) {
 						case 24: // Web
-							ItemWieldableDef def = item.getWieldableDef();
+							ItemWieldableDefinition def = item.getWieldableDef();
 							if ((def == null || def.getWieldPos() != 4)
 									&& item.getID() != 13) {
 								owner.getActionSender().sendMessage(
@@ -463,7 +463,7 @@ public class InvUseOnObject implements PacketHandler {
 																							+ ".");
 																	return;
 																}
-																ItemCraftingDef def = EntityHandler
+																ItemCraftingDefinition def = EntityHandler
 																		.getCraftingDef((option * 3)
 																				+ craftType);
 																if (def == null) {
@@ -1218,13 +1218,13 @@ public class InvUseOnObject implements PacketHandler {
 
 					private void handleRegularSmelting(int times1) {
 						final int times = --times1;
-						ItemSmeltingDef smeltingDef = item.getSmeltingDef();
+						ItemSmeltingDefinition smeltingDef = item.getSmeltingDef();
 						if (smeltingDef == null) {
 							owner.getActionSender().sendMessage(
 									"Nothing interesting happens.");
 							return;
 						}
-						for (ReqOreDef reqOre : smeltingDef.getReqOres()) {
+						for (ReqOreDefinition reqOre : smeltingDef.getReqOres()) {
 							if (owner.getInventory().countId(reqOre.getId()) < reqOre
 									.getAmount()) {
 								if (item.getID() == 151) {
@@ -1264,14 +1264,14 @@ public class InvUseOnObject implements PacketHandler {
 								"You smelt the " + item.getDef().getName()
 										+ " in the furnace.");
 
-						final ItemSmeltingDef def = smeltingDef;
+						final ItemSmeltingDefinition def = smeltingDef;
 						Instance.getDelayedEventHandler().add(
 								new ShortEvent(owner) {
 									public void action() {
 										InvItem bar = new InvItem(def
 												.getBarId());
 										if (owner.getInventory().remove(item) > -1) {
-											for (ReqOreDef reqOre : def
+											for (ReqOreDefinition reqOre : def
 													.getReqOres()) {
 												for (int i = 0; i < reqOre
 														.getAmount(); i++) {
@@ -1381,7 +1381,7 @@ public class InvUseOnObject implements PacketHandler {
 										}
 									});
 						} else {
-							final ItemCookingDef cookingDef = item
+							final ItemCookingDefinition cookingDef = item
 									.getCookingDef();
 							if (cookingDef == null) {
 								owner.getActionSender().sendMessage(
@@ -1457,7 +1457,7 @@ public class InvUseOnObject implements PacketHandler {
 
 					
 					private void handleSmithing(int barID, int toMake) {
-						ItemSmithingDef def = EntityHandler.getSmithingDef((Formulae.getBarType(barID) * 21) + toMake);
+						ItemSmithingDefinition def = EntityHandler.getSmithingDef((Formulae.getBarType(barID) * 21) + toMake);
 						if(def == null) {
 							owner.getActionSender().sendMessage("Nothing interesting happens.");
 							return;

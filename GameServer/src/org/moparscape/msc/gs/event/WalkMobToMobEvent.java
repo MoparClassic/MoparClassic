@@ -1,14 +1,14 @@
 package org.moparscape.msc.gs.event;
 
 import org.moparscape.msc.gs.core.GameEngine;
-import org.moparscape.msc.gs.external.NPCLoc;
 import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Path;
+import org.moparscape.msc.gs.model.definition.entity.NPCLocationDefinition;
 
 public abstract class WalkMobToMobEvent extends DelayedEvent {
 	protected Mob affectedMob;
-	private NPCLoc loc = null;
+	private NPCLocationDefinition loc = null;
 	protected Mob owner;
 	private int radius;
 	private long startTime = 0L;

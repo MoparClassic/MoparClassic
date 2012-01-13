@@ -22,7 +22,7 @@ import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
 import org.moparscape.msc.gs.phandler.PacketHandler;
-import org.moparscape.msc.gs.phandler.PacketHandlerDef;
+import org.moparscape.msc.gs.phandler.PacketHandlerDefinition;
 import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.tools.Captcha;
 import org.moparscape.msc.gs.util.Logger;
@@ -154,9 +154,9 @@ public final class GameEngine extends Thread {
 	 * @throws Exception 
 	 */
 	protected void loadPacketHandlers() throws Exception {
-		PacketHandlerDef[] handlerDefs = Instance.getDataStore()
+		PacketHandlerDefinition[] handlerDefs = Instance.getDataStore()
 				.loadPacketHandlerDefs();
-		for (PacketHandlerDef handlerDef : handlerDefs) {
+		for (PacketHandlerDefinition handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
 				Class<?> c = Class.forName(className);

@@ -24,9 +24,39 @@ import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.TelePoint;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectDefinition;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.ItemDefinition;
+import org.moparscape.msc.gs.model.definition.entity.ItemLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.NPCDefinition;
+import org.moparscape.msc.gs.model.definition.entity.NPCLocationDefinition;
+import org.moparscape.msc.gs.model.definition.extra.CerterDefinition;
+import org.moparscape.msc.gs.model.definition.extra.DoorDefinition;
+import org.moparscape.msc.gs.model.definition.extra.TileDefinition;
+import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDefinition;
+import org.moparscape.msc.gs.model.definition.skill.AgilityDefinition;
+import org.moparscape.msc.gs.model.definition.skill.FiremakingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemArrowHeadDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemBowStringDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemCookingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemCraftingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemDartTipDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemGemDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbSecondDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemLogCutDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmithingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.PrayerDefinition;
+import org.moparscape.msc.gs.model.definition.skill.SpellDefinition;
+import org.moparscape.msc.gs.npchandler.NpcHandlerDefinition;
 import org.moparscape.msc.gs.persistence.DataStore;
-import org.moparscape.msc.gs.phandler.PacketHandlerDef;
+import org.moparscape.msc.gs.phandler.PacketHandlerDefinition;
 import org.moparscape.msc.gs.util.Logger;
 
 import com.thoughtworks.xstream.XStream;
@@ -107,18 +137,18 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public PacketHandlerDef[] loadPacketHandlerDefs() {
-		return (PacketHandlerDef[]) load("PacketHandlers.xml");
+	public PacketHandlerDefinition[] loadPacketHandlerDefs() {
+		return (PacketHandlerDefinition[]) load("PacketHandlers.xml");
 	}
 
 	@Override
-	public PacketHandlerDef[] loadLSPacketHandlerDefs() {
-		return (PacketHandlerDef[]) load("LSPacketHandlers.xml");
+	public PacketHandlerDefinition[] loadLSPacketHandlerDefs() {
+		return (PacketHandlerDefinition[]) load("LSPacketHandlers.xml");
 	}
 
 	@Override
-	public NpcHandlerDef[] loadNpcHandlers() {
-		return (NpcHandlerDef[]) load("NpcHandlers.xml");
+	public NpcHandlerDefinition[] loadNpcHandlers() {
+		return (NpcHandlerDefinition[]) load("NpcHandlers.xml");
 	}
 
 	@Override
@@ -132,98 +162,98 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, CerterDef> loadCerterDefs() {
-		return (Map<Integer, CerterDef>) load("defs/extras/NpcCerters.xml.gz");
+	public Map<Integer, CerterDefinition> loadCerterDefs() {
+		return (Map<Integer, CerterDefinition>) load("defs/extras/NpcCerters.xml.gz");
 	}
 
 	@Override
-	public List<GameObjectLoc> loadGameObjectLocs() {
-		return (List<GameObjectLoc>) load("locs/GameObjectLoc.xml.gz");
+	public List<GameObjectLocationDefinition> loadGameObjectLocs() {
+		return (List<GameObjectLocationDefinition>) load("locs/GameObjectLoc.xml.gz");
 	}
 
 	@Override
-	public List<ItemLoc> loadItemLocs() {
-		return (List<ItemLoc>) load("locs/ItemLoc.xml.gz");
+	public List<ItemLocationDefinition> loadItemLocs() {
+		return (List<ItemLocationDefinition>) load("locs/ItemLoc.xml.gz");
 	}
 
 	@Override
-	public List<NPCLoc> loadNPCLocs() {
-		return (List<NPCLoc>) load("locs/NpcLoc.xml.gz");
+	public List<NPCLocationDefinition> loadNPCLocs() {
+		return (List<NPCLocationDefinition>) load("locs/NpcLoc.xml.gz");
 	}
 
 	@Override
-	public TileDef[] loadTileDefs() {
-		return (TileDef[]) load("defs/TileDef.xml.gz");
+	public TileDefinition[] loadTileDefs() {
+		return (TileDefinition[]) load("defs/TileDef.xml.gz");
 	}
 
 	@Override
-	public GameObjectDef[] loadGameObjectDefs() {
-		return (GameObjectDef[]) load("defs/GameObjectDef.xml.gz");
+	public GameObjectDefinition[] loadGameObjectDefs() {
+		return (GameObjectDefinition[]) load("defs/GameObjectDef.xml.gz");
 	}
 
 	@Override
-	public DoorDef[] loadDoorDefs() {
-		return (DoorDef[]) load("defs/DoorDef.xml.gz");
+	public DoorDefinition[] loadDoorDefs() {
+		return (DoorDefinition[]) load("defs/DoorDef.xml.gz");
 	}
 
 	@Override
-	public ItemDef[] loadItemDefs() {
-		return (ItemDef[]) load("defs/ItemDef.xml.gz");
+	public ItemDefinition[] loadItemDefs() {
+		return (ItemDefinition[]) load("defs/ItemDef.xml.gz");
 	}
 
 	@Override
-	public PrayerDef[] loadPrayerDefs() {
-		return (PrayerDef[]) load("defs/PrayerDef.xml.gz");
+	public PrayerDefinition[] loadPrayerDefs() {
+		return (PrayerDefinition[]) load("defs/PrayerDef.xml.gz");
 	}
 
 	@Override
-	public SpellDef[] loadSpellDefs() {
-		return (SpellDef[]) load("defs/SpellDef.xml.gz");
+	public SpellDefinition[] loadSpellDefs() {
+		return (SpellDefinition[]) load("defs/SpellDef.xml.gz");
 	}
 
 	@Override
-	public NPCDef[] loadNPCDefs() {
-		return (NPCDef[]) load("defs/NPCDef.xml.gz");
+	public NPCDefinition[] loadNPCDefs() {
+		return (NPCDefinition[]) load("defs/NPCDef.xml.gz");
 	}
 
 	@Override
-	public ItemCraftingDef[] loadItemCraftingDefs() {
-		return (ItemCraftingDef[]) load("defs/extras/ItemCraftingDef.xml.gz");
+	public ItemCraftingDefinition[] loadItemCraftingDefs() {
+		return (ItemCraftingDefinition[]) load("defs/extras/ItemCraftingDef.xml.gz");
 	}
 
 	@Override
-	public ItemHerbSecond[] loadItemHerbSeconds() {
-		return (ItemHerbSecond[]) load("defs/extras/ItemHerbSecond.xml.gz");
+	public ItemHerbSecondDefinition[] loadItemHerbSeconds() {
+		return (ItemHerbSecondDefinition[]) load("defs/extras/ItemHerbSecond.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ItemDartTipDef> loadItemDartTipDefs() {
-		return (Map<Integer, ItemDartTipDef>) load("defs/extras/ItemDartTipDef.xml.gz");
+	public Map<Integer, ItemDartTipDefinition> loadItemDartTipDefs() {
+		return (Map<Integer, ItemDartTipDefinition>) load("defs/extras/ItemDartTipDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ItemGemDef> loadGemDefs() {
-		return (Map<Integer, ItemGemDef>) load("defs/extras/ItemGemDef.xml.gz");
+	public Map<Integer, ItemGemDefinition> loadGemDefs() {
+		return (Map<Integer, ItemGemDefinition>) load("defs/extras/ItemGemDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ItemLogCutDef> loadItemLogCutDefs() {
-		return (Map<Integer, ItemLogCutDef>) load("defs/extras/ItemLogCutDef.xml.gz");
+	public Map<Integer, ItemLogCutDefinition> loadItemLogCutDefs() {
+		return (Map<Integer, ItemLogCutDefinition>) load("defs/extras/ItemLogCutDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ItemBowStringDef> loadItemBowStringDefs() {
-		return (Map<Integer, ItemBowStringDef>) load("defs/extras/ItemBowStringDef.xml.gz");
+	public Map<Integer, ItemBowStringDefinition> loadItemBowStringDefs() {
+		return (Map<Integer, ItemBowStringDefinition>) load("defs/extras/ItemBowStringDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ItemArrowHeadDef> loadItemArrowHeadDefs() {
-		return (Map<Integer, ItemArrowHeadDef>) load("defs/extras/ItemArrowHeadDef.xml.gz");
+	public Map<Integer, ItemArrowHeadDefinition> loadItemArrowHeadDefs() {
+		return (Map<Integer, ItemArrowHeadDefinition>) load("defs/extras/ItemArrowHeadDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, FiremakingDef> loadFiremakingDefs() {
-		return (Map<Integer, FiremakingDef>) load("defs/extras/FiremakingDef.xml.gz");
+	public Map<Integer, FiremakingDefinition> loadFiremakingDefs() {
+		return (Map<Integer, FiremakingDefinition>) load("defs/extras/FiremakingDef.xml.gz");
 	}
 
 	@Override
@@ -232,18 +262,18 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, ItemWieldableDef> loadItemWieldableDefs() {
-		return (Map<Integer, ItemWieldableDef>) load("defs/extras/ItemWieldableDef.xml.gz");
+	public Map<Integer, ItemWieldableDefinition> loadItemWieldableDefs() {
+		return (Map<Integer, ItemWieldableDefinition>) load("defs/extras/ItemWieldableDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ItemUnIdentHerbDef> loadItemUnIdentHerbDefs() {
-		return (Map<Integer, ItemUnIdentHerbDef>) load("defs/extras/ItemUnIdentHerbDef.xml.gz");
+	public Map<Integer, ItemUnIdentHerbDefinition> loadItemUnIdentHerbDefs() {
+		return (Map<Integer, ItemUnIdentHerbDefinition>) load("defs/extras/ItemUnIdentHerbDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ItemHerbDef> loadItemHerbDefs() {
-		return (Map<Integer, ItemHerbDef>) load("defs/extras/ItemHerbDef.xml.gz");
+	public Map<Integer, ItemHerbDefinition> loadItemHerbDefs() {
+		return (Map<Integer, ItemHerbDefinition>) load("defs/extras/ItemHerbDef.xml.gz");
 	}
 
 	@Override
@@ -252,33 +282,33 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, ItemCookingDef> loadItemCookingDefs() {
-		return (Map<Integer, ItemCookingDef>) load("defs/extras/ItemCookingDef.xml.gz");
+	public Map<Integer, ItemCookingDefinition> loadItemCookingDefs() {
+		return (Map<Integer, ItemCookingDefinition>) load("defs/extras/ItemCookingDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ItemSmeltingDef> loadItemSmeltingDefs() {
-		return (Map<Integer, ItemSmeltingDef>) load("defs/extras/ItemSmeltingDef.xml.gz");
+	public Map<Integer, ItemSmeltingDefinition> loadItemSmeltingDefs() {
+		return (Map<Integer, ItemSmeltingDefinition>) load("defs/extras/ItemSmeltingDef.xml.gz");
 	}
 
 	@Override
-	public ItemSmithingDef[] loadItemSmithingDefs() {
-		return (ItemSmithingDef[]) load("defs/extras/ItemSmithingDef.xml.gz");
+	public ItemSmithingDefinition[] loadItemSmithingDefs() {
+		return (ItemSmithingDefinition[]) load("defs/extras/ItemSmithingDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ObjectMiningDef> loadObjectMiningDefs() {
-		return (Map<Integer, ObjectMiningDef>) load("defs/extras/ObjectMining.xml.gz");
+	public Map<Integer, ObjectMiningDefinition> loadObjectMiningDefs() {
+		return (Map<Integer, ObjectMiningDefinition>) load("defs/extras/ObjectMining.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ObjectWoodcuttingDef> loadObjectWoodcuttingDefs() {
-		return (Map<Integer, ObjectWoodcuttingDef>) load("defs/extras/ObjectWoodcutting.xml.gz");
+	public Map<Integer, ObjectWoodcuttingDefinition> loadObjectWoodcuttingDefs() {
+		return (Map<Integer, ObjectWoodcuttingDefinition>) load("defs/extras/ObjectWoodcutting.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, ObjectFishingDef[]> loadObjectFishDefs() {
-		return (Map<Integer, ObjectFishingDef[]>) load("defs/extras/ObjectFishing.xml.gz");
+	public Map<Integer, ObjectFishingDefinition[]> loadObjectFishDefs() {
+		return (Map<Integer, ObjectFishingDefinition[]>) load("defs/extras/ObjectFishing.xml.gz");
 	}
 
 	@Override
@@ -287,13 +317,13 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, AgilityDef> loadAgilityDefs() {
-		return (Map<Integer, AgilityDef>) load("defs/extras/AgilityDef.xml.gz");
+	public Map<Integer, AgilityDefinition> loadAgilityDefs() {
+		return (Map<Integer, AgilityDefinition>) load("defs/extras/AgilityDef.xml.gz");
 	}
 
 	@Override
-	public Map<Integer, AgilityCourseDef> loadAgilityCourseDefs() {
-		return (Map<Integer, AgilityCourseDef>) load("defs/extras/AgilityCourseDef.xml.gz");
+	public Map<Integer, AgilityCourseDefinition> loadAgilityCourseDefs() {
+		return (Map<Integer, AgilityCourseDefinition>) load("defs/extras/AgilityCourseDef.xml.gz");
 	}
 
 	@Override
@@ -302,8 +332,8 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, ItemDartTipDef> loadDartTips() {
-		return (HashMap<Integer, ItemDartTipDef>) load("defs/extras/ItemDartTipDef.xml.gz");
+	public Map<Integer, ItemDartTipDefinition> loadDartTips() {
+		return (HashMap<Integer, ItemDartTipDefinition>) load("defs/extras/ItemDartTipDef.xml.gz");
 	}
 
 	@Override
@@ -312,18 +342,18 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public void savePacketHandlerDefs(PacketHandlerDef[] defs) throws Exception {
+	public void savePacketHandlerDefs(PacketHandlerDefinition[] defs) throws Exception {
 		write("PacketHandlers.xml", defs);
 	}
 
 	@Override
-	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
+	public void saveLSPacketHandlerDefs(PacketHandlerDefinition[] defs)
 			throws Exception {
 		write("LSPacketHanlders.xml", defs);
 	}
 
 	@Override
-	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception {
+	public void saveNpcHandlers(NpcHandlerDefinition[] defs) throws Exception {
 		write("NpcHandlers.xml", defs);
 	}
 
@@ -338,102 +368,102 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public void saveCerterDefs(Map<Integer, CerterDef> certers)
+	public void saveCerterDefs(Map<Integer, CerterDefinition> certers)
 			throws Exception {
 		write("defs/extras/NpcCerters.xml.gz", certers);
 	}
 
 	@Override
-	public void saveGameObjectLocs(List<GameObjectLoc> locs) throws Exception {
+	public void saveGameObjectLocs(List<GameObjectLocationDefinition> locs) throws Exception {
 		write("locs/GameObjectLocs.xml.gz", locs);
 	}
 
 	@Override
-	public void saveItemLocs(List<ItemLoc> locs) throws Exception {
+	public void saveItemLocs(List<ItemLocationDefinition> locs) throws Exception {
 		write("locs/ItemLoc.xml.gz", locs);
 	}
 
 	@Override
-	public void saveNPCLocs(List<NPCLoc> locs) throws Exception {
+	public void saveNPCLocs(List<NPCLocationDefinition> locs) throws Exception {
 		write("locs/NpcLoc.xml.gz", locs);
 	}
 
 	@Override
-	public void saveTileDefs(TileDef[] defs) throws Exception {
+	public void saveTileDefs(TileDefinition[] defs) throws Exception {
 		write("defs/TileDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveGameObjectDefs(GameObjectDef[] defs) throws Exception {
+	public void saveGameObjectDefs(GameObjectDefinition[] defs) throws Exception {
 		write("defs/GameObjectDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveDoorDefs(DoorDef[] defs) throws Exception {
+	public void saveDoorDefs(DoorDefinition[] defs) throws Exception {
 		write("defs/DoorDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemDefs(ItemDef[] defs) throws Exception {
+	public void saveItemDefs(ItemDefinition[] defs) throws Exception {
 		write("defs/ItemDef.xml.gz", defs);
 	}
 
 	@Override
-	public void savePrayerDefs(PrayerDef[] defs) throws Exception {
+	public void savePrayerDefs(PrayerDefinition[] defs) throws Exception {
 		write("defs/PrayerDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveSpellDefs(SpellDef[] defs) throws Exception {
+	public void saveSpellDefs(SpellDefinition[] defs) throws Exception {
 		write("defs/SpellDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveNPCDefs(NPCDef[] defs) throws Exception {
+	public void saveNPCDefs(NPCDefinition[] defs) throws Exception {
 		write("defs/NPCDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemCraftingDefs(ItemCraftingDef[] defs) throws Exception {
+	public void saveItemCraftingDefs(ItemCraftingDefinition[] defs) throws Exception {
 		write("defs/extras/ItemCraftingDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemHerbSeconds(ItemHerbSecond[] seconds) throws Exception {
+	public void saveItemHerbSeconds(ItemHerbSecondDefinition[] seconds) throws Exception {
 		write("defs/extras/ItemHerbSecond.xml.gz", seconds);
 	}
 
 	@Override
-	public void saveItemDartTipDefs(Map<Integer, ItemDartTipDef> defs)
+	public void saveItemDartTipDefs(Map<Integer, ItemDartTipDefinition> defs)
 			throws Exception {
 		write("defs/extras/ItemDartTipDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveGemDefs(Map<Integer, ItemGemDef> defs) throws Exception {
+	public void saveGemDefs(Map<Integer, ItemGemDefinition> defs) throws Exception {
 		write("def/extras/ItemGemDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemLogCutDefs(Map<Integer, ItemLogCutDef> defs)
+	public void saveItemLogCutDefs(Map<Integer, ItemLogCutDefinition> defs)
 			throws Exception {
 		write("def/extras/ItemLogCutDefs.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemBowStringDefs(Map<Integer, ItemBowStringDef> defs)
+	public void saveItemBowStringDefs(Map<Integer, ItemBowStringDefinition> defs)
 			throws Exception {
 		write("defs/extras/ItemBowStringDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemArrowHeadDefs(Map<Integer, ItemArrowHeadDef> defs)
+	public void saveItemArrowHeadDefs(Map<Integer, ItemArrowHeadDefinition> defs)
 			throws Exception {
 		write("defs/extras/ItemArrowHeadDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveFiremakingDefs(Map<Integer, FiremakingDef> defs)
+	public void saveFiremakingDefs(Map<Integer, FiremakingDefinition> defs)
 			throws Exception {
 		write("defs/extras/FiremakingDef.xml.gz", defs);
 	}
@@ -445,19 +475,19 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public void saveItemWieldableDefs(Map<Integer, ItemWieldableDef> defs)
+	public void saveItemWieldableDefs(Map<Integer, ItemWieldableDefinition> defs)
 			throws Exception {
 		write("defs/extras/ItemWieldableDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemUnIdentHerbDefs(Map<Integer, ItemUnIdentHerbDef> defs)
+	public void saveItemUnIdentHerbDefs(Map<Integer, ItemUnIdentHerbDefinition> defs)
 			throws Exception {
 		write("defs/extras/Item.UnIdentHerbDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemHerbDefs(Map<Integer, ItemHerbDef> defs)
+	public void saveItemHerbDefs(Map<Integer, ItemHerbDefinition> defs)
 			throws Exception {
 		write("defs/extras/ItemHerbDef.xml.gz", defs);
 	}
@@ -469,36 +499,36 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public void saveItemCookingDefs(Map<Integer, ItemCookingDef> defs)
+	public void saveItemCookingDefs(Map<Integer, ItemCookingDefinition> defs)
 			throws Exception {
 		write("defs/extras/ItemCookingDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemSmeltingDefs(Map<Integer, ItemSmeltingDef> defs)
+	public void saveItemSmeltingDefs(Map<Integer, ItemSmeltingDefinition> defs)
 			throws Exception {
 		write("defs/extras/ItemSmeltingDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveItemSmithingDefs(ItemSmithingDef[] defs) throws Exception {
+	public void saveItemSmithingDefs(ItemSmithingDefinition[] defs) throws Exception {
 		write("defs/extras/ItemSmithingDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveObjectMiningDefs(Map<Integer, ObjectMiningDef> defs)
+	public void saveObjectMiningDefs(Map<Integer, ObjectMiningDefinition> defs)
 			throws Exception {
 		write("defs/extras/ObjectMiningDef.xml.gz", defs);
 	}
 
 	@Override
 	public void saveObjectWoodcuttingDefs(
-			Map<Integer, ObjectWoodcuttingDef> defs) throws Exception {
+			Map<Integer, ObjectWoodcuttingDefinition> defs) throws Exception {
 		write("defs/extras/ObjectWoodcuttingDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveObjectFishingDefs(Map<Integer, ObjectFishingDef> defs)
+	public void saveObjectFishingDefs(Map<Integer, ObjectFishingDefinition> defs)
 			throws Exception {
 		write("defs/extras/ObjectFishingDef.xml.gz", defs);
 	}
@@ -510,12 +540,12 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public void saveAgilityDefs(Map<Integer, AgilityDef> defs) throws Exception {
+	public void saveAgilityDefs(Map<Integer, AgilityDefinition> defs) throws Exception {
 		write("defs/extras/AgilityDef.xml.gz", defs);
 	}
 
 	@Override
-	public void saveAgilityCourseDef(Map<Integer, AgilityCourseDef> defs)
+	public void saveAgilityCourseDef(Map<Integer, AgilityCourseDefinition> defs)
 			throws Exception {
 		write("defs/extras/AgilityCourseDef.xml.gz", defs);
 	}

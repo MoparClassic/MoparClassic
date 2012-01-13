@@ -8,7 +8,6 @@ import org.moparscape.msc.gs.event.FightEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToMobEvent;
-import org.moparscape.msc.gs.external.GameObjectDef;
 import org.moparscape.msc.gs.model.Bubble;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
@@ -17,6 +16,7 @@ import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectDefinition;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.util.Logger;
@@ -122,7 +122,7 @@ public class Thieving {
 	private int curDoor = -1;
 	// given.
 	private int curStall = -1;
-	private GameObjectDef def;
+	private GameObjectDefinition def;
 	// Cur X, Cur Y, New X, New Y, Lvl, Exp
 	private int[][] Doors = {
 			{ 586, 581, 585, 581, 10, 13 }, // Nat rune West
@@ -1057,11 +1057,11 @@ public class Thieving {
 		}
 	}
 
-	public void setDef(GameObjectDef def) {
+	public void setDef(GameObjectDefinition def) {
 		this.def = def;
 	}
 
-	public GameObjectDef getDef() {
+	public GameObjectDefinition getDef() {
 		return def;
 	}
 

@@ -11,11 +11,11 @@ import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DuelEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.event.WalkToMobEvent;
-import org.moparscape.msc.gs.external.ItemDef;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.entity.ItemDefinition;
 import org.moparscape.msc.gs.model.landscape.PathGenerator;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -393,7 +393,7 @@ public class DuelHandler implements PacketHandler {
 					player.setSuspiciousPlayer(true);
 					continue;
 				}
-				ItemDef def = tItem.getDef();
+				ItemDefinition def = tItem.getDef();
 				if (!def.canTrade()) {
 					player.getActionSender().sendMessage(
 							def.getName()

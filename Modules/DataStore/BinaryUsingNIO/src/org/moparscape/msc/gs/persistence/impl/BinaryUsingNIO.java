@@ -11,12 +11,42 @@ import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.TelePoint;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectDefinition;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.ItemDefinition;
+import org.moparscape.msc.gs.model.definition.entity.ItemLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.NPCDefinition;
+import org.moparscape.msc.gs.model.definition.entity.NPCLocationDefinition;
+import org.moparscape.msc.gs.model.definition.extra.CerterDefinition;
+import org.moparscape.msc.gs.model.definition.extra.DoorDefinition;
+import org.moparscape.msc.gs.model.definition.extra.TileDefinition;
+import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDefinition;
+import org.moparscape.msc.gs.model.definition.skill.AgilityDefinition;
+import org.moparscape.msc.gs.model.definition.skill.FiremakingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemArrowHeadDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemBowStringDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemCookingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemCraftingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemDartTipDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemGemDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbSecondDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemLogCutDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmithingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.PrayerDefinition;
+import org.moparscape.msc.gs.model.definition.skill.SpellDefinition;
+import org.moparscape.msc.gs.npchandler.NpcHandlerDefinition;
 import org.moparscape.msc.gs.persistence.DataStore;
 import org.moparscape.msc.gs.persistence.impl.bun.CodecLookupService;
 import org.moparscape.msc.gs.persistence.impl.bun.FileLookupService;
 import org.moparscape.msc.gs.persistence.impl.bun.IO;
-import org.moparscape.msc.gs.phandler.PacketHandlerDef;
+import org.moparscape.msc.gs.phandler.PacketHandlerDefinition;
 
 @ThreadSafe
 public class BinaryUsingNIO implements DataStore {
@@ -26,39 +56,39 @@ public class BinaryUsingNIO implements DataStore {
 	}
 
 	@Override
-	public PacketHandlerDef[] loadPacketHandlerDefs() throws Exception {
-		String cls = PacketHandlerDef.class.getName();
+	public PacketHandlerDefinition[] loadPacketHandlerDefs() throws Exception {
+		String cls = PacketHandlerDefinition.class.getName();
 		File f = FileLookupService.lookup(cls);
-		return (PacketHandlerDef[]) CodecLookupService.lookup(cls).decode(IO.read(f));
+		return (PacketHandlerDefinition[]) CodecLookupService.lookup(cls).decode(IO.read(f));
 	}
 
 	@Override
-	public void savePacketHandlerDefs(PacketHandlerDef[] defs) throws Exception {
+	public void savePacketHandlerDefs(PacketHandlerDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public PacketHandlerDef[] loadLSPacketHandlerDefs() throws Exception {
+	public PacketHandlerDefinition[] loadLSPacketHandlerDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
+	public void saveLSPacketHandlerDefs(PacketHandlerDefinition[] defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public NpcHandlerDef[] loadNpcHandlers() throws Exception {
+	public NpcHandlerDefinition[] loadNpcHandlers() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception {
+	public void saveNpcHandlers(NpcHandlerDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -88,236 +118,236 @@ public class BinaryUsingNIO implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, CerterDef> loadCerterDefs() throws Exception {
+	public Map<Integer, CerterDefinition> loadCerterDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveCerterDefs(Map<Integer, CerterDef> certers)
+	public void saveCerterDefs(Map<Integer, CerterDefinition> certers)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<GameObjectLoc> loadGameObjectLocs() throws Exception {
+	public List<GameObjectLocationDefinition> loadGameObjectLocs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveGameObjectLocs(List<GameObjectLoc> locs) throws Exception {
+	public void saveGameObjectLocs(List<GameObjectLocationDefinition> locs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<ItemLoc> loadItemLocs() throws Exception {
+	public List<ItemLocationDefinition> loadItemLocs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemLocs(List<ItemLoc> locs) throws Exception {
+	public void saveItemLocs(List<ItemLocationDefinition> locs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<NPCLoc> loadNPCLocs() throws Exception {
+	public List<NPCLocationDefinition> loadNPCLocs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveNPCLocs(List<NPCLoc> locs) throws Exception {
+	public void saveNPCLocs(List<NPCLocationDefinition> locs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public TileDef[] loadTileDefs() throws Exception {
+	public TileDefinition[] loadTileDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveTileDefs(TileDef[] defs) throws Exception {
+	public void saveTileDefs(TileDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public GameObjectDef[] loadGameObjectDefs() throws Exception {
+	public GameObjectDefinition[] loadGameObjectDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveGameObjectDefs(GameObjectDef[] defs) throws Exception {
+	public void saveGameObjectDefs(GameObjectDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public DoorDef[] loadDoorDefs() throws Exception {
+	public DoorDefinition[] loadDoorDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveDoorDefs(DoorDef[] defs) throws Exception {
+	public void saveDoorDefs(DoorDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public ItemDef[] loadItemDefs() throws Exception {
+	public ItemDefinition[] loadItemDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemDefs(ItemDef[] defs) throws Exception {
+	public void saveItemDefs(ItemDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public PrayerDef[] loadPrayerDefs() throws Exception {
+	public PrayerDefinition[] loadPrayerDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void savePrayerDefs(PrayerDef[] defs) throws Exception {
+	public void savePrayerDefs(PrayerDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public SpellDef[] loadSpellDefs() throws Exception {
+	public SpellDefinition[] loadSpellDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveSpellDefs(SpellDef[] defs) throws Exception {
+	public void saveSpellDefs(SpellDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public NPCDef[] loadNPCDefs() throws Exception {
+	public NPCDefinition[] loadNPCDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveNPCDefs(NPCDef[] defs) throws Exception {
+	public void saveNPCDefs(NPCDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public ItemCraftingDef[] loadItemCraftingDefs() throws Exception {
+	public ItemCraftingDefinition[] loadItemCraftingDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemCraftingDefs(ItemCraftingDef[] defs) throws Exception {
+	public void saveItemCraftingDefs(ItemCraftingDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public ItemHerbSecond[] loadItemHerbSeconds() throws Exception {
+	public ItemHerbSecondDefinition[] loadItemHerbSeconds() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemHerbSeconds(ItemHerbSecond[] seconds) throws Exception {
+	public void saveItemHerbSeconds(ItemHerbSecondDefinition[] seconds) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ItemDartTipDef> loadItemDartTipDefs() throws Exception {
+	public Map<Integer, ItemDartTipDefinition> loadItemDartTipDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemDartTipDefs(Map<Integer, ItemDartTipDef> defs)
+	public void saveItemDartTipDefs(Map<Integer, ItemDartTipDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ItemGemDef> loadGemDefs() throws Exception {
+	public Map<Integer, ItemGemDefinition> loadGemDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveGemDefs(Map<Integer, ItemGemDef> defs) throws Exception {
+	public void saveGemDefs(Map<Integer, ItemGemDefinition> defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ItemLogCutDef> loadItemLogCutDefs() throws Exception {
+	public Map<Integer, ItemLogCutDefinition> loadItemLogCutDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemLogCutDefs(Map<Integer, ItemLogCutDef> defs)
-			throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Map<Integer, ItemBowStringDef> loadItemBowStringDefs()
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveItemBowStringDefs(Map<Integer, ItemBowStringDef> defs)
+	public void saveItemLogCutDefs(Map<Integer, ItemLogCutDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ItemArrowHeadDef> loadItemArrowHeadDefs()
+	public Map<Integer, ItemBowStringDefinition> loadItemBowStringDefs()
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemArrowHeadDefs(Map<Integer, ItemArrowHeadDef> defs)
+	public void saveItemBowStringDefs(Map<Integer, ItemBowStringDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, FiremakingDef> loadFiremakingDefs() throws Exception {
+	public Map<Integer, ItemArrowHeadDefinition> loadItemArrowHeadDefs()
+			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveFiremakingDefs(Map<Integer, FiremakingDef> defs)
+	public void saveItemArrowHeadDefs(Map<Integer, ItemArrowHeadDefinition> defs)
+			throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<Integer, FiremakingDefinition> loadFiremakingDefs() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveFiremakingDefs(Map<Integer, FiremakingDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -337,41 +367,41 @@ public class BinaryUsingNIO implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, ItemWieldableDef> loadItemWieldableDefs()
+	public Map<Integer, ItemWieldableDefinition> loadItemWieldableDefs()
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemWieldableDefs(Map<Integer, ItemWieldableDef> defs)
+	public void saveItemWieldableDefs(Map<Integer, ItemWieldableDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ItemUnIdentHerbDef> loadItemUnIdentHerbDefs()
+	public Map<Integer, ItemUnIdentHerbDefinition> loadItemUnIdentHerbDefs()
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemUnIdentHerbDefs(Map<Integer, ItemUnIdentHerbDef> defs)
+	public void saveItemUnIdentHerbDefs(Map<Integer, ItemUnIdentHerbDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ItemHerbDef> loadItemHerbDefs() throws Exception {
+	public Map<Integer, ItemHerbDefinition> loadItemHerbDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemHerbDefs(Map<Integer, ItemHerbDef> defs)
+	public void saveItemHerbDefs(Map<Integer, ItemHerbDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -391,60 +421,60 @@ public class BinaryUsingNIO implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, ItemCookingDef> loadItemCookingDefs() throws Exception {
+	public Map<Integer, ItemCookingDefinition> loadItemCookingDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemCookingDefs(Map<Integer, ItemCookingDef> defs)
+	public void saveItemCookingDefs(Map<Integer, ItemCookingDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ItemSmeltingDef> loadItemSmeltingDefs()
+	public Map<Integer, ItemSmeltingDefinition> loadItemSmeltingDefs()
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemSmeltingDefs(Map<Integer, ItemSmeltingDef> defs)
+	public void saveItemSmeltingDefs(Map<Integer, ItemSmeltingDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public ItemSmithingDef[] loadItemSmithingDefs() throws Exception {
+	public ItemSmithingDefinition[] loadItemSmithingDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveItemSmithingDefs(ItemSmithingDef[] defs) throws Exception {
+	public void saveItemSmithingDefs(ItemSmithingDefinition[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ObjectMiningDef> loadObjectMiningDefs()
+	public Map<Integer, ObjectMiningDefinition> loadObjectMiningDefs()
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveObjectMiningDefs(Map<Integer, ObjectMiningDef> defs)
+	public void saveObjectMiningDefs(Map<Integer, ObjectMiningDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ObjectWoodcuttingDef> loadObjectWoodcuttingDefs()
+	public Map<Integer, ObjectWoodcuttingDefinition> loadObjectWoodcuttingDefs()
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
@@ -452,20 +482,20 @@ public class BinaryUsingNIO implements DataStore {
 
 	@Override
 	public void saveObjectWoodcuttingDefs(
-			Map<Integer, ObjectWoodcuttingDef> defs) throws Exception {
+			Map<Integer, ObjectWoodcuttingDefinition> defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, ObjectFishingDef[]> loadObjectFishDefs()
+	public Map<Integer, ObjectFishingDefinition[]> loadObjectFishDefs()
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveObjectFishingDefs(Map<Integer, ObjectFishingDef> defs)
+	public void saveObjectFishingDefs(Map<Integer, ObjectFishingDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -485,26 +515,26 @@ public class BinaryUsingNIO implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, AgilityDef> loadAgilityDefs() throws Exception {
+	public Map<Integer, AgilityDefinition> loadAgilityDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveAgilityDefs(Map<Integer, AgilityDef> defs) throws Exception {
+	public void saveAgilityDefs(Map<Integer, AgilityDefinition> defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Map<Integer, AgilityCourseDef> loadAgilityCourseDefs()
+	public Map<Integer, AgilityCourseDefinition> loadAgilityCourseDefs()
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveAgilityCourseDef(Map<Integer, AgilityCourseDef> defs)
+	public void saveAgilityCourseDef(Map<Integer, AgilityCourseDefinition> defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -523,7 +553,7 @@ public class BinaryUsingNIO implements DataStore {
 	}
 
 	@Override
-	public Map<Integer, ItemDartTipDef> loadDartTips() throws Exception {
+	public Map<Integer, ItemDartTipDefinition> loadDartTips() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

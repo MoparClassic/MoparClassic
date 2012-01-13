@@ -25,9 +25,9 @@ import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.RangeEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
-import org.moparscape.msc.gs.external.AgilityCourseDef;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.PrayerDef;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDefinition;
+import org.moparscape.msc.gs.model.definition.skill.PrayerDefinition;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
 import org.moparscape.msc.gs.quest.Quest;
@@ -52,7 +52,7 @@ public final class Player extends Mob {
 	/**
 	 * The current agility course the player's doing
 	 */
-	private AgilityCourseDef agilityCourseDef = null;
+	private AgilityCourseDefinition agilityCourseDef = null;
 	/**
 	 * The Players appearance
 	 */
@@ -623,7 +623,7 @@ public final class Player extends Mob {
 
 	public void addPrayerDrain(int prayerID) {
 		drainRate = 0;
-		PrayerDef prayer = EntityHandler.getPrayerDef(prayerID);
+		PrayerDefinition prayer = EntityHandler.getPrayerDef(prayerID);
 		for (int x = 0; x <= 13; x++) {
 			prayer = EntityHandler.getPrayerDef(x);
 			if (super.isPrayerActivated(x)) {
@@ -876,7 +876,7 @@ public final class Player extends Mob {
 	/**
 	 * @return this player's current agility course
 	 */
-	public AgilityCourseDef getAgilityCourseDef() {
+	public AgilityCourseDefinition getAgilityCourseDef() {
 		return agilityCourseDef;
 	}
 
@@ -2370,7 +2370,7 @@ public final class Player extends Mob {
 	/**
 	 * Sets this player's current agility course
 	 */
-	public void setAgilityCourseDef(AgilityCourseDef def) {
+	public void setAgilityCourseDef(AgilityCourseDefinition def) {
 		agilityCourseDef = def;
 	}
 

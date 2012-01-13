@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ConcurrentModificationException;
 
 import org.moparscape.msc.gs.core.GameEngine;
-import org.moparscape.msc.gs.external.EntityHandler;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.util.Logger;
 
 import bsh.EvalError;

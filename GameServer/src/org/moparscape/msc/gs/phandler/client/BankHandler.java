@@ -4,12 +4,12 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
-import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.model.Bank;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 
