@@ -16,9 +16,10 @@ import org.moparscape.msc.gs.external.NPCLoc;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Npc;
-import org.moparscape.msc.gs.model.Sector;
 import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.MutableTileValue;
+import org.moparscape.msc.gs.model.landscape.Sector;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
 
@@ -53,12 +54,13 @@ public class WorldLoader {
 				if (!world.withinWorld(bx, by)) {
 					continue;
 				}
-
-				world.getTileValue(bx, by).overlay = s.getTile(x, y).groundOverlay;
-				world.getTileValue(bx, by).diagWallVal = s.getTile(x, y).diagonalWalls;
-				world.getTileValue(bx, by).horizontalWallVal = s.getTile(x, y).horizontalWall;
-				world.getTileValue(bx, by).verticalWallVal = s.getTile(x, y).verticalWall;
-				world.getTileValue(bx, by).elevation = s.getTile(x, y).groundElevation;
+				
+				MutableTileValue t = new MutableTileValue(world.getTileValue(bx, by));
+				t.overlay = s.getTile(x, y).groundOverlay;
+				t.diagWallVal = s.getTile(x, y).diagonalWalls;
+				t.horizontalWallVal = s.getTile(x, y).horizontalWall;
+				t.verticalWallVal = s.getTile(x, y).verticalWall;
+				t.elevation = s.getTile(x, y).groundElevation;
 				/** start of shit **/
 				if ((s.getTile(x, y).groundOverlay & 0xff) == 250) {
 					s.getTile(x, y).groundOverlay = (byte) 2;
@@ -68,7 +70,7 @@ public class WorldLoader {
 				if (groundOverlay > 0
 						&& EntityHandler.getTileDef(groundOverlay - 1)
 								.getObjectType() != 0) {
-					world.getTileValue(bx, by).mapValue |= 0x40; // 64
+					t.mapValue |= 0x40; // 64
 				}
 
 				int verticalWall = s.getTile(x, y).verticalWall & 0xFF;
@@ -77,8 +79,10 @@ public class WorldLoader {
 								.getUnknown() == 0
 						&& EntityHandler.getDoorDef(verticalWall - 1)
 								.getDoorType() != 0) {
-					world.getTileValue(bx, by).mapValue |= 1; // 1
-					world.getTileValue(bx, by - 1).mapValue |= 4; // 4
+					t.mapValue |= 1; // 1
+					MutableTileValue t1 = new MutableTileValue(world.getTileValue(bx, by - 1));
+					t1.mapValue |= 4; // 4
+					world.setTileValue(bx, by - 1, t1.toTileValue());
 				}
 
 				int horizontalWall = s.getTile(x, y).horizontalWall & 0xFF;
@@ -87,8 +91,10 @@ public class WorldLoader {
 								.getUnknown() == 0
 						&& EntityHandler.getDoorDef(horizontalWall - 1)
 								.getDoorType() != 0) {
-					world.getTileValue(bx, by).mapValue |= 2; // 2
-					world.getTileValue(bx - 1, by).mapValue |= 8; // 8
+					t.mapValue |= 2; // 2
+					MutableTileValue t1 = new MutableTileValue(world.getTileValue(bx - 1, by));
+					t1.mapValue |= 8;
+					world.setTileValue(bx - 1, by, t1.toTileValue());
 				}
 
 				int diagonalWalls = s.getTile(x, y).diagonalWalls;
@@ -98,7 +104,7 @@ public class WorldLoader {
 								.getUnknown() == 0
 						&& EntityHandler.getDoorDef(diagonalWalls - 1)
 								.getDoorType() != 0) {
-					world.getTileValue(bx, by).mapValue |= 0x20; // 32
+					t.mapValue |= 0x20; // 32
 				}
 				if (diagonalWalls > 12000
 						&& diagonalWalls < 24000
@@ -106,8 +112,9 @@ public class WorldLoader {
 								.getUnknown() == 0
 						&& EntityHandler.getDoorDef(diagonalWalls - 12001)
 								.getDoorType() != 0) {
-					world.getTileValue(bx, by).mapValue |= 0x10; // 16
+					t.mapValue |= 0x10; // 16
 				}
+				world.setTileValue(bx, by, t.toTileValue());
 				/** end of shit **/
 			}
 		}

@@ -7,7 +7,6 @@ import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.FightEvent;
@@ -15,6 +14,7 @@ import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.external.ItemDropDef;
 import org.moparscape.msc.gs.external.NPCDef;
 import org.moparscape.msc.gs.external.NPCLoc;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
@@ -449,10 +449,7 @@ public class Npc extends Mob {
 					continue;
 				}
 				if (drop.getWeight() == 0) {
-					Item i = new Item(drop.getID(), getX(),getY(), drop.getAmount(), owner);
-					if(i.getDef().members && !Server.isMembers())
-						continue;
-					world.registerItem(i);
+					world.registerItem(new Item(drop.getID(), getX(),getY(), drop.getAmount(), owner));
 					continue;
 				}
 

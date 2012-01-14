@@ -5,12 +5,10 @@ import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.connection.Packet;
-import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.external.ItemUnIdentHerbDef;
-import org.moparscape.msc.gs.model.ActiveTile;
 import org.moparscape.msc.gs.model.Bubble;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
@@ -18,6 +16,7 @@ import org.moparscape.msc.gs.model.MenuHandler;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -29,7 +28,6 @@ public class InvActionHandler implements PacketHandler {
 	public static final World world = Instance.getWorld();
 
 	public void handlePacket(Packet p, IoSession session) throws Exception {
-		int INFECTED_BLOOD = 1322;
 		Player player = (Player) session.getAttachment();
 		int idx = (int) p.readShort();
 		if (idx < 0 || idx >= player.getInventory().size()) {
@@ -194,38 +192,6 @@ public class InvActionHandler implements PacketHandler {
 				}
 			});
 		} else if (item.getDef().getCommand().equalsIgnoreCase("open")) {
-			if (item.getID() == INFECTED_BLOOD) {
-				if (!player.isInfected()) {
-					player.setInfected();
-					return;
-				}
-				long lastUsed = GameEngine.getTime() - player.lastInfected();
-				long remaining = 5 - lastUsed / 1000;
-				InvItem INFECTED_BLOOD_I = new InvItem(1322, 1);
-				if (lastUsed / 1000 <= 5) {
-					player.getActionSender().sendMessage(
-							"You have to wait " + remaining
-									+ " seconds before using that again.");
-					return;
-				}
-				showBubble(player, INFECTED_BLOOD_I);
-				player.getActionSender().sendMessage(
-						"Pools of blood spurt our around you.");
-				for (Player v : player.infectedBlood()) {
-					if (v == player)
-						continue;
-					int bloodChance = DataConversions.random(0, 99);
-					if (bloodChance >= 15) {
-						showBubble(v, INFECTED_BLOOD_I);
-						v.setInfected();
-						player.getActionSender().sendMessage(
-								"You have infected " + v.getUsername()
-										+ " >:D ");
-					}
-				}
-				player.setLastInfected();
-				return;
-			}
 			if (item.getID() == 1321) {
 				int win;
 				int Roll = DataConversions.random(0, 99);

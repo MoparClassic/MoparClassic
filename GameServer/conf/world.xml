@@ -81,4 +81,20 @@
 	
 	<!-- The class that should be used for the DataStore -->
 	<entry key="data-store">org.moparscape.msc.gs.persistence.impl.XMLUsingXStream</entry>
+	
+		<!-- The amount of packets per second before the user is disconnected. -->
+	<entry key="packet-per-second-threshold">30</entry>
+	<!-- Alert when someone has broken the threshold? -->
+	<entry key="packet-per-second-alert">true</entry>
+	
+	<!-- The afk timeout in minutes -->
+	<entry key="afk-timeout">5</entry>
+	
+	<!-- The DataService implementation that should be used. -->
+	<entry key="data-service">org.moparscape.msc.gs.db.impl.NIODataService</entry>
+	<!-- The ReportHandler implementation that should be used. -->
+	<entry key="report-handler">org.moparscape.msc.gs.db.impl.DropReportHandler</entry>
+	
+	<!-- This is displayed on login. Each line will be sent as a new message. Make sure you're using XML entities for things like <, new lines, etc. -->
+	<entry key="@yel@MOTD">Welcome to MoparClassic Alpha!&#10;@red@Report all bugs on GitHub.&#10;@cya@Commands: ::town &lt;townname>, ::item &lt;id>, ::say &lt;msg>, ::goto &lt;name></entry>
 </properties>

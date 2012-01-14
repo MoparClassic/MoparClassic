@@ -59,7 +59,6 @@ public class RSCConnectionHandler implements IoHandler {
 		if (p.getID() == 55)
 			player.addInterval();
 
-		player.addPacket(p);
 		packets.add(p);
 	}
 

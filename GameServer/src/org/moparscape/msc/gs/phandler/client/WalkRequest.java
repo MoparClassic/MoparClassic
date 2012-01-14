@@ -42,22 +42,7 @@ public class WalkRequest implements PacketHandler {
 					player.setLastRun(GameEngine.getTime());
 					player.resetCombat(CombatState.RUNNING);
 
-					if (player.isInfected()
-							&& GameEngine.getTime() - player.getLastMoved() < 1900) {
-						final Packet newpacket = p;
-						final IoSession newsession = session;
-						Instance.getDelayedEventHandler().add(
-								new MiniEvent(player, 2000) {
-									public void action() {
-										try {
-											handlePacket(newpacket, newsession);
-										} catch (Exception e) {
-											return;
-										}
-									}
-								});
-					}
-					player.isMining(false);
+					//player.isMining(false);
 					if (opponent instanceof Npc) {
 						Npc n = (Npc) opponent;
 						n.unblock();
@@ -152,15 +137,14 @@ public class WalkRequest implements PacketHandler {
 			} else {
 				return;
 			}
-		} else if (player.isBusy()
-				&& GameEngine.getTime() - player.getLastMineTimer() > 2000) {
+		} else if (player.isBusy()) {
 			return;
 		}
 
 		if (GameEngine.getTime() - player.getLastCast() < 600)
 			return;
 
-		player.isMining(false);
+		//player.isMining(false);
 		player.resetAll();
 
 		int startX = p.readShort();

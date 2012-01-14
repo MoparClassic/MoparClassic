@@ -26,16 +26,16 @@ import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.external.ItemSmeltingDef;
 import org.moparscape.msc.gs.external.ReqOreDef;
 import org.moparscape.msc.gs.external.SpellDef;
-import org.moparscape.msc.gs.model.ActiveTile;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
-import org.moparscape.msc.gs.model.PathGenerator;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Projectile;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
+import org.moparscape.msc.gs.model.landscape.PathGenerator;
 import org.moparscape.msc.gs.model.mini.Damage;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -120,6 +120,7 @@ public class SpellHandler implements PacketHandler {
 			player.getInventory().remove(((Integer) e.getKey()).intValue(),
 					((Integer) e.getValue()).intValue());
 		}
+		
 		return true;
 	}
 
@@ -135,6 +136,7 @@ public class SpellHandler implements PacketHandler {
 	private Random r = new Random();
 
 	private void finalizeSpell(Player player, SpellDef spell) {
+		player.incExp(6, spell.getExp(), true);
 		player.setLastCast(GameEngine.getTime());
 		player.getActionSender().sendSound("spellok");
 		player.getActionSender().sendMessage("Cast spell successfully");
@@ -1431,13 +1433,13 @@ public class SpellHandler implements PacketHandler {
 		}
 		switch (id) {
 		case 12: // Varrock
-			player.teleport(122, 503, true);
+			player.teleport(120, 504, true);
 			break;
 		case 15: // Lumbridge
-			player.teleport(118, 649, true);
+			player.teleport(120, 648, true);
 			break;
 		case 18: // Falador
-			player.teleport(313, 550, true);
+			player.teleport(312, 552, true);
 			break;
 		case 22: // Camalot
 			if (!Server.isMembers()) {

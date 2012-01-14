@@ -14,6 +14,7 @@ import org.apache.mina.transport.socket.nio.SocketSessionConfig;
 import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.connection.RSCConnectionHandler;
 import org.moparscape.msc.gs.connection.filter.ConnectionFilter;
+import org.moparscape.msc.gs.connection.filter.PacketThrottler;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.core.LoginConnector;
 import org.moparscape.msc.gs.event.DelayedEvent;
@@ -45,7 +46,6 @@ public class Server {
 			System.out.println("No config file specified.");
 			displayConfigDefaulting(configFile);
 		}
-
 
 		Config.initConfig(configFile);
 		world = Instance.getWorld();
@@ -156,6 +156,8 @@ public class Server {
 
 			acceptor = new SocketAcceptor(Runtime.getRuntime()
 					.availableProcessors() + 1, Executors.newCachedThreadPool());
+			acceptor.getFilterChain().addFirst("packetthrottler",
+					PacketThrottler.getInstance());
 			acceptor.getFilterChain().addFirst("connectionfilter",
 					new ConnectionFilter());
 			IoAcceptorConfig config = new SocketAcceptorConfig();
@@ -252,7 +254,7 @@ public class Server {
 	public static Server getServer() {
 		return server;
 	}
-	
+
 	private static void displayConfigDefaulting(String file) {
 		System.out.println("Defaulting to use " + file);
 	}

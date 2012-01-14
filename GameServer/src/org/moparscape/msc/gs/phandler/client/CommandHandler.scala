@@ -280,6 +280,7 @@ class CommandHandler extends PacketHandler {
     p.getInventory().getItems().clear()
     p.getActionSender().sendInventory()
   }
+  
 
   def enableMultiThreading(p: Player) {
     import org.moparscape.msc.gs.core.ClientUpdater
@@ -368,6 +369,9 @@ class CommandHandler extends PacketHandler {
           val item = new InvItem(id, amount)
           p.getInventory.add(item)
           p.getActionSender.sendInventory()
+          
+          
+         
       Logger.mod(p.getUsername() + " spawned themself " + amount + " " + item.getDef().getName() + "(s)")
     } else {
       message(p, "Invalid id")

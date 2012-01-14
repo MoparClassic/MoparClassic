@@ -9,9 +9,9 @@ import javax.imageio.ImageIO;
 
 import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.model.ActiveTile;
-import org.moparscape.msc.gs.model.TileValue;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
+import org.moparscape.msc.gs.model.landscape.TileValue;
 
 public class MapGenerator {
 	private static final int BLACK = new Color(0, 0, 0).getRGB();

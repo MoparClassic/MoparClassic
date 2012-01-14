@@ -3,6 +3,7 @@ package org.moparscape.msc.gs.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.GameObjectPositionPacketBuilder;
 import org.moparscape.msc.gs.builders.ItemPositionPacketBuilder;
@@ -396,13 +397,17 @@ public final class ClientUpdater {
 		if (curTime - p.getLastPing() >= 30000) {
 			p.destroy(false);
 		} else if (p.warnedToMove()) {
-			if (curTime - p.getLastMoved() >= 960000 && p.loggedIn()) {
+			if (curTime - p.getLastMoved() >= ((Config.AFK_TIMEOUT + 1) * 60000)
+					&& p.loggedIn()) {
 				p.destroy(false);
 			}
-		} else if (curTime - p.getLastMoved() >= 900000) {
+		} else if (curTime - p.getLastMoved() >= (Config.AFK_TIMEOUT * 60000)
+				&& !p.warnedToMove()) {
 			p.getActionSender()
 					.sendMessage(
-							"@cya@You have not moved for 15 mins, please move to a new area to avoid logout.");
+							"@cya@You have not moved for "
+									+ Config.AFK_TIMEOUT
+									+ " mins, please move to a new area to avoid logout.");
 			p.warnToMove();
 		}
 	}

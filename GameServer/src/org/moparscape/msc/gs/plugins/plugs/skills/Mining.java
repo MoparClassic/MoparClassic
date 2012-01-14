@@ -114,6 +114,7 @@ public class Mining implements ObjectListener {
 			return;
 		}
 		owner.setBusy(true);
+		//owner.isMining(true);
 
 		owner.getActionSender().sendSound("mine");
 		Bubble bubble = new Bubble(owner, axeId);
@@ -122,11 +123,15 @@ public class Mining implements ObjectListener {
 		}
 
 		final int retrytime = retrytimes;
-		owner.setLastMineTimer(GameEngine.getTime());
+		//owner.setLastMineTimer(GameEngine.getTime());
 		owner.getActionSender().sendMessage(
 				"You swing your pick at the rock...");
 		Instance.getDelayedEventHandler().add(new ShortEvent(owner) {
 			public void action() {
+				//if(!owner.isMining()) {
+					//owner.setBusy(false);
+					//return;
+				//}
 				if (Formulae.getOre(def, owner.getCurStat(14), axeID)) {
 					if (DataConversions.random(0, 200) == 0) {
 						InvItem gem = new InvItem(Formulae.getGem(), 1);
@@ -146,8 +151,8 @@ public class Mining implements ObjectListener {
 						world.delayedSpawnObject(newobject.getLoc(),
 								def.getRespawnTime() * 1000);
 					}
-					owner.isMining(false);
-					owner.setSkillLoops(0);
+					//owner.isMining(false);
+					//owner.setSkillLoops(0);
 					owner.getActionSender().sendInventory();
 				} else {
 					boolean retry = false;
@@ -157,18 +162,22 @@ public class Mining implements ObjectListener {
 							"You only succeed in scratching the rock.");
 					if (retry) {
 						world.getDelayedEventHandler().add(
+																
 								new SingleEvent(owner, 500) {
 									public void action() {
+										if(!owner.isMining() || owner.inCombat()) {
+											return;
+										}
 										owner.setSkillLoops(swings + 1);
 										handleMining(object, owner,
 												owner.getClick());
 									}
 								});
 					}
-					if (!retry) {
-						owner.isMining(false);
-						owner.setSkillLoops(0);
-					}
+					//if (!retry) {
+					//	owner.isMining(false);
+					//	owner.setSkillLoops(0);
+					//}
 				}
 				owner.setBusy(false);
 			}
