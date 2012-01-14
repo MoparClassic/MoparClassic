@@ -1433,13 +1433,13 @@ public class SpellHandler implements PacketHandler {
 		}
 		switch (id) {
 		case 12: // Varrock
-			player.teleport(122, 503, true);
+			player.teleport(120, 504, true);
 			break;
 		case 15: // Lumbridge
-			player.teleport(118, 649, true);
+			player.teleport(120, 648, true);
 			break;
 		case 18: // Falador
-			player.teleport(313, 550, true);
+			player.teleport(312, 552, true);
 			break;
 		case 22: // Camalot
 			if (!Server.isMembers()) {
