@@ -7,33 +7,33 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.TelePoint;
-import org.moparscape.msc.gs.model.definition.entity.GameObjectDefinition;
-import org.moparscape.msc.gs.model.definition.entity.ItemDefinition;
-import org.moparscape.msc.gs.model.definition.entity.NPCDefinition;
-import org.moparscape.msc.gs.model.definition.extra.CerterDefinition;
-import org.moparscape.msc.gs.model.definition.extra.DoorDefinition;
-import org.moparscape.msc.gs.model.definition.extra.TileDefinition;
-import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDefinition;
-import org.moparscape.msc.gs.model.definition.skill.AgilityDefinition;
-import org.moparscape.msc.gs.model.definition.skill.FiremakingDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemArrowHeadDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemBowStringDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemCookingDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemCraftingDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemDartTipDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemGemDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemHerbDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemHerbSecondDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemLogCutDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemSmithingDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDefinition;
-import org.moparscape.msc.gs.model.definition.skill.PrayerDefinition;
-import org.moparscape.msc.gs.model.definition.skill.SpellDefinition;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
+import org.moparscape.msc.gs.model.definition.entity.ItemDef;
+import org.moparscape.msc.gs.model.definition.entity.NPCDef;
+import org.moparscape.msc.gs.model.definition.extra.CerterDef;
+import org.moparscape.msc.gs.model.definition.extra.DoorDef;
+import org.moparscape.msc.gs.model.definition.extra.TileDef;
+import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
+import org.moparscape.msc.gs.model.definition.skill.AgilityDef;
+import org.moparscape.msc.gs.model.definition.skill.FiremakingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemArrowHeadDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemBowStringDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemCookingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemCraftingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemDartTipDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemGemDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbSecondDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemLogCutDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmithingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
+import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
+import org.moparscape.msc.gs.model.definition.skill.SpellDef;
 import org.moparscape.msc.gs.persistence.DataStore;
 
 /**
@@ -41,41 +41,41 @@ import org.moparscape.msc.gs.persistence.DataStore;
  * methods for relaying these entities to the user.
  */
 public class EntityHandler {
-	private static Map<Integer, AgilityCourseDefinition> agilityCourses;
-	private static Map<Integer, AgilityDefinition> agilityObjects;
-	private static Map<Integer, ItemArrowHeadDefinition> arrowHeads;
-	private static Map<Integer, ItemBowStringDefinition> bowString;
-	private static Map<Integer, CerterDefinition> certers;
-	private static Map<Integer, ItemDartTipDefinition> dartTips;
+	private static Map<Integer, AgilityCourseDef> agilityCourses;
+	private static Map<Integer, AgilityDef> agilityObjects;
+	private static Map<Integer, ItemArrowHeadDef> arrowHeads;
+	private static Map<Integer, ItemBowStringDef> bowString;
+	private static Map<Integer, CerterDef> certers;
+	private static Map<Integer, ItemDartTipDef> dartTips;
 
-	private static DoorDefinition[] doors;
-	private static Map<Integer, FiremakingDefinition> firemaking;
-	private static GameObjectDefinition[] gameObjects;
-	private static Map<Integer, ItemGemDefinition> gems;
-	private static ItemHerbSecondDefinition[] herbSeconds;
+	private static DoorDef[] doors;
+	private static Map<Integer, FiremakingDef> firemaking;
+	private static GameObjectDef[] gameObjects;
+	private static Map<Integer, ItemGemDef> gems;
+	private static ItemHerbSecondDef[] herbSeconds;
 	private static Map<Integer, int[]> itemAffectedTypes;
-	private static Map<Integer, ItemCookingDefinition> itemCooking;
-	private static ItemCraftingDefinition[] itemCrafting;
+	private static Map<Integer, ItemCookingDef> itemCooking;
+	private static ItemCraftingDef[] itemCrafting;
 	private static Map<Integer, Integer> itemEdibleHeals;
-	private static Map<Integer, ItemHerbDefinition> itemHerb;
-	private static ItemDefinition[] items;
-	private static Map<Integer, ItemSmeltingDefinition> itemSmelting;
-	private static ItemSmithingDefinition[] itemSmithing;
-	private static Map<Integer, ItemUnIdentHerbDefinition> itemUnIdentHerb;
-	private static Map<Integer, ItemWieldableDefinition> itemWieldable;
+	private static Map<Integer, ItemHerbDef> itemHerb;
+	private static ItemDef[] items;
+	private static Map<Integer, ItemSmeltingDef> itemSmelting;
+	private static ItemSmithingDef[] itemSmithing;
+	private static Map<Integer, ItemUnIdentHerbDef> itemUnIdentHerb;
+	private static Map<Integer, ItemWieldableDef> itemWieldable;
 	private static List<InvItem>[] keyChestLoots;
-	private static Map<Integer, ItemLogCutDefinition> logCut;
+	private static Map<Integer, ItemLogCutDef> logCut;
 
-	private static NPCDefinition[] npcs;
-	private static Map<Integer, ObjectFishingDefinition[]> objectFishing;
+	private static NPCDef[] npcs;
+	private static Map<Integer, ObjectFishingDef[]> objectFishing;
 
-	private static Map<Integer, ObjectMiningDefinition> objectMining;
+	private static Map<Integer, ObjectMiningDef> objectMining;
 	private static Map<Point, TelePoint> objectTelePoints;
-	private static Map<Integer, ObjectWoodcuttingDefinition> objectWoodcutting;
-	private static PrayerDefinition[] prayers;
+	private static Map<Integer, ObjectWoodcuttingDef> objectWoodcutting;
+	private static PrayerDef[] prayers;
 	private static Map<Integer, Integer> spellAggressiveLvl;
-	private static SpellDefinition[] spells;
-	private static TileDefinition[] tiles;
+	private static SpellDef[] spells;
+	private static TileDef[] tiles;
 
 	static {
 		DataStore dataStore = Instance.getDataStore();
@@ -83,7 +83,7 @@ public class EntityHandler {
 			doors = dataStore.loadDoorDefs();
 			gameObjects = dataStore.loadGameObjectDefs();
 			npcs = dataStore.loadNPCDefs();
-			for (NPCDefinition n : npcs) {
+			for (NPCDef n : npcs) {
 				if (n.isAttackable()) {
 					n.respawnTime -= (n.respawnTime / 3);
 				}
@@ -129,7 +129,7 @@ public class EntityHandler {
 	 *            the agility courses's start ID
 	 * @return the AgilityCourseDef with the given start ID
 	 */
-	public static AgilityCourseDefinition getAgilityCourseDef(int id) {
+	public static AgilityCourseDef getAgilityCourseDef(int id) {
 		return agilityCourses.get(id);
 	}
 
@@ -138,7 +138,7 @@ public class EntityHandler {
 	 *            the agility object's ID
 	 * @return the AgilityDef with the given object ID
 	 */
-	public static AgilityDefinition getAgilityDef(int id) {
+	public static AgilityDef getAgilityDef(int id) {
 		return agilityObjects.get(id);
 	}
 
@@ -147,14 +147,14 @@ public class EntityHandler {
 	 *            the npcs ID
 	 * @return the CerterDef for the given npc
 	 */
-	public static CerterDefinition getCerterDef(int id) {
+	public static CerterDef getCerterDef(int id) {
 		return certers.get(id);
 	}
 
 	/**
 	 * @return the ItemCraftingDef for the requested item
 	 */
-	public static ItemCraftingDefinition getCraftingDef(int id) {
+	public static ItemCraftingDef getCraftingDef(int id) {
 		if (id < 0 || id >= itemCrafting.length) {
 			return null;
 		}
@@ -166,7 +166,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the DoorDef with the given ID
 	 */
-	public static DoorDefinition getDoorDef(int id) {
+	public static DoorDef getDoorDef(int id) {
 		if (id < 0 || id >= doors.length) {
 			return null;
 		}
@@ -176,7 +176,7 @@ public class EntityHandler {
 	/**
 	 * @return the FiremakingDef for the given log
 	 */
-	public static FiremakingDefinition getFiremakingDef(int id) {
+	public static FiremakingDef getFiremakingDef(int id) {
 		return firemaking.get(id);
 	}
 
@@ -185,7 +185,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the GameObjectDef with the given ID
 	 */
-	public static GameObjectDefinition getGameObjectDef(int id) {
+	public static GameObjectDef getGameObjectDef(int id) {
 		if (id < 0 || id >= gameObjects.length) {
 			return null;
 		}
@@ -204,14 +204,14 @@ public class EntityHandler {
 	/**
 	 * @return the ItemArrowHeadDef for the given arrow
 	 */
-	public static ItemArrowHeadDefinition getItemArrowHeadDef(int id) {
+	public static ItemArrowHeadDef getItemArrowHeadDef(int id) {
 		return arrowHeads.get(id);
 	}
 
 	/**
 	 * @return the ItemBowStringDef for the given bow
 	 */
-	public static ItemBowStringDefinition getItemBowStringDef(int id) {
+	public static ItemBowStringDef getItemBowStringDef(int id) {
 		return bowString.get(id);
 	}
 
@@ -220,14 +220,14 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the ItemCookingDef with the given ID
 	 */
-	public static ItemCookingDefinition getItemCookingDef(int id) {
+	public static ItemCookingDef getItemCookingDef(int id) {
 		return itemCooking.get(id);
 	}
 
 	/**
 	 * @return the ItemDartTipDef for the given tip
 	 */
-	public static ItemDartTipDefinition getItemDartTipDef(int id) {
+	public static ItemDartTipDef getItemDartTipDef(int id) {
 		return dartTips.get(id);
 	}
 
@@ -236,7 +236,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the ItemDef with the given ID
 	 */
-	public static ItemDefinition getItemDef(int id) {
+	public static ItemDef getItemDef(int id) {
 		if (id < 0 || id >= items.length) {
 			return null;
 		}
@@ -259,7 +259,7 @@ public class EntityHandler {
 	/**
 	 * @return the ItemGemDef for the given gem
 	 */
-	public static ItemGemDefinition getItemGemDef(int id) {
+	public static ItemGemDef getItemGemDef(int id) {
 		return gems.get(id);
 	}
 
@@ -268,16 +268,16 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the ItemHerbDef with the given ID
 	 */
-	public static ItemHerbDefinition getItemHerbDef(int id) {
+	public static ItemHerbDef getItemHerbDef(int id) {
 		return itemHerb.get(id);
 	}
 
 	/**
 	 * @return the ItemHerbSecond for the given second ingredient
 	 */
-	public static ItemHerbSecondDefinition getItemHerbSecond(int secondID,
+	public static ItemHerbSecondDef getItemHerbSecond(int secondID,
 			int unfinishedID) {
-		for (ItemHerbSecondDefinition def : herbSeconds) {
+		for (ItemHerbSecondDef def : herbSeconds) {
 			if (def.getSecondID() == secondID
 					&& def.getUnfinishedID() == unfinishedID) {
 				return def;
@@ -289,7 +289,7 @@ public class EntityHandler {
 	/**
 	 * @return the ItemLogCutDef for the given log
 	 */
-	public static ItemLogCutDefinition getItemLogCutDef(int id) {
+	public static ItemLogCutDef getItemLogCutDef(int id) {
 		return logCut.get(id);
 	}
 
@@ -298,7 +298,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the ItemSmeltingDef with the given ID
 	 */
-	public static ItemSmeltingDefinition getItemSmeltingDef(int id) {
+	public static ItemSmeltingDef getItemSmeltingDef(int id) {
 		return itemSmelting.get(id);
 	}
 
@@ -307,7 +307,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the ItemUnIdentHerbDef with the given ID
 	 */
-	public static ItemUnIdentHerbDefinition getItemUnIdentHerbDef(int id) {
+	public static ItemUnIdentHerbDef getItemUnIdentHerbDef(int id) {
 		return itemUnIdentHerb.get(id);
 	}
 
@@ -316,7 +316,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the ItemWieldableDef with the given ID
 	 */
-	public static ItemWieldableDefinition getItemWieldableDef(int id) {
+	public static ItemWieldableDef getItemWieldableDef(int id) {
 		return itemWieldable.get(id);
 	}
 
@@ -329,7 +329,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the NPCDef with the given ID
 	 */
-	public static NPCDefinition getNpcDef(int id) {
+	public static NPCDef getNpcDef(int id) {
 		if (id < 0 || id >= npcs.length) {
 			return null;
 		}
@@ -341,8 +341,8 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the ObjectFishingDef with the given ID
 	 */
-	public static ObjectFishingDefinition getObjectFishingDef(int id, int click) {
-		ObjectFishingDefinition[] defs = objectFishing.get(id);
+	public static ObjectFishingDef getObjectFishingDef(int id, int click) {
+		ObjectFishingDef[] defs = objectFishing.get(id);
 		if (defs == null) {
 			return null;
 		}
@@ -354,7 +354,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the ObjectMiningDef with the given ID
 	 */
-	public static ObjectMiningDefinition getObjectMiningDef(int id) {
+	public static ObjectMiningDef getObjectMiningDef(int id) {
 		return objectMining.get(id);
 	}
 
@@ -379,7 +379,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the ObjectWoodcuttingDef with the given ID
 	 */
-	public static ObjectWoodcuttingDefinition getObjectWoodcuttingDef(int id) {
+	public static ObjectWoodcuttingDef getObjectWoodcuttingDef(int id) {
 		return objectWoodcutting.get(id);
 	}
 
@@ -388,7 +388,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the PrayerDef with the given ID
 	 */
-	public static PrayerDefinition getPrayerDef(int id) {
+	public static PrayerDef getPrayerDef(int id) {
 		if (id < 0 || id >= prayers.length) {
 			return null;
 		}
@@ -398,7 +398,7 @@ public class EntityHandler {
 	/**
 	 * @return the ItemSmithingDef for the requested item
 	 */
-	public static ItemSmithingDefinition getSmithingDef(int id) {
+	public static ItemSmithingDef getSmithingDef(int id) {
 		if (id < 0 || id >= itemSmithing.length) {
 			return null;
 		}
@@ -408,8 +408,8 @@ public class EntityHandler {
 	/**
 	 * @return the ItemSmithingDef for the requested item
 	 */
-	public static ItemSmithingDefinition getSmithingDefbyID(int itemID) {
-		for (ItemSmithingDefinition i : itemSmithing) {
+	public static ItemSmithingDef getSmithingDefbyID(int itemID) {
+		for (ItemSmithingDef i : itemSmithing) {
 			if (i.itemID == itemID)
 				return i;
 		}
@@ -434,7 +434,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the SpellDef with the given ID
 	 */
-	public static SpellDefinition getSpellDef(int id) {
+	public static SpellDef getSpellDef(int id) {
 		if (id < 0 || id >= spells.length) {
 			return null;
 		}
@@ -446,7 +446,7 @@ public class EntityHandler {
 	 *            the entities ID
 	 * @return the TileDef with the given ID
 	 */
-	public static TileDefinition getTileDef(int id) {
+	public static TileDef getTileDef(int id) {
 		if (id < 0 || id >= tiles.length) {
 			return null;
 		}

@@ -26,8 +26,8 @@ import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.RangeEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDefinition;
-import org.moparscape.msc.gs.model.definition.skill.PrayerDefinition;
+import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
+import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
 import org.moparscape.msc.gs.quest.Quest;
@@ -45,6 +45,8 @@ import bsh.Interpreter;
  */
 public final class Player extends Mob {
 
+	public int dropTickCount = 0;
+
 	/**
 	 * Methods to send packets related to actions
 	 */
@@ -52,7 +54,7 @@ public final class Player extends Mob {
 	/**
 	 * The current agility course the player's doing
 	 */
-	private AgilityCourseDefinition agilityCourseDef = null;
+	private AgilityCourseDef agilityCourseDef = null;
 	/**
 	 * The Players appearance
 	 */
@@ -63,7 +65,7 @@ public final class Player extends Mob {
 	 * get a skull for attacking back
 	 */
 	private HashMap<Long, Long> attackedBy = new HashMap<Long, Long>();
-	// teleport
+
 	private boolean badClient = false;
 	/**
 	 * Bank for banked items
@@ -623,7 +625,7 @@ public final class Player extends Mob {
 
 	public void addPrayerDrain(int prayerID) {
 		drainRate = 0;
-		PrayerDefinition prayer = EntityHandler.getPrayerDef(prayerID);
+		PrayerDef prayer = EntityHandler.getPrayerDef(prayerID);
 		for (int x = 0; x <= 13; x++) {
 			prayer = EntityHandler.getPrayerDef(x);
 			if (super.isPrayerActivated(x)) {
@@ -876,7 +878,7 @@ public final class Player extends Mob {
 	/**
 	 * @return this player's current agility course
 	 */
-	public AgilityCourseDefinition getAgilityCourseDef() {
+	public AgilityCourseDef getAgilityCourseDef() {
 		return agilityCourseDef;
 	}
 
@@ -902,9 +904,6 @@ public final class Player extends Mob {
 		return attackedBy;
 	}
 
-	/*
-	 * Used for the Infected Blood world event
-	 */
 
 	public Bank getBank() {
 		return bank;
@@ -914,36 +913,20 @@ public final class Player extends Mob {
 		return bubblesNeedingDisplayed;
 	}
 
-	/*
-	 * Informs the server that the player has just used Infected Blood and
-	 * activate the cooldown.
-	 */
 
 	public long getCastTimer() {
 		return lastSpellCast;
 	}
 
-	/*
-	 * Returns the last time a player used Infected Blood.
-	 */
 
 	public List<ChatMessage> getChatMessagesNeedingDisplayed() {
 		return chatMessagesNeedingDisplayed;
 	}
 
-	/*
-	 * Is this player infected?
-	 */
 
 	public LinkedList<ChatMessage> getChatQueue() {
 		return chatQueue;
 	}
-
-	/*
-	 * This method is used for the Infected Blood world event
-	 * 
-	 * @author Ollie
-	 */
 
 	public String getClassName() {
 		return className;
@@ -2370,7 +2353,7 @@ public final class Player extends Mob {
 	/**
 	 * Sets this player's current agility course
 	 */
-	public void setAgilityCourseDef(AgilityCourseDefinition def) {
+	public void setAgilityCourseDef(AgilityCourseDef def) {
 		agilityCourseDef = def;
 	}
 

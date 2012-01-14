@@ -16,8 +16,8 @@ import org.moparscape.msc.gs.core.DelayedEventHandler;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.io.WorldLoader;
-import org.moparscape.msc.gs.model.definition.entity.GameObjectLocationDefinition;
-import org.moparscape.msc.gs.model.definition.entity.NPCLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
+import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.landscape.MutableTileValue;
 import org.moparscape.msc.gs.model.landscape.TileValue;
@@ -241,7 +241,7 @@ public final class World {
 	/**
 	 * Adds a DelayedEvent that will spawn a GameObject
 	 */
-	public void delayedSpawnObject(final GameObjectLocationDefinition loc,
+	public void delayedSpawnObject(final GameObjectLoc loc,
 			final int respawnTime) {
 		delayedEventHandler.add(new SingleEvent(null, respawnTime) {
 
@@ -532,7 +532,7 @@ public final class World {
 	 * Registers an npc with the world
 	 */
 	public void registerNpc(Npc n) {
-		NPCLocationDefinition npc = n.getLoc();
+		NPCLoc npc = n.getLoc();
 		if (npc.startX < npc.minX || npc.startX > npc.maxX
 				|| npc.startY < npc.minY || npc.startY > npc.maxY
 				|| (getTileValue(npc.startX, npc.startY).mapValue & 64) != 0) {

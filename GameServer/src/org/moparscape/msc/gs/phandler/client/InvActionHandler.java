@@ -15,7 +15,7 @@ import org.moparscape.msc.gs.model.MenuHandler;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
-import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -88,7 +88,7 @@ public class InvActionHandler implements PacketHandler {
 						"This feature is only avaliable on a members server");
 				return;
 			}
-			ItemUnIdentHerbDefinition herb = item.getUnIdentHerbDef();
+			ItemUnIdentHerbDef herb = item.getUnIdentHerbDef();
 			if (herb == null) {
 				return;
 			}
@@ -101,7 +101,7 @@ public class InvActionHandler implements PacketHandler {
 			player.setBusy(true);
 			Instance.getDelayedEventHandler().add(new MiniEvent(player) {
 				public void action() {
-					ItemUnIdentHerbDefinition herb = item.getUnIdentHerbDef();
+					ItemUnIdentHerbDef herb = item.getUnIdentHerbDef();
 					InvItem newItem = new InvItem(herb.getNewId());
 					owner.getInventory().remove(item);
 					owner.getInventory().add(newItem);

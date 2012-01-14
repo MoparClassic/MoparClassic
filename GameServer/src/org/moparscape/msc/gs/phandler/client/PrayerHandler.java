@@ -7,7 +7,7 @@ import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.skill.PrayerDefinition;
+import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 
 public class PrayerHandler implements PacketHandler {
@@ -77,7 +77,7 @@ public class PrayerHandler implements PacketHandler {
 			player.getActionSender().sendPrayers();
 			return;
 		}
-		PrayerDefinition prayer = EntityHandler.getPrayerDef(prayerID);
+		PrayerDef prayer = EntityHandler.getPrayerDef(prayerID);
 		switch (pID) {
 		case 56:
 			if (player.getMaxStat(5) < prayer.getReqLevel()) {
