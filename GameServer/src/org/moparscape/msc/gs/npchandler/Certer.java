@@ -9,7 +9,7 @@ import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.extra.CerterDefinition;
+import org.moparscape.msc.gs.model.definition.extra.CerterDef;
 
 public class Certer implements NpcHandler {
 	/**
@@ -18,7 +18,7 @@ public class Certer implements NpcHandler {
 	public static final World world = Instance.getWorld();
 
 	public void handleNpc(final Npc npc, Player player) throws Exception {
-		final CerterDefinition certerDef = EntityHandler.getCerterDef(npc.getID());
+		final CerterDef certerDef = EntityHandler.getCerterDef(npc.getID());
 		if (certerDef == null) {
 			return;
 		}

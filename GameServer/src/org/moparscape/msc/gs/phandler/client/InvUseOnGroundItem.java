@@ -15,7 +15,7 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.skill.FiremakingDefinition;
+import org.moparscape.msc.gs.model.definition.skill.FiremakingDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -138,7 +138,7 @@ public class InvUseOnGroundItem implements PacketHandler {
 
 						private void handleFireMaking(int tries) {
 							final int retries = --tries;
-							final FiremakingDefinition def = EntityHandler
+							final FiremakingDef def = EntityHandler
 									.getFiremakingDef(item.getID());
 							if (!itemId(new int[] { 166 }) || def == null) {
 								owner.getActionSender().sendMessage(

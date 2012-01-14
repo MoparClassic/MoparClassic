@@ -5,8 +5,8 @@ import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.db.DataManager;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.entity.ItemDefinition;
-import org.moparscape.msc.gs.model.definition.entity.ItemLocationDefinition;
+import org.moparscape.msc.gs.model.definition.entity.ItemDef;
+import org.moparscape.msc.gs.model.definition.entity.ItemLoc;
 
 public class Item extends Entity {
 	/**
@@ -21,7 +21,7 @@ public class Item extends Entity {
 	/**
 	 * Location definition of the item
 	 */
-	private ItemLocationDefinition loc = null;
+	private ItemLoc loc = null;
 
 	/**
 	 * Contains the player that the item belongs to, if any
@@ -84,7 +84,7 @@ public class Item extends Entity {
 		}
 	}
 
-	public Item(ItemLocationDefinition loc) {
+	public Item(ItemLoc loc) {
 		this.loc = loc;
 		setID(loc.id);
 		setAmount(loc.amount);
@@ -125,11 +125,11 @@ public class Item extends Entity {
 		return amount;
 	}
 
-	public ItemDefinition getDef() {
+	public ItemDef getDef() {
 		return EntityHandler.getItemDef(id);
 	}
 
-	public ItemLocationDefinition getLoc() {
+	public ItemLoc getLoc() {
 		return loc;
 	}
 

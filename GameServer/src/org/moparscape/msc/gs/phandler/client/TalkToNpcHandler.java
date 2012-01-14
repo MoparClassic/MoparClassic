@@ -69,21 +69,22 @@ public class TalkToNpcHandler implements PacketHandler {
 						if (affectedNpc.isBusy()) {
 							owner.getActionSender().sendMessage(
 									affectedNpc.getDef().getName()
-											+ " is currently busy.");
+									+ " is currently busy.");
 							return;
 						}
 						affectedNpc.resetPath();
 						NpcHandler handler = world.getNpcHandler(affectedNpc
 								.getID());
 
-						if (Formulae.getDirection(owner, affectedNpc) != -1) {
-							affectedNpc.setSprite(Formulae.getDirection(owner,
-									affectedNpc));
-							owner.setSprite(Formulae.getDirection(affectedNpc,
-									owner));
-						}
+
 						if (handler != null) {
 							try {
+								if (Formulae.getDirection(owner, affectedNpc) != -1) {
+									affectedNpc.setSprite(Formulae.getDirection(owner,
+											affectedNpc));
+									owner.setSprite(Formulae.getDirection(affectedNpc,
+											owner));
+								}
 								handler.handleNpc(affectedNpc, owner);
 							} catch (Exception e) {
 								Logger.error("Exception with npc["
@@ -96,20 +97,19 @@ public class TalkToNpcHandler implements PacketHandler {
 							}
 						} else {
 
-							if (!World.getQuestManager().handleNpcTalk(
-									affectedNpc, owner)) {
+							if (!World.getQuestManager().handleNpcTalk(affectedNpc, owner)) {
 								if (affectedNpc.getDef().isAttackable())
-									owner.getActionSender()
-											.sendMessage(
-													"The "
-															+ affectedNpc
-																	.getDef()
-																	.getName()
-															+ " doesn't appear interested in talking.");
+									owner.getActionSender().sendMessage("The "+ affectedNpc.getDef().getName() + " doesn't appear interested in talking.");
 								else if (world.npcScripts
 										.containsKey(affectedNpc.getID())) {
 									owner.setBusy(true);
 									affectedNpc.blockedBy(owner);
+									if (Formulae.getDirection(owner, affectedNpc) != -1) {
+										affectedNpc.setSprite(Formulae.getDirection(owner,
+												affectedNpc));
+										owner.setSprite(Formulae.getDirection(affectedNpc,
+												owner));
+									}
 									if (owner.getInterpreterThread() != null) {
 										try {
 											owner.getInterpreterThread().stop();
@@ -160,6 +160,13 @@ public class TalkToNpcHandler implements PacketHandler {
 										owner.getActionSender().sendLogout();
 										owner.destroy(false);
 									}
+								}
+							} else {
+								if (Formulae.getDirection(owner, affectedNpc) != -1) {
+									affectedNpc.setSprite(Formulae.getDirection(owner,
+											affectedNpc));
+									owner.setSprite(Formulae.getDirection(affectedNpc,
+											owner));
 								}
 							}
 

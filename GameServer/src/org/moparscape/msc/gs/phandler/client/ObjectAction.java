@@ -27,12 +27,12 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.entity.GameObjectDefinition;
-import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDefinition;
-import org.moparscape.msc.gs.model.definition.skill.AgilityDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ObjectFishDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDefinition;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
+import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
+import org.moparscape.msc.gs.model.definition.skill.AgilityDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectFishDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -128,7 +128,7 @@ public class ObjectAction implements PacketHandler {
 							if (owner.getStatus() != Action.AGILITYING)
 								owner.resetPath();
 
-							GameObjectDefinition def = object.getGameObjectDef();
+							GameObjectDef def = object.getGameObjectDef();
 							if (owner.isBusy() || owner.isRanging()
 									|| !owner.nextTo(object) || def == null
 									|| owner.getStatus() != Action.USING_OBJECT) {
@@ -1025,7 +1025,7 @@ public class ObjectAction implements PacketHandler {
 											"This feature is only avaliable on a members server");
 							return;
 						}
-						final AgilityDefinition def = EntityHandler
+						final AgilityDef def = EntityHandler
 								.getAgilityDef(object.getID());
 						if (owner.getCurStat(16) < def.getReqLevel()) {
 							owner.getActionSender().sendMessage(
@@ -1105,7 +1105,7 @@ public class ObjectAction implements PacketHandler {
 											owner.getActionSender()
 													.sendStat(16);
 
-											AgilityCourseDefinition course = EntityHandler
+											AgilityCourseDef course = EntityHandler
 													.getAgilityCourseDef(object
 															.getID());
 
@@ -1195,7 +1195,7 @@ public class ObjectAction implements PacketHandler {
 
 					private void handleFishing(final int click, int passvalue) {
 						final int tries = --passvalue;
-						final ObjectFishingDefinition def = EntityHandler
+						final ObjectFishingDef def = EntityHandler
 								.getObjectFishingDef(object.getID(), click);
 						if (owner.isBusy()) {
 							return;
@@ -1245,7 +1245,7 @@ public class ObjectAction implements PacketHandler {
 						Instance.getDelayedEventHandler().add(
 								new ShortEvent(owner) {
 									public void action() {
-										ObjectFishDefinition def = Formulae.getFish(
+										ObjectFishDef def = Formulae.getFish(
 												object.getID(),
 												owner.getCurStat(10), click);
 										if (def != null) {
@@ -1299,7 +1299,7 @@ public class ObjectAction implements PacketHandler {
 					private void handleWoodcutting(final int click,
 							int passedvalue) {
 						final int tries = --passedvalue;
-						final ObjectWoodcuttingDefinition def = EntityHandler
+						final ObjectWoodcuttingDef def = EntityHandler
 								.getObjectWoodcuttingDef(object.getID());
 						if (owner.isBusy()) {
 							return;
