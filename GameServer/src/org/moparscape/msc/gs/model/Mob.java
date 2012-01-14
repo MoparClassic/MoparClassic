@@ -66,7 +66,7 @@ public abstract class Mob extends Entity {
 	/**
 	 * The path we are walking
 	 */
-	private PathHandler pathHandler = new PathHandler(this);
+	public PathHandler pathHandler = new PathHandler(this);
 	/**
 	 * Set when the mob has been destroyed to alert players
 	 */

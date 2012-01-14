@@ -1,9 +1,9 @@
 package org.moparscape.msc.gs.model;
 
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.entity.GameObjectDefinition;
-import org.moparscape.msc.gs.model.definition.entity.GameObjectLocationDefinition;
-import org.moparscape.msc.gs.model.definition.extra.DoorDefinition;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
+import org.moparscape.msc.gs.model.definition.extra.DoorDef;
 
 public class GameObject extends Entity {
 	/**
@@ -19,7 +19,7 @@ public class GameObject extends Entity {
 	/**
 	 * Location definition of the object
 	 */
-	private GameObjectLocationDefinition loc = null;
+	private GameObjectLoc loc = null;
 	/**
 	 * Set when the item has been destroyed to alert players
 	 */
@@ -30,7 +30,7 @@ public class GameObject extends Entity {
 	 */
 	private int type;
 
-	public GameObject(GameObjectLocationDefinition loc) {
+	public GameObject(GameObjectLoc loc) {
 		direction = loc.direction;
 		type = loc.type;
 		this.loc = loc;
@@ -39,7 +39,7 @@ public class GameObject extends Entity {
 	}
 
 	public GameObject(Point location, int id, int direction, int type) {
-		this(new GameObjectLocationDefinition(id, location.getX(), location.getY(), direction,
+		this(new GameObjectLoc(id, location.getX(), location.getY(), direction,
 				type));
 	}
 
@@ -66,15 +66,15 @@ public class GameObject extends Entity {
 		return direction;
 	}
 
-	public DoorDefinition getDoorDef() {
+	public DoorDef getDoorDef() {
 		return EntityHandler.getDoorDef(super.getID());
 	}
 
-	public GameObjectDefinition getGameObjectDef() {
+	public GameObjectDef getGameObjectDef() {
 		return EntityHandler.getGameObjectDef(super.getID());
 	}
 
-	public GameObjectLocationDefinition getLoc() {
+	public GameObjectLoc getLoc() {
 		return loc;
 	}
 

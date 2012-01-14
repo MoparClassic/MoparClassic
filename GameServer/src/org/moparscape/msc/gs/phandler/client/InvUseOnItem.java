@@ -12,13 +12,13 @@ import org.moparscape.msc.gs.model.MenuHandler;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.skill.ItemArrowHeadDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemBowStringDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemDartTipDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemGemDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemHerbDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemHerbSecondDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ItemLogCutDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemArrowHeadDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemBowStringDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemDartTipDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemGemDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbSecondDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemLogCutDef;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -49,7 +49,7 @@ public class InvUseOnItem implements PacketHandler {
 		}
 		InvItem newItem;
 		int exp;
-		ItemDartTipDefinition tipDef = null;
+		ItemDartTipDef tipDef = null;
 		if (item.getID() == 280) {
 			newItem = new InvItem(637, amount);
 			exp = amount;
@@ -96,7 +96,7 @@ public class InvUseOnItem implements PacketHandler {
 
 	private boolean doArrowHeads(Player player, final InvItem headlessArrows,
 			final InvItem arrowHeads) {
-		final ItemArrowHeadDefinition headDef = EntityHandler
+		final ItemArrowHeadDef headDef = EntityHandler
 				.getItemArrowHeadDef(arrowHeads.getID());
 		if (!Config.members) {
 			player.getActionSender().sendMessage(
@@ -141,7 +141,7 @@ public class InvUseOnItem implements PacketHandler {
 
 	private boolean doBowString(Player player, final InvItem bowString,
 			final InvItem bow) {
-		final ItemBowStringDefinition stringDef = EntityHandler
+		final ItemBowStringDef stringDef = EntityHandler
 				.getItemBowStringDef(bow.getID());
 		if (!Config.members) {
 			player.getActionSender().sendMessage(
@@ -177,7 +177,7 @@ public class InvUseOnItem implements PacketHandler {
 
 	private boolean doCutGem(Player player, final InvItem chisel,
 			final InvItem gem) {
-		final ItemGemDefinition gemDef = EntityHandler.getItemGemDef(gem.getID());
+		final ItemGemDef gemDef = EntityHandler.getItemGemDef(gem.getID());
 		if (gemDef == null) {
 			return false;
 		}
@@ -288,7 +288,7 @@ public class InvUseOnItem implements PacketHandler {
 
 	private boolean doHerblaw(Player player, final InvItem vial,
 			final InvItem herb) {
-		final ItemHerbDefinition herbDef = EntityHandler.getItemHerbDef(herb.getID());
+		final ItemHerbDef herbDef = EntityHandler.getItemHerbDef(herb.getID());
 		if (herbDef == null) {
 			return false;
 		}
@@ -322,7 +322,7 @@ public class InvUseOnItem implements PacketHandler {
 	}
 
 	private boolean doHerbSecond(Player player, final InvItem second,
-			final InvItem unfinished, final ItemHerbSecondDefinition def) {
+			final InvItem unfinished, final ItemHerbSecondDef def) {
 		if (!Config.members) {
 			player.getActionSender().sendMessage(
 					"This feature is not avaliable in f2p");
@@ -359,7 +359,7 @@ public class InvUseOnItem implements PacketHandler {
 	private boolean doLogCut(final Player player, final InvItem knife,
 			final InvItem log, int times) {
 		final int retries = --times;
-		final ItemLogCutDefinition cutDef = EntityHandler
+		final ItemLogCutDef cutDef = EntityHandler
 				.getItemLogCutDef(log.getID());
 		if (!Config.members) {
 			player.getActionSender().sendMessage(
@@ -455,7 +455,7 @@ public class InvUseOnItem implements PacketHandler {
 
 		World.getQuestManager().handleUseItemOnItem(item1, item2, player);
 
-		ItemHerbSecondDefinition secondDef = null;
+		ItemHerbSecondDef secondDef = null;
 		if ((secondDef = EntityHandler.getItemHerbSecond(item1.getID(),
 				item2.getID())) != null
 				&& doHerbSecond(player, item1, item2, secondDef)) {

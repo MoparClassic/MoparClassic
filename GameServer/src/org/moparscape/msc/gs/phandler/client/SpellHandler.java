@@ -31,9 +31,9 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Projectile;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDefinition;
-import org.moparscape.msc.gs.model.definition.skill.ReqOreDefinition;
-import org.moparscape.msc.gs.model.definition.skill.SpellDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDef;
+import org.moparscape.msc.gs.model.definition.skill.ReqOreDef;
+import org.moparscape.msc.gs.model.definition.skill.SpellDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.landscape.PathGenerator;
 import org.moparscape.msc.gs.model.mini.Damage;
@@ -76,7 +76,7 @@ public class SpellHandler implements PacketHandler {
 		return true;
 	}
 
-	private static boolean checkAndRemoveRunes(Player player, SpellDefinition spell) {
+	private static boolean checkAndRemoveRunes(Player player, SpellDef spell) {
 		for (Entry<Integer, Integer> e : spell.getRunesRequired()) {
 			boolean skipRune = false;
 			for (InvItem staff : getStaffs(e.getKey())) {
@@ -135,7 +135,7 @@ public class SpellHandler implements PacketHandler {
 
 	private Random r = new Random();
 
-	private void finalizeSpell(Player player, SpellDefinition spell) {
+	private void finalizeSpell(Player player, SpellDef spell) {
 		player.incExp(6, spell.getExp(), true);
 		player.setLastCast(GameEngine.getTime());
 		player.getActionSender().sendSound("spellok");
@@ -176,7 +176,7 @@ public class SpellHandler implements PacketHandler {
 		}
 	}
 
-	private void handleGroundCast(Player player, SpellDefinition spell, int id) {
+	private void handleGroundCast(Player player, SpellDef spell, int id) {
 		if (player.isAdmin()) {
 			player.getActionSender().sendMessage("Spellid: " + id);
 		}
@@ -227,7 +227,7 @@ public class SpellHandler implements PacketHandler {
 		}
 	}
 
-	private void handleInvItemCast(Player player, SpellDefinition spell, int id,
+	private void handleInvItemCast(Player player, SpellDef spell, int id,
 			InvItem affectedItem) {
 		switch (id) {
 		case 3: // Enchant lvl-1 Sapphire amulet
@@ -278,13 +278,13 @@ public class SpellHandler implements PacketHandler {
 			}
 			break;
 		case 21: // Superheat item
-			ItemSmeltingDefinition smeltingDef = affectedItem.getSmeltingDef();
+			ItemSmeltingDef smeltingDef = affectedItem.getSmeltingDef();
 			if (smeltingDef == null) {
 				player.getActionSender().sendMessage(
 						"This spell cannot be used on this kind of item");
 				return;
 			}
-			for (ReqOreDefinition reqOre : smeltingDef.getReqOres()) {
+			for (ReqOreDef reqOre : smeltingDef.getReqOres()) {
 				if (player.getInventory().countId(reqOre.getId()) < reqOre
 						.getAmount()) {
 					if (affectedItem.getID() == 151) {
@@ -314,7 +314,7 @@ public class SpellHandler implements PacketHandler {
 			}
 			InvItem bar = new InvItem(smeltingDef.getBarId());
 			if (player.getInventory().remove(affectedItem) > -1) {
-				for (ReqOreDefinition reqOre : smeltingDef.getReqOres()) {
+				for (ReqOreDef reqOre : smeltingDef.getReqOres()) {
 					for (int i = 0; i < reqOre.getAmount(); i++) {
 						player.getInventory().remove(
 								new InvItem(reqOre.getId()));
@@ -408,7 +408,7 @@ public class SpellHandler implements PacketHandler {
 		}
 	}
 
-	private void handleItemCast(Player player, final SpellDefinition spell,
+	private void handleItemCast(Player player, final SpellDef spell,
 			final int id, final Item affectedItem) {
 		player.setStatus(Action.CASTING_GITEM);
 		Instance.getDelayedEventHandler().add(
@@ -518,7 +518,7 @@ public class SpellHandler implements PacketHandler {
 						player.resetFollowing();
 						owner.resetPath();
 
-						SpellDefinition spell = EntityHandler.getSpellDef(spellID);
+						SpellDef spell = EntityHandler.getSpellDef(spellID);
 						if (!canCast(owner) || affectedMob.getHits() <= 0
 								|| !owner.checkAttack(affectedMob, true)
 								|| owner.getStatus() != Action.CASTING_MOB) {
@@ -1249,7 +1249,7 @@ public class SpellHandler implements PacketHandler {
 				+ "): "
 				+ player.getX() + "/" + player.getY()));
 
-		SpellDefinition spell = EntityHandler.getSpellDef(idx);
+		SpellDef spell = EntityHandler.getSpellDef(idx);
 		if (player.getCurStat(6) < spell.getReqLevel()) {
 			player.setSuspiciousPlayer(true);
 			player.getActionSender().sendMessage(
@@ -1417,7 +1417,7 @@ public class SpellHandler implements PacketHandler {
 		player.getActionSender().sendStat(6);
 	}// System.out
 
-	private void handleTeleport(Player player, SpellDefinition spell, int id) {
+	private void handleTeleport(Player player, SpellDef spell, int id) {
 
 		if (player.inCombat()) {
 			return;

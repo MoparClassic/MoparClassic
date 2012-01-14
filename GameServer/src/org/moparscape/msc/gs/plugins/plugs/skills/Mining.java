@@ -2,7 +2,6 @@ package org.moparscape.msc.gs.plugins.plugs.skills;
 
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.model.Bubble;
@@ -10,7 +9,7 @@ import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDefinition;
+import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
 import org.moparscape.msc.gs.plugins.listeners.ObjectListener;
 import org.moparscape.msc.gs.tools.DataConversions;
 
@@ -53,7 +52,7 @@ public class Mining implements ObjectListener {
 			return;
 		final GameObject newobject = Instance.getWorld()
 				.getTile(object.getX(), object.getY()).getGameObject();
-		final ObjectMiningDefinition def = EntityHandler.getObjectMiningDef(newobject
+		final ObjectMiningDef def = EntityHandler.getObjectMiningDef(newobject
 				.getID());
 		if (def == null || def.getRespawnTime() < 1) {
 			owner.getActionSender().sendMessage(
@@ -70,7 +69,7 @@ public class Mining implements ObjectListener {
 		if (owner.getCurStat(14) < def.getReqLevel()) {
 			owner.getActionSender().sendMessage(
 					"You need a mining level of " + def.getReqLevel()
-							+ " to mine this rock.");
+					+ " to mine this rock.");
 			return;
 		}
 		int axeId = getAxe(owner);
@@ -114,6 +113,7 @@ public class Mining implements ObjectListener {
 			return;
 		}
 		owner.setBusy(true);
+		//owner.isMining(true);
 
 		owner.getActionSender().sendSound("mine");
 		Bubble bubble = new Bubble(owner, axeId);
@@ -122,15 +122,15 @@ public class Mining implements ObjectListener {
 		}
 
 		final int retrytime = retrytimes;
-		owner.setLastMineTimer(GameEngine.getTime());
+		//owner.setLastMineTimer(GameEngine.getTime());
 		owner.getActionSender().sendMessage(
 				"You swing your pick at the rock...");
 		Instance.getDelayedEventHandler().add(new ShortEvent(owner) {
 			public void action() {
-				if (!owner.isMining()) {
-					owner.setBusy(false);
-					return;
-				}
+				//if(!owner.isMining()) {
+				//owner.setBusy(false);
+				//return;
+				//}
 				if (Formulae.getOre(def, owner.getCurStat(14), axeID)) {
 					if (DataConversions.random(0, 200) == 0) {
 						InvItem gem = new InvItem(Formulae.getGem(), 1);
@@ -150,10 +150,9 @@ public class Mining implements ObjectListener {
 						world.delayedSpawnObject(newobject.getLoc(),
 								def.getRespawnTime() * 1000);
 					}
-					owner.isMining(false);
-					owner.setSkillLoops(0);
+					//owner.isMining(false);
+					//owner.setSkillLoops(0);
 					owner.getActionSender().sendInventory();
-					owner.setBusy(false);
 				} else {
 					boolean retry = false;
 					if (retrytime - swings > 0)
@@ -162,20 +161,24 @@ public class Mining implements ObjectListener {
 							"You only succeed in scratching the rock.");
 					if (retry) {
 						world.getDelayedEventHandler().add(
+
 								new SingleEvent(owner, 500) {
 									public void action() {
+										if(!owner.isMining() || owner.inCombat()) {
+											return;
+										}
 										owner.setSkillLoops(swings + 1);
 										handleMining(object, owner,
 												owner.getClick());
 									}
 								});
 					}
-					if (!retry) {
-						owner.setBusy(false);
-						owner.isMining(false);
-						owner.setSkillLoops(0);
-					}
+					//if (!retry) {
+					// owner.isMining(false);
+					// owner.setSkillLoops(0);
+					//}
 				}
+				owner.setBusy(false);
 			}
 		});
 	}

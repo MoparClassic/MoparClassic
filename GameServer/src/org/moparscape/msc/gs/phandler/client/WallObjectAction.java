@@ -15,7 +15,7 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.extra.DoorDefinition;
+import org.moparscape.msc.gs.model.definition.extra.DoorDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -60,7 +60,7 @@ public class WallObjectAction implements PacketHandler {
 							false) {
 						public void arrived() {
 							owner.resetPath();
-							DoorDefinition def = object.getDoorDef();
+							DoorDef def = object.getDoorDef();
 							if (owner.isBusy() || owner.isRanging()
 									|| !owner.nextTo(object) || def == null
 									|| owner.getStatus() != Action.USING_DOOR) {
