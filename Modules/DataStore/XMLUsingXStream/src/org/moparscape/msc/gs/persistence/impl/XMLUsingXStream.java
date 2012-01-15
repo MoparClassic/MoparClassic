@@ -19,7 +19,6 @@ import java.util.zip.GZIPOutputStream;
 import net.jcip.annotations.NotThreadSafe;
 
 import org.moparscape.msc.config.Config;
-import org.moparscape.msc.gs.external.*;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.Shop;
@@ -54,9 +53,9 @@ import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
 import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.model.definition.skill.SpellDef;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDefinition;
+import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
 import org.moparscape.msc.gs.persistence.DataStore;
-import org.moparscape.msc.gs.phandler.PacketHandlerDefinition;
+import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 import org.moparscape.msc.gs.util.Logger;
 
 import com.thoughtworks.xstream.XStream;
@@ -137,18 +136,18 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public PacketHandlerDefinition[] loadPacketHandlerDefs() {
-		return (PacketHandlerDefinition[]) load("PacketHandlers.xml");
+	public PacketHandlerDef[] loadPacketHandlerDefs() {
+		return (PacketHandlerDef[]) load("PacketHandlers.xml");
 	}
 
 	@Override
-	public PacketHandlerDefinition[] loadLSPacketHandlerDefs() {
-		return (PacketHandlerDefinition[]) load("LSPacketHandlers.xml");
+	public PacketHandlerDef[] loadLSPacketHandlerDefs() {
+		return (PacketHandlerDef[]) load("LSPacketHandlers.xml");
 	}
 
 	@Override
-	public NpcHandlerDefinition[] loadNpcHandlers() {
-		return (NpcHandlerDefinition[]) load("NpcHandlers.xml");
+	public NpcHandlerDef[] loadNpcHandlers() {
+		return (NpcHandlerDef[]) load("NpcHandlers.xml");
 	}
 
 	@Override
@@ -342,18 +341,18 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public void savePacketHandlerDefs(PacketHandlerDefinition[] defs) throws Exception {
+	public void savePacketHandlerDefs(PacketHandlerDef[] defs) throws Exception {
 		write("PacketHandlers.xml", defs);
 	}
 
 	@Override
-	public void saveLSPacketHandlerDefs(PacketHandlerDefinition[] defs)
+	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
 			throws Exception {
 		write("LSPacketHanlders.xml", defs);
 	}
 
 	@Override
-	public void saveNpcHandlers(NpcHandlerDefinition[] defs) throws Exception {
+	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception {
 		write("NpcHandlers.xml", defs);
 	}
 

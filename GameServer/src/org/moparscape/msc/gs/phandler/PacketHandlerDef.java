@@ -3,7 +3,7 @@ package org.moparscape.msc.gs.phandler;
 /**
  * The definition of a packet handler, for use with XStream.
  */
-public class PacketHandlerDefinition {
+public class PacketHandlerDef {
 	/**
 	 * The name of the handler class
 	 */
@@ -22,7 +22,7 @@ public class PacketHandlerDefinition {
 	 * @param className
 	 *            The name of the packet handler class
 	 */
-	public PacketHandlerDefinition(int[] ids, String className) {
+	public PacketHandlerDef(int[] ids, String className) {
 		this.ids = ids;
 		this.className = className;
 	}

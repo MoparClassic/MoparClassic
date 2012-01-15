@@ -337,7 +337,7 @@ class CommandHandler extends PacketHandler {
 
   def item(p: Player, args: Array[String]) {
     import org.moparscape.msc.gs.model.InvItem
-    import org.moparscape.msc.gs.external.EntityHandler
+    import org.moparscape.msc.gs.model.definition.EntityHandler
     if (args.length < 1 || args.length > 2) {
       message(p, "Invalid args. Syntax: ITEM id [amount]")
       return ;
