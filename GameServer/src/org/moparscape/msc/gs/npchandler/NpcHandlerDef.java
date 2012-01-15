@@ -3,7 +3,7 @@ package org.moparscape.msc.gs.npchandler;
 /**
  * The definition of a npc handler, for use with XStream.
  */
-public class NpcHandlerDefinition {
+public class NpcHandlerDef {
 	/**
 	 * The name of the handler class
 	 */
@@ -22,7 +22,7 @@ public class NpcHandlerDefinition {
 	 * @param className
 	 *            The name of the packet handler class
 	 */
-	public NpcHandlerDefinition(int[] ids, String className) {
+	public NpcHandlerDef(int[] ids, String className) {
 		this.ids = ids;
 		this.className = className;
 	}

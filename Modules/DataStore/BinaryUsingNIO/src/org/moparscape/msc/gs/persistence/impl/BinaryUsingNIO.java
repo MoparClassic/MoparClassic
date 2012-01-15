@@ -6,7 +6,6 @@ import java.util.Map;
 
 import net.jcip.annotations.ThreadSafe;
 
-import org.moparscape.msc.gs.external.*;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.Shop;
@@ -41,12 +40,12 @@ import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
 import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.model.definition.skill.SpellDef;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDefinition;
+import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
 import org.moparscape.msc.gs.persistence.DataStore;
 import org.moparscape.msc.gs.persistence.impl.bun.CodecLookupService;
 import org.moparscape.msc.gs.persistence.impl.bun.FileLookupService;
 import org.moparscape.msc.gs.persistence.impl.bun.IO;
-import org.moparscape.msc.gs.phandler.PacketHandlerDefinition;
+import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 
 @ThreadSafe
 public class BinaryUsingNIO implements DataStore {
@@ -56,39 +55,39 @@ public class BinaryUsingNIO implements DataStore {
 	}
 
 	@Override
-	public PacketHandlerDefinition[] loadPacketHandlerDefs() throws Exception {
-		String cls = PacketHandlerDefinition.class.getName();
+	public PacketHandlerDef[] loadPacketHandlerDefs() throws Exception {
+		String cls = PacketHandlerDef.class.getName();
 		File f = FileLookupService.lookup(cls);
-		return (PacketHandlerDefinition[]) CodecLookupService.lookup(cls).decode(IO.read(f));
+		return (PacketHandlerDef[]) CodecLookupService.lookup(cls).decode(IO.read(f));
 	}
 
 	@Override
-	public void savePacketHandlerDefs(PacketHandlerDefinition[] defs) throws Exception {
+	public void savePacketHandlerDefs(PacketHandlerDef[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public PacketHandlerDefinition[] loadLSPacketHandlerDefs() throws Exception {
+	public PacketHandlerDef[] loadLSPacketHandlerDefs() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveLSPacketHandlerDefs(PacketHandlerDefinition[] defs)
+	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public NpcHandlerDefinition[] loadNpcHandlers() throws Exception {
+	public NpcHandlerDef[] loadNpcHandlers() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveNpcHandlers(NpcHandlerDefinition[] defs) throws Exception {
+	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
