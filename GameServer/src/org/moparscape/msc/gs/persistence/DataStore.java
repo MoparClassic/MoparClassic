@@ -3,7 +3,6 @@ package org.moparscape.msc.gs.persistence;
 import java.util.List;
 import java.util.Map;
 
-import org.moparscape.msc.gs.external.*;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.Shop;
@@ -38,8 +37,8 @@ import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
 import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.model.definition.skill.SpellDef;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDefinition;
-import org.moparscape.msc.gs.phandler.PacketHandlerDefinition;
+import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
+import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 
 /**
  * Any retrieval of unchanging data should be done through this interface. All
@@ -53,18 +52,18 @@ import org.moparscape.msc.gs.phandler.PacketHandlerDefinition;
  */
 public abstract interface DataStore {
 
-	public PacketHandlerDefinition[] loadPacketHandlerDefs() throws Exception;
+	public PacketHandlerDef[] loadPacketHandlerDefs() throws Exception;
 
-	public void savePacketHandlerDefs(PacketHandlerDefinition[] defs) throws Exception;
+	public void savePacketHandlerDefs(PacketHandlerDef[] defs) throws Exception;
 
-	public PacketHandlerDefinition[] loadLSPacketHandlerDefs() throws Exception;
+	public PacketHandlerDef[] loadLSPacketHandlerDefs() throws Exception;
 
-	public void saveLSPacketHandlerDefs(PacketHandlerDefinition[] defs)
+	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
 			throws Exception;
 
-	public NpcHandlerDefinition[] loadNpcHandlers() throws Exception;
+	public NpcHandlerDef[] loadNpcHandlers() throws Exception;
 
-	public void saveNpcHandlers(NpcHandlerDefinition[] defs) throws Exception;
+	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception;
 
 	public Map<Point, TelePoint> loadTelePoints() throws Exception;
 

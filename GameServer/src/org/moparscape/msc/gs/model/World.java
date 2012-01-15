@@ -23,7 +23,7 @@ import org.moparscape.msc.gs.model.landscape.MutableTileValue;
 import org.moparscape.msc.gs.model.landscape.TileValue;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
 import org.moparscape.msc.gs.npchandler.NpcHandler;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDefinition;
+import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
 import org.moparscape.msc.gs.quest.QuestManager;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.util.EntityList;
@@ -446,8 +446,8 @@ public final class World {
 	 */
 	private void loadNpcHandlers() throws Exception {
 
-		NpcHandlerDefinition[] handlerDefs = Instance.getDataStore().loadNpcHandlers();
-		for (NpcHandlerDefinition handlerDef : handlerDefs) {
+		NpcHandlerDef[] handlerDefs = Instance.getDataStore().loadNpcHandlers();
+		for (NpcHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
 				Class<?> c = Class.forName(className);

@@ -17,7 +17,7 @@ import org.moparscape.msc.gs.connection.LSConnectionHandler;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.connection.PacketQueue;
 import org.moparscape.msc.gs.phandler.PacketHandler;
-import org.moparscape.msc.gs.phandler.PacketHandlerDefinition;
+import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 import org.moparscape.msc.gs.util.Logger;
 
 public class LoginConnector {
@@ -144,8 +144,8 @@ public class LoginConnector {
 	}
 
 	private void loadPacketHandlers() throws Exception {
-		PacketHandlerDefinition[] handlerDefs = Instance.getDataStore().loadLSPacketHandlerDefs();
-		for (PacketHandlerDefinition handlerDef : handlerDefs) {
+		PacketHandlerDef[] handlerDefs = Instance.getDataStore().loadLSPacketHandlerDefs();
+		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
 				Class<?> c = Class.forName(className);

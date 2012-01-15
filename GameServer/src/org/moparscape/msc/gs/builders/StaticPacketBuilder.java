@@ -194,7 +194,7 @@ public class StaticPacketBuilder {
 		addByte((byte) val, false);
 		return this;
 	}
-
+	
 	/**
 	 * Ensures that the buffer is at least <code>minimumBytes</code> bytes.
 	 * 
