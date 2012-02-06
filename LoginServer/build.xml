@@ -4,11 +4,14 @@
 	<property name="build" location="build" />
 	<property name="lib" location="lib" />
 	<property name="jar" location="ls.jar" />
-
-	<target name="build">
+	
+	<target name="clean">
 		<delete file="${jar}" />
 		<delete dir="${build}" />
 		<mkdir dir="${build}" />
+	</target>
+
+	<target name="build">
 		<javac srcdir="${src}" destdir="${build}" debug="on">
 			<classpath>
 				<pathelement location="${lib}/mina.jar" />
@@ -21,12 +24,14 @@
 				<pathelement path="${java.class.path}/" />
 			</classpath>
 		</javac>
+	</target>
+	
+	<target name="jar" depends="build">
 		<jar basedir="${build}" destfile="${jar}" />
-
 	</target>
 
 
-	<target name="run" depends="build">
+	<target name="run">
 		<java classname="org.moparscape.msc.ls.Server" fork="true">
 			<classpath>
 				<pathelement location="${lib}/mina.jar" />
