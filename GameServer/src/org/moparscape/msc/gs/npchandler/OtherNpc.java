@@ -12,7 +12,7 @@ import org.moparscape.msc.gs.model.World;
  * @author xEnt
  * 
  */
-public class OtherNPC implements NpcHandler {
+public class OtherNpc implements NpcHandler {
 
 	public static final World world = Instance.getWorld();
 
