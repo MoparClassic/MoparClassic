@@ -56,21 +56,6 @@ public class InvActionHandler implements PacketHandler {
 				+ item.getDef().getCommand()
 				+ "] at: " + player.getX() + "/" + player.getY()));
 
-		if (item.getID() == 1263) {
-			// player.resetPath(); // This isn't how it's done in RSC
-			// player.setBusy(true); // Shouldn't be here
-			player.getActionSender()
-					.sendMessage("You rest in the sleeping bag");
-			showBubble(player, item);
-			player.getActionSender().sendEnterSleep();
-			// player.setFatigue(0);
-			// player.getActionSender().sendFatigue();
-			// player.getActionSender().sendMessage("You wake up - feeling refreshed");
-			// player.isSleeping = true;
-			// player.setBusy(false);
-			return;
-		}
-
 		if (player.isBusy()) {
 			if (player.inCombat()) {
 				player.getActionSender().sendMessage(
@@ -79,6 +64,22 @@ public class InvActionHandler implements PacketHandler {
 			return;
 		}// sip
 		player.resetAll();
+		
+		if (item.getID() == 1263) {
+			// player.resetPath(); // This isn't how it's done in RSC
+			// player.setBusy(true); // Shouldn't be here
+			player.getActionSender()
+					.sendMessage("You rest in the sleeping bag");
+			showBubble(player, item);
+			player.getActionSender().sendEnterSleep();
+			player.setSleeping(true);
+			// player.setFatigue(0);
+			// player.getActionSender().sendFatigue();
+			// player.getActionSender().sendMessage("You wake up - feeling refreshed");
+			// player.isSleeping = true;
+			// player.setBusy(false);
+			return;
+		}
 
 		if (World.getQuestManager().handleUseItem(item, player))
 			return;
