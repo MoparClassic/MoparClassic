@@ -182,7 +182,7 @@ public class RangeEvent extends DelayedEvent {
 				if (((Player) affectedMob).isSleeping()) {
 					((Player) affectedMob).getActionSender().sendWakeUp(false);
 				}
-				((Player) affectedMob).getActionSender().sendMessage(
+				((Player) affectedMob).getActionSender().sendMessage("Warning! " +
 						owner.getUsername() + " is shooting at you!");
 			}
 		}
