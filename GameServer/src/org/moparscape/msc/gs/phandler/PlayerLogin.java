@@ -2,7 +2,6 @@ package org.moparscape.msc.gs.phandler;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.RSCPacketBuilder;
@@ -44,7 +43,6 @@ public class PlayerLogin implements PacketHandler {
 			player.getSession().close();
 			return;
 		}
-		boolean newchar = false;
 		RSCPacketBuilder pb = new RSCPacketBuilder();
 		pb.setBare(true);
 		pb.addByte(loginCode);
@@ -67,7 +65,6 @@ public class PlayerLogin implements PacketHandler {
 				int x = p.readShort();
 				@SuppressWarnings("unused")
 				int y = p.readShort();
-				newchar = true;
 			} else {
 				player.setLocation(
 						Point.location(p.readShort(), p.readShort()), true);
