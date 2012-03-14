@@ -30,16 +30,6 @@
 		<fileset refid="libraries_managed" />
 	</path>
 
-	<pathconvert property="manifest-classpath" pathsep=" ">
-		<path refid="library-managed-path" />
-		<mapper>
-			<chainedmapper>
-				<flattenmapper />
-				<globmapper from="*.jar" to="${lib_managed}/*.jar" />
-			</chainedmapper>
-		</mapper>
-	</pathconvert>
-
 	<path id="library-path">
 		<fileset refid="libraries" />
 		<fileset refid="libraries_managed" />
@@ -50,10 +40,6 @@
 		<path refid="library-path" />
 	</path>
 
-	<manifestclasspath property="jar-classpath" jarfile="${jar}">
-		<classpath refid="library-managed-path" />
-	</manifestclasspath>
-
 	<target name="init">
 		<mkdir dir="${bin}" />
 		<mkdir dir="${doc}" />
@@ -63,6 +49,20 @@
 
 	<target name="resolve" depends="init">
 		<ivy:retrieve sync="true" />
+
+		<pathconvert property="manifest-classpath" pathsep=" ">
+			<path refid="library-managed-path" />
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<globmapper from="*.jar" to="${lib_managed}/*.jar" />
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
+
+		<manifestclasspath property="jar-classpath" jarfile="${jar}">
+			<classpath refid="library-managed-path" />
+		</manifestclasspath>
 	</target>
 
 	<target name="build" depends="resolve">
@@ -87,7 +87,7 @@
 		<delete file="${jar}" />
 	</target>
 
-	<target name="run">
+	<target name="run" depends="build">
 		<java classpathref="master-path" fork="true" classname="${main-class}" />
 	</target>
 
@@ -97,7 +97,7 @@
 		</scaladoc>
 	</target>
 
-	<target name="run-jar">
+	<target name="run-jar" depends="jar">
 		<java fork="true" jar="${jar}" />
 	</target>
 

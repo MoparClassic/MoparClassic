@@ -8,10 +8,10 @@
 	<target name="clean">
 		<delete file="${jar}" />
 		<delete dir="${build}" />
-		<mkdir dir="${build}" />
 	</target>
 
 	<target name="build">
+		<mkdir dir="${build}" />
 		<javac srcdir="${src}" destdir="${build}" debug="on">
 			<classpath>
 				<pathelement location="${lib}/mina.jar" />
@@ -31,7 +31,7 @@
 	</target>
 
 
-	<target name="run">
+	<target name="run" depends="jar">
 		<java classname="org.moparscape.msc.ls.Server" fork="true">
 			<classpath>
 				<pathelement location="${lib}/mina.jar" />
