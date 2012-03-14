@@ -1,6 +1,5 @@
 package org.moparscape.msc.gs.npchandler;
 
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.model.ChatMessage;
@@ -13,7 +12,7 @@ import org.moparscape.msc.gs.model.World;
  * @author xEnt
  * 
  */
-public class OtherNPC implements NpcHandler {
+public class OtherNpc implements NpcHandler {
 
 	public static final World world = Instance.getWorld();
 

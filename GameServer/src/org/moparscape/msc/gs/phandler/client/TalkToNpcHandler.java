@@ -148,7 +148,7 @@ public class TalkToNpcHandler implements PacketHandler {
 									owner.getInterpreterThread().start();
 								} else {
 									try {
-										NpcHandler hand = new org.moparscape.msc.gs.npchandler.OtherNPC();
+										NpcHandler hand = new org.moparscape.msc.gs.npchandler.OtherNpc();
 										hand.handleNpc(affectedNpc, owner);
 									} catch (Exception e) {
 										Logger.error("Exception with npc["

@@ -401,17 +401,13 @@ public final class GameEngine extends Thread {
 		long startTime = System.currentTimeMillis();
 		int curMemory = (int) (Runtime.getRuntime().totalMemory() - Runtime
 				.getRuntime().freeMemory()) / 1000;
-		int tileObjs = 0;
-		int cleaned = 0;
 		for (int i = 0; i < Instance.getWorld().tiles.length; i++) {
 			for (int in = 0; in < Instance.getWorld().tiles[i].length; in++) {
 				ActiveTile tile = Instance.getWorld().tiles[i][in];
 				if (tile != null) {
-					tileObjs++;
 					if (!tile.hasGameObject() && !tile.hasItems()
 							&& !tile.hasNpcs() && !tile.hasPlayers()) {
 						Instance.getWorld().tiles[i][in] = null;
-						cleaned++;
 					}
 				}
 			}
