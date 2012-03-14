@@ -327,9 +327,8 @@ public class ObjectAction implements PacketHandler {
 											}
 										});
 							}// create a
-							else if (object.getID() == 52
-									|| object.getID() == 173
-									&& object.containsItem() == 29) // hopper
+							else if ((object.getID() == 52 || object.getID() == 173) // hopper
+									&& object.containsItem() == 29) // Ensure it contains grain
 							{
 								owner.getActionSender().sendMessage(
 										"You operate the hopper..");
