@@ -94,4 +94,9 @@
 	
 	<!-- This is displayed on login. Each line will be sent as a new message. Make sure you're using XML entities for things like <, new lines, etc. -->
 	<entry key="MOTD">@yel@Welcome to MoparClassic Alpha!&#10;@red@Report all bugs on GitHub.&#10;@cya@Commands: ::town &lt;townname>, ::item &lt;id>, ::say &lt;msg>, ::goto &lt;name></entry>
+	
+	<!-- This is the location of the captcha dictionary -->
+	<entry key="captcha-dictionary">conf/data/dictionary.txt</entry>
+	<!-- This is the directory that contains the fonts -->
+	<entry key="font-dir">conf/fonts</entry>
 </properties>

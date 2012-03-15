@@ -9,13 +9,13 @@ import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.RSCPacket;
-import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Bank;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.tools.Captcha;
 
 public class MiscPacketBuilder {
 	/**
@@ -219,7 +219,7 @@ public class MiscPacketBuilder {
 	 */
 	public void sendEnterSleep() {
 		player.setSleeping(true);
-		byte[] image = GameEngine.getCaptcha().generateCaptcha(player);
+		byte[] image = Captcha.generateCaptcha(player);
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(206);
 		s.addBytes(image, 0, image.length);
