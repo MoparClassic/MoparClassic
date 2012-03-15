@@ -48,6 +48,8 @@ public class Config {
 	public static String DATA_SERVICE;
 	public static String REPORT_HANDLER;
 	public static String MOTD;
+	public static String CAPTCHA_DICTIONARY;
+	public static String FONT_DIR;
 
 	static {
 		loadEnv();
@@ -143,6 +145,9 @@ public class Config {
 		REPORT_HANDLER = props.getProperty("report-handler");
 		
 		MOTD = props.getProperty("MOTD");
+		
+		CAPTCHA_DICTIONARY = props.getProperty("captcha-dictionary");
+	 	FONT_DIR = props.getProperty("font-dir");
 
 		props.clear();
 	}
