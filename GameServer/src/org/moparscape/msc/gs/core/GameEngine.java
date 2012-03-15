@@ -24,7 +24,6 @@ import org.moparscape.msc.gs.model.snapshot.Snapshot;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
-import org.moparscape.msc.gs.tools.Captcha;
 import org.moparscape.msc.gs.util.Logger;
 
 /**
@@ -33,16 +32,11 @@ import org.moparscape.msc.gs.util.Logger;
  */
 public final class GameEngine extends Thread {
 
-	private static Captcha captcha;
 	/**
 	 * World instance
 	 */
 	private static final World world = Instance.getWorld();
-
-	public static Captcha getCaptcha() {
-		return captcha;
-	}
-
+	
 	/**
 	 * Responsible for updating all connected clients
 	 */
@@ -88,8 +82,6 @@ public final class GameEngine extends Thread {
 	 * Constructs a new game engine with an empty packet queue.
 	 */
 	public GameEngine() {
-		captcha = new Captcha();
-		captcha.init();
 		packetQueue = new PacketQueue<RSCPacket>();
 		try {
 			loadPacketHandlers();
