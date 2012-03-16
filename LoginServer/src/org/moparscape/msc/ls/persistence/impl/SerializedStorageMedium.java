@@ -31,6 +31,7 @@ public class SerializedStorageMedium implements StorageMedium {
 
 	@Override
 	public boolean savePlayer(PlayerSave s) {
+		s.setOwner(s.getOwner(), 1, s.getSubscriptionExpires());
 		try {
 			File f = new File(baseDir + File.separator + s.getUsername());
 			if (!f.exists())
