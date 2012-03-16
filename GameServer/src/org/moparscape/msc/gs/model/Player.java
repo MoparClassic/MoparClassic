@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Config;
@@ -85,7 +86,7 @@ public final class Player extends Mob {
 	/**
 	 * Chat messages needing displayed
 	 */
-	private ArrayList<ChatMessage> chatMessagesNeedingDisplayed = new ArrayList<ChatMessage>();
+	private List<ChatMessage> chatMessagesNeedingDisplayed = new CopyOnWriteArrayList<ChatMessage>();
 
 	/**
 	 * List of chat messages to send
@@ -2240,6 +2241,7 @@ public final class Player extends Mob {
 	}
 
 	public void resetMenuHandler() {
+		menuHandler.abort();
 		menuHandler = null;
 		actionSender.hideMenu();
 	}

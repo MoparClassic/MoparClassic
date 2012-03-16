@@ -181,14 +181,6 @@ public class Npc extends Mob {
 		this.shouldRespawn = shouldRespawn;
 	}
 
-	public DelayedEvent getTimeout() {
-		return timeout;
-	}
-
-	public void setTimeout(DelayedEvent timeout) {
-		this.timeout = timeout;
-	}
-
 	public boolean isWeakend() {
 		return weakend;
 	}
@@ -209,10 +201,7 @@ public class Npc extends Mob {
 	 * Should this npc respawn once it has been killed?
 	 **/
 	private boolean shouldRespawn = true;
-	/**
-	 * DelayedEvent used for unblocking an npc after set time
-	 */
-	private DelayedEvent timeout = null;
+	
 	public boolean weakend = false;
 	public boolean special = false;
 	public int itemid = -1;
@@ -272,46 +261,6 @@ public class Npc extends Mob {
 		blocker = player;
 		player.setNpc(this);
 		setBusy(true);
-		boolean eventExists = false;
-
-		if (timeout != null) {
-			ArrayList<DelayedEvent> events = Instance.getDelayedEventHandler()
-					.getEvents();
-
-			// Damn punk, gettin threading problems here without it synced.
-			try {
-				synchronized (events) {
-					for (DelayedEvent e : events) {
-						if (e.is(timeout)) {
-							e.updateLastRun(); // If the event still exists,
-							// reset its
-							// delay time.
-							eventExists = true;
-						}
-					}
-					notifyAll();
-				}
-			} catch (ConcurrentModificationException cme) {
-			}
-		}
-
-		if (eventExists) {
-			return;
-		}
-
-		timeout = new DelayedEvent(null, 15000) {
-
-			public Object getIdentifier() {
-				return new Integer(BLOCKED_IDENTIFIER);
-			}
-
-			public void run() {
-				unblock();
-				matchRunning = false;
-			}
-		};
-
-		Instance.getDelayedEventHandler().add(timeout);
 	}
 
 	private Player findVictim() {
@@ -529,14 +478,8 @@ public class Npc extends Mob {
 			blocker = null;
 		}
 
-		if (timeout == null) {
-			return;
-		}
-
 		goingToAttack = false;
 		setBusy(false);
-		timeout.stop();
-		timeout = null;
 	}
 
 	public void updatePosition() {

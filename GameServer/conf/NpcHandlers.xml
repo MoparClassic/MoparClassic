@@ -14,12 +14,6 @@
 		</NpcHandler>
 <NpcHandler>
 			<ids>
-				<int>125</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.Aggie</className>
-		</NpcHandler>
-<NpcHandler>
-			<ids>
 				<int>164</int>
 			</ids>
 			<className>org.moparscape.msc.gs.npchandler.Bananas</className>

@@ -3,6 +3,7 @@ package org.moparscape.msc.gs.builders;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Constants;
@@ -21,7 +22,7 @@ public class MiscPacketBuilder {
 	/**
 	 * List of packets waiting to be sent to the user
 	 */
-	private java.util.List<RSCPacket> packets = new java.util.ArrayList<RSCPacket>();
+	private List<RSCPacket> packets = new CopyOnWriteArrayList<RSCPacket>();
 	/**
 	 * The player we are creating packets for
 	 */

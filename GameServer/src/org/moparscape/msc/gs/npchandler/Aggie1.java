@@ -16,7 +16,7 @@ import org.moparscape.msc.gs.model.definition.EntityHandler;
  * @author xEnt
  * 
  */
-public class Aggie implements NpcHandler {
+public class Aggie1 implements NpcHandler {
 
 	public static final World world = Instance.getWorld();
 

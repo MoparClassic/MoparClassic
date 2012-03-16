@@ -1,9 +1,9 @@
 package org.moparscape.msc.gs.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.moparscape.msc.gs.Instance;
 
@@ -16,7 +16,7 @@ public class Inventory {
 	 * World instance
 	 */
 	private static World world = Instance.getWorld();
-	private ArrayList<InvItem> list = new ArrayList<InvItem>();
+	private List<InvItem> list = new CopyOnWriteArrayList<InvItem>();
 	private Player player;
 
 	public Inventory() {
@@ -105,7 +105,7 @@ public class Inventory {
 		return freedSlots;
 	}
 
-	public ArrayList<InvItem> getItems() {
+	public List<InvItem> getItems() {
 		return list;
 	}
 
@@ -171,7 +171,7 @@ public class Inventory {
 								.getSprite(i.getWieldableDef().getWieldPos()));
 						player.getActionSender().sendEquipmentStats();
 					}
-					iterator.remove();
+					list.remove(i);
 				}
 				return index;
 			}

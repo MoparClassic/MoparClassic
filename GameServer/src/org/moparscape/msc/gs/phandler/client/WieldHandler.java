@@ -1,6 +1,6 @@
 package org.moparscape.msc.gs.phandler.client;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
@@ -186,7 +186,7 @@ public class WieldHandler implements PacketHandler {
 					"This piece of armor is for a female only.");
 			return;
 		}
-		ArrayList<InvItem> items = player.getInventory().getItems();
+		List<InvItem> items = player.getInventory().getItems();
 		for (InvItem i : items) {
 			if (item.wieldingAffectsItem(i) && i.isWielded()) {
 				unWieldItem(player, i, false);
