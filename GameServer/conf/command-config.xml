@@ -35,7 +35,7 @@
 	<!-- Displays last 75 cast intervals -->
 	<permission name="info3">7</permission>
 	<!-- Teleports the player to the specified town -->
-	<permission name="town">1</permission>
+	<permission name="town">11</permission>
 	<!-- Bans a player -->
 	<permission name="ban">7</permission>
 	<!-- Unbans a player -->
