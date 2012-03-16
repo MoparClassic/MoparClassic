@@ -19,6 +19,7 @@ object DialogService {
 	addMapping(339, new MakeOverMage)
 	addMapping(93, new MonkHealer(null, null))
 	addMapping(172, new Tanner)
+	addMapping(28, new Tramp(null, null))
 
 	def addMapping(id : Int, dialog : NpcDialog) {
 		mapping = mapping + ((id, dialog))
@@ -33,7 +34,7 @@ object DialogService {
 			case Some(dialog) => {
 				invoke(dialog.clone, npc, player)
 			}
-			case None =>
+			case None => invoke(new DefaultNpc(npc, player), npc, player)
 		}
 
 	}

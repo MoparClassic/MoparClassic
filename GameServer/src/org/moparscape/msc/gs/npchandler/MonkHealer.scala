@@ -23,6 +23,8 @@ class MonkHealer(_npc : Npc, _player : Player) extends GenericEnd("", _npc, _pla
 		player.setCurStat(3, newHp)
 		player.getActionSender.sendStat(3)
 		this >> "You feel a little better."
+		
+		super.begin
 	}
 
 }
