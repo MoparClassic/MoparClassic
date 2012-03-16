@@ -4,11 +4,11 @@
 	
 	
 	<!-- Teleports the player to a target players location - ALPHA ONLY-->
-	<permission name="goto">1</permission>
+	<permission name="goto">11</permission>
 	<!-- Spawns an item - ALPHA ONLY -->
-	<permission name="item">1</permission>
+	<permission name="item">11</permission>
 	<!-- Global chat - ALPHA ONLY -->
-	<permission name="say">1</permission>
+	<permission name="say">11</permission>
 	
 	
 	<!-- Displays "A list of commands is shown on the forums." -->
