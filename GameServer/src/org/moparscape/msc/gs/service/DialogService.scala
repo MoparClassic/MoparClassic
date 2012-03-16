@@ -19,7 +19,9 @@ object DialogService {
 	def talk(npc : Npc, player : Player) {
 		mapping.get(npc.getID) match {
 			case Some(dialog) => {
-				invoke(dialog.clone.asInstanceOf[NpcDialog], npc, player)
+				dialog.npc = npc
+				dialog.player = player
+				invoke(dialog.clone, npc, player)
 			}
 			case None =>
 		}

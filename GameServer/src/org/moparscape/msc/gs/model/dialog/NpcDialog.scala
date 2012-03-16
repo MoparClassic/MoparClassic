@@ -61,6 +61,9 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 	def begin;
 	
 	override def clone = {
-		super.clone
+		val c = super.clone.asInstanceOf[NpcDialog]
+		c.npc = this.npc
+		c.player = this.player
+		c
 	}
 }
