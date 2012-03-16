@@ -9,7 +9,7 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
 
-public class ShopKeeper implements NpcHandler {
+public class ShopKeeper1 implements NpcHandler {
 	/**
 	 * World instance
 	 */

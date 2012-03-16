@@ -7,87 +7,6 @@
 		</NpcHandler>
 		<NpcHandler>
 			<ids>
-				<int>51</int>
-				<int>183</int>
-				<int>112</int>
-				
-				<int>55</int>
-				<int>56</int>
-				
-				<int>12</int>
-				<int>82</int>
-				<int>83</int>
-				<int>44</int>
-				<int>233</int>
-				<int>87</int>
-				<int>235</int>
-				<int>88</int>
-				<int>105</int>
-				<int>106</int>
-				<int>130</int>
-				<int>143</int>
-				<int>145</int>
-				<int>146</int>
-				<int>168</int>
-				<int>169</int>
-				<int>185</int>
-				<int>186</int>
-				<int>222</int>
-				<int>223</int>
-				<int>371</int>
-				<int>391</int>
-				<int>528</int>
-				<int>58</int>
-				<int>54</int>
-				<int>173</int>
-				<int>250</int>
-				<int>155</int>
-				<int>289</int>
-				<int>149</int>
-				<int>131</int>
-				<int>129</int>
-				<int>167</int>
-				<int>141</int>
-				<int>115</int>
-				<int>69</int>
-				<int>59</int>
-				<int>48</int>
-				<int>228</int>
-				<int>230</int>
-				<int>101</int>
-				<int>773</int>
-				<int>75</int>
-				<int>157</int>
-				<int>228</int>
-				<int>1</int>
-				<int>84</int>
-				<int>85</int>
-				<int>103</int>
-				<int>165</int>
-				<int>336</int>
-				<int>337</int>
-				<int>331</int>
-				<int>330</int>
-				<int>328</int>
-				<int>325</int>
-				<int>329</int>
-				<int>514</int>
-				<int>522</int>
-				<int>620</int>
-				<int>282</int>
-				<int>793</int>
-				<int>113</int>
-				<int>156</int>
-				<int>297</int>
-				<int>624</int>
-				<int>788</int>
-				<int>779</int>
-				<int>269</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.ShopKeeper</className>
-		</NpcHandler>
-		<NpcHandler>
-			<ids>
 				<int>225</int>
 				<int>226</int>
 				<int>227</int>
@@ -107,12 +26,6 @@
 			
 			</ids>
 			<className>org.moparscape.msc.gs.npchandler.Certer</className>
-		</NpcHandler>
-		<NpcHandler>
-			<ids>
-				<int>93</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.MonkHealer</className>
 		</NpcHandler>
 		
 		<NpcHandler>

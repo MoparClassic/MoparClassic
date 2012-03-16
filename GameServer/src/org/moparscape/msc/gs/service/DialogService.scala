@@ -18,6 +18,18 @@ object DialogService {
 	addMapping(90, new KebabSeller)
 	addMapping(339, new MakeOverMage)
 	addMapping(93, new MonkHealer(null, null))
+	
+	addMapping(
+		Array(51, 183, 112, 55, 56, 12, 82, 83, 44, 233, 87,
+			235, 88, 105, 106, 130, 143, 145, 146, 168, 169, 185,
+			186, 222, 223, 371, 391, 528, 58, 54, 173, 250, 155, 289,
+			149, 131, 129, 167, 141, 115, 69, 59, 48, 228, 230, 101,
+			773, 75, 157, 228, 1, 84, 85, 103, 165, 336, 337, 331,
+			330, 328, 325, 329, 514, 522, 620, 282, 793, 113, 156,
+			297, 788, 779, 269),
+		new ShopKeeper
+	)
+	
 	addMapping(172, new Tanner)
 	addMapping(28, new Tramp(null, null))
 
