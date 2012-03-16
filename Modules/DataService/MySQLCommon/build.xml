@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="MySQL Common" default="build" basedir="../../../">
-	<property name="name" value="MySQLCommonDataService" />
+	<property name="name" value="MySQLCommon" />
 	<property name="package" value="DataService" />
 	<property name="base" location="Modules/${package}/${name}" />
 	<property name="src" location="${base}/src" />

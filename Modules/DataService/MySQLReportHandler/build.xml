@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="NIO Data Service" default="build" basedir="../../../">
-	<property name="name" value="NIODataService" />
+<project name="MySQL Report Handler" default="build" basedir="../../../">
+	<property name="name" value="MySQLReportHandler" />
 	<property name="package" value="DataService" />
 	<property name="base" location="Modules/${package}/${name}" />
 	<property name="src" location="${base}/src" />
