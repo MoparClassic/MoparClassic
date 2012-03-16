@@ -5,7 +5,7 @@ import org.moparscape.msc.gs.model.ChatMessage
 import org.moparscape.msc.gs.model.MenuHandler
 import org.moparscape.msc.gs.service.DialogService
 
-abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var player: Player = null) extends Cloneable {
+abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var player : Player = null) extends Cloneable {
 
 	var dialogOptions = Array[NpcDialog]()
 
@@ -13,16 +13,21 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 		dialogOptions = dialogOptions :+ dialog
 	}
 
+	def init {}
+
 	final def >(msg : String) {
-		if (player == null)
-			return
-		player.informOfNpcMessage(new ChatMessage(npc, msg, player))
+		if (player != null)
+			player.informOfNpcMessage(new ChatMessage(npc, msg, player))
+	}
+
+	final def >>(msg : String) {
+		if (player != null)
+			player.getActionSender.sendMessage(msg)
 	}
 
 	final def <(msg : String) {
-		if (player == null)
-			return
-		player.informOfChatMessage(new ChatMessage(player, msg, npc))
+		if (player != null)
+			player.informOfChatMessage(new ChatMessage(player, msg, npc))
 	}
 
 	final def end {
@@ -42,7 +47,7 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 					case None =>
 				}
 			}
-			
+
 			override def abort {
 				npc.unblock()
 			}
@@ -51,7 +56,7 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 	}
 
 	final def breath {
-		Thread.sleep(1500)
+		Thread.sleep(1800)
 	}
 
 	final def pause(time : Long) {
@@ -59,7 +64,7 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 	}
 
 	def begin;
-	
+
 	override def clone = {
 		val c = super.clone.asInstanceOf[NpcDialog]
 		c.npc = this.npc

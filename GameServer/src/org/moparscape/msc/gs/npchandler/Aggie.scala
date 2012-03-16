@@ -12,10 +12,12 @@ class Aggie extends NpcDialog {
 		("Blue", 272) -> 281
 	)
 
+	override def init {
+		dyeOptions
+		this + new GenericEnd("No thanks.", npc, player)
+	}
+
 	override def begin {
-		// Set busy flag and block
-		player.setBusy(true)
-		npc.blockedBy(player)
 		
 		this > "Hi traveller, I specialize in creating different colored dyes."
 		breath
@@ -24,56 +26,47 @@ class Aggie extends NpcDialog {
 		end
 	}
 
-	dyes foreach {
-		dye =>
-			this + new NpcDialog(dye._1._1 + " dye please.", npc, player) {
+	def dyeOptions {
+		dyes foreach {
+			dye =>
+				this + new NpcDialog(dye._1._1 + " dye please.", npc, player) {
 
-				override def begin {
-					this > ("You will need 1 "
-						+ EntityHandler.getItemDef(dye._2).name
-						+ " and 30gp for me to create the dye.")
-					breath
-					end
-				}
-
-				this + new NpcDialog("Yes I have them", npc, player) {
 					override def begin {
+						this > ("You will need 1 "
+							+ EntityHandler.getItemDef(dye._2).name
+							+ " and 30gp for me to create the dye.")
 						breath
-						if (player.getInventory.remove(dye._2, 1) > -1
-							&& player.getInventory.remove(10, 30) > -1) {
+						end
+					}
 
-							this > "Here is your new dye, enjoy."
-							player.getInventory.add(new InvItem(dye._1._2))
-							player.getActionSender.sendInventory
+					this + new GenericEnd("Yes I have them", npc, player) {
 
-						} else {
-							this > "It seems that you don't have all of the ingredients."
+						override def begin {
 							breath
-							this > "Come back when you've obtained them"
+							if (player.getInventory.countId(dye._2) > 0
+								&& player.getInventory.countId(10) >= 30) {
+
+								player.getInventory.remove(dye._2, 1)
+								player.getInventory.remove(10, 30)
+
+								this > "Here is your new dye, enjoy."
+								player.getInventory.add(new InvItem(dye._1._2))
+								breath
+								player.getActionSender.sendInventory
+
+							} else {
+								this > "It seems that you don't have all of the ingredients."
+								breath
+								this > "Come back when you've obtained them"
+							}
+							super.begin
 						}
-						cleanup
 					}
+
+					this + new GenericEnd("I'll come back when I have the ingredients.", npc, player)
+
 				}
-
-				this + new NpcDialog("I'll come back when I have the ingredients.", npc, player) {
-					override def begin {
-						cleanup
-					}
-				}
-
-			}
-	}
-
-	this + new NpcDialog("No thanks", npc, player) {
-		override def begin {
-			cleanup
 		}
-	}
-
-	private def cleanup {
-		breath
-		player.setBusy(false)
-		npc.unblock
 	}
 
 }

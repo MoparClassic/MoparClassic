@@ -1,49 +1,6 @@
 <NpcHandler-array>
 		<NpcHandler>
 			<ids>
-				<int>95</int>
-				<int>224</int>
-				<int>268</int>
-				<int>485</int>
-				<int>540</int>
-				<int>617</int>
-				<int>792</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.Bankers</className>
- 
-		</NpcHandler>
-<NpcHandler>
-			<ids>
-				<int>164</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.Bananas</className>
-		</NpcHandler>
-<NpcHandler>
-			<ids>
-				<int>33</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.Apothecary</className>
-		</NpcHandler>
-		<NpcHandler>
-			<ids>
-				<int>172</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.Tanner</className>
-		</NpcHandler>
-		<NpcHandler>
-			<ids>
-				<int>90</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.KebabSeller</className>
-		</NpcHandler>
-		<NpcHandler>
-			<ids>
-				<int>339</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.MakeOverMage</className>
-		</NpcHandler>
-		<NpcHandler>
-			<ids>
 				<int>160</int>
 			</ids>
 			<className>org.moparscape.msc.gs.npchandler.Thrander</className>
