@@ -1,8 +1,5 @@
 package org.moparscape.msc.gs.model;
 
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
@@ -14,18 +11,13 @@ import org.moparscape.msc.gs.model.definition.entity.ItemDropDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
-import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
 
 public class Npc extends Mob {
 
-	/**
-	 * Used for NPC AI scripts.
-	 */
 	private int stage = 0;
-	boolean scripted = false;
 
 	public int getStage() {
 		return stage;
@@ -80,10 +72,7 @@ public class Npc extends Mob {
 	}
 
 	private boolean ran = false;
-	/**
-	 * The identifier for the NPC block event
-	 */
-	private static final int BLOCKED_IDENTIFIER = 69;
+	
 	/**
 	 * World instance
 	 */
@@ -212,14 +201,6 @@ public class Npc extends Mob {
 		this(new NPCLoc(id, startX, startY, minX, maxX, minY, maxY));
 	}
 
-	public boolean isScripted() {
-		return scripted;
-	}
-
-	public void setScripted(boolean scripted) {
-		this.scripted = scripted;
-	}
-
 	public Npc(NPCLoc loc) {
 		for (int i : Constants.GameServer.UNDEAD_NPCS) {
 			if (loc.getId() == i) {
@@ -241,11 +222,6 @@ public class Npc extends Mob {
 				def.getDef(), def.getStr(), def.getHits(), 0, 0, 0));
 		if (this.loc.getId() == 189 || this.loc.getId() == 53) {
 			this.def.aggressive = true;
-		}
-		for (NpcAI ai : Instance.getPluginHandler().getNpcAI()) {
-			if (getID() == ai.getID()) {
-				setScripted(true);
-			}
 		}
 	}
 
@@ -363,10 +339,6 @@ public class Npc extends Mob {
 		if (mob instanceof Player) {
 			Player player = (Player) mob;
 			player.getActionSender().sendSound("victory");
-			if (this.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(getID())
-				.onNpcDeath(this, player);
-			}
 		}
 
 		Mob opponent = super.getOpponent();
@@ -490,10 +462,6 @@ public class Npc extends Mob {
 			resetPath();
 			victim.resetPath();
 			victim.resetAll();
-			if (this.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(getID())
-				.onNpcAttack(this, victim);
-			}
 			victim.setStatus(Action.FIGHTING_MOB);
 			/*
 			 * Do not want if (victim.isSleeping()) {

@@ -15,7 +15,6 @@ import org.moparscape.msc.gs.connection.PacketQueue;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.connection.filter.IPBanManager;
 import org.moparscape.msc.gs.event.DelayedEvent;
-import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
@@ -23,7 +22,6 @@ import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
-import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.util.Logger;
 
 /**
@@ -278,14 +276,6 @@ public final class GameEngine extends Thread {
 	 */
 	public void run() {
 		Logger.println("GameEngine now running");
-		// Captcha.loadCharacters();
-		for (Npc n : Instance.getWorld().getNpcs()) {
-			for (NpcAI ai : Instance.getPluginHandler().getNpcAI()) {
-				if (n.getID() == ai.getID()) {
-					n.setScripted(true);
-				}
-			}
-		}
 		time = System.currentTimeMillis();
 
 		eventHandler

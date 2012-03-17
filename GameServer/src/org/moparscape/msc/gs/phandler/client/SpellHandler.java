@@ -1092,16 +1092,6 @@ public class SpellHandler implements PacketHandler {
 							affectedMob.setLastDamage(damage);
 							int newHp = affectedMob.getHits() - damage;
 							affectedMob.setHits(newHp);
-							if (affectedMob instanceof Npc) {
-								Npc np = (Npc) affectedMob;
-								double maxx = np.getDef().hits;
-								double cur = np.getHits();
-								int percent = (int) ((cur / maxx) * 100);
-								if (np.isScripted())
-									Instance.getPluginHandler()
-											.getNpcAIHandler(np.getID())
-											.onHealthPercentage(np, percent);
-							}
 
 							ArrayList<Player> playersToInform = new ArrayList<Player>();
 							playersToInform.addAll(owner.getViewArea()
@@ -1165,13 +1155,6 @@ public class SpellHandler implements PacketHandler {
 													npc.resetPath();
 													player.resetAll();
 													player.resetPath();
-													if (npc.isScripted())
-														Instance.getPluginHandler()
-																.getNpcAIHandler(
-																		npc.getID())
-																.onNpcAttack(
-																		npc,
-																		player);
 													player.setBusy(true);
 													player.setStatus(Action.FIGHTING_MOB);
 													player.getActionSender()

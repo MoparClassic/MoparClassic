@@ -5,7 +5,6 @@ import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.Script;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.quest.Quest;
 import org.moparscape.msc.gs.quest.QuestAction;
@@ -634,7 +633,7 @@ public class KnightsSword extends Quest {
 				sleep();
 				player.setQuestStage(this, COMPLETE);
 				player.incQuestPoints(QUEST_POINTS);
-				player.incExp(Script.SMITHING, 4000, false);
+				//player.incExp(Script.SMITHING, 4000, false);
 				player.setBusy(false);
 				npc.unblock();
 				return;

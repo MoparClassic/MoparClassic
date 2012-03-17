@@ -32,10 +32,6 @@ import org.moparscape.msc.gs.util.Logger;
 public final class World {
 
 	/**
-	 * NpcScripts are stored in here
-	 */
-	public HashMap<Integer, String> npcScripts = new HashMap<Integer, String>();
-	/**
 	 * Double ended queue to store snapshots into
 	 */
 	private Deque<Snapshot> snapshots = new LinkedList<Snapshot>();
@@ -52,25 +48,6 @@ public final class World {
 	 */
 	public synchronized void addEntryToSnapshots(Snapshot snapshot) {
 		snapshots.offerFirst(snapshot);
-	}
-
-	public void loadScripts() {
-		int npccount = 0;
-		int error = 0;
-		for (File files : new File("scripts/").listFiles()) {
-			try {
-				int id = Integer.parseInt(files.getName().substring(0, 3)
-						.trim());
-				npcScripts.put(id, files.getAbsolutePath());
-			} catch (Exception e) {
-				error++;
-				continue;
-			} finally {
-				npccount++;
-			}
-		}
-		Logger.println(npccount + " NPC Scripts loaded! "
-				+ (error > 1 ? ((error - 1) + " Error scripts") : ""));
 	}
 
 	public void sendWorldMessage(String msg) {
@@ -149,8 +126,6 @@ public final class World {
 			try {
 				worldInstance.wl = new WorldLoader();
 				worldInstance.wl.loadWorld(worldInstance);
-				worldInstance.loadNpcHandlers();
-				worldInstance.loadScripts();
 				if (questManager == null) {
 					questManager = new QuestManager();
 					questManager.loadQuests();
@@ -179,10 +154,6 @@ public final class World {
 	public int eventy = 0;
 
 	public String lastAnswer = null;
-	/**
-	 * The mapping of npc IDs to their handler
-	 */
-	private TreeMap<Integer, NpcHandler> npcHandlers = new TreeMap<Integer, NpcHandler>();
 	/**
 	 * A list of all npcs on the server
 	 */
@@ -314,13 +285,6 @@ public final class World {
 	}
 
 	/**
-	 * returns the assosiated npc handler
-	 */
-	public NpcHandler getNpcHandler(int npcID) {
-		return npcHandlers.get(npcID);
-	}
-
-	/**
 	 * Gets the list of npcs on the server
 	 */
 	public EntityList<Npc> getNpcs() {
@@ -437,30 +401,6 @@ public final class World {
 			return friend.loggedIn();
 		}
 		return false;
-	}
-
-	/**
-	 * Loads the npc handling classes
-	 * 
-	 * @throws Exception
-	 */
-	private void loadNpcHandlers() throws Exception {
-
-		NpcHandlerDef[] handlerDefs = Instance.getDataStore().loadNpcHandlers();
-		for (NpcHandlerDef handlerDef : handlerDefs) {
-			try {
-				String className = handlerDef.getClassName();
-				Class<?> c = Class.forName(className);
-				if (c != null) {
-					NpcHandler handler = (NpcHandler) c.newInstance();
-					for (int npcID : handlerDef.getAssociatedNpcs()) {
-						npcHandlers.put(npcID, handler);
-					}
-				}
-			} catch (Exception e) {
-				Logger.error(e);
-			}
-		}
 	}
 
 	/**

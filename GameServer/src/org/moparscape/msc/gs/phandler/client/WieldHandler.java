@@ -11,7 +11,6 @@ import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.Script;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -19,6 +18,9 @@ import org.moparscape.msc.gs.quest.Quest;
 import org.moparscape.msc.gs.util.Logger;
 
 public class WieldHandler implements PacketHandler {
+	
+	// TODO: Fix weapon requirements.
+	
 	/**
 	 * World instance
 	 */
@@ -115,7 +117,7 @@ public class WieldHandler implements PacketHandler {
 				}
 				Logger.println(count + " - "
 						+ World.getQuestManager().getQuests().size());
-				if (count < World.getQuestManager().getQuests().size()
+				/*if (count < World.getQuestManager().getQuests().size()
 						|| player.getCurStat(Script.MINING) < 50
 						|| player.getCurStat(Script.HERBLAW) < 25
 						|| player.getCurStat(Script.FISHING) < 53
@@ -132,15 +134,15 @@ public class WieldHandler implements PacketHandler {
 							.sendMessage(
 									"50 Mining, 25 Herblaw, 53 Fishing, 53 Cooking, 31 Crafting, 36 Woodcutting and 33 Magic");
 					return;
-				}
+				}*/
 			} else if (item.getID() == 593) {
 
-				if (player.getCurStat(Script.CRAFTING) < 31
+				/*if (player.getCurStat(Script.CRAFTING) < 31
 						|| player.getCurStat(Script.WOODCUT) < 36) {
 					player.getActionSender().sendMessage(
 							"You must have 31 Crafting and 36 Woodcutting");
 					return;
-				}
+				}*/
 			} else if (item.getID() == 1288) {
 				boolean found = false;
 				for (int i = 0; i < 18; i++) {
