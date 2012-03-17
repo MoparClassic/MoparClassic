@@ -117,11 +117,11 @@ class Certer extends NpcDialog {
 		}
 
 		private def enough = {
-			if (certing && player.getInventory.countId(itemId) < amount) {
+			if (certing && player.getInventory.countId(itemId) < amount / 5) {
 				this >> ("You don't have enough " + EntityHandler.getItemDef(itemId).getName + "s")
 				breath
 				false
-			} else if (!certing && player.getInventory.countId(certId) < amount) {
+			} else if (!certing && player.getInventory.countId(certId) < amount * 5) {
 				this >> ("You don't have enough certificates")
 				breath
 				false
