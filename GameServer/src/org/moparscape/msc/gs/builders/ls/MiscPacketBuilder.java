@@ -111,7 +111,11 @@ public class MiscPacketBuilder {
 		s.setHandler(connector, new PlayerLogin(player));
 		s.addLong(player.getUsernameHash());
 		s.addLong(DataConversions.IPToLong(player.getCurrentIP()));
-		s.addBytes(DataConversions.md5(player.getPassword()).getBytes());
+		//s.addBytes(DataConversions.md5(player.getPassword()).getBytes());
+		// todo: since this is sent over the network to the LoginServer, it should be encrypted first...
+		// change protocol here to account for any-length password
+		s.addInt(player.getPassword().length());
+		s.addBytes(player.getPassword().getBytes());
 		s.addBytes(player.getClassName().getBytes());
 		packets.add(s.toPacket());
 	}

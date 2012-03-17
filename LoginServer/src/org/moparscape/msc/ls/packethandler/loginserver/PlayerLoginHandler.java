@@ -24,7 +24,8 @@ public class PlayerLoginHandler implements PacketHandler {
 		World world = (World) session.getAttachment();
 		long user = p.readLong();
 		String ip = DataConversions.IPToString(p.readLong());
-		String pass = p.readString(32).trim();
+		// change protocol here to account for any-length password
+		String pass = p.readString(p.readInt()).trim();
 		String className = p.readString();
 		byte loginCode = validatePlayer(user, pass, ip);
 

@@ -49,7 +49,7 @@ public class PlayerLogin implements PacketHandler {
 			String password = "";
 
 			username = p.readString(20).trim();
-			password = p.readString(20).trim();
+			password = p.readString().trim();
 
 			if (world.countPlayers() >= Config.MAX_PLAYERS) {
 				loginCode = 10;
