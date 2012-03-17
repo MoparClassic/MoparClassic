@@ -1,12 +1,6 @@
 <NpcHandler-array>
 		<NpcHandler>
 			<ids>
-				<int>160</int>
-			</ids>
-			<className>org.moparscape.msc.gs.npchandler.Thrander</className>
-		</NpcHandler>
-		<NpcHandler>
-			<ids>
 				<int>225</int>
 				<int>226</int>
 				<int>227</int>

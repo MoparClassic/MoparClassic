@@ -18,7 +18,7 @@ object DialogService {
 	addMapping(90, new KebabSeller)
 	addMapping(339, new MakeOverMage)
 	addMapping(93, new MonkHealer(null, null))
-	
+
 	addMapping(
 		Array(51, 183, 112, 55, 56, 12, 82, 83, 44, 233, 87,
 			235, 88, 105, 106, 130, 143, 145, 146, 168, 169, 185,
@@ -29,8 +29,9 @@ object DialogService {
 			297, 788, 779, 269),
 		new ShopKeeper
 	)
-	
+
 	addMapping(172, new Tanner)
+	addMapping(160, new Thrander(null, null))
 	addMapping(28, new Tramp(null, null))
 
 	def addMapping(id : Int, dialog : NpcDialog) {
