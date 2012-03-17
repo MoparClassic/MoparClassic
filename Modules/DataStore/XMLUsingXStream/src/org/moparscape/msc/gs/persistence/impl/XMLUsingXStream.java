@@ -53,7 +53,6 @@ import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
 import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.model.definition.skill.SpellDef;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
 import org.moparscape.msc.gs.persistence.DataStore;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 import org.moparscape.msc.gs.util.Logger;
@@ -143,11 +142,6 @@ public class XMLUsingXStream implements DataStore {
 	@Override
 	public PacketHandlerDef[] loadLSPacketHandlerDefs() {
 		return (PacketHandlerDef[]) load("LSPacketHandlers.xml");
-	}
-
-	@Override
-	public NpcHandlerDef[] loadNpcHandlers() {
-		return (NpcHandlerDef[]) load("NpcHandlers.xml");
 	}
 
 	@Override
@@ -349,11 +343,6 @@ public class XMLUsingXStream implements DataStore {
 	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
 			throws Exception {
 		write("LSPacketHanlders.xml", defs);
-	}
-
-	@Override
-	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception {
-		write("NpcHandlers.xml", defs);
 	}
 
 	@Override

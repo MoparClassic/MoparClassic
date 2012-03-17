@@ -11,10 +11,14 @@ object DialogService {
 
 	addMapping(125, new Aggie)
 	addMapping(33, new Apothecary)
-	addMapping(164, new Bananas)
+	addMapping(164, new BananaExchange)
 
-	addMapping(Array(95, 224, 268, 485, 540, 617, 792), new Bankers(null, null))
+	addMapping(Array(95, 224, 268, 485, 540, 617, 792), new Banker(null, null))
 
+	addMapping(Array(225, 226, 227, 466, 467, 299, 778,
+			341, 369, 370, 794, 348, 267, 795, 347), new Certer)
+
+	addMapping(212, new EntranaMonk)
 	addMapping(90, new KebabSeller)
 	addMapping(339, new MakeOverMage)
 	addMapping(93, new MonkHealer(null, null))

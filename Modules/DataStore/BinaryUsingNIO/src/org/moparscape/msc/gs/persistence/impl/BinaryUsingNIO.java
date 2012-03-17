@@ -40,7 +40,6 @@ import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
 import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.model.definition.skill.SpellDef;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
 import org.moparscape.msc.gs.persistence.DataStore;
 import org.moparscape.msc.gs.persistence.impl.bun.CodecLookupService;
 import org.moparscape.msc.gs.persistence.impl.bun.FileLookupService;
@@ -76,18 +75,6 @@ public class BinaryUsingNIO implements DataStore {
 	@Override
 	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public NpcHandlerDef[] loadNpcHandlers() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

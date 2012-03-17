@@ -4,7 +4,6 @@
 <properties>
 	<comment>Stores aliases for the XStream engine</comment>
 	<entry key="PacketHandler">org.moparscape.msc.gs.phandler.PacketHandlerDef</entry>
-	<entry key="NpcHandler">org.moparscape.msc.gs.npchandler.NpcHandlerDef</entry>
 	
 	<entry key="Point">org.moparscape.msc.gs.model.Point</entry>
 	<entry key="TelePoint">org.moparscape.msc.gs.model.TelePoint</entry>

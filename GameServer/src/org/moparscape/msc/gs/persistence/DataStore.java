@@ -37,7 +37,6 @@ import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
 import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.model.definition.skill.SpellDef;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 
 /**
@@ -60,10 +59,6 @@ public abstract interface DataStore {
 
 	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
 			throws Exception;
-
-	public NpcHandlerDef[] loadNpcHandlers() throws Exception;
-
-	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception;
 
 	public Map<Point, TelePoint> loadTelePoints() throws Exception;
 

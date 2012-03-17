@@ -3,7 +3,7 @@ package org.moparscape.msc.gs.npchandler
 import org.moparscape.msc.gs.model.dialog.NpcDialog
 import org.moparscape.msc.gs.model.InvItem
 
-class Bananas extends NpcDialog {
+class BananaExchange extends NpcDialog {
 
 	override def init {
 		this + option1

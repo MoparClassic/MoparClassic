@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs.npchandler
 import org.moparscape.msc.gs.model.{ Npc, Player }
 
-class Bankers(_npc : Npc, _player : Player) extends GenericEnd("", _npc, _player) {
+class Banker(_npc : Npc, _player : Player) extends GenericEnd("", _npc, _player) {
 
 	override def begin {
 		this < "I'd like to access my bank account please"
