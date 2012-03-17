@@ -16,7 +16,7 @@ object DialogService {
 	addMapping(Array(95, 224, 268, 485, 540, 617, 792), new Banker(null, null))
 
 	addMapping(Array(225, 226, 227, 466, 467, 299, 778,
-			341, 369, 370, 794, 348, 267, 795, 347), new Certer)
+		341, 369, 370, 794, 348, 267, 795, 347), new Certer)
 
 	addMapping(212, new EntranaMonk)
 	addMapping(90, new KebabSeller)
@@ -37,6 +37,7 @@ object DialogService {
 	addMapping(172, new Tanner)
 	addMapping(160, new Thrander(null, null))
 	addMapping(28, new Tramp(null, null))
+	addMapping(116, new Wyson)
 
 	def addMapping(id : Int, dialog : NpcDialog) {
 		mapping = mapping + ((id, dialog))
