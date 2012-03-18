@@ -9,8 +9,6 @@
 		<dependency org="javax.mail" name="mail" rev="1.4.4" />
 
 		<dependency org="mysql" name="mysql-connector-java" rev="5.1.18" />
-
-		<dependency org="org.beanshell" name="bsh" rev="2.0b4"/>
 		
 		<dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
 

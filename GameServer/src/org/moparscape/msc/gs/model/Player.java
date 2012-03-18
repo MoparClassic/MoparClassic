@@ -39,8 +39,6 @@ import org.moparscape.msc.gs.util.DuelLog;
 import org.moparscape.msc.gs.util.Logger;
 import org.moparscape.msc.gs.util.StatefulEntityCollection;
 
-import bsh.Interpreter;
-
 /**
  * A single player.
  */
@@ -228,10 +226,6 @@ public final class Player extends Mob {
 	 * The npc we are currently interacting with
 	 */
 	private Npc interactingNpc = null;
-
-	private Interpreter interpreter = new Interpreter();
-
-	private Thread interpreterThread = null;
 
 	private LinkedList<Long> intervals = new LinkedList<Long>();
 
@@ -1096,14 +1090,6 @@ public final class Player extends Mob {
 
 	public Npc getInteractingNpc() {
 		return interactingNpc;
-	}
-
-	public Interpreter getInterpreter() {
-		return interpreter;
-	}
-
-	public Thread getInterpreterThread() {
-		return interpreterThread;
 	}
 
 	public LinkedList<Long> getIntervals() {
@@ -2601,14 +2587,6 @@ public final class Player extends Mob {
 
 	public void setInteractingNpc(Npc interactingNpc) {
 		this.interactingNpc = interactingNpc;
-	}
-
-	public void setInterpreter(Interpreter interpreter) {
-		this.interpreter = interpreter;
-	}
-
-	public void setInterpreterThread(Thread interpreterThread) {
-		this.interpreterThread = interpreterThread;
 	}
 
 	public void setIntervals(LinkedList<Long> intervals) {

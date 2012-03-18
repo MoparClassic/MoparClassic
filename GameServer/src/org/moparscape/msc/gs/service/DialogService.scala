@@ -15,6 +15,9 @@ object DialogService {
 
 	addMapping(Array(95, 224, 268, 485, 540, 617, 792), new Banker(null, null))
 
+	addMapping(142, new Barmaid)
+	addMapping(176, new BrotherJered)
+
 	addMapping(Array(225, 226, 227, 466, 467, 299, 778,
 		341, 369, 370, 794, 348, 267, 795, 347), new Certer)
 
@@ -22,6 +25,7 @@ object DialogService {
 	addMapping(90, new KebabSeller)
 	addMapping(339, new MakeOverMage)
 	addMapping(93, new MonkHealer(null, null))
+	addMapping(194, new Ned)
 
 	addMapping(
 		Array(51, 183, 112, 55, 56, 12, 82, 83, 44, 233, 87,
@@ -36,6 +40,11 @@ object DialogService {
 
 	addMapping(172, new Tanner)
 	addMapping(160, new Thrander(null, null))
+
+	addMapping(
+		Array(166, 170, 171), new ToKaramja
+	)
+
 	addMapping(28, new Tramp(null, null))
 	addMapping(116, new Wyson)
 
