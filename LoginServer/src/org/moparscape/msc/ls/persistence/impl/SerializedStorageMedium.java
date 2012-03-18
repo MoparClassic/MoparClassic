@@ -242,7 +242,7 @@ public class SerializedStorageMedium implements StorageMedium {
 		}
 
 		ps.setOwner((int) ownerId, 1, 0L);
-		ps.setLogin(ps.getLastLogin(), 0L;
+		ps.setLogin(ps.getLastLogin(), 0L);
 
 		return ps;
 	}
