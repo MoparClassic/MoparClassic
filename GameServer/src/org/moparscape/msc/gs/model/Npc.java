@@ -1,5 +1,8 @@
 package org.moparscape.msc.gs.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
@@ -72,7 +75,7 @@ public class Npc extends Mob {
 	}
 
 	private boolean ran = false;
-	
+
 	/**
 	 * World instance
 	 */
@@ -190,7 +193,7 @@ public class Npc extends Mob {
 	 * Should this npc respawn once it has been killed?
 	 **/
 	private boolean shouldRespawn = true;
-	
+
 	public boolean weakend = false;
 	public boolean special = false;
 	public int itemid = -1;
@@ -272,11 +275,11 @@ public class Npc extends Mob {
 								|| now - p.getCombatTimer() < (p
 										.getCombatState() == CombatState.RUNNING
 										|| p.getCombatState() == CombatState.WAITING ? 3000
-												: 500)
-												|| !p.nextTo(this)
-												|| !p.getLocation().inBounds(loc.minX - 4,
-														loc.minY - 4, loc.maxX + 4,
-														loc.maxY + 4)) {
+											: 500)
+								|| !p.nextTo(this)
+								|| !p.getLocation().inBounds(loc.minX - 4,
+										loc.minY - 4, loc.maxX + 4,
+										loc.maxY + 4)) {
 							continue;
 						}
 
@@ -352,44 +355,49 @@ public class Npc extends Mob {
 
 		Player owner = mob instanceof Player ? (Player) mob : null;
 
+		drop(owner);
+
+		World.getQuestManager().handleNpcKilled(this, owner);
+	}
+
+	private boolean drop(Player owner) {
 		ItemDropDef[] drops = def.getDrops();
 
 		int total = 0;
+		List<ItemDropDef> possibleDrops = new ArrayList<ItemDropDef>();
 		for (ItemDropDef drop : drops) {
+			if (EntityHandler.getItemDef(drop.getID()).members
+					&& !World.isMembers()) {
+				continue;
+			}
 			total += drop.getWeight();
+			possibleDrops.add(drop);
 		}
-		//
 		int hit = DataConversions.random(0, total);
 		total = 0;
 		if (!this.getDef().name.equalsIgnoreCase("ghost")) {
-			
-		
-			for (ItemDropDef drop : drops) {
+
+			for (ItemDropDef drop : possibleDrops) {
 				if (drop == null) {
 					continue;
 				}
 				if (drop.getWeight() == 0) {
-					world.registerItem(new Item(drop.getID(), getX(),getY(), drop.getAmount(), owner));
+					world.registerItem(new Item(drop.getID(), getX(), getY(),
+							drop.getAmount(), owner));
 					continue;
 				}
 
 				if (hit >= total && hit < (total + drop.getWeight())) {
 					if (drop.getID() != -1) {
-						if (EntityHandler.getItemDef(drop.getID()).members && World.isMembers()) {
-							world.registerItem(new Item(drop.getID(),
-									getX(), getY(), drop.getAmount(), owner));
-							break;
-						}
-					
+						world.registerItem(new Item(drop.getID(), getX(),
+								getY(), drop.getAmount(), owner));
+						break;
 					}
 				}
 				total += drop.getWeight();
 			}
 		}
-
-
-
-		World.getQuestManager().handleNpcKilled(this, owner);
+		return true;
 	}
 
 	public void remove() {
