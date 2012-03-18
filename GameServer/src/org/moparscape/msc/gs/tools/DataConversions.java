@@ -12,7 +12,6 @@ import java.util.Random;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Point;
-import org.moparscape.msc.gs.util.HexString;
 import org.moparscape.msc.gs.util.Logger;
 
 public final class DataConversions {
@@ -258,9 +257,16 @@ public final class DataConversions {
 	 * returns the md5 hash of a string
 	 */
 	public static String md5(String s) {
-		md.reset();
-		md.update(s.getBytes());
-		return new HexString(md.digest()).toString();
+		synchronized (md){
+			md.reset();
+			md.update(s.getBytes());
+			return toHex(md.digest());
+		}
+	}
+
+	public static String toHex(byte[] bytes) {
+		// change below to lower or uppercase X to control case of output
+		return String.format("%0" + (bytes.length << 1) + "x", new BigInteger(1, bytes));
 	}
 
 	/**
