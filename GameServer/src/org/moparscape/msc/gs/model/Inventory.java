@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
 
 public class Inventory {
 	/**
@@ -144,12 +145,46 @@ public class Inventory {
 		return list.listIterator();
 	}
 
+	public int removeAll(int id) {
+		int count = countId(id);
+		for (int i = 0; i < count; i++) {
+			remove(id, 1);
+		}
+		return count;
+	}
+
 	public void remove(int index) {
 		InvItem item = get(index);
 		if (item == null) {
 			return;
 		}
 		remove(item.getID(), item.getAmount());
+	}
+
+	public boolean removeAmount(int id, int amount) {
+		if (countId(id) >= amount) {
+			if (EntityHandler.getItemDef(id).isStackable()) {
+				return remove(id, amount) > -1 ? true : false;
+			} else {
+				for (int i = 0; i < amount; i++) {
+					remove(id, 1);
+				}
+				return true; // Checked count before, so assumption should be
+								// fine
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public void addAmount(int id, int amount) {
+		if (EntityHandler.getItemDef(id).isStackable()) {
+			add(new InvItem(id, amount));
+		} else {
+			for (int i = 0; i < amount; i++) {
+				add(new InvItem(id, 1));
+			}
+		}
 	}
 
 	public int remove(int id, int amount) {

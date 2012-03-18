@@ -15,6 +15,11 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 
 	def init {}
 
+	final def exit {
+		player.setBusy(false)
+		npc.unblock
+	}
+
 	final def >(msg : String) {
 		if (player != null)
 			player.informOfNpcMessage(new ChatMessage(npc, msg, player))
@@ -39,6 +44,7 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 				if (owner.isBusy) {
 					return
 				}
+				breath
 				owner.informOfChatMessage(new ChatMessage(owner, reply,
 					npc))
 				owner.setBusy(true)

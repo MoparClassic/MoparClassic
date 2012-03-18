@@ -17,16 +17,14 @@ class Certer extends NpcDialog {
 
 	override def begin {
 
-		this > ("Welcome to my " + certerDef.getType + " exchange stall")
-		breath
+		this > "Welcome to my " + certerDef.getType + " exchange stall"; breath
 
 		end
 	}
 
 	lazy val option1 = new NpcDialog("I have some certificates to trade in", npc, player) {
 		override def begin {
-			this > "What sort of certificate do you want to trade in?"
-			breath
+			this > "What sort of certificate do you want to trade in?"; breath
 			end
 		}
 
@@ -40,8 +38,7 @@ class Certer extends NpcDialog {
 
 	lazy val option2 = new NpcDialog("I have some " + certerDef.getType + " to trade in", npc, player) {
 		override def begin {
-			this > "What sort of " + certerDef.getType + " do you want to trade in?"
-			breath
+			this > "What sort of " + certerDef.getType + " do you want to trade in?"; breath
 			end
 		}
 
@@ -74,8 +71,7 @@ class Certer extends NpcDialog {
 			val itemId = certerDef.getItemID(index)
 			for (amount <- (1 to 5))
 				this + new Amount(certId, itemId, amount, false, npc, player)
-			this > "How many certificates do you wish to trade in?"
-			breath
+			this > "How many certificates do you wish to trade in?"; breath
 			end
 		}
 	}
@@ -86,8 +82,7 @@ class Certer extends NpcDialog {
 			val itemId = certerDef.getItemID(index)
 			for (amount <- (1 to 5))
 				this + new Amount(certId, itemId, amount * 5, true, npc, player)
-			this > "How many " + optionText + " do you wish to trade in?"
-			breath
+			this > "How many " + optionText + " do you wish to trade in?"; breath
 			end
 		}
 	}
@@ -118,12 +113,11 @@ class Certer extends NpcDialog {
 
 		private def enough = {
 			if (certing && player.getInventory.countId(itemId) < amount / 5) {
-				this >> ("You don't have enough " + EntityHandler.getItemDef(itemId).getName + "s")
-				breath
+				this >> ("You don't have enough "
+					+ EntityHandler.getItemDef(itemId).getName + "s"); breath
 				false
 			} else if (!certing && player.getInventory.countId(certId) < amount * 5) {
-				this >> ("You don't have enough certificates")
-				breath
+				this >> "You don't have enough certificates"; breath
 				false
 			}
 			true

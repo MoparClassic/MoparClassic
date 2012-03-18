@@ -6,8 +6,6 @@ class GenericEnd(msg : String, _npc : Npc, _player : Player) extends NpcDialog(m
 	override def begin {
 		
 		breath
-		player.setBusy(false)
-		npc.unblock
-		
+		exit	
 	}
 }

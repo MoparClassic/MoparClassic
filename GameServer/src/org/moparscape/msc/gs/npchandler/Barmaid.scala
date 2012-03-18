@@ -12,20 +12,16 @@ class Barmaid extends NpcDialog {
 	}
 
 	override def begin {
-		this < "Hi, what ales are you serving?"
-		breath
-		this > "Well you can either have a nice asgarnian ale or a wizards mind bomb"
-		breath
-		this > "Or a dwarven stout"
-		breath
+		this < "Hi, what ales are you serving?"; breath
+		this > "Well you can either have a nice asgarnian ale or a wizards mind bomb"; breath
+		this > "Or a dwarven stout"; breath
 
 		end
 	}
 
 	private class BuyAle(id : Int, cost : Int, msg : String, msg1 : String, _npc : Npc, _player : Player) extends GenericEnd(msg, _npc, _player) {
 		override def begin {
-			this > "That'll be " + cost + " gold"
-			breath
+			this > "That'll be " + cost + " gold"; breath
 			if (player.getInventory.remove(10, cost) > -1) {
 				player.getInventory.add(new InvItem(id, 1))
 				this > "You buy a" + msg1

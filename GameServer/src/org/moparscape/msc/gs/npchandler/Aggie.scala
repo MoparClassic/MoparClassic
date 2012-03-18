@@ -18,11 +18,9 @@ class Aggie extends NpcDialog {
 	}
 
 	override def begin {
-		
-		this > "Hi traveller, I specialize in creating different colored dyes."
-		breath
-		this > "Would you like me to make you a dye?"
-		breath
+
+		this > "Hi traveller, I specialize in creating different colored dyes."; breath
+		this > "Would you like me to make you a dye?"; breath
 		end
 	}
 
@@ -39,27 +37,15 @@ class Aggie extends NpcDialog {
 						end
 					}
 
-					this + new GenericEnd("Yes I have them", npc, player) {
-
-						override def begin {
-							breath
-							if (player.getInventory.countId(dye._2) > 0
-								&& player.getInventory.countId(10) >= 30) {
-
-								player.getInventory.remove(dye._2, 1)
-								player.getInventory.remove(10, 30)
-
-								this > "Here is your new dye, enjoy."
-								player.getInventory.add(new InvItem(dye._1._2))
-								breath
-								player.getActionSender.sendInventory
-
-							} else {
-								this > "It seems that you don't have all of the ingredients."
-								breath
-								this > "Come back when you've obtained them"
-							}
-							super.begin
+					this + new Transact("Yes I have them",
+						Array((dye._2, 1), (10, 30)),
+						Array((dye._1._2, 1)),
+						Array("It seems that you don't have all of the ingredients.",
+							"Come back when you've obtained them"),
+						npc, player) {
+						override def success {
+							this > "Here is your new dye, enjoy."
+							exit
 						}
 					}
 

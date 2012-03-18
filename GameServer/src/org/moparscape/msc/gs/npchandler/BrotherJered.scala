@@ -5,12 +5,7 @@ import org.moparscape.msc.gs.model.InvItem
 class BrotherJered extends NpcDialog {
 	override def init {
 		this + option1
-		this + new GenericEnd("Praise be to Saradomin", npc, player) {
-			override def begin {
-				this > "Yes praise he who brings life to this world"
-				super.begin
-			}
-		}
+		this + new RespondEnd("Praise be to Saradomin", "Yes praise he who brings life to this world", npc, player)
 	}
 
 	override def begin {

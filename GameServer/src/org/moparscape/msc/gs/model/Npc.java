@@ -366,6 +366,9 @@ public class Npc extends Mob {
 		int total = 0;
 		List<ItemDropDef> possibleDrops = new ArrayList<ItemDropDef>();
 		for (ItemDropDef drop : drops) {
+			if (drop == null) {
+				continue;
+			}
 			if (EntityHandler.getItemDef(drop.getID()).members
 					&& !World.isMembers()) {
 				continue;
@@ -378,9 +381,6 @@ public class Npc extends Mob {
 		if (!this.getDef().name.equalsIgnoreCase("ghost")) {
 
 			for (ItemDropDef drop : possibleDrops) {
-				if (drop == null) {
-					continue;
-				}
 				if (drop.getWeight() == 0) {
 					world.registerItem(new Item(drop.getID(), getX(), getY(),
 							drop.getAmount(), owner));

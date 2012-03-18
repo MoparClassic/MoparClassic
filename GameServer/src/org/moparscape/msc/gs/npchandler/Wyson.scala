@@ -10,10 +10,8 @@ class Wyson extends NpcDialog {
 	}
 
 	override def begin {
-		this > "I am the gardener round here"
-		breath
-		this > "Do you have any gardening that needs doing?"
-		breath
+		this > "I am the gardener round here"; breath
+		this > "Do you have any gardening that needs doing?"; breath
 		end
 	}
 
@@ -24,13 +22,10 @@ class Wyson extends NpcDialog {
 
 		this + new GenericEnd("How about 15 coins?", npc, player) {
 			override def begin {
-				this > "Mmmm ok that sounds fair"
-				breath
+				this > "Mmmm ok that sounds fair"; breath
 				if (player.getInventory.remove(10, 15) > -1) {
-					this >> "You give Wyson 15 coins"
-					breath
-					player.getInventory.add(new InvItem(281, 1))
-					breath
+					this >> "You give Wyson 15 coins"; breath
+					player.getInventory.add(new InvItem(281, 1)); breath
 					this >> "Wyson the gardener gives you some woad leaves"
 					player.getActionSender.sendInventory
 				} else {
@@ -42,14 +37,11 @@ class Wyson extends NpcDialog {
 
 		this + new GenericEnd("How about 20 coins?", npc, player) {
 			override def begin {
-				this > "Ok that's more than fair."
-				breath
+				this > "Ok that's more than fair."; breath
 				if (player.getInventory.remove(10, 20) > -1) {
-					this >> "You give Wyson 20 coins"
-					breath
+					this >> "You give Wyson 20 coins"; breath
 					player.getInventory.add(new InvItem(281, 2))
-					this >> "Wyson the gardener gives you some woad leaves"
-					breath
+					this >> "Wyson the gardener gives you some woad leaves"; breath
 					this > "Here have some more you're a generous person"
 					player.getActionSender.sendInventory
 				} else {
@@ -60,22 +52,17 @@ class Wyson extends NpcDialog {
 		}
 
 		override def begin {
-			this > "Well luckily for you I may have some around here"
-			breath
-			this < "Can I buy one please?"
-			breath
-			this > "How much are you willing to pay?"
-			breath
+			this > "Well luckily for you I may have some around here"; breath
+			this < "Can I buy one please?"; breath
+			this > "How much are you willing to pay?"; breath
 			end
 		}
 
 		private class NoGood(msg : String, _npc : Npc, _player : Player) extends GenericEnd(msg, _npc, _player) {
 
 			override def begin {
-				this > "No no that's far too little. Woad leaves are hard to get you know"
-				breath
-				this > "I used to have plenty but someone kept stealing them off me"
-				breath
+				this > "No no that's far too little. Woad leaves are hard to get you know"; breath
+				this > "I used to have plenty but someone kept stealing them off me"; breath
 				super.begin
 			}
 		}

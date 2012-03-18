@@ -22,6 +22,7 @@ object DialogService {
 		341, 369, 370, 794, 348, 267, 795, 347), new Certer)
 
 	addMapping(212, new EntranaMonk)
+	addMapping(163, new FromKaramjaToPortSarim)
 	addMapping(90, new KebabSeller)
 	addMapping(339, new MakeOverMage)
 	addMapping(93, new MonkHealer(null, null))

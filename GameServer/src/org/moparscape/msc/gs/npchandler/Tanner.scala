@@ -19,8 +19,7 @@ class Tanner extends NpcDialog {
 
 	lazy val option1 = new GenericEnd("Can I buy some leather then?", npc, player) {
 		override def begin {
-			this > "I make leather from cow hides."
-			breath
+			this > "I make leather from cow hides."; breath
 			this > "Bring me some and a gold per hide"
 			super.begin
 		}
@@ -29,7 +28,7 @@ class Tanner extends NpcDialog {
 	lazy val option2 = new GenericEnd("Here's some cow hides, can I buy some leather now?", npc, player) {
 		override def begin {
 			this > "Ok"
-			
+
 			while (hasMaterials == 0) {
 				player.getInventory.remove(147, 1)
 				player.getInventory.remove(10, 1)
@@ -55,11 +54,7 @@ class Tanner extends NpcDialog {
 		}
 	}
 
-	lazy val option3 = new GenericEnd("Leather is rather weak stuff", npc, player) {
-		override def begin {
-			super.begin
-			this > "Well yes if all you're concerned with is how much it will protect you in a fight."
-		}
-	}
+	lazy val option3 = new RespondEnd("Leather is rather weak stuff",
+		"Well yes if all you're concerned with is how much it will protect you in a fight.", npc, player)
 
 }

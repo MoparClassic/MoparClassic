@@ -12,26 +12,22 @@ class KebabSeller extends NpcDialog {
 
 	override def begin {
 
-		this > "Would you like to buy a nice kebab? Only 1 gold"
-
-		breath
+		this > "Would you like to buy a nice kebab? Only 1 gold"; breath
 
 		end
 	}
-
-	lazy val option1 = new GenericEnd("Yes please", npc, player) {
-		override def begin {
-			if(player.getInventory.remove(10, 1) > -1) {
-				player.getInventory.add(new InvItem(210, 1))
-				this >> "You buy a kebab"
-				breath
-				player.getActionSender.sendInventory
-			} else {
-				this < "Opps I don't seem to have enough money on me"
-				breath
-				this > "Come back when you have some"
-			}
-			super.begin
+	
+	lazy val option1 = new Transact("Yes please", Array((10, 1)), Array((210, 1)),
+			Array("Oops I don't seem to have enough money on me"), npc, player) {
+		
+		override def success {
+			this >> "You buy a kebab"
+			exit
+		}
+		
+		override def fail {
+			this > "Come back when you have some"
+			exit
 		}
 	}
 

@@ -11,10 +11,8 @@ class BananaExchange extends NpcDialog {
 	}
 
 	override def begin {
-		
-		this > "Hello, I am after 20 bananas, do you have 20 you can sell?"
 
-		breath
+		this > "Hello, I am after 20 bananas, do you have 20 you can sell?"; breath
 
 		end
 	}
@@ -22,26 +20,16 @@ class BananaExchange extends NpcDialog {
 	lazy val option1 = new NpcDialog("Yes, I will sell you 20 bananas.", npc, player) {
 
 		override def begin {
-			this > "I will give you 30gp for your 20 bananas, is that ok?"
-			breath
+			this > "I will give you 30gp for your 20 bananas, is that ok?"; breath
 			end
 		}
 
-		this + new GenericEnd("Sure", npc, player) {
-			override def begin {
-				breath
-				if (player.getInventory.countId(249) >= 20) {
-					for (i <- (0 to 20)) player.getInventory.remove(249, 1)
-					player.getInventory.add(new InvItem(10, 30))
-
-					this >> "You receive 30gp"
-					breath
-					player.getActionSender.sendInventory
-				} else {
-					this > "It looks like you don't have enough Bananas, don't waste my time."
-				}
-
-				super.begin
+		this + new Transact("Sure", Array((249, 20)), Array((10, 30)),
+			Array("It looks like you don't have enough Bananas, don't waste my time."),
+			npc, player) {
+			override def success {
+				this >> "You receive 30gp"
+				exit
 			}
 		}
 
