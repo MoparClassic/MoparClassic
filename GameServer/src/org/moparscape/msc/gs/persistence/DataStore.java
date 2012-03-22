@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
-import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.TelePoint;
+import org.moparscape.msc.gs.model.container.Shop;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
 import org.moparscape.msc.gs.model.definition.entity.ItemDef;

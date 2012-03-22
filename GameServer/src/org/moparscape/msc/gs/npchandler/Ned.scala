@@ -33,8 +33,8 @@ class Ned extends NpcDialog {
 
 		this + new GenericEnd("Okay, please sell me some rope", npc, player) {
 			override def begin {
-				if (player.getInventory.remove(10, 15) > -1) {
-					player.getInventory.add(new InvItem(237, 1))
+				if (player.getInventory.remove(10, 15)) {
+					player.getInventory.add(237)
 					this > "There you go. Finest rope in RuneScape"; breath
 					player.getActionSender.sendInventory
 				} else {
@@ -62,7 +62,7 @@ class Ned extends NpcDialog {
 					pause(1500)
 					this >> "Ned fastens the wool into a coiled rope"
 					pause(800)
-					player.getInventory.add(new InvItem(237, 1))
+					player.getInventory.add(237)
 					this >> "Ned hands you a coil of rope"; breath
 					player.getActionSender.sendInventory
 				} else {

@@ -33,7 +33,7 @@ class Tanner extends NpcDialog {
 				player.getInventory.remove(147, 1)
 				player.getInventory.remove(10, 1)
 				this >> "The tanner tans your hide for 1gp."
-				player.getInventory.add(new InvItem(148, 1))
+				player.getInventory.add(148)
 				breath
 				player.getActionSender.sendInventory
 			}

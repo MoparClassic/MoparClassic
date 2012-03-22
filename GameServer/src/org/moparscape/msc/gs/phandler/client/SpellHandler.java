@@ -39,6 +39,7 @@ import org.moparscape.msc.gs.model.landscape.PathGenerator;
 import org.moparscape.msc.gs.model.mini.Damage;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
+import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.tools.DataConversions;
 
@@ -80,9 +81,9 @@ public class SpellHandler implements PacketHandler {
 		for (Entry<Integer, Integer> e : spell.getRunesRequired()) {
 			boolean skipRune = false;
 			for (InvItem staff : getStaffs(e.getKey())) {
-				if (player.getInventory().contains(staff)) {
+				if (player.getInventory().contains(staff.id)) {
 					for (InvItem item : player.getInventory().getItems()) {
-						if (item.equals(staff) && item.isWielded()) {
+						if (item.equals(staff) && item.wielded) {
 							skipRune = true;
 							break;
 						}
@@ -105,9 +106,9 @@ public class SpellHandler implements PacketHandler {
 		for (Entry<Integer, Integer> e : spell.getRunesRequired()) {
 			boolean skipRune = false;
 			for (InvItem staff : getStaffs(e.getKey())) {
-				if (player.getInventory().contains(staff)) {
+				if (player.getInventory().contains(staff.id)) {
 					for (InvItem item : player.getInventory().getItems()) {
-						if (item.equals(staff) && item.isWielded()) {
+						if (item.equals(staff) && item.wielded) {
 							skipRune = true;
 							break;
 						}
@@ -118,9 +119,9 @@ public class SpellHandler implements PacketHandler {
 				continue;
 			}
 			player.getInventory().remove(((Integer) e.getKey()).intValue(),
-					((Integer) e.getValue()).intValue());
+					((Integer) e.getValue()).intValue(), false);
 		}
-		
+
 		return true;
 	}
 
@@ -185,26 +186,26 @@ public class SpellHandler implements PacketHandler {
 			if (!checkAndRemoveRunes(player, spell)) {
 				return;
 			}
-			Iterator<InvItem> inventory = player.getInventory().iterator();
+			Iterator<InvItem> inventory = player.getInventory().getItems()
+					.iterator();
 			int boneCount = 0;
 			while (inventory.hasNext()) {
 				InvItem i = inventory.next();
-				if (i.getID() == 20) {
+				if (i.id == 20) {
 					inventory.remove();
 					boneCount++;
 				}
 			}
 			for (int i = 0; i < boneCount; i++) {
-				player.getInventory().add(new InvItem(249));
+				player.getInventory().add(249, 1, false);
 			}
 			finalizeSpell(player, spell);
 			break;
 		case 48: // Charge
-			
+
 			if (!Server.isMembers()) {
-				player.getActionSender()
-						.sendMessage(
-								GameServer.P2P_LIMIT_MESSAGE);
+				player.getActionSender().sendMessage(
+						GameServer.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			if (world.getTile(player.getLocation()).hasGameObject()) {
@@ -228,15 +229,16 @@ public class SpellHandler implements PacketHandler {
 	}
 
 	private void handleInvItemCast(Player player, SpellDef spell, int id,
-			InvItem affectedItem) {
+			InvItem affectedItem, int slot) {
 		switch (id) {
 		case 3: // Enchant lvl-1 Sapphire amulet
-			if (affectedItem.getID() == 302) {
+			if (affectedItem.id == 302) {
 				if (!checkAndRemoveRunes(player, spell)) {
 					return;
 				}
-				player.getInventory().remove(affectedItem);
-				player.getInventory().add(new InvItem(314));
+				player.getInventory().remove(affectedItem.id,
+						affectedItem.amount, false);
+				player.getInventory().add(314, 1, false);
 				finalizeSpell(player, spell);
 			} else {
 				player.getActionSender().sendMessage(
@@ -245,32 +247,32 @@ public class SpellHandler implements PacketHandler {
 			break;
 		case 10: // Low level alchemy
 			if (!Server.isMembers() && affectedItem.getDef().members) {
-				player.getActionSender()
-						.sendMessage(
-								GameServer.P2P_LIMIT_MESSAGE);
+				player.getActionSender().sendMessage(
+						GameServer.P2P_LIMIT_MESSAGE);
 				return;
 			}
-			if (affectedItem.getID() == 10) {
+			if (affectedItem.id == 10) {
 				player.getActionSender().sendMessage("You cannot alchemy that");
 				return;
 			}
 			if (!checkAndRemoveRunes(player, spell)) {
 				return;
 			}
-			if (player.getInventory().remove(affectedItem) > 1) {
-				int value = (int) (affectedItem.getDef().getBasePrice() * 0.4D * affectedItem
-						.getAmount());
-				player.getInventory().add(new InvItem(10, value)); // 40%
+			if (player.getInventory().remove(affectedItem.id,
+					affectedItem.amount, false)) {
+				int value = (int) (affectedItem.getDef().getBasePrice() * 0.4D * affectedItem.amount);
+				player.getInventory().add(10, value, false); // 40%
 			}
 			finalizeSpell(player, spell);
 			break;
 		case 13: // Enchant lvl-2 emerald amulet
-			if (affectedItem.getID() == 303) {
+			if (affectedItem.id == 303) {
 				if (!checkAndRemoveRunes(player, spell)) {
 					return;
 				}
-				player.getInventory().remove(affectedItem);
-				player.getInventory().add(new InvItem(315));
+				player.getInventory().remove(affectedItem.id,
+						affectedItem.amount, false);
+				player.getInventory().add(315, 1, false);
 				finalizeSpell(player, spell);
 			} else {
 				player.getActionSender().sendMessage(
@@ -278,7 +280,8 @@ public class SpellHandler implements PacketHandler {
 			}
 			break;
 		case 21: // Superheat item
-			ItemSmeltingDef smeltingDef = affectedItem.getSmeltingDef();
+			ItemSmeltingDef smeltingDef = ItemAttributes
+					.getSmeltingDef(affectedItem.id);
 			if (smeltingDef == null) {
 				player.getActionSender().sendMessage(
 						"This spell cannot be used on this kind of item");
@@ -287,7 +290,7 @@ public class SpellHandler implements PacketHandler {
 			for (ReqOreDef reqOre : smeltingDef.getReqOres()) {
 				if (player.getInventory().countId(reqOre.getId()) < reqOre
 						.getAmount()) {
-					if (affectedItem.getID() == 151) {
+					if (affectedItem.id == 151) {
 						smeltingDef = EntityHandler.getItemSmeltingDef(9999);
 						break;
 					}
@@ -313,16 +316,15 @@ public class SpellHandler implements PacketHandler {
 				return;
 			}
 			InvItem bar = new InvItem(smeltingDef.getBarId());
-			if (player.getInventory().remove(affectedItem) > -1) {
+			if (player.getInventory().remove(affectedItem.id,
+					affectedItem.amount, false)) {
 				for (ReqOreDef reqOre : smeltingDef.getReqOres()) {
-					for (int i = 0; i < reqOre.getAmount(); i++) {
-						player.getInventory().remove(
-								new InvItem(reqOre.getId()));
-					}
+					player.getInventory().remove(reqOre.getId(), reqOre.amount,
+							false);
 				}
 				player.getActionSender().sendMessage(
 						"You make a " + bar.getDef().getName() + ".");
-				player.getInventory().add(bar);
+				player.getInventory().add(bar.id, bar.amount, false);
 				player.incExp(13, smeltingDef.getExp(), true);
 				player.getActionSender().sendStat(13);
 				player.getActionSender().sendInventory();
@@ -330,12 +332,13 @@ public class SpellHandler implements PacketHandler {
 			finalizeSpell(player, spell);
 			break;
 		case 24: // Enchant lvl-3 ruby amulet
-			if (affectedItem.getID() == 304) {
+			if (affectedItem.id == 304) {
 				if (!checkAndRemoveRunes(player, spell)) {
 					return;
 				}
-				player.getInventory().remove(affectedItem);
-				player.getInventory().add(new InvItem(316));
+				player.getInventory().remove(affectedItem.id,
+						affectedItem.amount, false);
+				player.getInventory().add(316, 1, false);
 				finalizeSpell(player, spell);
 			} else {
 				player.getActionSender().sendMessage(
@@ -344,32 +347,32 @@ public class SpellHandler implements PacketHandler {
 			break;
 		case 28: // High level alchemy
 			if (!Server.isMembers() && affectedItem.getDef().members) {
-				player.getActionSender()
-						.sendMessage(
-								GameServer.P2P_LIMIT_MESSAGE);
+				player.getActionSender().sendMessage(
+						GameServer.P2P_LIMIT_MESSAGE);
 				return;
 			}
-			if (affectedItem.getID() == 10) {
+			if (affectedItem.id == 10) {
 				player.getActionSender().sendMessage("You cannot alchemy that");
 				return;
 			}
 			if (!checkAndRemoveRunes(player, spell)) {
 				return;
 			}
-			if (player.getInventory().remove(affectedItem) > -1) {
-				int value = (int) (affectedItem.getDef().getBasePrice() * 0.6D * affectedItem
-						.getAmount());
-				player.getInventory().add(new InvItem(10, value)); // 60%
+			if (player.getInventory().remove(affectedItem.id,
+					affectedItem.amount, false)) {
+				int value = (int) (affectedItem.getDef().getBasePrice() * 0.6D * affectedItem.amount);
+				player.getInventory().add(10, value, false); // 60%
 			}
 			finalizeSpell(player, spell);
 			break;
 		case 30: // Enchant lvl-4 diamond amulet
-			if (affectedItem.getID() == 305) {
+			if (affectedItem.id == 305) {
 				if (!checkAndRemoveRunes(player, spell)) {
 					return;
 				}
-				player.getInventory().remove(affectedItem);
-				player.getInventory().add(new InvItem(317));
+				player.getInventory().remove(affectedItem.id,
+						affectedItem.amount, false);
+				player.getInventory().add(317, 1, false);
 				finalizeSpell(player, spell);
 			} else {
 				player.getActionSender().sendMessage(
@@ -378,17 +381,17 @@ public class SpellHandler implements PacketHandler {
 			break;
 		case 43: // Enchant lvl-5 dragonstone amulet
 			if (!Server.isMembers() && affectedItem.getDef().members) {
-				player.getActionSender()
-						.sendMessage(
-								GameServer.P2P_LIMIT_MESSAGE);
+				player.getActionSender().sendMessage(
+						GameServer.P2P_LIMIT_MESSAGE);
 				return;
 			}
-			if (affectedItem.getID() == 610) {
+			if (affectedItem.id == 610) {
 				if (!checkAndRemoveRunes(player, spell)) {
 					return;
 				}
-				player.getInventory().remove(affectedItem);
-				player.getInventory().add(new InvItem(522));
+				player.getInventory().remove(affectedItem.id,
+						affectedItem.amount, false);
+				player.getInventory().add(522, 1, false);
 				finalizeSpell(player, spell);
 			} else {
 				player.getActionSender().sendMessage(
@@ -397,13 +400,10 @@ public class SpellHandler implements PacketHandler {
 			break;
 
 		}
-		if (affectedItem.isWielded()) {
+		if (affectedItem.wielded) {
 			player.getActionSender().sendSound("click");
-			affectedItem.setWield(false);
-			player.updateWornItems(
-					affectedItem.getWieldableDef().getWieldPos(),
-					player.getPlayerAppearance().getSprite(
-							affectedItem.getWieldableDef().getWieldPos()));
+			player.getInventory().setWield(slot, false);
+			player.updateWornItems();
 			player.getActionSender().sendEquipmentStats();
 		}
 	}
@@ -424,8 +424,8 @@ public class SpellHandler implements PacketHandler {
 						}
 						// check if the item is a rare
 						/*
-						 * int itemid = affectedItem.getID(); if(itemid == 828
-						 * || itemid == 831 || itemid == 832 || itemid == 422 ||
+						 * int itemid = affectedItem.id; if(itemid == 828 ||
+						 * itemid == 831 || itemid == 832 || itemid == 422 ||
 						 * itemid == 1289) {
 						 * owner.getActionSender().sendMessage(
 						 * "Using Telekinetic grab on rare drops isn't fun ):");
@@ -439,7 +439,7 @@ public class SpellHandler implements PacketHandler {
 										"You may not telegrab this item");
 								return;
 							}
-							
+
 							if (DataConversions.inArray(
 									Formulae.telegrabBlocked,
 									affectedItem.getID())) {
@@ -460,9 +460,8 @@ public class SpellHandler implements PacketHandler {
 							}
 							world.unregisterItem(affectedItem);
 							finalizeSpell(owner, spell);
-							owner.getInventory().add(
-									new InvItem(affectedItem.getID(),
-											affectedItem.getAmount()));
+							owner.getInventory().add(affectedItem.getID(),
+									affectedItem.getAmount(), false);
 							break;
 						}
 						owner.getActionSender().sendInventory();
@@ -725,11 +724,11 @@ public class SpellHandler implements PacketHandler {
 								}
 							}
 							boolean flagispro = false;
-							ListIterator<?> iterator22 = owner.getInventory()
-									.iterator();
+							ListIterator<InvItem> iterator22 = owner
+									.getInventory().getItems().listIterator();
 							for (int slot = 0; iterator22.hasNext(); slot++) {
 								InvItem cape = (InvItem) iterator22.next();
-								if (cape.getID() == 1000 && cape.isWielded()) {
+								if (cape.id == 1000 && cape.wielded) {
 									flagispro = flagispro || true;
 								}
 								// else {flag = false;}
@@ -807,11 +806,11 @@ public class SpellHandler implements PacketHandler {
 								}
 							}
 							boolean flag = false;
-							ListIterator<?> iterator = owner.getInventory()
-									.iterator();
+							ListIterator<InvItem> iterator = owner
+									.getInventory().getItems().listIterator();
 							for (int slot = 0; iterator.hasNext(); slot++) {
-								InvItem cape = (InvItem) iterator.next();
-								if (cape.getID() == 1217 && cape.isWielded()) {
+								InvItem cape = iterator.next();
+								if (cape.id == 1217 && cape.wielded) {
 									flag = true;
 								}
 								// else {flag = false;}
@@ -891,11 +890,11 @@ public class SpellHandler implements PacketHandler {
 								return;
 							}
 							boolean bool = false;
-							ListIterator<?> iterat = owner.getInventory()
-									.iterator();
+							ListIterator<InvItem> iterat = owner.getInventory()
+									.getItems().listIterator();
 							for (int slot = 0; iterat.hasNext(); slot++) {
-								InvItem cape = (InvItem) iterat.next();
-								if (cape.getID() == 1218 && cape.isWielded()) {
+								InvItem cape = iterat.next();
+								if (cape.id == 1218 && cape.wielded) {
 									bool = bool || true;
 								}
 								// else {flag = false;}
@@ -974,11 +973,11 @@ public class SpellHandler implements PacketHandler {
 								return;
 							}
 							boolean flag2 = false;
-							ListIterator<?> iterato = owner.getInventory()
-									.iterator();
+							ListIterator<InvItem> iterato = owner
+									.getInventory().getItems().listIterator();
 							for (int slot = 0; iterato.hasNext(); slot++) {
-								InvItem cape = (InvItem) iterato.next();
-								if (cape.getID() == 1216 && cape.isWielded()) {
+								InvItem cape = iterato.next();
+								if (cape.id == 1216 && cape.wielded) {
 									flag2 = flag2 || true;
 								}
 								// else {flag = false;}
@@ -1293,20 +1292,6 @@ public class SpellHandler implements PacketHandler {
 					return;
 				}
 
-				if (affectedNpc.inCombat()
-						&& World.getQuestManager().isNpcAssociated(affectedNpc,
-								player)) {
-					if (player.getOpponent() != null
-							&& player.getOpponent().equals(affectedNpc)) {
-					} else {
-						player.getActionSender().sendMessage(
-								"You can't cast spells on the "
-										+ affectedNpc.getDef().getName()
-										+ " while it's in combat!");
-						player.resetPath();
-						return;
-					}
-				}
 				if (affectedNpc.getID() == 35) {
 					player.getActionSender()
 							.sendMessage(
@@ -1329,12 +1314,13 @@ public class SpellHandler implements PacketHandler {
 				return;
 			}
 			if (spell.getSpellType() == 3) {
-				InvItem item = player.getInventory().get(p.readShort());
+				int slot = p.readShort();
+				InvItem item = player.getInventory().getSlot(slot);
 				if (item == null) { // This shoudln't happen
 					player.resetPath();
 					return;
 				}
-				handleInvItemCast(player, spell, idx, item);
+				handleInvItemCast(player, spell, idx, item, slot);
 			}
 			// if(spell.getSpellType() == 6) {
 			// handleGroundCast(player, spell);
@@ -1426,28 +1412,32 @@ public class SpellHandler implements PacketHandler {
 			break;
 		case 22: // Camalot
 			if (!Server.isMembers()) {
-				player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+				player.getActionSender().sendMessage(
+						GameServer.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			player.teleport(465, 456, true);
 			break;
 		case 26: // Ardougne
 			if (!Server.isMembers()) {
-				player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+				player.getActionSender().sendMessage(
+						GameServer.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			player.teleport(585, 621, true);
 			break;
 		case 31: // Watchtower
 			if (!Server.isMembers()) {
-				player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+				player.getActionSender().sendMessage(
+						GameServer.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			player.teleport(637, 2628, true);
 			break;
 		case 37: // Lost city
 			if (!Server.isMembers()) {
-				player.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+				player.getActionSender().sendMessage(
+						GameServer.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			player.teleport(131, 3544, true);

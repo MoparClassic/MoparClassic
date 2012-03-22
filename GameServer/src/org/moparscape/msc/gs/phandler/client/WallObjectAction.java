@@ -50,10 +50,7 @@ public class WallObjectAction implements PacketHandler {
 					+ " used a door ("
 					+ object.getID()
 					+ ") at: " + player.getX() + "/" + player.getY()));
-
-			if (World.getQuestManager()
-					.handleObject(object, player, click == 1))
-				return;
+			
 			player.setStatus(Action.USING_DOOR);
 			Instance.getDelayedEventHandler()
 					.add(new WalkToPointEvent(player, object.getLocation(), 1,

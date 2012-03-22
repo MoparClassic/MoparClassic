@@ -12,13 +12,14 @@ import org.moparscape.msc.gs.event.DuelEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.event.WalkToMobEvent;
 import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.definition.entity.ItemDef;
 import org.moparscape.msc.gs.model.landscape.PathGenerator;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
+import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
@@ -49,10 +50,11 @@ public class DuelHandler implements PacketHandler {
 		if (player.isPMod() && !player.isMod())
 			return;
 		if (!Server.isMembers()) {
-			player.getActionSender().sendMessage(Constants.GameServer.P2P_LIMIT_MESSAGE);
+			player.getActionSender().sendMessage(
+					Constants.GameServer.P2P_LIMIT_MESSAGE);
 			return;
 		}
-		
+
 		if (player.isDuelConfirmAccepted() && affectedPlayer != null
 				&& affectedPlayer.isDuelConfirmAccepted()) {
 			// If we are actually dueling we shouldn't touch any settings
@@ -201,31 +203,39 @@ public class DuelHandler implements PacketHandler {
 				affectedPlayer.setStatus(Action.DUELING_PLAYER);
 
 				if (player.getDuelSetting(3)) {
+					int slot = 0;
 					for (InvItem item : player.getInventory().getItems()) {
-						if (item.isWielded()) {
-							item.setWield(false);
+						if (item.wielded) {
+							player.getInventory().setWield(slot, false);
 							player.updateWornItems(
-									item.getWieldableDef().getWieldPos(),
+									ItemAttributes.getWieldable(item.id)
+											.getWieldPos(),
 									player.getPlayerAppearance().getSprite(
-											item.getWieldableDef()
-													.getWieldPos()));
+											ItemAttributes.getWieldable(
+													item.id).getWieldPos()));
 						}
+						slot++;
 					}
 					player.getActionSender().sendSound("click");
 					player.getActionSender().sendInventory();
 					player.getActionSender().sendEquipmentStats();
 
+					slot = 0;
 					for (InvItem item : affectedPlayer.getInventory()
 							.getItems()) {
-						if (item.isWielded()) {
-							item.setWield(false);
+						if (item.wielded) {
+							affectedPlayer.getInventory().setWield(slot, false);
 							affectedPlayer.updateWornItems(
-									item.getWieldableDef().getWieldPos(),
+									ItemAttributes.getWieldable(item.id)
+											.getWieldPos(),
 									affectedPlayer.getPlayerAppearance()
 											.getSprite(
-													item.getWieldableDef()
+													ItemAttributes
+															.getWieldable(
+																	item.id)
 															.getWieldPos()));
 						}
+						slot++;
 					}
 					affectedPlayer.getActionSender().sendSound("click");
 					affectedPlayer.getActionSender().sendInventory();
@@ -389,7 +399,7 @@ public class DuelHandler implements PacketHandler {
 			int count = (int) p.readByte();
 			for (int slot = 0; slot < count; slot++) {
 				InvItem tItem = new InvItem(p.readShort(), p.readInt());
-				if (tItem.getAmount() < 1) {
+				if (tItem.amount < 1) {
 					player.setSuspiciousPlayer(true);
 					continue;
 				}
@@ -401,11 +411,11 @@ public class DuelHandler implements PacketHandler {
 					player.setRequiresOfferUpdate(true);
 					continue;
 				}
-				duelOffer.add(tItem);
+				duelOffer.add(tItem.id, tItem.amount, false);
 			}
 			for (InvItem item : duelOffer.getItems()) {
-				if (duelOffer.countId(item.getID()) > player.getInventory()
-						.countId(item.getID())) {
+				if (duelOffer.countId(item.id) > player.getInventory()
+						.countId(item.id)) {
 					player.setSuspiciousPlayer(true);
 					return;
 				}

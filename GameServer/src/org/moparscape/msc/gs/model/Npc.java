@@ -356,8 +356,6 @@ public class Npc extends Mob {
 		Player owner = mob instanceof Player ? (Player) mob : null;
 
 		drop(owner);
-
-		World.getQuestManager().handleNpcKilled(this, owner);
 	}
 
 	private boolean drop(Player owner) {

@@ -11,8 +11,8 @@ class Transact(msg : String, give : Array[(Int, Int)],
 
 	override def begin {
 		if (hasItems(give)) {
-			give foreach (i => player.getInventory.removeAmount(i._1, i._2))
-			receive foreach (i => player.getInventory.addAmount(i._1, i._2))
+			give foreach (i => player.getInventory.remove(i._1, i._2))
+			receive foreach (i => player.getInventory.add(i._1, i._2))
 			breath
 			player.getActionSender.sendInventory
 			success

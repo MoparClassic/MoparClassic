@@ -23,9 +23,9 @@ class Wyson extends NpcDialog {
 		this + new GenericEnd("How about 15 coins?", npc, player) {
 			override def begin {
 				this > "Mmmm ok that sounds fair"; breath
-				if (player.getInventory.remove(10, 15) > -1) {
+				if (player.getInventory.remove(10, 15)) {
 					this >> "You give Wyson 15 coins"; breath
-					player.getInventory.add(new InvItem(281, 1)); breath
+					player.getInventory.add(281); breath
 					this >> "Wyson the gardener gives you some woad leaves"
 					player.getActionSender.sendInventory
 				} else {
@@ -38,9 +38,9 @@ class Wyson extends NpcDialog {
 		this + new GenericEnd("How about 20 coins?", npc, player) {
 			override def begin {
 				this > "Ok that's more than fair."; breath
-				if (player.getInventory.remove(10, 20) > -1) {
+				if (player.getInventory.remove(10, 20)) {
 					this >> "You give Wyson 20 coins"; breath
-					player.getInventory.add(new InvItem(281, 2))
+					player.getInventory.add(281, 2)
 					this >> "Wyson the gardener gives you some woad leaves"; breath
 					this > "Here have some more you're a generous person"
 					player.getActionSender.sendInventory

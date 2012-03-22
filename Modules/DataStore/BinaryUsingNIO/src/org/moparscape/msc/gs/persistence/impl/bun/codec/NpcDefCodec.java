@@ -14,6 +14,7 @@ public class NpcDefCodec implements Codec<NPCDef[]> {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private ByteBuffer encode(NPCDef d) {
 		ByteBuffer buf = ByteBuffer.allocate(d.getName().length() + 1 + d.getDescription().length() + 1 + d.getCommand().length() + 2 + 4 * 2 + 2 + 13 + 8 + 8);
 		

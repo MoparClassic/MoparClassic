@@ -284,7 +284,7 @@ class CommandHandler extends PacketHandler {
 	}
 
 	def clearInv(p : Player) {
-		p.getInventory.getItems.clear
+		p.getInventory.clear
 		p.getActionSender.sendInventory
 	}
 
@@ -355,10 +355,9 @@ class CommandHandler extends PacketHandler {
 			if (args.length == 2 && EntityHandler.getItemDef(id).isStackable) {
 				amount = args(1).toInt
 			}
-			val item = new InvItem(id, amount)
-			p.getInventory.add(item)
+			p.getInventory.add(id, amount)
 			p.getActionSender.sendInventory
-			Logger.mod(p.getUsername + " spawned themself " + amount + " " + item.getDef.getName + "(s)")
+			Logger.mod(p.getUsername + " spawned themself " + amount + " " + new InvItem(id).getDef.getName + "(s)")
 		} else {
 			message(p, "Invalid id")
 		}

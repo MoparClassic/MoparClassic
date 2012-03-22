@@ -6,7 +6,7 @@ class ShopKeeper extends NpcDialog {
 
 	override def init {
 		val shop = Instance.getWorld.getShop(npc.getLocation)
-		var options = shop.getOptions.toList
+		var options = shop.options
 
 		this + new GenericEnd(options(0), npc, player) {
 			override def begin {
@@ -26,7 +26,7 @@ class ShopKeeper extends NpcDialog {
 	override def begin {
 		val shop = Instance.getWorld.getShop(npc.getLocation)
 
-		this > shop.getGreeting
+		this > shop.greeting
 
 		breath
 		

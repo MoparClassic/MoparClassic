@@ -93,11 +93,11 @@ public class RangeEvent extends DelayedEvent {
 		boolean xbow = DataConversions.inArray(Formulae.xbowIDs, bowID);
 		int arrowID = -1;
 		for (int aID : (xbow ? Formulae.boltIDs : Formulae.arrowIDs)) {
-			int slot = owner.getInventory().getLastIndexById(aID);
+			int slot = owner.getInventory().getLastItemSlot(aID);
 			if (slot < 0) {
 				continue;
 			}
-			InvItem arrow = owner.getInventory().get(slot);
+			InvItem arrow = owner.getInventory().getSlot(slot);
 			if (arrow == null) { // This shouldn't happen
 				continue;
 			}
@@ -112,7 +112,6 @@ public class RangeEvent extends DelayedEvent {
 					return;
 				}
 			}
-			int newAmount = arrow.getAmount() - 1;
 			if (!xbow && arrowID > 0) {
 				int temp = -1;
 
@@ -134,13 +133,8 @@ public class RangeEvent extends DelayedEvent {
 				}
 			}
 
-			if (newAmount <= 0) {
-				owner.getInventory().remove(slot);
-				owner.getActionSender().sendInventory();
-			} else {
-				arrow.setAmount(newAmount);
-				owner.getActionSender().sendUpdateItem(slot);
-			}
+			owner.getInventory().remove(arrow.id, arrow.amount, false);
+			owner.getActionSender().sendInventory();
 			break;
 		}
 		if (arrowID < 0) {

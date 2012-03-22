@@ -22,8 +22,8 @@ class Barmaid extends NpcDialog {
 	private class BuyAle(id : Int, cost : Int, msg : String, msg1 : String, _npc : Npc, _player : Player) extends GenericEnd(msg, _npc, _player) {
 		override def begin {
 			this > "That'll be " + cost + " gold"; breath
-			if (player.getInventory.remove(10, cost) > -1) {
-				player.getInventory.add(new InvItem(id, 1))
+			if (player.getInventory.remove(10, cost)) {
+				player.getInventory.add(id)
 				this > "You buy a" + msg1
 			} else {
 				this < "Oh dear. I don't seem to have enough money"

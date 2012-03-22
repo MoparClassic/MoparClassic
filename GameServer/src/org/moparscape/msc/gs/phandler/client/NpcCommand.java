@@ -25,11 +25,7 @@ public class NpcCommand implements PacketHandler {
 		}
 		final Mob affectedMob = world.getNpc(serverIndex);
 		final Npc affectedNpc = (Npc) affectedMob;
-		if (affectedNpc == null
-				|| affectedMob == null
-				|| player == null
-				|| !World.getQuestManager().isNpcVisible((Npc) affectedMob,
-						player))
+		if (affectedNpc == null || affectedMob == null || player == null)
 			return;
 		if (!World.isMembers()) {
 			player.getActionSender().sendMessage(

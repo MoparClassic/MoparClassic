@@ -26,12 +26,16 @@ import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.RangeEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
+import org.moparscape.msc.gs.model.container.Bank;
+import org.moparscape.msc.gs.model.container.Inventory;
+import org.moparscape.msc.gs.model.container.Shop;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
-import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -569,9 +573,6 @@ public final class Player extends Mob {
 		actionSender = new MiscPacketBuilder(this);
 		setBusy(true);
 		Instance.getWorld();
-		for (int i : World.getQuestManager().getQuestIds()) {
-			questStage.put(i, -1);
-		}
 	}
 
 	public boolean accessingBank() {
@@ -884,8 +885,9 @@ public final class Player extends Mob {
 	public int getArmourPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getArmourPoints();
+			if (item.wielded) {
+				points += EntityHandler.getItemWieldableDef(item.id)
+						.getArmourPoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -899,7 +901,6 @@ public final class Player extends Mob {
 		return attackedBy;
 	}
 
-
 	public Bank getBank() {
 		return bank;
 	}
@@ -908,16 +909,13 @@ public final class Player extends Mob {
 		return bubblesNeedingDisplayed;
 	}
 
-
 	public long getCastTimer() {
 		return lastSpellCast;
 	}
 
-
 	public List<ChatMessage> getChatMessagesNeedingDisplayed() {
 		return chatMessagesNeedingDisplayed;
 	}
-
 
 	public LinkedList<ChatMessage> getChatQueue() {
 		return chatQueue;
@@ -1020,13 +1018,13 @@ public final class Player extends Mob {
 	public boolean getDuelSetting(int i) {
 		try {
 			for (InvItem item : duelOffer) {
-				if (DataConversions.inArray(Formulae.runeIDs, item.getID())) {
+				if (DataConversions.inArray(Formulae.runeIDs, item.id)) {
 					setDuelSetting(1, true);
 					break;
 				}
 			}
 			for (InvItem item : wishToDuel.getDuelOffer()) {
-				if (DataConversions.inArray(Formulae.runeIDs, item.getID())) {
+				if (DataConversions.inArray(Formulae.runeIDs, item.id)) {
 					setDuelSetting(1, true);
 					break;
 				}
@@ -1218,8 +1216,9 @@ public final class Player extends Mob {
 	public int getMagicPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getMagicPoints();
+			if (item.wielded) {
+				points += EntityHandler.getItemWieldableDef(item.id)
+						.getMagicPoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1268,7 +1267,7 @@ public final class Player extends Mob {
 	public int getOwner() {
 		return owner;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -1302,8 +1301,9 @@ public final class Player extends Mob {
 	public int getPrayerPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getPrayerPoints();
+			if (item.wielded) {
+				points += EntityHandler.getItemWieldableDef(item.id)
+						.getPrayerPoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1333,20 +1333,16 @@ public final class Player extends Mob {
 		return questStage.get(questId);
 	}
 
-	public int getQuestStage(Quest quest) {
-		return getQuestStage(quest.getUniqueID());
-	}
-
 	public HashMap<Integer, Integer> getQuestStages() {
 		return questStage;
 	}
 
 	public int getRangeEquip() {
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()
-					&& (DataConversions.inArray(Formulae.bowIDs, item.getID()) || DataConversions
-							.inArray(Formulae.xbowIDs, item.getID()))) {
-				return item.getID();
+			if (item.wielded
+					&& (DataConversions.inArray(Formulae.bowIDs, item.id) || DataConversions
+							.inArray(Formulae.xbowIDs, item.id))) {
+				return item.id;
 			}
 		}
 		return -1;
@@ -1359,8 +1355,9 @@ public final class Player extends Mob {
 	public int getRangePoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getRangePoints();
+			if (item.wielded) {
+				points += EntityHandler.getItemWieldableDef(item.id)
+						.getRangePoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1473,8 +1470,9 @@ public final class Player extends Mob {
 	public int getWeaponAimPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getWeaponAimPoints();
+			if (item.wielded) {
+				points += EntityHandler.getItemWieldableDef(item.id)
+						.getWeaponAimPoints();
 			}
 		}
 		points -= 1;
@@ -1484,8 +1482,9 @@ public final class Player extends Mob {
 	public int getWeaponPowerPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getWeaponPowerPoints();
+			if (item.wielded) {
+				points += EntityHandler.getItemWieldableDef(item.id)
+						.getWeaponPowerPoints();
 			}
 		}
 		points -= 1;
@@ -1785,7 +1784,7 @@ public final class Player extends Mob {
 	public boolean isNoPK() {
 		return nopk;
 	}
-	
+
 	public boolean isPMod() {
 		return groupID == 5 || isMod() || isAdmin();
 	}
@@ -1871,34 +1870,34 @@ public final class Player extends Mob {
 						+ this.getUsername());
 			}
 			for (InvItem item : duelOffer) {
-				InvItem affectedItem = getInventory().get(item);
-				if (affectedItem == null) {
+				if (!inventory.remove(item.id, item.amount, false)) {
 					setSuspiciousPlayer(true);
-					Logger.error("Missing staked item [" + item.getID() + ", "
-							+ item.getAmount() + "] from = " + usernameHash
+					Logger.error("Missing staked item [" + item.id + ", "
+							+ item.amount + "] from = " + usernameHash
 							+ "; to = " + player.getUsernameHash() + ";");
 					continue;
 				}
-				if (affectedItem.isWielded()) {
-					affectedItem.setWield(false);
-					updateWornItems(
-							affectedItem.getWieldableDef().getWieldPos(),
-							getPlayerAppearance().getSprite(
-									affectedItem.getWieldableDef()
-											.getWieldPos()));
-				}
-				getInventory().remove(item);
+
+				// TODO: Update wielded items
+				/*
+				 * if (affectedItem.wielded) { affectedItem.setWield(false);
+				 * updateWornItems(
+				 * affectedItem.getWieldableDef().getWieldPos(),
+				 * getPlayerAppearance().getSprite(
+				 * affectedItem.getWieldableDef() .getWieldPos())); }
+				 */
 				final long playerhash = DataConversions.usernameToHash(player
 						.getUsername());
-				DuelLog.sendlog(playerhash, usernameHash, item.getID(),
-						item.getAmount(), getX(), getY(), 2);
+				DuelLog.sendlog(playerhash, usernameHash, item.id, item.amount,
+						getX(), getY(), 2);
 				// newItem.setdroppedby(getUsernameHash());
-				world.registerItem(new Item(item.getID(), getX(), getY(), item
-						.getAmount(), player));
+				world.registerItem(new Item(item.id, getX(), getY(),
+						item.amount, player));
 			}
 		} else {
-			inventory.sort();
-			ListIterator<InvItem> iterator = inventory.iterator();
+			inventory.sortByValue();
+			ListIterator<InvItem> iterator = inventory.getItems()
+					.listIterator();
 			if (!isSkulled()) {
 				for (int i = 0; i < 3 && iterator.hasNext(); i++) {
 					if ((iterator.next()).getDef().isStackable()) {
@@ -1914,15 +1913,16 @@ public final class Player extends Mob {
 			}
 			for (int slot = 0; iterator.hasNext(); slot++) {
 				InvItem item = (InvItem) iterator.next();
-				if (item.isWielded()) {
-					item.setWield(false);
-					updateWornItems(item.getWieldableDef().getWieldPos(),
-							appearance.getSprite(item.getWieldableDef()
-									.getWieldPos()));
-				}
+				// TODO: Remove items
+				/*
+				 * if (item.wielded)) { item.setWield(false);
+				 * updateWornItems(item.getWieldableDef().getWieldPos(),
+				 * appearance.getSprite(item.getWieldableDef() .getWieldPos()));
+				 * }
+				 */
 				iterator.remove();
-				world.registerItem(new Item(item.getID(), getX(), getY(), item
-						.getAmount(), player));
+				world.registerItem(new Item(item.id, getX(), getY(),
+						item.amount, player));
 			}
 			removeSkull();
 		}
@@ -1985,7 +1985,7 @@ public final class Player extends Mob {
 						}
 
 						public void run() {
-							if(p == null || p.isDestroy()) {
+							if (p == null || p.isDestroy()) {
 								this.stop();
 							}
 							for (int statIndex = 0; statIndex < 18; statIndex++) {
@@ -2010,7 +2010,7 @@ public final class Player extends Mob {
 			drainer = new DelayedEvent(this, Integer.MAX_VALUE) {
 
 				public void run() {
-					if(p == null || p.isDestroy()) {
+					if (p == null || p.isDestroy()) {
 						this.stop();
 					}
 					int curPrayer = getCurStat(5);
@@ -2065,9 +2065,10 @@ public final class Player extends Mob {
 		if (Config.f2pWildy) {
 
 			boolean found = false;
+			int slot = 0;
 			for (InvItem i : getInventory().getItems()) {
-				if (i.isWielded() && i.getDef().isMembers()) {
-					WieldHandler.unWieldItem(this, i, true);
+				if (i.wielded && i.getDef().isMembers()) {
+					WieldHandler.unWieldItem(this, i, true, slot);
 					getActionSender()
 							.sendMessage(
 									"Your "
@@ -2075,6 +2076,7 @@ public final class Player extends Mob {
 											+ " has been un-equipped. (P2P Item not allowed in wilderness)");
 					found = true;
 				}
+				slot++;
 			}
 			if (found) {
 				getActionSender().sendInventory();
@@ -2891,11 +2893,6 @@ public final class Player extends Mob {
 	public void setQuestStage(int questId, int stage, boolean save,
 			boolean verbose) {
 		Instance.getWorld();
-		Quest q = World.getQuestManager().getQuestById(questId);
-
-		if (q == null) {
-			return;
-		}
 
 		questStage.put(questId, stage);
 
@@ -2905,20 +2902,14 @@ public final class Player extends Mob {
 		}
 
 		if (verbose) {
-			if (stage == 1) {
-				getActionSender().sendMessage(
-						"You have started the " + q.getName() + " quest!");
-			} else if (stage == Quest.COMPLETE) {
-				getActionSender().sendMessage(
-						"You have completed the " + q.getName() + " quest!");
-			}
+			/*
+			 * if (stage == 1) { getActionSender().sendMessage(
+			 * "You have started the " + q.getName() + " quest!"); } else if
+			 * (stage == Quest.COMPLETE) { getActionSender().sendMessage(
+			 * "You have completed the " + q.getName() + " quest!"); }
+			 */
 		}
 	}
-
-	public void setQuestStage(Quest quest, int stage) {
-		setQuestStage(quest.getUniqueID(), stage, true);
-	}
-
 
 	// 335000
 	public void setRangeEvent(RangeEvent event) {
@@ -3143,17 +3134,9 @@ public final class Player extends Mob {
 		if (inCombat()) {
 			resetCombat(CombatState.ERROR);
 		}
-		int count = getInventory().countId(318);
-		if (count > 0) {
-			for (int i = 0; i < count; i++) {
-				getActionSender().sendMessage(
-						"a mysterious force steals your Karamaja rum");
-				if (getInventory().remove(new InvItem(318)) > -1) {
-					continue;
-				} else {
-					break;
-				}
-			}
+		if (inventory.removeAll(318) > 0) {
+			getActionSender().sendMessage(
+					"a mysterious force steals your Karamaja rum");
 			getActionSender().sendInventory();
 		}
 		if (opponent != null) {
@@ -3201,17 +3184,10 @@ public final class Player extends Mob {
 	public void updateViewedNpcs() {
 		List<Npc> npcsInView = viewArea.getNpcsInView();
 		for (Npc n : npcsInView) {
-			if (watchedNpcs.contains(n)) {
-				if (!World.getQuestManager().isNpcVisible(n, this)
-						&& !n.inCombat()) {
-					watchedNpcs.remove(n);
-				}
-			}
 
 			if ((!watchedNpcs.contains(n) || watchedNpcs.isRemoving(n))
 					&& withinRange(n)) {
-				if (World.getQuestManager().isNpcVisible(n, this)
-						|| n.inCombat()) {
+				if (n.inCombat()) {
 					watchedNpcs.add(n);
 				}
 			}
@@ -3247,6 +3223,16 @@ public final class Player extends Mob {
 
 	public void updateWornItems(int index, int id) {
 		wornItems[index] = id;
+		super.ourAppearanceChanged = true;
+	}
+
+	public void updateWornItems() {
+		List<InvItem> items = getInventory().getItems();
+		for (InvItem i : items) {
+			ItemWieldableDef def = ItemAttributes.getWieldable(i.id);
+			wornItems[def.getWieldPos()] = getPlayerAppearance().getSprite(
+					def.getWieldPos());
+		}
 		super.ourAppearanceChanged = true;
 	}
 

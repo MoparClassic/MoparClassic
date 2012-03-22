@@ -4,11 +4,13 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.PlayerAppearance;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.container.Inventory;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.phandler.PacketHandler;
+import org.moparscape.msc.gs.service.ItemAttributes;
 
 public class PlayerAppearanceUpdater implements PacketHandler {
 	/**
@@ -50,14 +52,13 @@ public class PlayerAppearanceUpdater implements PacketHandler {
 		if (player.isMale()) {
 			Inventory inv = player.getInventory();
 			for (int slot = 0; slot < inv.size(); slot++) {
-				InvItem i = inv.get(slot);
-				if (i.isWieldable() && i.getWieldableDef().getWieldPos() == 1
-						&& i.isWielded() && i.getWieldableDef().femaleOnly()) {
-					i.setWield(false);
-					player.updateWornItems(
-							i.getWieldableDef().getWieldPos(),
-							player.getPlayerAppearance().getSprite(
-									i.getWieldableDef().getWieldPos()));
+				InvItem i = inv.getSlot(slot);
+				ItemWieldableDef def = ItemAttributes.getWieldable(i.id);
+				if (ItemAttributes.isWieldable(i.id) && def.getWieldPos() == 1
+						&& i.wielded && def.femaleOnly()) {
+					inv.setWield(slot, false);
+					player.updateWornItems(def.getWieldPos(), player
+							.getPlayerAppearance().getSprite(def.getWieldPos()));
 					player.getActionSender().sendUpdateItem(slot);
 					break;
 				}

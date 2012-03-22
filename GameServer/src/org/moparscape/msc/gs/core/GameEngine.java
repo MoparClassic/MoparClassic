@@ -16,7 +16,6 @@ import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.connection.filter.IPBanManager;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
@@ -86,9 +85,6 @@ public final class GameEngine extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
-		}
-		for (Shop shop : world.getShops()) {
-			shop.initRestock();
 		}
 		redirectSystemStreams();
 	}

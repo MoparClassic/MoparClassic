@@ -111,7 +111,7 @@ public class Item extends Entity {
 	public boolean equals(Object o) {
 		if (o instanceof Item) {
 			Item item = (Item) o;
-			return item.getID() == getID()
+			return item.id == getID()
 					&& item.getAmount() == getAmount()
 					&& item.getSpawnedTime() == getSpawnedTime()
 					&& (item.getOwner() == null || item.getOwner().equals(

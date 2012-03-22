@@ -12,13 +12,13 @@ import org.moparscape.msc.gs.core.DelayedEventHandler;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.io.WorldLoader;
+import org.moparscape.msc.gs.model.container.Shop;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
 import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.landscape.MutableTileValue;
 import org.moparscape.msc.gs.model.landscape.TileValue;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
-import org.moparscape.msc.gs.quest.QuestManager;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.util.EntityList;
 import org.moparscape.msc.gs.util.Logger;
@@ -85,21 +85,10 @@ public final class World {
 	 */
 	public static final int MAX_WIDTH = 944;
 	/**
-	 * Manages quests
-	 */
-	private static QuestManager questManager = null;
-	/**
 	 * World instance
 	 */
 	public static boolean SERVER_MUTED = false;
 	private static World worldInstance;
-
-	/**
-	 * @return this world's quest manager
-	 */
-	public static QuestManager getQuestManager() {
-		return questManager;
-	}
 
 	public static boolean isMembers() {
 		return Config.members;
@@ -120,11 +109,6 @@ public final class World {
 			try {
 				worldInstance.wl = new WorldLoader();
 				worldInstance.wl.loadWorld(worldInstance);
-				if (questManager == null) {
-					questManager = new QuestManager();
-					questManager.loadQuests();
-				}
-
 			} catch (Exception e) {
 				Logger.error(e);
 			}
@@ -543,7 +527,6 @@ public final class World {
 	 * Inserts a new shop into the world
 	 */
 	public void registerShop(final Shop shop) {
-		shop.setEquilibrium();
 		shops.add(shop);
 	}
 

@@ -16,7 +16,7 @@ class BrotherJered extends NpcDialog {
 	lazy val option1 = new NpcDialog("What can you do to help a bold adventurer like myself?", npc, player) {
 		override def begin {
 			breath
-			if (player.getInventory.hasItemId(45)) {
+			if (player.getInventory.contains(45)) {
 				this > "Well I can bless them star of saradomin you have"
 				breath
 				end
@@ -41,7 +41,7 @@ class BrotherJered extends NpcDialog {
 				this >> "You give Jered the symbol" + s; pause(1300)
 				this >> "Jered closes his eyes and places his hands on the symbol" + s; pause(1300)
 				this >> "He softly chants"; pause(800)
-				for (i <- (0 until count)) player.getInventory.add(new InvItem(385, count))
+				for (i <- (0 until count)) player.getInventory.add(385, count)
 				this >> "Jered passes you the holy symbol" + s; pause(800)
 				player.getActionSender.sendInventory
 			}

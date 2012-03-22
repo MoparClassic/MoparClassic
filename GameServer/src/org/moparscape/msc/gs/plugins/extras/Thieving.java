@@ -376,9 +376,9 @@ public class Thieving {
 																					.getDef().name);
 													for (int i = 0; i < Loot.length; i++) {
 														owner.getInventory()
-																.add(new InvItem(
-																		Loot[i],
-																		Amount[i]));
+																.add(Loot[i],
+																		Amount[i],
+																		false);
 													}
 													owner.getActionSender()
 															.sendInventory();
@@ -890,7 +890,9 @@ public class Thieving {
 																			Chests[ourChest][i],
 																			Chests[ourChest][i + 1]);
 																	owner.getInventory()
-																			.add(loot);
+																			.add(loot.id,
+																					loot.amount,
+																					false);
 																	i = i + 1;
 																}
 																if (Chests[ourChest][0] == 340) {
@@ -1040,10 +1042,10 @@ public class Thieving {
 
 						if (curStall == 5) {
 							InvItem loot = new InvItem(thieveGem(), 1);
-							owner.getInventory().add(loot);
+							owner.getInventory().add(loot.id, loot.amount, false);
 						} else {
 							InvItem loot = new InvItem(Stalls[curStall][4], 1);
-							owner.getInventory().add(loot);
+							owner.getInventory().add(loot.id, loot.amount, false);
 						}
 						owner.getActionSender().sendInventory();
 						owner.incExp(17, Stalls[curStall][2] * ExpMultiplier,

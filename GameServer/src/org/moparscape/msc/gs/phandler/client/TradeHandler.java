@@ -1,6 +1,7 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Formulae;
@@ -11,9 +12,9 @@ import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.db.DataManager;
 import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.definition.entity.ItemDef;
 import org.moparscape.msc.gs.model.landscape.PathGenerator;
 import org.moparscape.msc.gs.model.snapshot.Activity;
@@ -169,22 +170,10 @@ public class TradeHandler implements PacketHandler {
 								+ affectedPlayer.getX() + "/"
 								+ affectedPlayer.getY()));
 
-				ArrayList<InvItem> myOffer = player.getTradeOffer();
-				ArrayList<InvItem> theirOffer = affectedPlayer.getTradeOffer();
+				List<InvItem> myOffer = player.getTradeOffer();
+				List<InvItem> theirOffer = affectedPlayer.getTradeOffer();
 
-				int myRequiredSlots = player.getInventory().getRequiredSlots(
-						theirOffer);
-				int myAvailableSlots = (30 - player.getInventory().size())
-						+ player.getInventory().getFreedSlots(myOffer);
-
-				int theirRequiredSlots = affectedPlayer.getInventory()
-						.getRequiredSlots(myOffer);
-				int theirAvailableSlots = (30 - affectedPlayer.getInventory()
-						.size())
-						+ affectedPlayer.getInventory().getFreedSlots(
-								theirOffer);
-
-				if (theirRequiredSlots > theirAvailableSlots) {
+				if (!affectedPlayer.getInventory().canHold(myOffer, theirOffer)) {
 					player.getActionSender()
 							.sendMessage(
 									"The other player does not have room to accept your items.");
@@ -196,7 +185,7 @@ public class TradeHandler implements PacketHandler {
 					unsetOptions(affectedPlayer);
 					return;
 				}
-				if (myRequiredSlots > myAvailableSlots) {
+				if (!player.getInventory().canHold(theirOffer, myOffer)) {
 					player.getActionSender()
 							.sendMessage(
 									"You do not have room in your inventory to hold those items.");
@@ -209,9 +198,10 @@ public class TradeHandler implements PacketHandler {
 					return;
 				}
 
+				int slot = -1;
 				for (InvItem item : myOffer) {
-					InvItem affectedItem = player.getInventory().get(item);
-					if (affectedItem == null) {
+					slot++;
+					if (player.getInventory().countId(item.id) < item.amount) {
 						player.setSuspiciousPlayer(true);
 						unsetOptions(player);
 						unsetOptions(affectedPlayer);
@@ -220,49 +210,44 @@ public class TradeHandler implements PacketHandler {
 					if (item.getDef().isMembers() && !World.isMembers()) {
 						player.getActionSender()
 								.sendMessage(
-										"This feature is only avaliable on a members server");
+										"You can not trade members items.");
 						unsetOptions(player);
 						unsetOptions(affectedPlayer);
 						return;
 
 					}
-					if (affectedItem.isWielded()) {
-						affectedItem.setWield(false);
-						player.updateWornItems(
-								affectedItem.getWieldableDef().getWieldPos(),
-								player.getPlayerAppearance().getSprite(
-										affectedItem.getWieldableDef()
-												.getWieldPos()));
+					
+					if (player.getInventory().getSlot(slot).wielded) {
+						player.getInventory().setWield(slot, false);
 					}
-					player.getInventory().remove(item);
+					player.getInventory().remove(item.id, item.amount, false);
 				}
+				player.updateWornItems();
+				slot = -1;
 				for (InvItem item : theirOffer) {
-					InvItem affectedItem = affectedPlayer.getInventory().get(
-							item);
-					if (affectedItem == null) {
+					slot++;
+					if (affectedPlayer.getInventory().countId(item.id) < item.amount) {
 						affectedPlayer.setSuspiciousPlayer(true);
 						unsetOptions(player);
 						unsetOptions(affectedPlayer);
 						return;
 					}
 					if (item.getDef().isMembers() && !World.isMembers()) {
-						player.getActionSender()
+						affectedPlayer.getActionSender()
 								.sendMessage(
-										"This feature is only avaliable on a members server");
+										"You can not trade members items.");
 						unsetOptions(player);
 						unsetOptions(affectedPlayer);
 						return;
+
 					}
-					if (affectedItem.isWielded()) {
-						affectedItem.setWield(false);
-						affectedPlayer.updateWornItems(
-								affectedItem.getWieldableDef().getWieldPos(),
-								affectedPlayer.getPlayerAppearance().getSprite(
-										affectedItem.getWieldableDef()
-												.getWieldPos()));
+					
+					if (affectedPlayer.getInventory().getSlot(slot).wielded) {
+						affectedPlayer.getInventory().setWield(slot, false);
 					}
-					affectedPlayer.getInventory().remove(item);
+					affectedPlayer.getInventory().remove(item.id, item.amount, false);
 				}
+				affectedPlayer.updateWornItems();
 				MiscPacketBuilder loginServer = Instance.getServer()
 						.getLoginConnector().getActionSender();
 				long playerhash = DataConversions.usernameToHash(player
@@ -270,19 +255,19 @@ public class TradeHandler implements PacketHandler {
 				long affectedPlayerhash = DataConversions
 						.usernameToHash(affectedPlayer.getUsername());
 				for (InvItem item : myOffer) {
-					affectedPlayer.getInventory().add(item);
+					affectedPlayer.getInventory().add(item.id, item.amount, false);
 				}
 				for (InvItem item : theirOffer) {
-					player.getInventory().add(item);
+					player.getInventory().add(item.id, item.amount, false);
 
 				}
 				boolean senddata = false;
 				for (InvItem item : myOffer) {
 					loginServer.tradeLog(playerhash, affectedPlayerhash,
-							item.getID(), item.getAmount(), player.getX(),
+							item.id, item.amount, player.getX(),
 							player.getY(), 1);
-					if (item.getAmount() > 10000000
-							|| Formulae.isRareItem(item.getID()))
+					if (item.amount > 10000000
+							|| Formulae.isRareItem(item.id))
 						senddata = true;
 				}
 				if (senddata)
@@ -292,10 +277,10 @@ public class TradeHandler implements PacketHandler {
 				senddata = false;
 				for (InvItem item : theirOffer) {
 					loginServer.tradeLog(affectedPlayerhash, playerhash,
-							item.getID(), item.getAmount(), player.getX(),
+							item.id, item.amount, player.getX(),
 							player.getY(), 1);
-					if (item.getAmount() > 10000000
-							|| Formulae.isRareItem(item.getID()))
+					if (item.amount > 10000000
+							|| Formulae.isRareItem(item.id))
 						senddata = true;
 				}
 				if (senddata)
@@ -369,7 +354,7 @@ public class TradeHandler implements PacketHandler {
 			int count = (int) p.readByte();
 			for (int slot = 0; slot < count; slot++) {
 				InvItem tItem = new InvItem(p.readShort(), p.readInt());
-				if (tItem.getAmount() < 1) {
+				if (tItem.amount < 1) {
 					player.setSuspiciousPlayer(true);
 					player.setRequiresOfferUpdate(true);
 					continue;
@@ -382,11 +367,11 @@ public class TradeHandler implements PacketHandler {
 					player.setRequiresOfferUpdate(true);
 					continue;
 				}
-				tradeOffer.add(tItem);
+				tradeOffer.add(tItem.id, tItem.amount, false);
 			}
 			for (InvItem item : tradeOffer.getItems()) {
-				if (tradeOffer.countId(item.getID()) > player.getInventory()
-						.countId(item.getID())) {
+				if (tradeOffer.countId(item.id) > player.getInventory()
+						.countId(item.id)) {
 					player.setSuspiciousPlayer(true);
 					unsetOptions(player);
 					unsetOptions(affectedPlayer);

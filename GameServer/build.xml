@@ -72,7 +72,7 @@
 				<pathelement location="${lib}/scala-library-${scala-version}.jar" />
 			</classpath>
 		</taskdef>
-		<scalac destdir="${bin}" classpathref="library-path">
+		<scalac destdir="${bin}" classpathref="library-path" deprecation="yes">
 			<src path="${src}" />
 		</scalac>
 		<javac destdir="${bin}" includeantruntime="false">

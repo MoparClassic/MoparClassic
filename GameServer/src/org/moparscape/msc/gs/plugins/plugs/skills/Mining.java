@@ -135,10 +135,10 @@ public class Mining implements ObjectListener {
 					if (DataConversions.random(0, 200) == 0) {
 						InvItem gem = new InvItem(Formulae.getGem(), 1);
 						owner.incExp(14, 100, true);
-						owner.getInventory().add(gem);
+						owner.getInventory().add(gem.id, 1, false);
 						owner.getActionSender().sendMessage("You found a gem!");
 					} else {
-						owner.getInventory().add(ore);
+						owner.getInventory().add(ore.id, ore.amount, false);
 						owner.getActionSender().sendMessage(
 								"You manage to obtain some "
 										+ ore.getDef().getName() + ".");

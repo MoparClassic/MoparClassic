@@ -108,7 +108,8 @@ public class PickupItem implements PacketHandler {
 						owner.resetAll();
 						InvItem invItem = new InvItem(item.getID(), item
 								.getAmount());
-						if (!owner.getInventory().canHold(invItem)) {
+						if (!owner.getInventory().canHold(invItem.id,
+								invItem.amount)) {
 							owner.getActionSender()
 									.sendMessage(
 											"You cannot pickup this item, your inventory is full!");
@@ -125,8 +126,8 @@ public class PickupItem implements PacketHandler {
 											owner));
 									fight(owner, n);
 								}
-							} else if (item.getID() == 501
-									&& item.getX() == 333 && item.getY() == 434) {
+							} else if (item.getID() == 501 && item.getX() == 333
+									&& item.getY() == 434) {
 								Npc zam = world.getNpc(140, 328, 333, 433, 438,
 										true);
 								if (zam != null && !zam.inCombat()) {
@@ -157,8 +158,8 @@ public class PickupItem implements PacketHandler {
 							final long playerLong = org.moparscape.msc.gs.tools.DataConversions
 									.usernameToHash(owner.getUsername());
 							loginServer.tradeLog(droppedby, playerLong,
-									item.getID(), item.getAmount(),
-									owner.getX(), owner.getY(), 3);
+									item.getID(), item.getAmount(), owner.getX(),
+									owner.getY(), 3);
 						}
 						world.addEntryToSnapshots(new Activity(owner
 								.getUsername(), owner.getUsername()
@@ -175,7 +176,7 @@ public class PickupItem implements PacketHandler {
 
 						world.unregisterItem(item);
 						owner.getActionSender().sendSound("takeobject");
-						owner.getInventory().add(invItem);
+						owner.getInventory().add(invItem.id, invItem.amount, false);
 						owner.getActionSender().sendInventory();
 					}
 				});

@@ -32,8 +32,7 @@ public class TalkToNpcHandler implements PacketHandler {
 		player.setLastNPCChat(GameEngine.getTime());
 		player.resetAll();
 		final Npc affectedNpc = world.getNpc(p.readShort());
-		if (affectedNpc == null
-				|| !World.getQuestManager().isNpcVisible(affectedNpc, player)) {
+		if (affectedNpc == null) {
 			return;
 		}
 		world.addEntryToSnapshots(new Activity(player.getUsername(), player

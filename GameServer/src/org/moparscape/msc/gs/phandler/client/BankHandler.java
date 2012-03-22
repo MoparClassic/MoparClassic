@@ -4,11 +4,11 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
-import org.moparscape.msc.gs.model.Bank;
 import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.container.Bank;
+import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
@@ -63,22 +63,23 @@ public class BankHandler implements PacketHandler {
 				return;
 			}
 			if (EntityHandler.getItemDef(itemID).isStackable()) {
-				item = new InvItem(itemID, amount);
-				if (bank.canHold(item) && inventory.remove(item) > -1) {
-					bank.add(item);
+				if (bank.canHold(itemID, amount)
+						&& inventory.remove(itemID, amount, false)) {
+					bank.add(itemID, amount, false);
 				} else {
 					player.getActionSender().sendMessage(
 							"You don't have room for that in your bank");
 				}
 			} else {
 				for (int i = 0; i < amount; i++) {
-					int idx = inventory.getLastIndexById(itemID);
-					item = inventory.get(idx);
+					int idx = inventory.getLastItemSlot(itemID);
+					item = inventory.getSlot(idx);
 					if (item == null) { // This shouldn't happen
 						break;
 					}
-					if (bank.canHold(item) && inventory.remove(item) > -1) {
-						bank.add(item);
+					if (bank.canHold(itemID, amount)
+							&& inventory.remove(itemID, amount, false)) {
+						bank.add(item.id, 1, false);
 					} else {
 						player.getActionSender().sendMessage(
 								"You don't have room for that in your bank");
@@ -86,7 +87,7 @@ public class BankHandler implements PacketHandler {
 					}
 				}
 			}
-			slot = bank.getFirstIndexById(itemID);
+			slot = bank.getLastItemSlot(itemID);
 			if (slot > -1) {
 				player.getActionSender().sendInventory();
 				player.getActionSender().updateBankItem(slot, itemID,
@@ -116,24 +117,24 @@ public class BankHandler implements PacketHandler {
 					+ " amount: "
 					+ amount));
 
-			slot = bank.getFirstIndexById(itemID);
+			slot = bank.getLastItemSlot(itemID);
 			if (EntityHandler.getItemDef(itemID).isStackable()) {
-				item = new InvItem(itemID, amount);
-				if (inventory.canHold(item) && bank.remove(item) > -1) {
-					inventory.add(item);
+				if (inventory.canHold(itemID, amount)
+						&& bank.remove(itemID, amount, false)) {
+					inventory.add(itemID, amount, false);
 				} else {
 					player.getActionSender().sendMessage(
 							"You don't have room for that in your inventory");
 				}
 			} else {
 				for (int i = 0; i < amount; i++) {
-					if (bank.getFirstIndexById(itemID) < 0) { // This shouldn't
+					if (bank.getLastItemSlot(itemID) < 0) { // This shouldn't
 						// happen
 						break;
 					}
-					item = new InvItem(itemID, 1);
-					if (inventory.canHold(item) && bank.remove(item) > -1) {
-						inventory.add(item);
+					if (inventory.canHold(itemID, 1)
+							&& bank.remove(itemID, 1, false)) {
+						inventory.add(itemID, 1, false);
 					} else {
 						player.getActionSender()
 								.sendMessage(

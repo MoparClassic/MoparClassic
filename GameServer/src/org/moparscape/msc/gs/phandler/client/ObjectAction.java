@@ -20,7 +20,6 @@ import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;
-import org.moparscape.msc.gs.model.MenuHandler;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Path;
 import org.moparscape.msc.gs.model.Player;
@@ -46,7 +45,8 @@ public class ObjectAction implements PacketHandler {
 	 * World instance
 	 */
 	public static final World world = Instance.getWorld();
-//mining
+
+	// mining
 	public void handlePacket(Packet p, IoSession session) {
 		Player player = (Player) session.getAttachment();
 		int pID = ((RSCPacket) p).getID();
@@ -165,9 +165,6 @@ public class ObjectAction implements PacketHandler {
 										telePoint.getY(), false);
 								return;
 							}
-							if (World.getQuestManager().handleObject(object,
-									owner, click == 1))
-								return;
 							if (Instance.getPluginHandler().handleObjectAction(
 									object, command, owner))
 								return;
@@ -202,106 +199,6 @@ public class ObjectAction implements PacketHandler {
 								}
 							}
 							Logger.println("Command: " + command);
-							if (command.equalsIgnoreCase("talk to")
-									&& object.getID() == 391) {
-
-								final String[] options = { "Yes please!",
-										"No thanks I prefer to walk!" };
-								owner.getActionSender()
-										.sendMessage(
-												"Would you like to be teleported to edgeville for 1000gp?");
-								owner.getActionSender()
-										.sendMessage(
-												"We'll take the money from your bank account!");
-
-								Instance.getDelayedEventHandler().add(
-										new ShortEvent(owner) {
-											public void action() {
-												owner.setMenuHandler(new MenuHandler(
-														options) {
-													public void handleReply(
-															final int option,
-															final String reply) {
-														if (option < 0
-																&& option > options.length)
-															return;
-														if (option == 0) {
-															if (owner
-																	.getBank()
-																	.countId(10) < 1000) {
-																owner.getActionSender()
-																		.sendMessage(
-																				"It looks like you don't have enough money in your bank!");
-																owner.setBusy(false);
-																return;
-															}
-															if (owner
-																	.getBank()
-																	.remove(10,
-																			1000) == -1) {
-																owner.getActionSender()
-																		.sendMessage(
-																				"It looks like you don't have enough money in your bank!");
-																owner.setBusy(false);
-																return;
-															}
-															owner.setBusy(true);
-															owner.getActionSender()
-																	.sendMessage(
-																			"The tree is looking for a fellow spirit tree!");
-															handleMovement(
-																	owner,
-																	0,
-																	Formulae.dray2edge);
-														}
-													}
-
-													public void handleMovement(
-															Player p,
-															final int i,
-															final ArrayList<Point> path) {
-														Instance.getDelayedEventHandler()
-																.add(new MiniEvent(
-																		p,
-																		Formulae.Rand(
-																				4500,
-																				5500)) {
-																	@Override
-																	public void action() {
-																		if (i >= path
-																				.size()) {
-																			owner.setBusy(false);
-																			owner.getActionSender()
-																					.sendMessage(
-																							"You've arrived!");
-																			return;
-																		}
-																		owner.teleport(
-																				path.get(
-																						i)
-																						.getX(),
-																				path.get(
-																						i)
-																						.getY(),
-																				true);
-																		owner.getActionSender()
-																				.sendMessage(
-																						"The tree is looking for another spirit tree to throw you into!");
-																		handleMovement(
-																				owner,
-																				(i + 1),
-																				path);
-
-																	}
-																});
-													}
-												});
-												owner.getActionSender()
-														.sendMenu(options);
-											}
-										});
-								return;
-							}
 							if (command.equals("search")
 									&& def.name.equals("cupboard")) {
 								owner.getActionSender().sendMessage(
@@ -315,7 +212,7 @@ public class ObjectAction implements PacketHandler {
 															.sendMessage(
 																	"You find Garlic!");
 													owner.getInventory().add(
-															new InvItem(218));
+															218, 1, false);
 													owner.getActionSender()
 															.sendInventory();
 												} else {
@@ -328,7 +225,9 @@ public class ObjectAction implements PacketHandler {
 										});
 							}// create a
 							else if ((object.getID() == 52 || object.getID() == 173) // hopper
-									&& object.containsItem() == 29) // Ensure it contains grain
+									&& object.containsItem() == 29) // Ensure it
+																	// contains
+																	// grain
 							{
 								owner.getActionSender().sendMessage(
 										"You operate the hopper..");
@@ -350,8 +249,8 @@ public class ObjectAction implements PacketHandler {
 								} else {
 									world.registerItem(new Item(23, 166, 599,
 											1, owner));
-								}//champ
-								//600
+								}// champ
+									// 600
 								object.containsItem(-1);
 							} else if (object.getID() == 223
 									&& object.getX() == 274
@@ -801,14 +700,12 @@ public class ObjectAction implements PacketHandler {
 								case 72: // Wheat
 									owner.getActionSender().sendMessage(
 											"You get some grain");
-									owner.getInventory()
-											.add(new InvItem(29, 1));
+									owner.getInventory().add(29, 1, false);
 									break;
 								case 191: // Potatos
 									owner.getActionSender().sendMessage(
 											"You pick a potato");
-									owner.getInventory().add(
-											new InvItem(348, 1));
+									owner.getInventory().add(348, 1, false);
 									break;
 								case 313: // Flax
 									handleFlaxPickup();
@@ -816,8 +713,7 @@ public class ObjectAction implements PacketHandler {
 								case 183: // Banana
 									owner.getActionSender().sendMessage(
 											"You pull a banana off the tree");
-									owner.getInventory().add(
-											new InvItem(249, 1));
+									owner.getInventory().add(249, 1, false);
 									break;
 								default:
 									owner.getActionSender().sendMessage(
@@ -975,7 +871,7 @@ public class ObjectAction implements PacketHandler {
 						}
 						owner.getActionSender().sendMessage(
 								"You uproot a flax plant");
-						owner.getInventory().add(new InvItem(675, 1));
+						owner.getInventory().add(675, 1, false);
 						if (--times > 0) {
 							handleFlaxPickup(times);
 						}
@@ -1249,23 +1145,11 @@ public class ObjectAction implements PacketHandler {
 												owner.getCurStat(10), click);
 										if (def != null) {
 											if (baitId >= 0) {
-												int idx = owner.getInventory()
-														.getLastIndexById(
-																baitId);
-												InvItem bait = owner
-														.getInventory()
-														.get(idx);
-												int newCount = bait.getAmount() - 1;
-												if (newCount <= 0) {
-													owner.getInventory()
-															.remove(idx);
-												} else {
-													bait.setAmount(newCount);
-												}
+												owner.getInventory().remove(baitId, 1, false);
 											}
 											InvItem fish = new InvItem(def
 													.getId());
-											owner.getInventory().add(fish);
+											owner.getInventory().add(fish.id, fish.amount, false);
 											owner.getActionSender()
 													.sendMessage(
 															"You catch a "
@@ -1344,7 +1228,7 @@ public class ObjectAction implements PacketHandler {
 												owner.getCurStat(8), axeID)) {
 											InvItem log = new InvItem(def
 													.getLogId());
-											owner.getInventory().add(log);
+											owner.getInventory().add(log.id, log.amount, false);
 											owner.getActionSender()
 													.sendMessage(
 															"You get some wood.");

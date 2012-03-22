@@ -11,7 +11,7 @@ import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
-import org.moparscape.msc.gs.model.Shop;
+import org.moparscape.msc.gs.model.container.Shop;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
 import org.moparscape.msc.gs.model.definition.entity.ItemLoc;
@@ -761,11 +761,7 @@ public class Formulae {
 	}
 
 	public static int getItemPos(Shop shop, int id) {
-		for (int i = 0; i < shop.getItems().size(); i++) {
-			if (shop.getItems().get(i).getID() == id)
-				return i;
-		}
-		return -1;
+		return shop.getLastItemSlot(id);
 	}
 
 	public static List<InvItem> getKeyChestLoot() {

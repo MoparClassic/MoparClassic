@@ -15,10 +15,12 @@ import org.moparscape.msc.gs.model.MenuHandler;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
+import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.tools.DataConversions;
 
 public class InvActionHandler implements PacketHandler {
@@ -34,13 +36,13 @@ public class InvActionHandler implements PacketHandler {
 			player.setSuspiciousPlayer(true);
 			return;
 		}
-		final InvItem item = player.getInventory().get(idx);
+		final InvItem item = player.getInventory().getSlot(idx);
 		if (item == null || item.getDef().getCommand().equals("")) {
 			player.setSuspiciousPlayer(true);
 			return;
 		}
 		if (item.getDef().isMembers() && Config.f2pWildy
-				&& player.getLocation().inWilderness() && item.getID() != 814) {
+				&& player.getLocation().inWilderness() && item.id != 814) {
 			player.getActionSender().sendMessage(
 					"Can not use a Member item in the wilderness");
 			return;
@@ -50,7 +52,7 @@ public class InvActionHandler implements PacketHandler {
 				+ " used item "
 				+ item.getDef().getName()
 				+ "("
-				+ item.getID()
+				+ item.id
 				+ ")"
 				+ " [CMD: "
 				+ item.getDef().getCommand()
@@ -64,8 +66,8 @@ public class InvActionHandler implements PacketHandler {
 			return;
 		}// sip
 		player.resetAll();
-		
-		if (item.getID() == 1263) {
+
+		if (item.id == 1263) {
 			// player.resetPath(); // This isn't how it's done in RSC
 			// player.setBusy(true); // Shouldn't be here
 			player.getActionSender()
@@ -81,15 +83,13 @@ public class InvActionHandler implements PacketHandler {
 			return;
 		}
 
-		if (World.getQuestManager().handleUseItem(item, player))
-			return;
 		if (item.getDef().getCommand().equalsIgnoreCase("identify")) {
 			if (!Server.isMembers()) {
 				player.getActionSender().sendMessage(
 						"This feature is only avaliable on a members server");
 				return;
 			}
-			ItemUnIdentHerbDef herb = item.getUnIdentHerbDef();
+			ItemUnIdentHerbDef herb = ItemAttributes.getUnIdentHerbDef(item.id);
 			if (herb == null) {
 				return;
 			}
@@ -102,10 +102,11 @@ public class InvActionHandler implements PacketHandler {
 			player.setBusy(true);
 			Instance.getDelayedEventHandler().add(new MiniEvent(player) {
 				public void action() {
-					ItemUnIdentHerbDef herb = item.getUnIdentHerbDef();
+					ItemUnIdentHerbDef herb = ItemAttributes
+							.getUnIdentHerbDef(item.id);
 					InvItem newItem = new InvItem(herb.getNewId());
-					owner.getInventory().remove(item);
-					owner.getInventory().add(newItem);
+					owner.getInventory().remove(item.id, item.amount, false);
+					owner.getInventory().add(newItem.id, newItem.amount, false);
 					owner.getActionSender().sendMessage(
 							"You clean the mud off the "
 									+ newItem.getDef().getName() + ".");
@@ -119,7 +120,7 @@ public class InvActionHandler implements PacketHandler {
 			return;
 		}
 
-		if (item.isEdible()) {
+		if (ItemAttributes.isEdible(item.id)) {
 			if (item.getDef().isMembers() && !World.isMembers()) {
 				player.getActionSender().sendMessage(
 						"This feature is only avaliable on a members server");
@@ -127,7 +128,7 @@ public class InvActionHandler implements PacketHandler {
 			}
 			player.setBusy(true);
 			player.getActionSender().sendSound("eat");
-			if (item.getID() == 228 || item.getID() == 18)
+			if (item.id == 228 || item.id == 18)
 				player.getActionSender().sendMessage(
 						"You eat the " + item.getDef().getName() + ". Yuck!");
 			else
@@ -136,7 +137,8 @@ public class InvActionHandler implements PacketHandler {
 			// 1263
 			final boolean heals = player.getCurStat(3) < player.getMaxStat(3);
 			if (heals) {
-				int newHp = player.getCurStat(3) + item.eatingHeals();
+				int newHp = player.getCurStat(3)
+						+ EntityHandler.getItemEdibleHeals(item.id);
 				if (newHp > player.getMaxStat(3)) {
 					newHp = player.getMaxStat(3);
 				}
@@ -149,43 +151,43 @@ public class InvActionHandler implements PacketHandler {
 						owner.getActionSender().sendMessage(
 								"It heals some health.");
 					}
-					owner.getInventory().remove(item);
-					switch (item.getID()) {
+					owner.getInventory().remove(item.id, item.amount, false);
+					switch (item.id) {
 					case 326: // Meat pizza
-						owner.getInventory().add(new InvItem(328));
+						owner.getInventory().add(328, 1, false);
 						break;
 					case 327: // Anchovie pizza
-						owner.getInventory().add(new InvItem(329));
+						owner.getInventory().add(329, 1, false);
 						break;
 					case 330: // Cake
-						owner.getInventory().add(new InvItem(333));
+						owner.getInventory().add(333, 1, false);
 						break;
 					case 333: // Partical cake
-						owner.getInventory().add(new InvItem(335));
+						owner.getInventory().add(335, 1, false);
 						break;
 					case 332: // Choc cake
-						owner.getInventory().add(new InvItem(334));
+						owner.getInventory().add(334, 1, false);
 						break;
 					case 334: // Partical choc cake
-						owner.getInventory().add(new InvItem(336));
+						owner.getInventory().add(336, 1, false);
 						break;
 					case 257: // Apple pie
-						owner.getInventory().add(new InvItem(263));
+						owner.getInventory().add(263, 1, false);
 						break;
 					case 261: // Half apple pie
-						owner.getInventory().add(new InvItem(251));
+						owner.getInventory().add(251, 1, false);
 						break;
 					case 258: // Redberry pie
-						owner.getInventory().add(new InvItem(262));
+						owner.getInventory().add(262, 1, false);
 						break;
 					case 262: // Half redberry pie
-						owner.getInventory().add(new InvItem(251));
+						owner.getInventory().add(251, 1, false);
 						break;
 					case 259: // Meat pie
-						owner.getInventory().add(new InvItem(261));
+						owner.getInventory().add(261, 1, false);
 						break;
 					case 263: // Half meat pie
-						owner.getInventory().add(new InvItem(251));
+						owner.getInventory().add(251, 1, false);
 						break;
 					}
 					owner.getActionSender().sendInventory();
@@ -193,102 +195,102 @@ public class InvActionHandler implements PacketHandler {
 				}
 			});
 		} else if (item.getDef().getCommand().equalsIgnoreCase("open")) {
-			if (item.getID() == 1321) {
+			if (item.id == 1321) {
 				int win;
 				int Roll = DataConversions.random(0, 99);
-				if (player.getInventory().remove(1321, 1) > -1) {
+				if (player.getInventory().remove(1321, 1, false)) {
 					if (Roll <= 10) {
 						win = 795;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 30) {
 						win = 81;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 40) {
 						win = 828;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 43) {
 						win = 831;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 47) {
 						win = 832;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 55) {
 						win = 576;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 60) {
 						win = 577;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 63) {
 						win = 578;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 67) {
 						win = 579;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 71) {
 						win = 580;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 76) {
 						win = 581;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 85) {
 						win = 10;
-						player.getInventory().add(new InvItem(win, 200000));
+						player.getInventory().add(win, 200000, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 					if (Roll <= 100) {
 						win = 1289;
-						player.getInventory().add(new InvItem(win));
+						player.getInventory().add(win, 1, false);
 						player.getActionSender().sendInventory();
 						return;
 					}
 				}
 			}
-			if (item.getID() == 1323) {
+			if (item.id == 1323) {
 				return;
 			}
 		} else if (item.getDef().getCommand().equalsIgnoreCase("open")
-				&& item.getID() == 796) {
+				&& item.id == 796) {
 			final ActiveTile tile = world.getTile(player.getLocation());
 			if (tile.hasGameObject()) {
 				player.getActionSender().sendMessage(
 						"You cannot do that here, please move to a new area.");
 				return;
 			}
-			if (player.getInventory().remove(796, 1) > -1) {
+			if (player.getInventory().remove(796, 1, false)) {
 				player.getActionSender().sendInventory();
 				player.setBusy(true);
 				player.getActionSender().sendMessage(
@@ -321,8 +323,8 @@ public class InvActionHandler implements PacketHandler {
 				public void action() {
 					owner.getActionSender().sendMessage(
 							"You bury the " + item.getDef().getName() + ".");
-					owner.getInventory().remove(item);
-					switch (item.getID()) {
+					owner.getInventory().remove(item.id, item.amount, false);
+					switch (item.id) {
 					case 20: // Bones
 					case 604: // Bat bones
 						owner.incExp(5, 8, true);
@@ -340,14 +342,14 @@ public class InvActionHandler implements PacketHandler {
 				}
 			});// f2p
 		} else if (item.getDef().getCommand().equalsIgnoreCase("drink")) {
-			switch (item.getID()) {
+			switch (item.id) {
 			case 180: // bad wine
 
 				player.getActionSender().sendMessage("You drink the bad wine");
 				showBubble(player, item);
-				player.getInventory().remove(item);
+				player.getInventory().remove(item.id, item.amount, false);
 
-				player.getInventory().add(new InvItem(140));
+				player.getInventory().add(140, 1, false);
 				int atk = player.getCurStat(0);
 				atk -= 3;
 				if (atk < 0)
@@ -365,9 +367,9 @@ public class InvActionHandler implements PacketHandler {
 			case 142:
 				player.getActionSender().sendMessage("You drink the wine");
 				showBubble(player, item);
-				player.getInventory().remove(item);
+				player.getInventory().remove(item.id, item.amount, false);
 
-				player.getInventory().add(new InvItem(140));
+				player.getInventory().add(140, 1, false);
 				int hp = player.getCurStat(3);
 				atk = player.getCurStat(0);
 				atk -= 3;
@@ -397,7 +399,8 @@ public class InvActionHandler implements PacketHandler {
 					public void action() {
 						owner.getActionSender().sendMessage(
 								"It's nice and refreshing.");
-						owner.getInventory().remove(item);
+						owner.getInventory()
+								.remove(item.id, item.amount, false);
 						owner.getActionSender().sendInventory();
 						owner.setBusy(false);
 					}
@@ -422,8 +425,9 @@ public class InvActionHandler implements PacketHandler {
 							owner.setCurStat(2, owner.getCurStat(2) + 2);
 							owner.getActionSender().sendStat(2);
 						}
-						owner.getInventory().remove(item);
-						owner.getInventory().add(new InvItem(620));
+						owner.getInventory()
+								.remove(item.id, item.amount, false);
+						owner.getInventory().add(620, 1, false);
 						owner.getActionSender().sendInventory();
 						owner.setBusy(false);
 					}
@@ -446,8 +450,9 @@ public class InvActionHandler implements PacketHandler {
 							owner.setCurStat(15, owner.getCurStat(15) + 1);
 							owner.getActionSender().sendStat(15);
 						}
-						owner.getInventory().remove(item);
-						owner.getInventory().add(new InvItem(620));
+						owner.getInventory()
+								.remove(item.id, item.amount, false);
+						owner.getInventory().add(620, 1, false);
 						owner.getActionSender().sendInventory();
 						owner.setBusy(false);
 					}
@@ -476,8 +481,9 @@ public class InvActionHandler implements PacketHandler {
 							owner.setCurStat(6, owner.getCurStat(6) + change);
 							owner.getActionSender().sendStat(6);
 						}
-						owner.getInventory().remove(item);
-						owner.getInventory().add(new InvItem(620));
+						owner.getInventory()
+								.remove(item.id, item.amount, false);
+						owner.getInventory().add(620, 1, false);
 						owner.getActionSender().sendInventory();
 						owner.setBusy(false);
 					}
@@ -503,8 +509,9 @@ public class InvActionHandler implements PacketHandler {
 							owner.setCurStat(14, owner.getCurStat(14) + 1);
 							owner.getActionSender().sendStat(14);
 						}
-						owner.getInventory().remove(item);
-						owner.getInventory().add(new InvItem(620));
+						owner.getInventory()
+								.remove(item.id, item.amount, false);
+						owner.getInventory().add(620, 1, false);
 						owner.getActionSender().sendInventory();
 						owner.setBusy(false);
 					}
@@ -527,8 +534,9 @@ public class InvActionHandler implements PacketHandler {
 							owner.setCurStat(2, owner.getCurStat(2) + 2);
 							owner.getActionSender().sendStat(2);
 						}
-						owner.getInventory().remove(item);
-						owner.getInventory().add(new InvItem(620));
+						owner.getInventory()
+								.remove(item.id, item.amount, false);
+						owner.getInventory().add(620, 1, false);
 						owner.getActionSender().sendInventory();
 						owner.setBusy(false);
 					}
@@ -549,8 +557,9 @@ public class InvActionHandler implements PacketHandler {
 							owner.setCurStat(2, owner.getCurStat(2) + 2);
 							owner.getActionSender().sendStat(2);
 						}
-						owner.getInventory().remove(item);
-						owner.getInventory().add(new InvItem(620));
+						owner.getInventory()
+								.remove(item.id, item.amount, false);
+						owner.getInventory().add(620, 1, false);
 						owner.getActionSender().sendInventory();
 						owner.setBusy(false);
 					}
@@ -657,7 +666,7 @@ public class InvActionHandler implements PacketHandler {
 				return;
 			}
 		} else {
-			switch (item.getID()) {
+			switch (item.id) {
 			case 597: // Charged Dragonstone amulet
 				if (!Server.isMembers()) {
 					player.getActionSender()
@@ -676,7 +685,8 @@ public class InvActionHandler implements PacketHandler {
 									final String reply) {
 								if (owner.isBusy()
 										|| owner.inCombat()
-										|| owner.getInventory().get(item) == null) {
+										|| !owner.getInventory().contains(
+												item.id)) {
 									return;
 								}
 								if (owner.getLocation().inModRoom()
@@ -711,9 +721,9 @@ public class InvActionHandler implements PacketHandler {
 
 								}
 								if (DataConversions.random(0, 5) == 1
-										&& owner.getInventory().remove(item) > -1) {
-									owner.getInventory().add(
-											new InvItem(522, 1));
+										&& owner.getInventory().remove(item.id,
+												item.amount, false)) {
+									owner.getInventory().add(522, 1, false);
 									owner.getActionSender().sendInventory();
 								}
 							}
@@ -743,7 +753,8 @@ public class InvActionHandler implements PacketHandler {
 									final String reply) {
 								if (owner.isBusy()
 										|| owner.inCombat()
-										|| owner.getInventory().get(item) == null) {
+										|| !owner.getInventory().contains(
+												item.id)) {
 									return;
 								}
 								if (owner.getLocation().inModRoom()
@@ -799,7 +810,8 @@ public class InvActionHandler implements PacketHandler {
 					public void action() {
 						owner.resetPath();
 						owner.teleport(131, 508, true);
-						owner.getInventory().remove(item);
+						owner.getInventory()
+								.remove(item.id, item.amount, false);
 						owner.getActionSender().sendMessage(
 								"You find yourself back in Varrock");
 						owner.getActionSender().sendMessage(
@@ -818,7 +830,7 @@ public class InvActionHandler implements PacketHandler {
 	}
 
 	private void showBubble(Player player, InvItem item) {
-		Bubble bubble = new Bubble(player, item.getID());
+		Bubble bubble = new Bubble(player, item.id);
 		for (Player p1 : player.getViewArea().getPlayersInView()) {
 			p1.informOfBubble(bubble);
 		}
@@ -839,8 +851,8 @@ public class InvActionHandler implements PacketHandler {
 				owner.getActionSender().sendMessage(
 						"You have " + left + " doses left.");
 				owner.setCurStat(10, owner.getMaxStat(10) + 3);
-				owner.getInventory().remove(item);
-				owner.getInventory().add(new InvItem(newItem));
+				owner.getInventory().remove(item.id, item.amount, false);
+				owner.getInventory().add(newItem, 1, false);
 				owner.getActionSender().sendStat(10);
 				owner.getActionSender().sendInventory();
 				owner.setBusy(false);
@@ -870,8 +882,8 @@ public class InvActionHandler implements PacketHandler {
 					owner.setCurStat(affectedStat, newStat);
 					owner.getActionSender().sendStat(affectedStat);
 				}
-				owner.getInventory().remove(item);
-				owner.getInventory().add(new InvItem(newItem));
+				owner.getInventory().remove(item.id, item.amount, false);
+				owner.getInventory().add(newItem, 1, false);
 				owner.getActionSender().sendInventory();
 				owner.setBusy(false);
 			}
@@ -892,8 +904,8 @@ public class InvActionHandler implements PacketHandler {
 					newPrayer = owner.getMaxStat(5);
 				}
 				owner.setCurStat(5, newPrayer);
-				owner.getInventory().remove(item);
-				owner.getInventory().add(new InvItem(newItem));
+				owner.getInventory().remove(item.id, item.amount, false);
+				owner.getInventory().add(newItem, 1, false);
 				owner.getActionSender().sendStat(5);
 				owner.getActionSender().sendInventory();
 				owner.setBusy(false);
@@ -925,8 +937,8 @@ public class InvActionHandler implements PacketHandler {
 						owner.getActionSender().sendStat(i);
 					}
 				}
-				owner.getInventory().remove(item);
-				owner.getInventory().add(new InvItem(newItem));
+				owner.getInventory().remove(item.id, item.amount, false);
+				owner.getInventory().add(newItem, 1, false);
 				owner.getActionSender().sendInventory();
 				owner.setBusy(false);
 			}
