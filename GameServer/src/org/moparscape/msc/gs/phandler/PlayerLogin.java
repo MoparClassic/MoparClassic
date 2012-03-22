@@ -12,9 +12,11 @@ import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.container.Bank;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
 import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.tools.DataConversions;
+import org.moparscape.msc.gs.util.Logger;
 
 public class PlayerLogin implements PacketHandler {
 	/**
@@ -113,24 +115,23 @@ public class PlayerLogin implements PacketHandler {
 			}
 
 			player.setCombatLevel(Formulae.getCombatlevel(player.getMaxStats()));
-
-			Inventory inventory = new Inventory();
+			Inventory inventory = new Inventory(player);
 			int invCount = p.readShort();
 			for (int i = 0; i < invCount; i++) {
 				InvItem item = new InvItem(p.readShort(), p.readInt());
+				inventory.add(item.id, item.amount, false);
 				if (p.readByte() == 1 && ItemAttributes.isWieldable(item.id)) {
 					inventory.setWield(i, true);
+					ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+					player.updateWornItems(def.getWieldPos(), def.getSprite());
 				}
-				inventory.add(item.id, item.amount, false);
 			}
-			player.updateWornItems();
-
 			player.setInventory(inventory);
 
 			Bank bank = new Bank();
 			int bnkCount = p.readShort();
 			for (int i = 0; i < bnkCount; i++)
-				bank.add(p.readShort(), p.readInt(), false);
+				bank.add(p.readShort(), p.readInt(), true);
 
 			player.setBank(bank);
 
@@ -147,7 +148,6 @@ public class PlayerLogin implements PacketHandler {
 			// Logging.debug(questCount);
 			for (int i = 0; i < questCount; i++)
 				player.setQuestStage(p.readShort(), p.readShort(), false, false);
-
 			/* Muted */
 
 			player.setMuted(p.readLong());

@@ -38,11 +38,6 @@ public class DropHandler implements PacketHandler {
 		}
 		if (player.isPMod() && !player.isMod())
 			return;
-		if (item.getDef().isMembers() && !World.isMembers()) {
-			player.getActionSender().sendMessage(
-					"This feature is only avaliable on a members server");
-			return;
-		}
 
 		// drop item after a path has finished
 		if (player.pathHandler != null && !player.pathHandler.finishedPath()) {
@@ -80,7 +75,6 @@ public class DropHandler implements PacketHandler {
 	}
 
 	public void drop(Player player, final InvItem item) {
-		player.getActionSender().sendMessage("Dropping!");
 		player.setStatus(Action.DROPPING_GITEM);
 		Instance.getDelayedEventHandler().add(new DelayedEvent(player, 500) {
 			public void run() {
@@ -101,6 +95,11 @@ public class DropHandler implements PacketHandler {
 				owner.getActionSender().sendSound("dropobject");
 				owner.getInventory().remove(item.id, item.amount, false);
 				owner.getActionSender().sendInventory();
+				if (item.getDef().isMembers() && !World.isMembers()) {
+					owner.getActionSender().sendMessage(
+							"The members item vanishes!");
+					return;
+				}
 				world.registerItem(new Item(item.id, owner.getX(),
 						owner.getY(), item.amount, owner));
 				matchRunning = false;

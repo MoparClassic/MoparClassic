@@ -98,7 +98,7 @@ public class ShopHandler implements PacketHandler {
 			if (sellprice >= itemprice)
 				return;
 			if (player.getInventory().remove(10, itemprice, false)) {
-				shop.remove(item.id, item.amount, false);
+				shop.remove(item.id, item.amount, true);
 				player.getInventory().add(item.id, item.amount, false);
 				player.getActionSender().sendSound("coins");
 				player.getActionSender().sendInventory();

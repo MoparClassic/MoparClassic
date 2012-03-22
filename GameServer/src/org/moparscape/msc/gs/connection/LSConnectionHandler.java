@@ -37,6 +37,7 @@ public class LSConnectionHandler implements IoHandler {
 	 *            The exception thrown
 	 */
 	public void exceptionCaught(IoSession session, Throwable cause) {
+		cause.printStackTrace();
 	}
 
 	/**

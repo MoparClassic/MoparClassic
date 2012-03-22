@@ -23,7 +23,7 @@ public class Logger {
 	private static SimpleDateFormat getFormatter() {
 		try {
 			if(formatter == null) {
-				formatter = new SimpleDateFormat(Config.DATE_FORMAT);;
+				formatter = new SimpleDateFormat(Config.DATE_FORMAT);
 			}
 			return formatter;
 		} catch (Exception e) {

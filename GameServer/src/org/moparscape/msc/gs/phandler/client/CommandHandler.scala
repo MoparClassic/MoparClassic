@@ -352,9 +352,7 @@ class CommandHandler extends PacketHandler {
 		val id = args(0).toInt
 		if (EntityHandler.getItemDef(id) != null) {
 			var amount = 1
-			if (args.length == 2 && EntityHandler.getItemDef(id).isStackable) {
-				amount = args(1).toInt
-			}
+			if (args.length == 2) amount = args(1).toInt
 			p.getInventory.add(id, amount)
 			p.getActionSender.sendInventory
 			Logger.mod(p.getUsername + " spawned themself " + amount + " " + new InvItem(id).getDef.getName + "(s)")

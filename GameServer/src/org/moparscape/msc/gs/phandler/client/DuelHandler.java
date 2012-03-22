@@ -394,7 +394,7 @@ public class DuelHandler implements PacketHandler {
 			player.getActionSender().sendDuelAcceptUpdate();
 			affectedPlayer.getActionSender().sendDuelAcceptUpdate();
 
-			Inventory duelOffer = new Inventory();
+			Inventory duelOffer = new Inventory(player);
 			player.resetDuelOffer();
 			int count = (int) p.readByte();
 			for (int slot = 0; slot < count; slot++) {

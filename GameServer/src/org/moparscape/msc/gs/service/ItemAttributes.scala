@@ -7,11 +7,13 @@ object ItemAttributes {
 	def getWieldable(id : Int) = EntityHandler.getItemWieldableDef(id)
 
 	def wieldingAffectsItem(id : Int, id2 : Int) = {
-		if (!isWieldable(id) || !isWieldable(id2))
-			false
-		val d = getWieldable(id)
-		val d2 = getWieldable(id2)
-		d.getAffectedTypes.contains(d2.getType)
+		if (isWieldable(id) && isWieldable(id2)) {
+			val d = getWieldable(id).getAffectedTypes
+			val d2 = getWieldable(id2).getType
+			if (d == null)
+				false
+			d.contains(d2)
+		} else false
 	}
 
 	def getUnIdentHerbDef(id : Int) = EntityHandler.getItemUnIdentHerbDef(id)

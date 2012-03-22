@@ -24,6 +24,7 @@ class Shop(val name : String, val greeting : String,
 	}
 
 	def init {
+		equilibrium
 		this.synchronized {
 			val shop = this
 			Instance.getDelayedEventHandler.add(new DelayedEvent(null, respawnRate) {
@@ -44,12 +45,16 @@ class Shop(val name : String, val greeting : String,
 								}
 
 								if (iterations % 4 == 0 && i.amount > eq) {
-									shop.remove(i.id, 1, contains)
+									shop.remove(i.id, 1, true)
+									if (!contains && i.amount <= 1) {
+										shop.remove(i.id)
+									}
 									changed = true
-								} else if (i.amount < eq) {
+								} else if (contains && i.amount < eq) {
 									add(i.id)
 									changed = true
 								}
+
 								if (changed) shop.updatePlayers
 						}
 					}
@@ -72,7 +77,7 @@ class Shop(val name : String, val greeting : String,
 
 	def shouldStock(id : Int) = {
 		if (general) true
-		equilibrium.find(_._1 == id) match {
+		else equilibrium.find(_._1 == id) match {
 			case Some(x) => true
 			case None => false
 		}
@@ -83,11 +88,10 @@ class Shop(val name : String, val greeting : String,
 			p.getY >= min.getY && p.getY <= max.getY
 	}
 
-	override def equals(o : Any) = {
+	override def equals(o : Any) : Boolean = {
 		if (o.isInstanceOf[Shop]) {
-			o.asInstanceOf[Shop].name == name
-		}
-		false
+			return o.asInstanceOf[Shop].name == name
+		} else false
 	}
 
 }

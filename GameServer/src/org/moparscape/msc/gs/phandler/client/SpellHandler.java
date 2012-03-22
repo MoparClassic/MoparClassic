@@ -32,6 +32,7 @@ import org.moparscape.msc.gs.model.Projectile;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.model.definition.skill.ReqOreDef;
 import org.moparscape.msc.gs.model.definition.skill.SpellDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
@@ -403,7 +404,9 @@ public class SpellHandler implements PacketHandler {
 		if (affectedItem.wielded) {
 			player.getActionSender().sendSound("click");
 			player.getInventory().setWield(slot, false);
-			player.updateWornItems();
+			ItemWieldableDef def = ItemAttributes.getWieldable(affectedItem.id);
+			player.updateWornItems(def.getWieldPos(), player
+					.getPlayerAppearance().getSprite(def.getWieldPos()));
 			player.getActionSender().sendEquipmentStats();
 		}
 	}

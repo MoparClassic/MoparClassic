@@ -16,9 +16,11 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.definition.entity.ItemDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.model.landscape.PathGenerator;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
+import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
 
@@ -208,21 +210,25 @@ public class TradeHandler implements PacketHandler {
 						return;
 					}
 					if (item.getDef().isMembers() && !World.isMembers()) {
-						player.getActionSender()
-								.sendMessage(
-										"You can not trade members items.");
+						player.getActionSender().sendMessage(
+								"You can not trade members items.");
 						unsetOptions(player);
 						unsetOptions(affectedPlayer);
 						return;
 
 					}
-					
+
 					if (player.getInventory().getSlot(slot).wielded) {
 						player.getInventory().setWield(slot, false);
+						ItemWieldableDef def = ItemAttributes
+								.getWieldable(item.id);
+						player.updateWornItems(
+								def.getWieldPos(),
+								player.getPlayerAppearance().getSprite(
+										def.getWieldPos()));
 					}
 					player.getInventory().remove(item.id, item.amount, false);
 				}
-				player.updateWornItems();
 				slot = -1;
 				for (InvItem item : theirOffer) {
 					slot++;
@@ -233,21 +239,26 @@ public class TradeHandler implements PacketHandler {
 						return;
 					}
 					if (item.getDef().isMembers() && !World.isMembers()) {
-						affectedPlayer.getActionSender()
-								.sendMessage(
-										"You can not trade members items.");
+						affectedPlayer.getActionSender().sendMessage(
+								"You can not trade members items.");
 						unsetOptions(player);
 						unsetOptions(affectedPlayer);
 						return;
 
 					}
-					
+
 					if (affectedPlayer.getInventory().getSlot(slot).wielded) {
 						affectedPlayer.getInventory().setWield(slot, false);
+						ItemWieldableDef def = ItemAttributes
+								.getWieldable(item.id);
+						affectedPlayer.updateWornItems(
+								def.getWieldPos(),
+								affectedPlayer.getPlayerAppearance().getSprite(
+										def.getWieldPos()));
 					}
-					affectedPlayer.getInventory().remove(item.id, item.amount, false);
+					affectedPlayer.getInventory().remove(item.id, item.amount,
+							false);
 				}
-				affectedPlayer.updateWornItems();
 				MiscPacketBuilder loginServer = Instance.getServer()
 						.getLoginConnector().getActionSender();
 				long playerhash = DataConversions.usernameToHash(player
@@ -255,7 +266,8 @@ public class TradeHandler implements PacketHandler {
 				long affectedPlayerhash = DataConversions
 						.usernameToHash(affectedPlayer.getUsername());
 				for (InvItem item : myOffer) {
-					affectedPlayer.getInventory().add(item.id, item.amount, false);
+					affectedPlayer.getInventory().add(item.id, item.amount,
+							false);
 				}
 				for (InvItem item : theirOffer) {
 					player.getInventory().add(item.id, item.amount, false);
@@ -264,10 +276,9 @@ public class TradeHandler implements PacketHandler {
 				boolean senddata = false;
 				for (InvItem item : myOffer) {
 					loginServer.tradeLog(playerhash, affectedPlayerhash,
-							item.id, item.amount, player.getX(),
-							player.getY(), 1);
-					if (item.amount > 10000000
-							|| Formulae.isRareItem(item.id))
+							item.id, item.amount, player.getX(), player.getY(),
+							1);
+					if (item.amount > 10000000 || Formulae.isRareItem(item.id))
 						senddata = true;
 				}
 				if (senddata)
@@ -277,10 +288,9 @@ public class TradeHandler implements PacketHandler {
 				senddata = false;
 				for (InvItem item : theirOffer) {
 					loginServer.tradeLog(affectedPlayerhash, playerhash,
-							item.id, item.amount, player.getX(),
-							player.getY(), 1);
-					if (item.amount > 10000000
-							|| Formulae.isRareItem(item.id))
+							item.id, item.amount, player.getX(), player.getY(),
+							1);
+					if (item.amount > 10000000 || Formulae.isRareItem(item.id))
 						senddata = true;
 				}
 				if (senddata)
@@ -349,7 +359,7 @@ public class TradeHandler implements PacketHandler {
 			// player.getActionSender().sendTradeAcceptUpdate();
 			// affectedPlayer.getActionSender().sendTradeAcceptUpdate();
 
-			Inventory tradeOffer = new Inventory();
+			Inventory tradeOffer = new Inventory(player);
 			player.resetTradeOffer();
 			int count = (int) p.readByte();
 			for (int slot = 0; slot < count; slot++) {

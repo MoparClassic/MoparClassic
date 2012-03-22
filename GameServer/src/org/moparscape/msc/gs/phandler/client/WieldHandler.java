@@ -13,8 +13,10 @@ import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.service.ItemAttributes;
+import org.moparscape.msc.gs.util.Logger;
 
 public class WieldHandler implements PacketHandler {
 
@@ -62,8 +64,13 @@ public class WieldHandler implements PacketHandler {
 
 		switch (pID) {
 		case 181:
+			Logger.println("181 Part");
 			if (!item.wielded) {
-				wieldItem(player, item, idx);
+				try {
+					wieldItem(player, item, idx);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			break;
 		case 92:
@@ -72,6 +79,7 @@ public class WieldHandler implements PacketHandler {
 			}
 			break;
 		}
+		Logger.println("Updating");
 		player.getActionSender().sendInventory();
 		player.getActionSender().sendEquipmentStats();
 	}
@@ -79,16 +87,21 @@ public class WieldHandler implements PacketHandler {
 	public static void unWieldItem(Player player, InvItem item, boolean sound,
 			int slot) {
 		player.getInventory().setWield(slot, false);
-		player.updateWornItems();
 		if (sound) {
 			player.getActionSender().sendSound("click");
 		}
+		ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+		player.updateWornItems(def.getWieldPos(), player.getPlayerAppearance()
+				.getSprite(def.getWieldPos()));
 	}
 
 	private void wieldItem(Player player, InvItem item, int slot) {
 		String youNeed = "";
-		for (Entry<Integer, Integer> e : ItemAttributes.getWieldable(item.id)
-				.getStatsRequired()) {
+		ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+		if (def == null) {
+			Logger.println("Def = null!!!!");
+		}
+		for (Entry<Integer, Integer> e : def.getStatsRequired()) {
 			if (player.getMaxStat(e.getKey()) < e.getValue()) {
 				youNeed += ((Integer) e.getValue()).intValue() + " "
 						+ Formulae.statArray[((Integer) e.getKey()).intValue()]
@@ -176,7 +189,8 @@ public class WieldHandler implements PacketHandler {
 		}
 		player.getInventory().setWield(slot, true);
 		player.getActionSender().sendSound("click");
-		player.updateWornItems();
+		def = ItemAttributes.getWieldable(item.id);
+		player.updateWornItems(def.getWieldPos(), def.getSprite());
 	}
 
 }

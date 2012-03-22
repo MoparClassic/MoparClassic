@@ -13,7 +13,7 @@ class ShopKeeper extends NpcDialog {
 				breath
 				player.setAccessingShop(shop)
 				player.getActionSender.showShop(shop)
-				
+				shop.addPlayer(player)
 				super.begin
 			}
 		}

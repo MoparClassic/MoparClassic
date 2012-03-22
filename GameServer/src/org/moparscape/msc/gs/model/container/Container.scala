@@ -10,30 +10,30 @@ import scala.collection.JavaConversions._
 class Container(val maxSize : Int, allStackable : Boolean = false) {
 	protected var items = new AtomicReference(List[InvItem]())
 
-	def add(id : Int, amount : Int = 1, ignoreMaxSize : Boolean = false) = {
+	def add(id : Int, amount : Int = 1, ignoreMaxSize : Boolean = false) : Boolean = {
 		if (amount <= 0) {
-			false
-		}
-		items.synchronized {
-			var itm = items.get
-			if (!ignoreMaxSize && !canHold(id, amount)) {
-				false
-			}
-
-			if (isStackable(id)) {
-				if (contains(id))
-					itm = itm map (e => if (e.id == id) new InvItem(id, e.amount + amount) else e)
-				else {
-					itm = new InvItem(id, amount) :: itm
+			return false
+		} else {
+			items.synchronized {
+				var itm = items.get
+				if (!ignoreMaxSize && !canHold(id, amount)) {
+					return false
 				}
-			} else {
 
-				for (i <- (0 until amount)) itm = new InvItem(id) :: itm
+				if (isStackable(id)) {
+					if (contains(id))
+						itm = itm map (e => if (e.id == id) new InvItem(id, e.amount + amount) else e)
+					else
+						itm = itm ::: List(new InvItem(id, amount))
+				} else {
 
+					for (i <- (0 until amount)) itm = itm ::: List(new InvItem(id))
+
+				}
+				items.set(itm)
 			}
-			items.set(itm)
+			return true
 		}
-		true
 	}
 
 	def removeAll(id : Int) = {
@@ -46,23 +46,28 @@ class Container(val maxSize : Int, allStackable : Boolean = false) {
 		}
 	}
 
-	def remove(id : Int, amount : Int = 1, ignoreAmount : Boolean = false) = {
+	def remove(id : Int, amount : Int = 1, ignoreAmount : Boolean = false) : Boolean = {
 		items.synchronized {
-			if (countId(id) < amount) false
+			var ret = false
 			var itm = items.get.reverse
-			if (isStackable(id)) {
-				itm = itm.map(e => if (id == e.id) new InvItem(id, e.amount - amount) else e)
-			} else {
-				var count = 0
-				itm = itm.filter {
-					i =>
-						if (count < amount && i.id == id) false
-						else true
+			if (countId(id) >= amount) {
+				if (isStackable(id)) {
+					itm = itm.map(e => if (id == e.id) new InvItem(id, e.amount - amount) else e)
+				} else {
+					var count = 0
+					itm = itm.filter {
+						i =>
+							if (count < amount && i.id == id) {
+								count += 1
+								false
+							} else true
+					}
 				}
+				ret = true
 			}
 			itm = if (!ignoreAmount) itm.filterNot(_.amount <= 0) else itm
 			items.set(itm.reverse)
-			true
+			return ret
 		}
 	}
 
@@ -100,7 +105,7 @@ class Container(val maxSize : Int, allStackable : Boolean = false) {
 		var taken = _taken
 		items.synchronized {
 			var itms = items.get
-			if(taken == null) {
+			if (taken == null) {
 				taken = List[InvItem]()
 			}
 			// Calculates the size after everything but the first element in added is done
@@ -120,16 +125,16 @@ class Container(val maxSize : Int, allStackable : Boolean = false) {
 		items.synchronized {
 			val itm = items.get
 			if (isStackable(id) && contains(id)) true
-			else if (isStackable(id) && size + 1 > maxSize) false
-			else if (size + amount > maxSize) false
-			else true
+			else if (isStackable(id) && size + 1 <= maxSize) true
+			else if (size + amount <= maxSize) true
+			else false
 		}
 	}
 
 	protected def isStackable(id : Int) = {
 		if (allStackable) true
-		EntityHandler.getItemDef(id).isStackable
+		else EntityHandler.getItemDef(id).isStackable
 	}
-	
+
 	def size = items.get.size
 }

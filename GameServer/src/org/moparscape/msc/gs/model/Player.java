@@ -885,9 +885,9 @@ public final class Player extends Mob {
 	public int getArmourPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.wielded) {
-				points += EntityHandler.getItemWieldableDef(item.id)
-						.getArmourPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getArmourPoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1216,9 +1216,9 @@ public final class Player extends Mob {
 	public int getMagicPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.wielded) {
-				points += EntityHandler.getItemWieldableDef(item.id)
-						.getMagicPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getMagicPoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1301,9 +1301,9 @@ public final class Player extends Mob {
 	public int getPrayerPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.wielded) {
-				points += EntityHandler.getItemWieldableDef(item.id)
-						.getPrayerPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getPrayerPoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1355,9 +1355,9 @@ public final class Player extends Mob {
 	public int getRangePoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.wielded) {
-				points += EntityHandler.getItemWieldableDef(item.id)
-						.getRangePoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getRangePoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1470,9 +1470,9 @@ public final class Player extends Mob {
 	public int getWeaponAimPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.wielded) {
-				points += EntityHandler.getItemWieldableDef(item.id)
-						.getWeaponAimPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getWeaponAimPoints();
 			}
 		}
 		points -= 1;
@@ -1482,9 +1482,9 @@ public final class Player extends Mob {
 	public int getWeaponPowerPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.wielded) {
-				points += EntityHandler.getItemWieldableDef(item.id)
-						.getWeaponPowerPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getWeaponPowerPoints();
 			}
 		}
 		points -= 1;
@@ -3187,9 +3187,7 @@ public final class Player extends Mob {
 
 			if ((!watchedNpcs.contains(n) || watchedNpcs.isRemoving(n))
 					&& withinRange(n)) {
-				if (n.inCombat()) {
-					watchedNpcs.add(n);
-				}
+				watchedNpcs.add(n);
 			}
 		}
 	}
@@ -3223,19 +3221,6 @@ public final class Player extends Mob {
 
 	public void updateWornItems(int index, int id) {
 		wornItems[index] = id;
-		super.ourAppearanceChanged = true;
-	}
-
-	public void updateWornItems() {
-		List<InvItem> items = getInventory().getItems();
-		for (InvItem i : items) {
-			ItemWieldableDef def = ItemAttributes.getWieldable(i.id);
-			Logger.println("First = " + getPlayerAppearance().getSprite(
-					def.getWieldPos()));
-			Logger.println("Second = " + def.getSprite());
-			wornItems[def.getWieldPos()] = getPlayerAppearance().getSprite(
-					def.getWieldPos());
-		}
 		super.ourAppearanceChanged = true;
 	}
 
