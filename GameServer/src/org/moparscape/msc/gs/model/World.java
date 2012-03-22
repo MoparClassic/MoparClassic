@@ -308,6 +308,9 @@ public final class World {
 	public Shop getShop(Point location) {
 		for (Shop shop : shops) {
 			if (shop.withinShop(location)) {
+				if(!shop.inited()) {
+					shop.init();
+				}
 				return shop;
 			}
 		}

@@ -12,7 +12,6 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.container.Shop;
 import org.moparscape.msc.gs.tools.Captcha;
 
@@ -445,26 +444,27 @@ public class MiscPacketBuilder {
 	 * Sends this player's quest info
 	 */
 	public void sendQuestInfo() {
-		RSCPacketBuilder s = new RSCPacketBuilder();
+		/*RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(233);
 		s.addByte((byte) player.getQuestPoints());
 		// TODO: Send quest info
-		int size = 0;
+		int size = 17;
 		s.addByte((byte) size);
-		/*for (int i = 0; i < size; i++) {
-			//Quest quest = World.getQuestManager().getQuests().get(i);
-			s.addByte((byte) quest.getUniqueID());
-			Integer objectInteger = player.getQuestStages().get(
-					quest.getUniqueID());
-			if (objectInteger.intValue() == Quest.COMPLETE)
-				s.addByte((byte) 2);
-			else if (objectInteger.intValue() >= 1)
-				s.addByte((byte) 1);
-			else
-				s.addByte((byte) 0);
+		for (int i = 0; i < size; i++) {
+			s.addByte((byte) i);
+			s.addByte((byte) 0);
 		}*/
+		/*
+		 * for (int i = 0; i < size; i++) { //Quest quest =
+		 * World.getQuestManager().getQuests().get(i); s.addByte((byte)
+		 * quest.getUniqueID()); Integer objectInteger =
+		 * player.getQuestStages().get( quest.getUniqueID()); if
+		 * (objectInteger.intValue() == Quest.COMPLETE) s.addByte((byte) 2);
+		 * else if (objectInteger.intValue() >= 1) s.addByte((byte) 1); else
+		 * s.addByte((byte) 0); }
+		 */
 
-		packets.add(s.toPacket());
+		//packets.add(s.toPacket());
 		/*
 		 * RSCPacketBuilder s = new RSCPacketBuilder(); // setID(183)
 		 * s.setID(233); s.addByte((byte)player.getQuestPoints()); HashMap qs =

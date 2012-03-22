@@ -15,7 +15,6 @@ import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.service.ItemAttributes;
-import org.moparscape.msc.gs.util.Logger;
 
 public class WieldHandler implements PacketHandler {
 

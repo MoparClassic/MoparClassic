@@ -21,7 +21,6 @@ import net.jcip.annotations.NotThreadSafe;
 import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
-import org.moparscape.msc.gs.model.container.Shop;
 import org.moparscape.msc.gs.model.TelePoint;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
@@ -31,6 +30,7 @@ import org.moparscape.msc.gs.model.definition.entity.NPCDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.definition.extra.CerterDef;
 import org.moparscape.msc.gs.model.definition.extra.DoorDef;
+import org.moparscape.msc.gs.model.definition.extra.ShopDef;
 import org.moparscape.msc.gs.model.definition.extra.TileDef;
 import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
 import org.moparscape.msc.gs.model.definition.skill.AgilityDef;
@@ -150,8 +150,8 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public List<Shop> loadShops() {
-		return (List<Shop>) load("locs/Shops.xml.gz");
+	public List<ShopDef> loadShops() {
+		return (List<ShopDef>) load("locs/Shops.xml.gz");
 	}
 
 	@Override
@@ -351,7 +351,7 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public void saveShops(List<Shop> shops) throws Exception {
+	public void saveShops(List<ShopDef> shops) throws Exception {
 		write("locs/Shops.xml.gz", shops);
 	}
 

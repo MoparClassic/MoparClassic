@@ -3230,6 +3230,9 @@ public final class Player extends Mob {
 		List<InvItem> items = getInventory().getItems();
 		for (InvItem i : items) {
 			ItemWieldableDef def = ItemAttributes.getWieldable(i.id);
+			Logger.println("First = " + getPlayerAppearance().getSprite(
+					def.getWieldPos()));
+			Logger.println("Second = " + def.getSprite());
 			wornItems[def.getWieldPos()] = getPlayerAppearance().getSprite(
 					def.getWieldPos());
 		}

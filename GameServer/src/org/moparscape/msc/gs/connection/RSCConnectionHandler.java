@@ -59,6 +59,7 @@ public class RSCConnectionHandler implements IoHandler {
 		if (p.getID() == 55)
 			player.addInterval();
 
+		System.out.println("Rec = " + p.getID());
 		packets.add(p);
 	}
 
@@ -71,6 +72,8 @@ public class RSCConnectionHandler implements IoHandler {
 	 *            The packet sent
 	 */
 	public void messageSent(IoSession session, Object message) {
+		RSCPacket p = (RSCPacket) message;
+		System.out.println(p.getID());
 	}
 
 	/**

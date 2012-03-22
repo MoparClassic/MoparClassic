@@ -18,6 +18,7 @@ import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
 import org.moparscape.msc.gs.model.definition.entity.ItemLoc;
 import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
+import org.moparscape.msc.gs.model.definition.extra.ShopDef;
 import org.moparscape.msc.gs.model.landscape.MutableTileValue;
 import org.moparscape.msc.gs.model.landscape.Sector;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -159,8 +160,8 @@ public class WorldLoader {
 		}
 		Logger.println(((System.currentTimeMillis() - now) / 1000) + "s to load landscape");
 		// try { out.close(); } catch(Exception e) { Logger.error(e); }
-		for (Shop shop : Instance.getDataStore().loadShops()) {
-			world.registerShop(shop);
+		for (ShopDef shop : Instance.getDataStore().loadShops()) {
+			world.registerShop(shop.toShop());
 		}
 		System.gc();
 	}

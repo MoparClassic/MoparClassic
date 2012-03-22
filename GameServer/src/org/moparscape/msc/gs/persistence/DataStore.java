@@ -6,7 +6,6 @@ import java.util.Map;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.TelePoint;
-import org.moparscape.msc.gs.model.container.Shop;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
 import org.moparscape.msc.gs.model.definition.entity.ItemDef;
@@ -15,6 +14,7 @@ import org.moparscape.msc.gs.model.definition.entity.NPCDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.definition.extra.CerterDef;
 import org.moparscape.msc.gs.model.definition.extra.DoorDef;
+import org.moparscape.msc.gs.model.definition.extra.ShopDef;
 import org.moparscape.msc.gs.model.definition.extra.TileDef;
 import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
 import org.moparscape.msc.gs.model.definition.skill.AgilityDef;
@@ -64,9 +64,9 @@ public abstract interface DataStore {
 
 	public void saveTelePoints(Map<Point, TelePoint> points) throws Exception;
 
-	public List<Shop> loadShops() throws Exception;
+	public List<ShopDef> loadShops() throws Exception;
 
-	public void saveShops(List<Shop> shops) throws Exception;
+	public void saveShops(List<ShopDef> shops) throws Exception;
 
 	public Map<Integer, CerterDef> loadCerterDefs() throws Exception;
 

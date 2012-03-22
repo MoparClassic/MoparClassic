@@ -5,13 +5,16 @@ import org.moparscape.msc.gs.model.Point
 import scala.collection.mutable.ListBuffer
 import org.moparscape.msc.gs.Instance
 import org.moparscape.msc.gs.event.DelayedEvent
+import scala.collection.JavaConversions._
 
 class Shop(val name : String, val greeting : String,
-		val options : List[String], val min : Point,
+		_options : java.util.List[String], val min : Point,
 		val max : Point, val general : Boolean,
 		val respawnRate : Int, val buyModifier : Int, val sellModifier : Int) extends Container(40, true) {
+	val options = _options.toList
 
-	val equilibrium = {
+	var inited = false
+	lazy val equilibrium = {
 		val buf = new ListBuffer[(Int, Int)]
 		items.get.foreach {
 			i =>
@@ -20,37 +23,40 @@ class Shop(val name : String, val greeting : String,
 		buf.toList
 	}
 
-	{
-		val shop = this
-		Instance.getDelayedEventHandler.add(new DelayedEvent(null, respawnRate) {
-			var iterations = 0
-			override def run {
-				var changed = false
+	def init {
+		this.synchronized {
+			val shop = this
+			Instance.getDelayedEventHandler.add(new DelayedEvent(null, respawnRate) {
+				var iterations = 0
+				override def run {
+					var changed = false
 
-				items.synchronized {
-					items.get.foreach {
-						i =>
-							var contains = false
-							val eq = equilibrium.find(_._1 == i.id) match {
-								case Some(x) => {
-									contains = true
-									x._2
+					items.synchronized {
+						items.get.foreach {
+							i =>
+								var contains = false
+								val eq = equilibrium.find(_._1 == i.id) match {
+									case Some(x) => {
+										contains = true
+										x._2
+									}
+									case None => 0
 								}
-								case None => 0
-							}
 
-							if (iterations % 4 == 0 && i.amount > eq) {
-								shop.remove(i.id, 1, contains)
-								changed = true
-							} else if (i.amount < eq) {
-								add(i.id)
-								changed = true
-							}
-							if (changed) shop.updatePlayers
+								if (iterations % 4 == 0 && i.amount > eq) {
+									shop.remove(i.id, 1, contains)
+									changed = true
+								} else if (i.amount < eq) {
+									add(i.id)
+									changed = true
+								}
+								if (changed) shop.updatePlayers
+						}
 					}
 				}
-			}
-		})
+			})
+			inited = true
+		}
 	}
 
 	private var players = List[Player]()

@@ -8,7 +8,7 @@
 	<entry key="Point">org.moparscape.msc.gs.model.Point</entry>
 	<entry key="TelePoint">org.moparscape.msc.gs.model.TelePoint</entry>
 	
-	<entry key="Shop">org.moparscape.msc.gs.model.Shop</entry>
+	<entry key="Shop">org.moparscape.msc.gs.model.definition.extra.ShopDef</entry>
 	<entry key="InvItem">org.moparscape.msc.gs.model.InvItem</entry>
 	
 
