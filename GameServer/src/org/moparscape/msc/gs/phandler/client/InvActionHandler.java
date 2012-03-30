@@ -757,68 +757,7 @@ public class InvActionHandler implements PacketHandler {
 				break;
 			case 316: // Ruby ammy
 			case 317: // Diamond ammy
-				if (!player.canLogout()
-						|| System.currentTimeMillis() - player.getLastMoved() < 10000) {
-					player.getActionSender()
-							.sendMessage(
-									"You must stand peacefully in one place for 10 seconds!");
-					return;
-				}
-				player.getActionSender().sendMessage(
-						"You rub the amulet... be careful!");
-				player.getActionSender().sendMessage(
-						"All who use this cursed amulet automatically skull!");
-				Instance.getDelayedEventHandler().add(new MiniEvent(player) {
-					public void action() {
-						String[] options = new String[] { "Altar", "Castle" };
-						owner.setMenuHandler(new MenuHandler(options) {
-							public void handleReply(final int option,
-									final String reply) {
-								if (owner.isBusy()
-										|| owner.inCombat()
-										|| owner.getInventory().get(item) == null) {
-									return;
-								}
-								if (owner.getLocation().inModRoom()
-										&& !owner.isMod()) {
-									owner.getActionSender()
-											.sendMessage(
-													"A magical force stops you from teleporting.");
-									return;
-								}
-								owner.getActionSender().sendSound("spellok");
-								switch (option) {
-								case 0: // altar
-									int x = DataConversions.random(311, 327);
-									int y = DataConversions.random(210, 222);
-									while (world.getTile(x, y).hasGameObject()) {
-										x = DataConversions.random(311, 327);
-										y = DataConversions.random(210, 222);
-									}
-
-									owner.teleport(x, y, true);
-									owner.addSkull(1200000);
-									break;
-								case 1: // castle
-									x = DataConversions.random(271, 283);
-									y = DataConversions.random(352, 363);
-									while (world.getTile(x, y).hasGameObject()) {
-										x = DataConversions.random(271, 283);
-										y = DataConversions.random(352, 363);
-									}
-									owner.teleport(x, y, true);
-									owner.addSkull(1200000);
-									break;
-								default:
-									return;
-
-								}
-							}
-						});
-						owner.getActionSender().sendMenu(options);
-					}
-				});
-				break;
+				return;
 			case 387: // Disk of Returning
 				if (player.getLocation().wildernessLevel() >= 30
 						|| (player.getLocation().inModRoom() && !player.isMod())) {
