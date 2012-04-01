@@ -465,32 +465,36 @@ public class ObjectAction implements PacketHandler {
 										});
 								return;
 							} else if (command.equalsIgnoreCase("approach")) {
-								owner.getActionSender().sendMessage(
-										"You start to approach the tree");
-								Instance.getDelayedEventHandler().add(
-										new ShortEvent(owner) {
-											public void action() {
-												int damage = owner
-														.getCurStat(3) / 10;
-												owner.getActionSender()
-														.sendMessage(
-																"The tree lashes out at you.");
-												owner.setLastDamage(damage);
-												owner.setCurStat(3,
-														owner.getCurStat(3)
-																- damage);
-												ArrayList<Player> playersToInform = new ArrayList<Player>();
-												playersToInform.addAll(owner
-														.getViewArea()
-														.getPlayersInView());
-												owner.getActionSender()
-														.sendStat(3);
-												for (Player p : playersToInform) {
+								switch (object.getID()) {
+								case 88: // Attacking trees (Draynor Manor, Wilderness and West Ardougne)
+									owner.setBusy(true);
+									owner.getActionSender().sendMessage(
+											"The tree seems to lash out at you!");
+									Instance.getDelayedEventHandler().add(new ShortEvent(owner) {
+										public void action() {
+											int damage = owner.getCurStat(3) / 5;
+											owner.setLastDamage(damage);
+											owner.setCurStat(3, owner.getCurStat(3) - damage);
+											owner.getActionSender().sendStat(3);
+											ArrayList<Player> playersToInform = new ArrayList<Player>();
+											playersToInform.addAll(owner.getViewArea().getPlayersInView());
+                            								for (Player p : playersToInform)
 													p.informOfModifiedHits(owner);
-												}
-											}
-										});
-
+											owner.getActionSender().sendMessage(
+													"You are badly scratched by the tree");							
+				    							owner.setBusy(false);
+										}
+				    					});
+									break;
+								case 400: //Fly trap (Brimhaven)
+									return;
+								case 494: //Watch tower (West Ardougne)
+									return;
+								default:
+									owner.getActionSender().sendMessage(
+											"Nothing interesting happens.");
+									return;
+								}
 							} else if (command.equals("open")
 									&& object.getGameObjectDef().name
 											.equals("Chest")) {
