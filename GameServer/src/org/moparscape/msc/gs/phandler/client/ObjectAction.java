@@ -893,6 +893,19 @@ public class ObjectAction implements PacketHandler {
 												}
 											});
 									break;
+									/**
+									 * Varrock gate to members area...
+									 * TODO: Needs actual action when the server goes p2p.
+									 */
+								case 513:
+									if (object.getX() != 93 || object.getY() != 512) {
+										return;
+									}
+									if (!World.isMembers()) {
+										owner.getActionSender().sendMessage("This feature is only avaliable on a members server");
+										return;
+									}
+									break;
 								case 643: // Gnome tree stone
 									if (object.getX() != 416
 											|| object.getY() != 161) {
