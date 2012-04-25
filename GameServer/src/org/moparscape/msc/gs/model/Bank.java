@@ -5,11 +5,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.moparscape.msc.config.Config;
+
 public class Bank {
 	/**
 	 * The maximum size of a bank
 	 */
-	public static final int MAX_SIZE = 192;
+	public static int BANK_SIZE = Config.members == true ? 198 : 48;
+
+	
 	private ArrayList<InvItem> list = new ArrayList<InvItem>();
 
 	public Bank() {
@@ -31,11 +35,11 @@ public class Bank {
 	}
 
 	public boolean canHold(ArrayList<InvItem> items) {
-		return (MAX_SIZE - list.size()) >= getRequiredSlots(items);
+		return (BANK_SIZE - list.size()) >= getRequiredSlots(items);
 	}
 
 	public boolean canHold(InvItem item) {
-		return (MAX_SIZE - list.size()) >= getRequiredSlots(item);
+		return (BANK_SIZE - list.size()) >= getRequiredSlots(item);
 	}
 
 	public boolean contains(InvItem i) {
@@ -52,7 +56,7 @@ public class Bank {
 	}
 
 	public boolean full() {
-		return list.size() >= MAX_SIZE;
+		return list.size() >= BANK_SIZE;
 	}
 
 	public InvItem get(int index) {
