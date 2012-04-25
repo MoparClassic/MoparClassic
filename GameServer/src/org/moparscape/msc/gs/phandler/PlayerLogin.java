@@ -51,8 +51,6 @@ public class PlayerLogin implements PacketHandler {
 			player.setOwner(p.readInt());
 			int gid = p.readInt();
 			player.setGroupID(gid);
-			player.setGroupID(10); //only for beta.. cbf to gather items.
-
 			player.setSubscriptionExpires(p.readLong());
 
 			player.setLastIP(DataConversions.IPToString(p.readLong()));
