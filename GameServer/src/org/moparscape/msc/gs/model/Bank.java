@@ -11,7 +11,7 @@ public class Bank {
 	/**
 	 * The maximum size of a bank
 	 */
-	public static int BANK_SIZE = Config.members == true ? 198 : 48;
+	public static final int BANK_SIZE = Config.members == true ? 198 : 48;
 
 	
 	private ArrayList<InvItem> list = new ArrayList<InvItem>();
