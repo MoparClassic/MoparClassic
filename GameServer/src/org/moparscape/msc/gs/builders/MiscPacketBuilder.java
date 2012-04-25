@@ -675,7 +675,7 @@ public class MiscPacketBuilder {
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(93);
 		s.addByte((byte) player.getBank().size());
-		s.addByte((byte) Bank.MAX_SIZE);
+		s.addByte((byte) Bank.BANK_SIZE);
 		for (InvItem i : player.getBank().getItems()) {
 			s.addShort(i.getID());
 			s.addInt(i.getAmount());
