@@ -263,9 +263,13 @@ public class RangeEvent extends DelayedEvent {
 									player.getActionSender().sendMessage("WalkMobToMobEvent finish");
 									
 									npc.resetPath();
+									player.getActionSender().sendMessage("npc.resetPath");
 									player.setBusy(true);
+									player.getActionSender().sendMessage("setbusy");
 									player.resetPath();
+									player.getActionSender().sendMessage("resetpath");
 									player.resetAll();
+									player.getActionSender().sendMessage("resetall");
 									if (npc.isScripted())
 										Instance.getPluginHandler()
 												.getNpcAIHandler(npc.getID())
