@@ -232,24 +232,16 @@ public class RangeEvent extends DelayedEvent {
 				if (owner instanceof Player) {
 					if (affectedMob instanceof Npc) {
 						Npc npc = (Npc) affectedMob;
-
 						npc.getSyndicate().distributeExp(npc);
 					}
 				}
 			} else {
-				if (owner instanceof Player && affectedMob instanceof Npc) // We're
-																			// ranging
-																			// an
-																			// NPC,
-																			// so
-																			// make
-																			// it
-																			// chase
-																			// the
-																			// player.
-				{
+				 // We're ranging an NPC, so make it chase the player.
+				if (owner instanceof Player && affectedMob instanceof Npc) {
 					final Npc npc = (Npc) affectedMob;
 					final Player player = (Player) owner;
+					
+					player.getActionSender().sendMessage("affectedMob = npc");
 
 					if (npc.isBusy() || npc.getChasing() != null)
 						return;
@@ -268,7 +260,8 @@ public class RangeEvent extends DelayedEvent {
 										this.stop();
 										return;
 									}
-
+									player.getActionSender().sendMessage("WalkMobToMobEvent finish");
+									
 									npc.resetPath();
 									player.setBusy(true);
 									player.resetPath();

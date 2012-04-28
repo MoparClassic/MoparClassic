@@ -233,6 +233,9 @@ public class PlayerLogin implements PacketHandler {
 				player.getInventory().add(new InvItem(156));
 				player.getInventory().add(new InvItem(87));
 				player.getInventory().add(new InvItem(1263));
+				//189 + 11 = Range Testing.
+				player.getInventory().add(new InvItem(189));
+				player.getInventory().add(new InvItem(11, 100));
 				player.getActionSender().sendInventory();
 				player.setChangingAppearance(true);
 				sender.sendAppearanceScreen();
