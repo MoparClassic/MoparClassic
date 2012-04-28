@@ -2,6 +2,7 @@ package org.moparscape.msc.gs.plugins.plugs.skills;
 
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.model.Bubble;
@@ -61,8 +62,14 @@ public class Mining implements ObjectListener {
 		}
 		final InvItem ore = new InvItem(def.getOreId());
 		if (owner.getClick() == 1) {
-			owner.getActionSender().sendMessage(
-					"This rock contains " + ore.getDef().getName() + ".");
+			Instance.getDelayedEventHandler()
+				.add(new MiniEvent(owner, 1000) {
+					@Override
+					public void action() {
+						owner.getActionSender().sendMessage(
+								"This rock contains " + ore.getDef().getName() + ".");
+					}
+				});
 			return;
 		}
 
