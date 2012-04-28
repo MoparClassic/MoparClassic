@@ -1560,7 +1560,7 @@ public final class Player extends Mob {
 		setFatigue((int) (fatigue + (combat ? cbfatamount : skfatamount)));
 
 		//actionSender.sendMessage("combat?" + combat);
-		//actionSender.sendMessage((combat ? "cb amount" + cbfatamount : "skill amount : " + skfatamount));
+		actionSender.sendMessage((combat ? "cb amount" + cbfatamount : "skill amount : " + skfatamount));
 		//actionSender.sendMessage("Current Fat : " + fatigue);
 	}
 
