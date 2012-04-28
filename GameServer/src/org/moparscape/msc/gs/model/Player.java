@@ -1540,22 +1540,47 @@ public final class Player extends Mob {
 
 		incExp(i, amount, useFatigue, false);
 	}
+	
+	/**
+	 * 
+	 * Client divides amount by /7.5 or some shit.
+	 * 750 = 100%
+	 * 
+	 * @param exp 
+	 * 			-amount of exp gained
+	 * @param combat
+	 * 			-was the player in combat?
+	 */
+	public void incFatigue(int exp, boolean combat) {
+		double skillfatrate = .2133;
+		double skfatamount = (exp * skillfatrate);
+		double cbfatrate = 1.75; //idfk
+		double cbfatamount = (exp * cbfatrate);
+
+		setFatigue((int) (fatigue + (combat ? cbfatamount : skfatamount)));
+
+		//actionSender.sendMessage("combat?" + combat);
+		//actionSender.sendMessage((combat ? "cb amount" + cbfatamount : "skill amount : " + skfatamount));
+		//actionSender.sendMessage("Current Fat : " + fatigue);
+	}
 
 	public void incExp(int i, int amount, boolean useFatigue, boolean combat) {
 		if (isPMod())
 			return;
 		if (useFatigue) {
-			if (fatigue >= 100) {
+			if (fatigue >= 750) {
 				actionSender
 						.sendMessage("@gre@You are too tired to gain experience, get some rest!");
 				return;
 			}
-			if (fatigue >= 96) {
+			if (fatigue >= 720) {
 				actionSender
 						.sendMessage("@gre@You start to feel tired, maybe you should rest soon.");
 			}
 			if (i >= 3 && useFatigue) {
-				fatigue++;
+				//actionSender.sendMessage("combat? " + combat);
+				int exp = amount;
+				incFatigue(exp, combat);
 				actionSender.sendFatigue();
 			}
 		}
