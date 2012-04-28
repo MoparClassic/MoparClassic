@@ -62,12 +62,13 @@ public class Mining implements ObjectListener {
 		}
 		final InvItem ore = new InvItem(def.getOreId());
 		if (owner.getClick() == 1) {
+			owner.getActionSender().sendMessage("You examine the rock for ores...");
 			Instance.getDelayedEventHandler()
 				.add(new MiniEvent(owner, 1000) {
 					@Override
 					public void action() {
 						owner.getActionSender().sendMessage(
-								"This rock contains " + ore.getDef().getName() + ".");
+								"This rock contains " + ore.getDef().getName());
 					}
 				});
 			return;

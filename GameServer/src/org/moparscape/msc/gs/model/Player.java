@@ -168,7 +168,7 @@ public final class Player extends Mob {
 	private int[] exp = new int[18];
 
 	/**
-	 * Amount of fatigue - 0 to 100
+	 * Amount of fatigue - 0 to 750
 	 */
 	private int fatigue = 0;
 
