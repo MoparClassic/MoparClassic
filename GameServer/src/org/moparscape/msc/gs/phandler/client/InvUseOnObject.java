@@ -1248,6 +1248,7 @@ public class InvUseOnObject implements PacketHandler {
 								return;
 							}
 						}
+						showBubble();
 						if (owner.getCurStat(13) < smeltingDef.getReqLevel()) {
 							owner.getActionSender().sendMessage(
 									"You need a smithing level of "
@@ -1259,7 +1260,7 @@ public class InvUseOnObject implements PacketHandler {
 							return;
 						}
 						owner.setBusy(true);
-						showBubble();
+						//showBubble();
 						owner.getActionSender().sendMessage(
 								"You smelt the " + item.getDef().getName()
 										+ " in the furnace.");
