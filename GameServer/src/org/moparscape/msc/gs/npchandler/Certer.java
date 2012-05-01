@@ -60,65 +60,21 @@ public class Certer implements NpcHandler {
 													String[] options = new String[] {
 															"One", "Two",
 															"Three", "Four",
-															"Five",
-															"All to bank" };
+															"Five"};
 													owner.setMenuHandler(new MenuHandler(
 															options) {
-														public void handleReply(
-																int certAmount,
-																String reply) {
+														public void handleReply(int certAmount, String reply) {
 															owner.resetPath();
-															int certID = certerDef
-																	.getCertID(index);
-															if (certID < 0) { // This
-																// shouldn't
-																// happen
+															int certID = certerDef.getCertID(index);
+															if (certID < 0) {
 																return;
 															}
-															int itemID = certerDef
-																	.getItemID(index);
+															int itemID = certerDef.getItemID(index);
 															if (certAmount == 5) {
-																certAmount = owner
-																		.getInventory()
-																		.countId(
-																				certID);
+																certAmount = owner.getInventory().countId(certID);
 																if (certAmount <= 0) {
-																	owner.getActionSender()
-																			.sendMessage(
-																					"You don't have any "
-																							+ names[index]
-																							+ " certificates");
+																	owner.getActionSender().sendMessage("You don't have any "+ names[index] + " certificates");
 																	return;
-																}
-																// MIGHT
-																// BE
-																// SMART
-																// TO
-																// CHECK
-																// THEIR
-																// BANK
-																// ISN'T
-																// FULL
-																InvItem bankItem = new InvItem(
-																		itemID,
-																		certAmount * 5);
-																if (owner
-																		.getInventory()
-																		.remove(new InvItem(
-																				certID,
-																				certAmount)) > -1) {
-																	owner.getActionSender()
-																			.sendMessage(
-																					"You exchange the certificates, "
-																							+ bankItem
-																									.getAmount()
-																							+ " "
-																							+ bankItem
-																									.getDef()
-																									.getName()
-																							+ " is added to your bank");
-																	owner.getBank()
-																			.add(bankItem);
 																}
 															} else {
 																certAmount += 1;
@@ -183,8 +139,7 @@ public class Certer implements NpcHandler {
 															"Five", "Ten",
 															"Fifteen",
 															"Twenty",
-															"Twentyfive",
-															"All from bank" };
+															"Twentyfive"};
 													owner.setMenuHandler(new MenuHandler(
 															options) {
 														public void handleReply(
@@ -201,10 +156,6 @@ public class Certer implements NpcHandler {
 															int itemID = certerDef
 																	.getItemID(index);
 															if (certAmount == 5) {
-																certAmount = (int) (owner
-																		.getBank()
-																		.countId(
-																				itemID) / 5);
 																int itemAmount = certAmount * 5;
 																if (itemAmount <= 0) {
 																	owner.getActionSender()
@@ -213,28 +164,6 @@ public class Certer implements NpcHandler {
 																							+ names[index]
 																							+ " to cert");
 																	return;
-																}
-																if (owner
-																		.getBank()
-																		.remove(itemID,
-																				itemAmount) > -1) {
-																	owner.getActionSender()
-																			.sendMessage(
-																					"You exchange the "
-																							+ certerDef
-																									.getType()
-																							+ ", "
-																							+ itemAmount
-																							+ " "
-																							+ EntityHandler
-																									.getItemDef(
-																											itemID)
-																									.getName()
-																							+ " is taken from your bank");
-																	owner.getInventory()
-																			.add(new InvItem(
-																					certID,
-																					certAmount));
 																}
 															} else {
 																certAmount += 1;
