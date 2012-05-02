@@ -885,7 +885,7 @@ public class InvUseOnObject implements PacketHandler {
 										"Nothing interesting happens.");
 								return;
 							}
-							owner.setBusy(true);
+							//owner.setBusy(true);
 							showBubble();
 							owner.getActionSender().sendSound("mechanical");
 							break;
@@ -1179,7 +1179,6 @@ public class InvUseOnObject implements PacketHandler {
 						final int retries = --times;
 						if (!Server.isMembers()) {
 							owner.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
-							owner.setBusy(false);
 							return;
 						}
 						if (owner.getCurStat(12) < 10) {
