@@ -885,9 +885,10 @@ public class InvUseOnObject implements PacketHandler {
 										"Nothing interesting happens.");
 								return;
 							}
-							//owner.setBusy(true);
+							owner.setBusy(true);
 							showBubble();
 							owner.getActionSender().sendSound("mechanical");
+							owner.setBusy(false);
 							break;
 						case 248: // Crystal key chest
 							if (item.getID() != 525) {
