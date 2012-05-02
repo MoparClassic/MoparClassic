@@ -1178,8 +1178,8 @@ public class InvUseOnObject implements PacketHandler {
 					private void handleFlaxSpinning(int times) {
 						final int retries = --times;
 						if (!Server.isMembers()) {
-							owner.getActionSender().sendMessage(
-									GameServer.P2P_LIMIT_MESSAGE);
+							owner.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
+							owner.setBusy(false);
 							return;
 						}
 						if (owner.getCurStat(12) < 10) {
@@ -1192,7 +1192,7 @@ public class InvUseOnObject implements PacketHandler {
 								"You make the flax into a bow string");
 						Instance.getDelayedEventHandler().add(
 								new MiniEvent(owner) {
-									public void action() {
+									public void action() {  
 										if (owner.getInventory().remove(item) > -1) {
 											owner.getInventory().add(
 													new InvItem(676, 1));
