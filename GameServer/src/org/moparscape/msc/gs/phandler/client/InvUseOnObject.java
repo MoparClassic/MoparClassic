@@ -885,10 +885,6 @@ public class InvUseOnObject implements PacketHandler {
 										"Nothing interesting happens.");
 								return;
 							}
-							owner.setBusy(true);
-							showBubble();
-							owner.getActionSender().sendSound("mechanical");
-							owner.setBusy(false);
 							break;
 						case 248: // Crystal key chest
 							if (item.getID() != 525) {
@@ -1148,6 +1144,7 @@ public class InvUseOnObject implements PacketHandler {
 
 					private void handleWoolSpinning(int times) {
 						final int retries = --times;
+						showBubble();
 						owner.getActionSender()
 								.sendMessage(
 										"You spin the sheeps wool into a nice ball of wool");
@@ -1163,6 +1160,7 @@ public class InvUseOnObject implements PacketHandler {
 											owner.getActionSender()
 													.sendInventory();
 										}
+										owner.getActionSender().sendSound("mechanical");
 										owner.setBusy(false);
 										if (retries > 0) {
 											handleWoolSpinning(retries);
@@ -1182,6 +1180,7 @@ public class InvUseOnObject implements PacketHandler {
 							owner.getActionSender().sendMessage(GameServer.P2P_LIMIT_MESSAGE);
 							return;
 						}
+						showBubble();
 						if (owner.getCurStat(12) < 10) {
 							owner.getActionSender()
 									.sendMessage(
@@ -1202,6 +1201,7 @@ public class InvUseOnObject implements PacketHandler {
 											owner.getActionSender()
 													.sendInventory();
 										}
+										owner.getActionSender().sendSound("mechanical");
 										owner.setBusy(false);
 										if (retries > 0) {
 											handleFlaxSpinning(retries);
