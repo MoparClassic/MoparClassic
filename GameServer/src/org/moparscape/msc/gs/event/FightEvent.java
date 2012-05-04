@@ -60,14 +60,14 @@ public class FightEvent extends DelayedEvent {
 
 	public void run() {
 		if(owner == null || affectedMob == null) {
-		    return;
+			this.stop();
 		}
 		if (!owner.loggedIn()
 				|| (affectedMob instanceof Player && !((Player) affectedMob)
 						.loggedIn())) {
 			owner.resetCombat(CombatState.ERROR);
 			affectedMob.resetCombat(CombatState.ERROR);
-			return;
+			this.stop(); 
 		}
 
 		Mob attacker, opponent;
