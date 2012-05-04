@@ -61,13 +61,15 @@ public class FightEvent extends DelayedEvent {
 	public void run() {
 		if(owner == null || affectedMob == null) {
 			this.stop();
+			return;
 		}
 		if (!owner.loggedIn()
 				|| (affectedMob instanceof Player && !((Player) affectedMob)
 						.loggedIn())) {
 			owner.resetCombat(CombatState.ERROR);
 			affectedMob.resetCombat(CombatState.ERROR);
-			this.stop(); 
+			this.stop();
+			return;
 		}
 
 		Mob attacker, opponent;
@@ -86,6 +88,7 @@ public class FightEvent extends DelayedEvent {
 				n.resetCombat(CombatState.ERROR);
 				owner.resetCombat(CombatState.ERROR);
 				this.stop();
+				return;
 			}
 		}
 		if (opponent instanceof Npc) {
@@ -94,6 +97,7 @@ public class FightEvent extends DelayedEvent {
 				n.resetCombat(CombatState.ERROR);
 				owner.resetCombat(CombatState.ERROR);
 				this.stop();
+				return;
 			}
 		}
 		if (opponent instanceof Player && attacker instanceof Player) {
