@@ -240,16 +240,13 @@ public class RangeEvent extends DelayedEvent {
 				if (owner instanceof Player && affectedMob instanceof Npc) {
 					final Npc npc = (Npc) affectedMob;
 					final Player player = (Player) owner;
-					
-					player.getActionSender().sendMessage("affectedMob = npc");
 
 					if (npc.isBusy() || npc.getChasing() != null)
 						return;
 					
 					npc.resetPath();
-					player.getActionSender().sendMessage("npc.resetPath");
+					//setChasing stops range?
 					npc.setChasing(player);
-					player.getActionSender().sendMessage("npc chasing" + player);
 
 					// Radius is 0 to prevent wallhacking by NPCs. Easiest
 					// method I
@@ -262,19 +259,12 @@ public class RangeEvent extends DelayedEvent {
 										this.stop();
 										return;
 									}
-									player.getActionSender().sendMessage("WalkMobToMobEvent finish")
-									;
-									player.getActionSender().sendMessage("attempt npc.resetPath");
 									npc.resetPath();
 									
 									
-									player.getActionSender().sendMessage("npc.resetPath");
 									player.setBusy(true);
-									player.getActionSender().sendMessage("setbusy");
 									player.resetPath();
-									player.getActionSender().sendMessage("resetpath");
 									player.resetAll();
-									player.getActionSender().sendMessage("resetall");
 									if (npc.isScripted())
 										Instance.getPluginHandler()
 												.getNpcAIHandler(npc.getID())
