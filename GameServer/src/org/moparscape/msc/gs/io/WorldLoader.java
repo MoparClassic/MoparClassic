@@ -21,6 +21,7 @@ import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.definition.extra.ShopDef;
 import org.moparscape.msc.gs.model.landscape.MutableTileValue;
 import org.moparscape.msc.gs.model.landscape.Sector;
+import org.moparscape.msc.gs.service.WorldPopulationService;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
 
@@ -167,29 +168,8 @@ public class WorldLoader {
 	}
 
 	public void loadObjects() throws Exception {
-		World world = Instance.getWorld();
-		for (GameObjectLoc gameObject : Instance.getDataStore().loadGameObjectLocs()) {
-			if (Config.f2pWildy && Formulae.isP2P(true, gameObject))
-				continue;
-			if (Formulae.isP2P(gameObject) && !World.isMembers())
-				continue;
-			world.registerGameObject(new GameObject(gameObject));
-		}
-		for (ItemLoc item : Instance.getDataStore().loadItemLocs()) {
-			if (Config.f2pWildy && Formulae.isP2P(true, item))
-				continue;
-			if (Formulae.isP2P(item) && !World.isMembers())
-				continue;
-			world.registerItem(new Item(item));
-		}// ember
-
-		for (NPCLoc npc : Instance.getDataStore().loadNPCLocs()) {
-			if (Config.f2pWildy && Formulae.isP2P(true, npc))
-				continue;
-			if (Formulae.isP2P(npc) && !World.isMembers())
-				continue;
-			world.registerNpc(new Npc(npc));
-		}
+		WorldPopulationService.run();
+		
 	}
 
 }

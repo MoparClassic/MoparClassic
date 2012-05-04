@@ -92,18 +92,6 @@ public class ObjectAction implements PacketHandler {
 		 * else { player.lastPacketTime = newtime; player.lastPacketRecTime =
 		 * System.currentTimeMillis() / 1000; } } }
 		 */
-		if (object.getID() == 198 && object.getX() == 251
-				&& object.getY() == 468) { // Prayer
-			// Guild
-			// Ladder
-			if (player.getMaxStat(5) < 31) {
-				player.getActionSender().sendMessage(
-						"You need 31 Prayer to get up here");
-				return;
-			} else {
-				// player.teleport(251, 1411, false);
-			}
-		}// 621
 		if (object.getID() == 982
 				&& player.withinRange(object.getLocation(), 2)) {
 			player.getActionSender().sendMessage("You slide down the rocks");

@@ -191,6 +191,12 @@ public class EntityHandler {
 		}
 		return gameObjects[id];
 	}
+	
+	public static GameObjectDef[] getGameObjectDefs() {
+		GameObjectDef[] defs = new GameObjectDef[gameObjects.length];
+		System.arraycopy(gameObjects, 0, defs, 0, gameObjects.length);
+		return defs;
+	}
 
 	/**
 	 * @param the
