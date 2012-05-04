@@ -59,6 +59,9 @@ public class FightEvent extends DelayedEvent {
 	}
 
 	public void run() {
+		if(owner == null || affectedMob == null) {
+		    return;
+		}
 		if (!owner.loggedIn()
 				|| (affectedMob instanceof Player && !((Player) affectedMob)
 						.loggedIn())) {
