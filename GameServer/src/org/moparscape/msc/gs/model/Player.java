@@ -1554,14 +1554,10 @@ public final class Player extends Mob {
 	public void incFatigue(int exp, boolean combat) {
 		double skillfatrate = .2133;
 		double skfatamount = (exp * skillfatrate);
-		double cbfatrate = 1.75; //idfk
+		double cbfatrate = 2; //idfk
 		double cbfatamount = (exp * cbfatrate);
 
 		setFatigue((int) (fatigue + (combat ? cbfatamount : skfatamount)));
-
-		//actionSender.sendMessage("combat?" + combat);
-		actionSender.sendMessage((combat ? "cb amount" + cbfatamount : "skill amount : " + skfatamount));
-		//actionSender.sendMessage("Current Fat : " + fatigue);
 	}
 
 	public void incExp(int i, int amount, boolean useFatigue, boolean combat) {
@@ -1578,9 +1574,7 @@ public final class Player extends Mob {
 						.sendMessage("@gre@You start to feel tired, maybe you should rest soon.");
 			}
 			if (i >= 3 && useFatigue) {
-				//actionSender.sendMessage("combat? " + combat);
-				int exp = amount;
-				incFatigue(exp, combat);
+				incFatigue(amount, combat);
 				actionSender.sendFatigue();
 			}
 		}
