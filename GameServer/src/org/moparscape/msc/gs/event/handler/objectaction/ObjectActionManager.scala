@@ -22,6 +22,10 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 
 		bind(new Cupboard, objects.filter(_._1.name == "cupboard"))
 
+		bind(new ObjectActionChain(new ChestOpen, new OpenOrClose),
+			filterByCommands(objects.filter(_._1.name == "Chest"), "open")
+		)
+
 		bind(new ObjectActionChain(new GoUp),
 			filterByCommands(objects, "climb up", "climb-up", "go up"))
 
@@ -34,9 +38,21 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 
 		bind(new Rest, filterByCommands(objects, "rest"))
 
+		bind(new Hit, filterByCommands(objects, "hit"))
+
+		bind(
+			new ObjectActionChain(new DamagingApproach, new NormalApproach, new NothingApproach),
+			filterByCommands(objects, "approach")
+		)
+
 		bind(new RockSlide, 982)
 
 		bind(new Hopper, List(52, 173))
+
+		// Bind OpenOrClose to all non-bound objects that have the command open or close.
+		bind(new OpenOrClose,
+			filterByCommands(objects, "open", "close").diff(this.mapping.keySet.toList)
+		)
 
 		val tp = new TelePoint
 		this.mapping.foreach {

@@ -1,22 +1,17 @@
 package org.moparscape.msc.gs.phandler.client;
 
-import java.util.ArrayList;
-
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.event.DelayedEvent;
-import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.event.WalkToObjectEvent;
 import org.moparscape.msc.gs.model.Bubble;
-import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Path;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
@@ -30,7 +25,6 @@ import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
-import org.moparscape.msc.gs.plugins.extras.Thieving;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
@@ -72,7 +66,7 @@ public class ObjectAction implements PacketHandler {
 				+ player.getY()
 				+ "|"
 				+ object.getX() + "/" + object.getY()));
-		
+
 		player.setStatus(Action.USING_OBJECT);
 		Instance.getDelayedEventHandler().add(
 				new WalkToObjectEvent(player, object, false) {
@@ -96,366 +90,10 @@ public class ObjectAction implements PacketHandler {
 							owner.resetAll();
 							String command = (click == 0 ? def.getCommand1()
 									: def.getCommand2()).toLowerCase();
-							
+
 							Logger.println("Command: " + command);
-							
-							if (command.equals("hit")) {
-								owner.setBusy(true);
-								owner.getActionSender().sendMessage(
-										"You attempt to hit the Dummy");
-								Instance.getDelayedEventHandler().add(
-										new MiniEvent(owner, 3500) {
-											public void action() {
-												owner.setBusy(false);
-												int lvl = owner.getCurStat(0);
-												if (lvl > 7
-														|| owner.getMaxStat(0) >= 40) {
-													owner.getActionSender()
-															.sendMessage(
-																	"There is only so much you can learn from hitting a Dummy");
-													return;
-												}
-												owner.getActionSender()
-														.sendMessage(
-																"You hit the Dummy");
-												owner.incExp(0, 5, false);
-												owner.getActionSender()
-														.sendStat(0);
-											}
-										});
-								return;
-							} else if (command.equalsIgnoreCase("approach")) {
-								owner.getActionSender().sendMessage(
-										"You start to approach the tree");
-								Instance.getDelayedEventHandler().add(
-										new ShortEvent(owner) {
-											public void action() {
-												int damage = owner
-														.getCurStat(3) / 10;
-												owner.getActionSender()
-														.sendMessage(
-																"The tree lashes out at you.");
-												owner.setLastDamage(damage);
-												owner.setCurStat(3,
-														owner.getCurStat(3)
-																- damage);
-												ArrayList<Player> playersToInform = new ArrayList<Player>();
-												playersToInform.addAll(owner
-														.getViewArea()
-														.getPlayersInView());
-												owner.getActionSender()
-														.sendStat(3);
-												for (Player p : playersToInform) {
-													p.informOfModifiedHits(owner);
-												}
-											}
-										});
 
-							} else if (command.equals("open")
-									&& object.getGameObjectDef().name
-											.equals("Chest")) {
-								if (object == null) {
-									return;
-								}
-								if (owner.isPacketSpam())
-									return;
-
-								Thieving lock = new Thieving(owner, object);
-								for (int i = 0; i < lock.Chests.length; i++) {
-									if (object.getID() == lock.Chests[i][0]) {
-										if (!World.isMembers()) {
-											owner.getActionSender()
-													.sendMessage(
-															"This feature is only avaliable on a members server");
-											return;
-										}
-										owner.setSpam(true);
-										lock.openThievedChest();
-										break;
-									}
-								}
-								return;
-							}
-
-							else if (command.equals("close")
-									|| command.equals("open")) {
-								switch (object.getID()) {
-								case 18:
-									replaceGameObject(17, true);
-									return;
-								case 17:
-									replaceGameObject(18, false);
-									return;
-								case 58:
-									replaceGameObject(57, false);
-									return;
-								case 57:
-									replaceGameObject(58, true);
-									return;
-								case 63:
-									replaceGameObject(64, false);
-									return;
-								case 64:
-									replaceGameObject(63, true);
-									return;
-								case 79:
-									replaceGameObject(78, false);
-									return;
-								case 78:
-									replaceGameObject(79, true);
-									return;
-								case 60:
-									replaceGameObject(59, true);
-									return;
-								case 59:
-									replaceGameObject(60, false);
-									return;
-								case 137: // Members Gate (Doriks)
-									if (object.getX() != 341
-											|| object.getY() != 487) {
-										return;
-									}
-									if (!World.isMembers()) {
-										owner.getActionSender()
-												.sendMessage(
-														"This feature is only avaliable on a members server");
-										return;
-									}
-									doGate();
-									if (owner.getX() <= 341) {
-										owner.teleport(342, 487, false);
-									} else {
-										owner.teleport(341, 487, false);
-									}
-									break;
-								case 138: // Members Gate (Crafting Guild)
-									if (object.getX() != 343
-											|| object.getY() != 581) {
-										return;
-									}
-									if (!World.isMembers()) {
-										owner.getActionSender()
-												.sendMessage(
-														"This feature is only avaliable on a members server");
-										return;
-									}
-									doGate();
-									if (owner.getY() <= 580) {
-										owner.teleport(343, 581, false);
-									} else {
-										owner.teleport(343, 580, false);
-									}
-									break;
-								case 180: // Al-Kharid Gate
-									if (object.getX() != 92
-											|| object.getY() != 649) {
-										return;
-									}
-									doGate();
-									if (owner.getX() <= 91) {
-										owner.teleport(92, 649, false);
-									} else {
-										owner.teleport(91, 649, false);
-									}
-									break;
-								case 254: // Karamja Gate
-									if (object.getX() != 434
-											|| object.getY() != 682) {
-										return;
-									}
-									if (!World.isMembers()) {
-										owner.getActionSender()
-												.sendMessage(
-														"This feature is only avaliable on a members server");
-										return;
-									}
-									doGate();
-									if (owner.getX() <= 434) {
-										owner.teleport(435, 682, false);
-									} else {
-										owner.teleport(434, 682, false);
-									}
-									break;
-								case 563: // King Lanthlas Gate
-									if (object.getX() != 660
-											|| object.getY() != 551) {
-										return;
-									}
-									doGate();
-									if (owner.getY() <= 551) {
-										owner.teleport(660, 552, false);
-									} else {
-										owner.teleport(660, 551, false);
-									}
-									break;
-								case 626: // Gnome Stronghold Gate
-									if (object.getX() != 703
-											|| object.getY() != 531) {
-										return;
-									}
-									doGate();
-									if (owner.getY() <= 531) {
-										owner.teleport(703, 532, false);
-									} else {
-										owner.teleport(703, 531, false);
-									}
-									break;
-								case 305: // Edgeville Members Gate
-									if (object.getX() != 196
-											|| object.getY() != 3266) {
-										return;
-									}
-									if (!World.isMembers()) {
-										owner.getActionSender()
-												.sendMessage(
-														"This feature is only avaliable on a members server");
-										return;
-									}
-									doGate();
-									if (owner.getY() <= 3265) {
-										owner.teleport(196, 3266, false);
-									} else {
-										owner.teleport(196, 3265, false);
-									}
-									break;
-								case 1089: // Dig Site Gate
-									if (object.getX() != 59
-											|| object.getY() != 573) {
-										return;
-									}
-									if (!World.isMembers()) {
-										owner.getActionSender()
-												.sendMessage(
-														"This feature is only avaliable on a members server");
-										return;
-									}
-									doGate();
-									if (owner.getX() <= 58) {
-										owner.teleport(59, 573, false);
-									} else {
-										owner.teleport(58, 573, false);
-									}
-									break;
-								case 356: // Woodcutting Guild Gate
-									if (object.getX() != 560
-											|| object.getY() != 472) {
-										return;
-									}
-									if (owner.getY() <= 472) {
-										doGate();
-										owner.teleport(560, 473, false);
-									} else {
-										if (owner.getCurStat(8) < 70) {
-											owner.setBusy(true);
-											Npc mcgrubor = world.getNpc(255,
-													556, 564, 473, 476);
-
-											if (mcgrubor != null) {
-												owner.informOfNpcMessage(new ChatMessage(
-														mcgrubor,
-														"Hello only the top woodcutters are allowed in here",
-														owner));
-											}
-											Instance.getDelayedEventHandler()
-													.add(new ShortEvent(owner) {
-														public void action() {
-															owner.setBusy(false);
-															owner.getActionSender()
-																	.sendMessage(
-																			"You need a woodcutting level of 70 to enter");
-														}
-													});
-										} else {
-											doGate();
-											owner.teleport(560, 472, false);
-										}
-									}
-									break;
-								case 142: // Black Knight Big Door
-									owner.getActionSender().sendMessage(
-											"The doors are locked");
-									break;
-								case 93: // Red dragon gate
-									if (object.getX() != 140
-											|| object.getY() != 180) {
-										return;
-									}
-									if (!World.isMembers()) {
-										owner.getActionSender()
-												.sendMessage(
-														"This feature is only avaliable on a members server");
-										return;
-									}
-									doGate();
-									if (owner.getY() <= 180) {
-										owner.teleport(140, 181, false);
-									} else {
-										owner.teleport(140, 180, false);
-									}
-									break;
-								case 508: // Lesser demon gate
-									if (object.getX() != 285
-											|| object.getY() != 185) {
-										return;
-									}
-									doGate();
-									if (owner.getX() <= 284) {
-										owner.teleport(285, 185, false);
-									} else {
-										owner.teleport(284, 185, false);
-									}
-									break;
-								case 319: // Lava Maze Gate
-									if (object.getX() != 243
-											|| object.getY() != 178) {
-										return;
-									}
-									doGate();
-									if (owner.getY() <= 178) {
-										owner.teleport(243, 179, false);
-									} else {
-										owner.teleport(243, 178, false);
-									}
-									break;
-								case 712: // Shilo inside gate
-									if (object.getX() != 394
-											|| object.getY() != 851) {
-										return;
-									}
-									owner.teleport(383, 851, false);
-									break;
-								case 611: // Shilo outside gate
-									if (object.getX() != 388
-											|| object.getY() != 851) {
-										return;
-									}
-									owner.teleport(394, 851, false);
-									break;
-								case 1079: // Legends guild gate
-									if (object.getX() != 512
-											|| object.getY() != 550) {
-										return;
-									}
-									if (owner.getY() <= 550) {
-										doGate();
-										owner.teleport(513, 551, false);
-									} else {
-										if (owner.getSkillTotal() < 1150) {
-											owner.getActionSender()
-													.sendMessage(
-															"You need a skill total of 1150 or more to enter");
-											return;
-										}
-										doGate();
-										owner.teleport(513, 550, false);
-									}
-									break;
-								default:
-									owner.getActionSender().sendMessage(
-											"Nothing interesting happens.");
-									return;
-								}
-							} else if (command.equals("pick")
+						 if (command.equals("pick")
 									|| command.equals("pick banana")) {
 								switch (object.getID()) {
 								case 72: // Wheat
@@ -636,14 +274,6 @@ public class ObjectAction implements PacketHandler {
 						if (--times > 0) {
 							handleFlaxPickup(times);
 						}
-					}
-
-					private void doGate() {
-						owner.getActionSender().sendSound("opendoor");
-						world.registerGameObject(new GameObject(object
-								.getLocation(), 181, object.getDirection(),
-								object.getType()));
-						world.delayedSpawnObject(object.getLoc(), 1000);
 					}
 
 					private void handleAgility(final GameObject object) {
@@ -878,11 +508,13 @@ public class ObjectAction implements PacketHandler {
 												owner.getCurStat(10), click);
 										if (def != null) {
 											if (baitId >= 0) {
-												owner.getInventory().remove(baitId, 1, false);
+												owner.getInventory().remove(
+														baitId, 1, false);
 											}
 											InvItem fish = new InvItem(def
 													.getId());
-											owner.getInventory().add(fish.id, fish.amount, false);
+											owner.getInventory().add(fish.id,
+													fish.amount, false);
 											owner.getActionSender()
 													.sendMessage(
 															"You catch a "
@@ -961,7 +593,8 @@ public class ObjectAction implements PacketHandler {
 												owner.getCurStat(8), axeID)) {
 											InvItem log = new InvItem(def
 													.getLogId());
-											owner.getInventory().add(log.id, log.amount, false);
+											owner.getInventory().add(log.id,
+													log.amount, false);
 											owner.getActionSender()
 													.sendMessage(
 															"You get some wood.");
