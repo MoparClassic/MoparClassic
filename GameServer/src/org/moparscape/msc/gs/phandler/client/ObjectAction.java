@@ -93,42 +93,7 @@ public class ObjectAction implements PacketHandler {
 
 							Logger.println("Command: " + command);
 
-						 if (command.equals("pick")
-									|| command.equals("pick banana")) {
-								switch (object.getID()) {
-								case 72: // Wheat
-									owner.getActionSender().sendMessage(
-											"You get some grain");
-									owner.getInventory().add(29, 1, false);
-									break;
-								case 191: // Potatos
-									owner.getActionSender().sendMessage(
-											"You pick a potato");
-									owner.getInventory().add(348, 1, false);
-									break;
-								case 313: // Flax
-									handleFlaxPickup();
-									break;
-								case 183: // Banana
-									owner.getActionSender().sendMessage(
-											"You pull a banana off the tree");
-									owner.getInventory().add(249, 1, false);
-									break;
-								default:
-									owner.getActionSender().sendMessage(
-											"Nothing interesting happens.");
-									return;
-								}
-								owner.getActionSender().sendInventory();
-								owner.getActionSender().sendSound("potato");
-								owner.setBusy(true);
-								Instance.getDelayedEventHandler().add(
-										new SingleEvent(owner, 200) {
-											public void action() {
-												owner.setBusy(false);
-											}
-										});
-							} else if (command.equals("lure")
+							if (command.equals("lure")
 									|| command.equals("bait")
 									|| command.equals("net")
 									|| command.equals("harpoon")
@@ -253,26 +218,6 @@ public class ObjectAction implements PacketHandler {
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
-						}
-					}
-
-					private void handleFlaxPickup() {
-						handleFlaxPickup((int) Math.ceil(owner.getMaxStat(12) / 10));
-
-					}
-
-					private void handleFlaxPickup(int times) {
-						if (!World.isMembers()) {
-							owner.getActionSender()
-									.sendMessage(
-											"This feature is only avaliable on a members server");
-							return;
-						}
-						owner.getActionSender().sendMessage(
-								"You uproot a flax plant");
-						owner.getInventory().add(675, 1, false);
-						if (--times > 0) {
-							handleFlaxPickup(times);
 						}
 					}
 

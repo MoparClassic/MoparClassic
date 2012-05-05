@@ -39,6 +39,8 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 		bind(new Rest, filterByCommands(objects, "rest"))
 
 		bind(new Hit, filterByCommands(objects, "hit"))
+		
+		bind(new Pick, filterByCommands(objects, "pick", "pick banana"))
 
 		bind(
 			new ObjectActionChain(new DamagingApproach, new NormalApproach, new NothingApproach),
