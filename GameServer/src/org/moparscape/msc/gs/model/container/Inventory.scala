@@ -35,7 +35,8 @@ class Inventory(player : Player) extends Container(30) {
 
 	def sortByValue {
 		items.synchronized {
-			items.set(items.get.sortWith(_.getDef.getBasePrice > _.getDef.getBasePrice))
+			items.set(items.get.sortWith(_.getDef.getBasePrice > _.getDef.getBasePrice).
+					sortWith((a, b) => !isStackable(a.id) > isStackable(b.id)))
 		}
 	}
 

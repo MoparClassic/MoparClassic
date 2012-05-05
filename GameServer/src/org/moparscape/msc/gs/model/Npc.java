@@ -367,9 +367,16 @@ public class Npc extends Mob {
 			if (drop == null) {
 				continue;
 			}
-			if (EntityHandler.getItemDef(drop.getID()).members
-					&& !World.isMembers()) {
-				continue;
+			try {
+				if (EntityHandler.getItemDef(drop.getID()).members
+						&& !World.isMembers()) {
+					continue;
+				}
+			} catch (NullPointerException e) {
+				// -1 is designated for only adding weight
+				if (drop.id != -1) {
+					System.out.println("Invalid drop id " + drop.id);
+				}
 			}
 			total += drop.getWeight();
 			possibleDrops.add(drop);

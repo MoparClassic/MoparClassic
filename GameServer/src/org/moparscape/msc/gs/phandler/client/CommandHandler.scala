@@ -114,6 +114,7 @@ class CommandHandler extends PacketHandler {
 			case "say" => say(p, args);
 			case "item" => item(p, args);
 			case "reloadipbans" => reloadIPBans(p)
+			case "tele" => tele(p, args)
 			case _ => none = true
 		}
 		if (!none)
@@ -358,6 +359,14 @@ class CommandHandler extends PacketHandler {
 			Logger.mod(p.getUsername + " spawned themself " + amount + " " + new InvItem(id).getDef.getName + "(s)")
 		} else {
 			message(p, "Invalid id")
+		}
+	}
+
+	def tele(p : Player, args : Array[String]) {
+		try {
+			p.teleport(args(0).toInt, args(1).toInt, false)
+		} catch {
+			case _ => message(p, "Invalid args.")
 		}
 	}
 

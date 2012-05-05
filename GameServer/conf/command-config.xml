@@ -60,6 +60,8 @@
 	<permission name="unipban">10</permission>
 	<!-- Reloads IP bans from database -->
 	<permission name="reloadipbans">10</permission>
+	<!-- Teleports the user to the specified coordinates -->
+	<permission name="tele">1</permission>
 
 	<setting>
 		<!-- Minimum delay between commands -->

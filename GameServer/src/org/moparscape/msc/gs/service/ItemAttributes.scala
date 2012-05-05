@@ -23,4 +23,6 @@ object ItemAttributes {
 	def getSmeltingDef(id : Int) = EntityHandler.getItemSmeltingDef(id)
 
 	def getCookingDef(id : Int) = EntityHandler.getItemCookingDef(id)
+	
+	def isStackable(id : Int) = EntityHandler.getItemDef(id).isStackable
 }

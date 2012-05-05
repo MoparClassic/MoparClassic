@@ -4,6 +4,7 @@ import org.moparscape.msc.gs.event.handler.objectaction.impl._
 import org.moparscape.msc.gs.model.definition.EntityHandler
 import scala.collection.JavaConversions._
 import org.moparscape.msc.gs.model.definition.entity.GameObjectDef
+import org.moparscape.msc.gs.Instance
 
 class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectActionParam] {
 
@@ -17,6 +18,9 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 	override def init {
 
 		val objects = EntityHandler.getGameObjectDefs.zipWithIndex.toList
+		//val locs = Instance.getWorld.
+		
+		//def byLoc(x:Int, y:Int) = objects.filter(o)
 
 		// Bind go up
 		bind(new ObjectActionChain(new GoUp),

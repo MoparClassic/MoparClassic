@@ -1896,33 +1896,36 @@ public final class Player extends Mob {
 			}
 		} else {
 			inventory.sortByValue();
-			ListIterator<InvItem> iterator = inventory.getItems()
-					.listIterator();
+			List<InvItem> items = inventory.getItems();
+			List<InvItem> onGround = new ArrayList<InvItem>(items);
 			if (!isSkulled()) {
-				for (int i = 0; i < 3 && iterator.hasNext(); i++) {
-					if ((iterator.next()).getDef().isStackable()) {
-						iterator.previous();
-						break;
+
+				List<InvItem> keep = new ArrayList<InvItem>();
+				try {
+					int canKeep = 3 + (activatedPrayers[8] ? 1 : 0);
+					for (InvItem item : items) {
+						if (keep.size() >= canKeep) {
+							break;
+						}
+						if (!ItemAttributes.isStackable(item.id)) {
+							keep.add(item);
+							onGround.remove(item);
+						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				inventory.clear();
+
+				for (InvItem k : keep) {
+					inventory.add(k.id, k.amount, false);
 				}
 			}
-			if (activatedPrayers[8] && iterator.hasNext()) {
-				if (((InvItem) iterator.next()).getDef().isStackable()) {
-					iterator.previous();
-				}
-			}
-			for (int slot = 0; iterator.hasNext(); slot++) {
-				InvItem item = (InvItem) iterator.next();
-				// TODO: Remove items
-				/*
-				 * if (item.wielded)) { item.setWield(false);
-				 * updateWornItems(item.getWieldableDef().getWieldPos(),
-				 * appearance.getSprite(item.getWieldableDef() .getWieldPos()));
-				 * }
-				 */
-				iterator.remove();
-				world.registerItem(new Item(item.id, getX(), getY(),
-						item.amount, player));
+
+			for (InvItem i : onGround) {
+				world.registerItem(new Item(i.id, getX(), getY(), i.amount,
+						player));
 			}
 			removeSkull();
 		}
