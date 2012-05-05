@@ -3,13 +3,10 @@ package org.moparscape.msc.gs.phandler.client;
 import java.util.ArrayList;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
-import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
@@ -19,11 +16,9 @@ import org.moparscape.msc.gs.model.Bubble;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Path;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
@@ -118,67 +113,11 @@ public class ObjectAction implements PacketHandler {
 									: def.getCommand2()).toLowerCase();
 							// Logging.debug(object.getID() + " " +
 							// command);
-							Point telePoint = EntityHandler.getObjectTelePoint(
-									object.getLocation(), command);
-							if (telePoint != null) {
-								owner.teleport(telePoint.getX(),
-										telePoint.getY(), false);
-								return;
-							}
 
 							
 							Logger.println("Command: " + command);
 							
-							 if (command.equals("steal from")) {
-								if (!Server.isMembers()) {
-									owner.getActionSender()
-											.sendMessage(
-													"This feature is only avaliable on a members server");
-									return;
-								}
-
-								if (object == null) {
-									return;
-								}
-								if (owner.isPacketSpam()) {
-									return;
-								} else {
-									owner.setSpam(true);
-									Thieving thiev = new Thieving(owner, object);
-									thiev.thieveStall();
-								}
-
-							} else if (command.equals("search for traps")) {
-								if (!Server.isMembers()) {
-									owner.getActionSender()
-											.sendMessage(
-													"This feature is only avaliable on a members server");
-									return;
-								}
-								if (object == null) {
-									return;
-								}
-								if (owner.isPacketSpam()) {
-									return;
-								} else {
-									owner.setSpam(true);
-									Thieving thiev = new Thieving(owner, object);
-									thiev.thieveChest();
-								}
-							} else if (command.equals("rest")) {
-								owner.getActionSender().sendMessage(
-										"You rest on the bed");
-								Instance.getDelayedEventHandler().add(
-										new ShortEvent(owner) {
-											public void action() {
-												// owner.setFatigue(0);
-												// owner.getActionSender().sendFatigue();
-
-												owner.getActionSender()
-														.sendEnterSleep();
-											}
-										});
-							} else if (command.equals("hit")) {
+							if (command.equals("hit")) {
 								owner.setBusy(true);
 								owner.getActionSender().sendMessage(
 										"You attempt to hit the Dummy");
@@ -715,34 +654,6 @@ public class ObjectAction implements PacketHandler {
 						if (--times > 0) {
 							handleFlaxPickup(times);
 						}
-					}
-
-					private int[] coordModifier(Player player, boolean up) {
-						if (object.getGameObjectDef().getHeight() <= 1) {
-							return new int[] { player.getX(),
-									Formulae.getNewY(player.getY(), up) };
-						}
-						int[] coords = { object.getX(),
-								Formulae.getNewY(object.getY(), up) };
-						switch (object.getDirection()) {
-						case 0:
-							coords[1] -= (up ? -object.getGameObjectDef()
-									.getHeight() : 1);
-							break;
-						case 2:
-							coords[0] -= (up ? -object.getGameObjectDef()
-									.getHeight() : 1);
-							break;
-						case 4:
-							coords[1] += (up ? -1 : object.getGameObjectDef()
-									.getHeight());
-							break;
-						case 6:
-							coords[0] += (up ? -1 : object.getGameObjectDef()
-									.getHeight());
-							break;
-						}
-						return coords;
 					}
 
 					private void doGate() {

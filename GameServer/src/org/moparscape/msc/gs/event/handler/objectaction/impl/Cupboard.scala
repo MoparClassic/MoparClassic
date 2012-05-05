@@ -4,7 +4,7 @@ import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
 import org.moparscape.msc.gs.Instance
 import org.moparscape.msc.gs.event.ShortEvent
 
-class Cuboard extends ObjectEvent {
+class Cupboard extends ObjectEvent {
 
 	def fire = {
 		if(command == "search")
