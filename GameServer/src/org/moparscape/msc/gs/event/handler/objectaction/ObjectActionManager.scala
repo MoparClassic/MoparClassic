@@ -6,7 +6,7 @@ import scala.collection.JavaConversions._
 import org.moparscape.msc.gs.model.definition.entity.GameObjectDef
 import org.moparscape.msc.gs.Instance
 
-class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectActionParam] {
+class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectActionParam](new ObjectActionChain(new MembersObjectAction, new DefaultObjectAction)) {
 
 	override def fire(chainType : ObjectActionChain, param : ObjectActionParam) {
 		chainType.trigger(param)
@@ -18,20 +18,29 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 	override def init {
 
 		val objects = EntityHandler.getGameObjectDefs.zipWithIndex.toList
-		//val locs = Instance.getWorld.
-		
-		//def byLoc(x:Int, y:Int) = objects.filter(o)
 
 		// Bind go up
 		bind(new ObjectActionChain(new GoUp),
-			objects.filter(m => m == "climb up" || m == "climb-up" || m == "go up"))
+			filterByCommands(objects, "climb up", "climb-up", "go up"))
 
 		// Bind go down
 		bind(new ObjectActionChain(new GoDown),
-			objects.filter(m => m == "climb down" || m == "climb-down" || m == "go down"))
+			filterByCommands(objects, "climb down", "climb-down", "go down"))
+
+		// Bind cuboards
+		bind(new Cuboard, objects.filter(_._1.name == "cupboard"))
 
 		bind(new RockSlide, 982)
+		
+		bind(new Hopper, List(52, 173))
 
+	}
+
+	private def filterByCommands(objects : List[(GameObjectDef, Int)], commands : String*) = {
+		objects.filter(
+			m =>
+				commands.contains(m._1.command1) || commands.contains(m._1.command2)
+		)
 	}
 
 }

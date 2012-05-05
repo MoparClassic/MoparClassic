@@ -9,14 +9,39 @@ import org.moparscape.msc.gs.event.ShortEvent
 class GoDown extends ObjectEvent {
 
 	def fire = {
-		val command = (
-			if (click == 0) o.getGameObjectDef.getCommand1
-			else o.getGameObjectDef.getCommand2
-		).toLowerCase()
 		if (command == "climb-down" || command == "climb down" || command == "go down") {
-			tele
+			(o.getX, o.getY) match {
+				// Mining guild
+				case (274, 566) => miningGuild
+				case _ => tele
+			}
 		}
 		true
+	}
+
+	def miningGuild {
+		if (player.getCurStat(14) < 60) {
+			player.setBusy(true)
+			val dwarf = Instance.getWorld.getNpc(191, 272, 277,
+				563, 567)
+			if (dwarf != null) {
+				player.informOfNpcMessage(new ChatMessage(
+					dwarf,
+					"Hello only the top miners are allowed in here",
+					player))
+			}
+			Instance.getDelayedEventHandler().add(
+				new ShortEvent(player) {
+					def action {
+						owner.setBusy(false)
+						owner.getActionSender
+							.sendMessage(
+								"You need a mining level of 60 to enter")
+					}
+				})
+		} else {
+			player.teleport(274, 3397, false);
+		}
 	}
 
 	private def tele {

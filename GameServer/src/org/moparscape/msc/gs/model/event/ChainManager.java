@@ -9,6 +9,11 @@ import org.moparscape.msc.gs.util.exception.AlreadyBoundException;
 public abstract class ChainManager<IdType, ChainType, ParamType> {
 
 	protected final Map<IdType, ChainType> mapping = new ConcurrentHashMap<IdType, ChainType>();
+	private final ChainType defaultChain;
+
+	public ChainManager(ChainType defaultChain) {
+		this.defaultChain = defaultChain;
+	}
 
 	public final void bind(ChainType chain, List<IdType> ids)
 			throws AlreadyBoundException {
@@ -27,7 +32,11 @@ public abstract class ChainManager<IdType, ChainType, ParamType> {
 	}
 
 	public final void trigger(IdType id, ParamType param) {
-		fire(mapping.get(id), param);
+		ChainType chain = mapping.get(id);
+		if (chain == null) {
+			chain = defaultChain;
+		}
+		fire(chain, param);
 	}
 
 	public abstract void fire(ChainType chainType, ParamType param);

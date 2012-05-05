@@ -92,15 +92,7 @@ public class ObjectAction implements PacketHandler {
 		 * else { player.lastPacketTime = newtime; player.lastPacketRecTime =
 		 * System.currentTimeMillis() / 1000; } } }
 		 */
-
-		if (object.getX() == 243 && object.getY() == 178)
-			return;
-		if (object.getX() == 59 && object.getY() == 573)
-			return;
-		if (object.getX() == 196 && object.getY() == 3266
-				&& !Server.isMembers())
-			return;
-
+		
 		player.setStatus(Action.USING_OBJECT);
 		Instance.getDelayedEventHandler().add(
 				new WalkToObjectEvent(player, object, false) {
@@ -122,24 +114,10 @@ public class ObjectAction implements PacketHandler {
 									+ ") @ " + object.getX() + ", "
 									+ object.getY()));
 							owner.resetAll();
-							if (object.getX() == 621 && object.getY() == 596
-									&& Config.f2pWildy) {
-								owner.getActionSender().sendMessage(
-										"Currently disabled!1!");
-								return;
-							}
 							String command = (click == 0 ? def.getCommand1()
 									: def.getCommand2()).toLowerCase();
 							// Logging.debug(object.getID() + " " +
 							// command);
-							if (object.getID() == 487
-									&& GameEngine.getTime()
-											- owner.getLastMoved() < 10000) {
-								owner.getActionSender()
-										.sendMessage(
-												"You must stand still for 10 seconds before using this");
-								return;
-							}
 							Point telePoint = EntityHandler.getObjectTelePoint(
 									object.getLocation(), command);
 							if (telePoint != null) {
@@ -147,131 +125,11 @@ public class ObjectAction implements PacketHandler {
 										telePoint.getY(), false);
 								return;
 							}
-							if (Instance.getPluginHandler().handleObjectAction(
-									object, command, owner))
-								return;
 
-							else if (object.getID() == 198
-									&& object.getX() == 251
-									&& object.getY() == 468) {
-								if (owner.getMaxStat(5) < 31) {
-									owner.setBusy(true);
-									Npc abbot = world.getNpc(174, 249, 252,
-											458, 468);
-									if (abbot != null) {
-										owner.informOfNpcMessage(new ChatMessage(
-												abbot,
-												"Hello only people with high prayer are allowed in here",
-												owner));
-									} else {
-										return;
-									}
-									Instance.getDelayedEventHandler().add(
-											new ShortEvent(owner) {
-												public void action() {
-													owner.setBusy(false);
-													owner.getActionSender()
-															.sendMessage(
-																	"You need a prayer level of 31 to enter");
-												}
-											});
-									return;
-								} else {
-									// owner.teleport(251, 1411, false);
-								}
-							}
+							
 							Logger.println("Command: " + command);
-							if (command.equals("search")
-									&& def.name.equals("cupboard")) {
-								owner.getActionSender().sendMessage(
-										"You search the " + def.name + "...");
-								Instance.getDelayedEventHandler().add(
-										new ShortEvent(owner) {
-											public void action() {
-												if (object.getX() == 216
-														&& object.getY() == 1562) {
-													owner.getActionSender()
-															.sendMessage(
-																	"You find Garlic!");
-													owner.getInventory().add(
-															218, 1, false);
-													owner.getActionSender()
-															.sendInventory();
-												} else {
-													owner.getActionSender()
-															.sendMessage(
-																	"You find nothing");
-												}
-												return;
-											}
-										});
-							}// create a
-							else if ((object.getID() == 52 || object.getID() == 173) // hopper
-									&& object.containsItem() == 29) // Ensure it
-																	// contains
-																	// grain
-							{
-								owner.getActionSender().sendMessage(
-										"You operate the hopper..");
-								Instance.getDelayedEventHandler()
-										.add(new org.moparscape.msc.gs.event.MiniEvent(
-												owner, 1000) {
-											public void action() {
-												owner.getActionSender()
-														.sendMessage(
-																"The grain slides down the chute");
-											}
-										});
-								// Konijn/xEnt == TEAM WORK BIATCH.
-
-								if (object.getX() == 179
-										&& object.getY() == 2371) {
-									world.registerItem(new Item(23, 179, 481,
-											1, owner));
-								} else {
-									world.registerItem(new Item(23, 166, 599,
-											1, owner));
-								}// champ
-									// 600
-								object.containsItem(-1);
-							} else if (object.getID() == 223
-									&& object.getX() == 274
-									&& object.getY() == 566) { // Mining
-								// Guild
-								// Ladder
-								if (owner.getCurStat(14) < 60) {
-									owner.setBusy(true);
-									Npc dwarf = world.getNpc(191, 272, 277,
-											563, 567);
-									if (dwarf != null) {
-										owner.informOfNpcMessage(new ChatMessage(
-												dwarf,
-												"Hello only the top miners are allowed in here",
-												owner));
-									}
-									Instance.getDelayedEventHandler().add(
-											new ShortEvent(owner) {
-												public void action() {
-													owner.setBusy(false);
-													owner.getActionSender()
-															.sendMessage(
-																	"You need a mining level of 60 to enter");
-												}
-											});
-								} else {
-									owner.teleport(274, 3397, false);
-								}
-							} else if (command.equals("climb-up")
-									|| command.equals("climb up")
-									|| command.equals("go up")) {
-								int[] coords = coordModifier(owner, true);
-								owner.teleport(coords[0], coords[1], false);
-							} else if (command.equals("climb-down")
-									|| command.equals("climb down")
-									|| command.equals("go down")) {
-								int[] coords = coordModifier(owner, false);
-								owner.teleport(coords[0], coords[1], false);
-							} else if (command.equals("steal from")) {
+							
+							 if (command.equals("steal from")) {
 								if (!Server.isMembers()) {
 									owner.getActionSender()
 											.sendMessage(

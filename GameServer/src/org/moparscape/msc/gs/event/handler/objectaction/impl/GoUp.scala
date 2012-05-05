@@ -9,10 +9,6 @@ import org.moparscape.msc.gs.event.ShortEvent
 class GoUp extends ObjectEvent {
 
 	def fire = {
-		val command = (
-			if (click == 0) o.getGameObjectDef.getCommand1
-			else o.getGameObjectDef.getCommand2
-		).toLowerCase()
 		if (command == "climb-up" || command == "climb up" || command == "go up") {
 			(o.getX, o.getY) match {
 				// Prayer guild
