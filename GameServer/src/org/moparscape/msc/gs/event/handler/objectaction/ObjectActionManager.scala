@@ -7,7 +7,7 @@ import org.moparscape.msc.gs.model.definition.entity.GameObjectDef
 import org.moparscape.msc.gs.Instance
 import org.moparscape.msc.gs.model.Point
 
-class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectActionParam](new ObjectActionChain(new MembersObjectAction, new DefaultObjectAction)) {
+class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectActionParam](new ObjectActionChain(new MembersObjectAction, new TelePoint, new DefaultObjectAction)) {
 
 	override def fire(chainType : ObjectActionChain, param : ObjectActionParam) {
 		chainType.trigger(param)
@@ -19,7 +19,7 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 	override def init {
 
 		val objects = EntityHandler.getGameObjectDefs.zipWithIndex.toList
-		
+
 		bind(new Cupboard, objects.filter(_._1.name == "cupboard"))
 
 		bind(new ObjectActionChain(new GoUp),
@@ -39,13 +39,9 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 		bind(new Hopper, List(52, 173))
 
 		val tp = new TelePoint
-		objects foreach {
+		this.mapping.foreach {
 			t =>
-				try {
-					bind(tp, t._2)
-				} catch {
-					case _ => this.mapping.get(t._2).addLast(tp)
-				}
+				t._2.addLast(tp)
 		}
 
 	}

@@ -72,21 +72,6 @@ public class ObjectAction implements PacketHandler {
 				+ player.getY()
 				+ "|"
 				+ object.getX() + "/" + object.getY()));
-
-		// long newtime = p.readLong(); // reads the timestamp *Removing for now
-		// as causing an NPE - KO9
-		/*
-		 * if (newtime == 0) { if (player.sessionFlags < 4) {
-		 * Logging.debug("[Anti-Bot] " + player.getUsername() +
-		 * " is using a 3rd party client [B&]"); player.sessionFlags++; } } else
-		 * {// dummy if (player.lastPacketTime == -1) player.lastPacketTime =
-		 * newtime; else { if (newtime <= player.lastPacketTime &&
-		 * (System.currentTimeMillis() / 1000) > player.lastPacketRecTime) {
-		 * Logging.debug("[Anti-Bot] " + player.getUsername() +
-		 * " tried to send a recorded packet, WPE."); player.destroy(false); }
-		 * else { player.lastPacketTime = newtime; player.lastPacketRecTime =
-		 * System.currentTimeMillis() / 1000; } } }
-		 */
 		
 		player.setStatus(Action.USING_OBJECT);
 		Instance.getDelayedEventHandler().add(
@@ -111,9 +96,6 @@ public class ObjectAction implements PacketHandler {
 							owner.resetAll();
 							String command = (click == 0 ? def.getCommand1()
 									: def.getCommand2()).toLowerCase();
-							// Logging.debug(object.getID() + " " +
-							// command);
-
 							
 							Logger.println("Command: " + command);
 							
