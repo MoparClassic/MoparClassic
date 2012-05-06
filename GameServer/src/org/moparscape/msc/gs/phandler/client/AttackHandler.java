@@ -195,20 +195,6 @@ public class AttackHandler implements PacketHandler {
 				player.resetPath();
 				return;
 			}
-			if (Config.f2pWildy && player.getLocation().inWilderness()) {
-
-				for (InvItem i : player.getInventory().getItems()) {
-					if (i.getID() == 638 || i.getID() == 640
-							|| i.getID() == 642 || i.getID() == 644
-							|| i.getID() == 646) {
-						player.getActionSender()
-								.sendMessage(
-										"You can not have any P2P arrows in your inventory in a F2P wilderness");
-						return;
-					}
-				}
-
-			}
 			int radius = 7;
 			if (player.getRangeEquip() == 59 || player.getRangeEquip() == 60)
 				radius = 5;
