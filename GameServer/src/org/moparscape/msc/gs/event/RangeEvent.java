@@ -92,7 +92,7 @@ public class RangeEvent extends DelayedEvent {
 		}
 		boolean xbow = DataConversions.inArray(Formulae.xbowIDs, bowID);
 		int arrowID = -1;
-		for (int aID : (xbow ? Formulae.boltIDs : Formulae.arrowIDs)) {
+		for (int aID : (xbow ? Formulae.getBoltIDs() : Formulae.getArrowIDs())) {
 			int slot = owner.getInventory().getLastIndexById(aID);
 			if (slot < 0) {
 				continue;
@@ -102,16 +102,6 @@ public class RangeEvent extends DelayedEvent {
 				continue;
 			}
 			arrowID = aID;
-			if (owner.getLocation().inWilderness() && Config.f2pWildy) {
-				if (arrowID != 11 && arrowID != 190) {
-					owner.getActionSender()
-							.sendMessage(
-									"You may not use P2P (Member Item) Arrows in the F2P Wilderness");
-					owner.resetRange();
-					this.stop();
-					return;
-				}
-			}
 			int newAmount = arrow.getAmount() - 1;
 			if (!xbow && arrowID > 0) {
 				int temp = -1;
