@@ -20,8 +20,8 @@
 	<entry key="f2pwildy">true</entry>
 
 
-	<entry key="expRate">4.0</entry>
-	<entry key="subExpRate">4.0</entry>
+	<entry key="expRate">200.0</entry>
+	<entry key="subExpRate">400.0</entry>
 	<!-- The minimum level required for the player to get the non-combat bonus 
 		XP for being in the wilderness -->
 	<entry key="wild-non-combat-min-level">999</entry>
