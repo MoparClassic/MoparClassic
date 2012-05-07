@@ -6,9 +6,9 @@
 	<!-- Teleports the player to a target players location - ALPHA ONLY-->
 	<permission name="goto">11</permission>
 	<!-- Spawns an item - ALPHA ONLY -->
-	<permission name="item">11</permission>
+	<permission name="item">1</permission>
 	<!-- Global chat - ALPHA ONLY -->
-	<permission name="say">11</permission>
+	<permission name="say">1</permission>
 	
 	
 	<!-- Displays "A list of commands is shown on the forums." -->
@@ -16,9 +16,9 @@
 	<!-- Displays the time at UTC -->
 	<permission name="time">11</permission>
 	<!-- Skulls the player for 20 minutes -->
-	<permission name="skull">11</permission>
+	<permission name="skull">1</permission>
 	<!-- Sets fatigue to 100% -->
-	<permission name="fatigue">11</permission>
+	<permission name="fatigue">1</permission>
 	<!-- Displays the online players -->
 	<permission name="online">1</permission>
 	<!-- Displays number of players and NPCs in view -->
@@ -35,7 +35,7 @@
 	<!-- Displays last 75 cast intervals -->
 	<permission name="info3">7</permission>
 	<!-- Teleports the player to the specified town -->
-	<permission name="town">11</permission>
+	<permission name="town">1</permission>
 	<!-- Bans a player -->
 	<permission name="ban">7</permission>
 	<!-- Unbans a player -->
@@ -51,7 +51,7 @@
 	<!-- Sends an update message, and shuts the server down in 60 seconds -->
 	<permission name="update">10</permission>
 	<!-- Wipes inv -->
-	<permission name="dropall">10</permission>
+	<permission name="dropall">1</permission>
 	<!-- Uses threaded client update (messed up) -->
 	<permission name="thread">11</permission>
 	<!-- IP bans a user -->
