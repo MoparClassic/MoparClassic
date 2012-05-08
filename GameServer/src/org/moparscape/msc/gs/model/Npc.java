@@ -351,7 +351,7 @@ public class Npc extends Mob {
 								|| !p.nextTo(this)
 								|| !p.getLocation().inBounds(loc.minX - 4,
 										loc.minY - 4, loc.maxX + 4,
-										loc.maxY + 4) || System.currentTimeInMillis() - p.getLastPing() > 60000) {
+										loc.maxY + 4) || GameEngine.getTime() - p.getLastPing() > 60000) {
 							continue;
 						}
 
