@@ -92,7 +92,7 @@ public class RangeEvent extends DelayedEvent {
 		}
 		boolean xbow = DataConversions.inArray(Formulae.xbowIDs, bowID);
 		int arrowID = -1;
-		for (int aID : (xbow ? Formulae.boltIDs : Formulae.arrowIDs)) {
+		for (int aID : (xbow ? Formulae.getBoltIDs() : Formulae.getArrowIDs())) {
 			int slot = owner.getInventory().getLastIndexById(aID);
 			if (slot < 0) {
 				continue;
