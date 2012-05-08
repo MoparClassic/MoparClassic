@@ -272,7 +272,7 @@ public final class GameEngine extends Thread {
 	 */
 	public void run() {
 		Logger.println("GameEngine now running");
-		time = System.currentTimeMillis();
+		time = System.nanoTime() / 1000000000;
 
 		eventHandler
 				.add(new DelayedEvent(null, Config.GARBAGE_COLLECT_INTERVAL) { // Ran
@@ -336,7 +336,7 @@ public final class GameEngine extends Thread {
 	}
 
 	public long updateTime() {
-		return time = System.currentTimeMillis();
+		return time = System.nanoTime() / 1000000;
 	}
 
 	/**
@@ -376,7 +376,7 @@ public final class GameEngine extends Thread {
 	 * Cleans garbage (Tilecleanup)
 	 */
 	public synchronized void garbageCollect() {
-		long startTime = System.currentTimeMillis();
+		long startTime = getTime();
 		int curMemory = (int) (Runtime.getRuntime().totalMemory() - Runtime
 				.getRuntime().freeMemory()) / 1000;
 		for (int i = 0; i < Instance.getWorld().tiles.length; i++) {
@@ -398,6 +398,6 @@ public final class GameEngine extends Thread {
 				+ " Memory after: " + newMemory + " (Freed: "
 				+ (curMemory - newMemory) + "kb)");
 		Logger.println("GARBAGE COLLECT | Cleanup took "
-				+ (System.currentTimeMillis() - startTime) + "ms");
+				+ (updateTime() - startTime) + "ms");
 	}
 }
