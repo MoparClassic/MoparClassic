@@ -132,7 +132,20 @@ public class Formulae {
 		}
 		return 1.0D;
 	}
-
+	public static int[] getBoltIDs() {
+		final int[] freeBolts = {190};
+		if(!Config.members) {
+			return freeBolts;
+		}
+		return boltIDs;
+	}
+	public static int[] getArrowIDs() {
+		final int[] freeArrows = {11};
+		if(!Config.members) {
+			return freeArrows;
+		}
+		return boltIDs;
+	}
 	/**
 	 * Returns a power to assosiate with each arrow
 	 */
