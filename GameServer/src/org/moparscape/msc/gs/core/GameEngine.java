@@ -33,7 +33,7 @@ public final class GameEngine extends Thread {
 	 * World instance
 	 */
 	private static final World world = Instance.getWorld();
-	
+
 	/**
 	 * Responsible for updating all connected clients
 	 */
@@ -64,8 +64,15 @@ public final class GameEngine extends Thread {
 	private static volatile long time = 0;
 
 	/**
-	 * Use this instead of System.currentTimeIllis, as each call does a system
-	 * call, and potentially a hardware poll...<br>
+	 * Only use this method when you need the actual time.
+	 */
+	public static long getTimestamp() {
+		return System.currentTimeMillis();
+	}
+
+	/**
+	 * Use this instead of System.currentTimeIllis when getting elapsed time, as
+	 * each call does a system call, and potentially a hardware poll...<br>
 	 * Also, you don't generally need the time to be updated more often than
 	 * each part in the main loop.
 	 * 
@@ -137,7 +144,8 @@ public final class GameEngine extends Thread {
 
 	/**
 	 * Loads the packet handling classes from the persistence manager.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	protected void loadPacketHandlers() throws Exception {
 		PacketHandlerDef[] handlerDefs = Instance.getDataStore()
@@ -170,8 +178,9 @@ public final class GameEngine extends Thread {
 			clientUpdater.doMinor();
 		}
 	}
-	
+
 	private long lastEventTick;
+
 	private void processEvents() {
 		if (getTime() - lastEventTick >= 100) {
 			eventHandler.doEvents();

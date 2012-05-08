@@ -649,7 +649,7 @@ public final class Player extends Mob {
 			Instance.getDelayedEventHandler().add(skullEvent);
 			super.setAppearnceChanged(true);
 		}
-		skullEvent.setLastRun(GameEngine.getTime() - (1200000 - timeLeft));
+		skullEvent.setLastRun(GameEngine.getTimestamp() - (1200000 - timeLeft));
 	}
 
 	public void addToDuelOffer(InvItem item) {
@@ -974,7 +974,7 @@ public final class Player extends Mob {
 	 * @return day
 	 */
 	public int getDaysMuted() {
-		return (int) ((muted - GameEngine.getTime()) / 1000 / 3600 / 24);
+		return (int) ((muted - GameEngine.getTimestamp()) / 1000 / 3600 / 24);
 	}
 
 	// piru.sytes.net
@@ -984,7 +984,7 @@ public final class Player extends Mob {
 	}
 
 	public int getDaysSubscriptionLeft() {
-		long now = (GameEngine.getTime() / 1000);
+		long now = (GameEngine.getTimestamp() / 1000);
 		if (subscriptionExpires == 0 || now >= subscriptionExpires) {
 			return 0;
 		}
@@ -1766,7 +1766,7 @@ public final class Player extends Mob {
 	 * @return
 	 */
 	public boolean isMuted() {
-		return (muted - GameEngine.getTime() > 0);
+		return (muted - GameEngine.getTimestamp() > 0);
 	}
 
 	public boolean isNoclip() {
@@ -2967,7 +2967,7 @@ public final class Player extends Mob {
 
 	public void setSkulledOn(Player player) {
 		player.addAttackedBy(this);
-		if (GameEngine.getTime() - lastAttackedBy(player) > 1200000) {
+		if (GameEngine.getTimestamp() - lastAttackedBy(player) > 1200000) {
 			addSkull(1200000);
 		}
 	}

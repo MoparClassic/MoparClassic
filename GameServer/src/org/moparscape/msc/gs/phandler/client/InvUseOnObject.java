@@ -1019,7 +1019,7 @@ public class InvUseOnObject implements PacketHandler {
 																+ i.amount
 																+ ") sys time ("
 																+ GameEngine
-																		.getTime()
+																		.getTimestamp()
 																+ ")");
 														if (i.amount > 4000) {
 															Logger.println("WARNING!!!! Player: "
@@ -1030,7 +1030,7 @@ public class InvUseOnObject implements PacketHandler {
 																	+ i.id
 																	+ " from the CHEST sys time ("
 																	+ GameEngine
-																			.getTime()
+																			.getTimestamp()
 																	+ ")");
 															owner.setBusy(false);
 															owner.getActionSender()
