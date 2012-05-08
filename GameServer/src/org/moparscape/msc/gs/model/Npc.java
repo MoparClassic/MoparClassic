@@ -331,7 +331,7 @@ public class Npc extends Mob {
 				ActiveTile t = tiles[x][y];
 				if (t != null) {
 					for (Player p : t.getPlayers()) {
-						if (p.inCombat()) {
+						if (!p.isLoggedIn() || p.inCombat()) {
 							continue;
 						}
 						/*
