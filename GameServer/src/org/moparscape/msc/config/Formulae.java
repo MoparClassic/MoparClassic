@@ -144,7 +144,7 @@ public class Formulae {
 		if(!Config.members) {
 			return freeArrows;
 		}
-		return boltIDs;
+		return arrowIDs;
 	}
 	/**
 	 * Returns a power to assosiate with each arrow
