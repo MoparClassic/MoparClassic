@@ -39,11 +39,6 @@
 		reaches the max level for a skill -->
 	<entry key="max-level-congrats">false</entry>
 
-	<!-- Separate names by commas -->
-	<entry key="pmods">None</entry>
-	<entry key="mods">None</entry>
-	<entry key="admins">None</entry>
-
 	<entry key="ip-ban-removal-delay">60000</entry>
 	<entry key="os-level-blocking">false</entry>
 	<entry key="os-level-block-command">sudo route add -host ${ip} reject</entry>
