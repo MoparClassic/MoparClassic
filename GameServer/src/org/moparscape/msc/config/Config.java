@@ -31,7 +31,6 @@ public class Config {
 	public static double expRate, subExpRate, WILD_NON_COMBAT_BONUS,
 			WILD_COMBAT_BONUS;
 
-	public static String[] pmods, mods, admins;
 	public static int IP_BAN_REMOVAL_DELAY, GARBAGE_COLLECT_INTERVAL,
 			SAVE_INTERVAL;
 	public static String DATE_FORMAT, BLOCK_COMMAND, UNBLOCK_COMMAND,
@@ -90,10 +89,6 @@ public class Config {
 		f2pWildy = Boolean.parseBoolean(props.getProperty("f2pWildy", "true"));
 		expRate = Double.parseDouble(props.getProperty("expRate"));
 		subExpRate = Double.parseDouble(props.getProperty("subExpRate"));
-
-		pmods = props.getProperty("pmods").replaceAll(", +", ",").split(",");
-		mods = props.getProperty("mods").replaceAll(", +", ",").split(",");
-		admins = props.getProperty("admins").replaceAll(", +", ",").split(",");
 
 		IP_BAN_REMOVAL_DELAY = Integer.parseInt(props
 				.getProperty("ip-ban-removal-delay"));
