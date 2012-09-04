@@ -16,7 +16,6 @@ import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
 import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.tools.DataConversions;
-import org.moparscape.msc.gs.util.Logger;
 
 public class PlayerLogin implements PacketHandler {
 	/**
@@ -187,7 +186,6 @@ public class PlayerLogin implements PacketHandler {
 			int slot = 0;
 			for (InvItem i : player.getInventory().getItems()) {
 				if (i.wielded && (i.id == 407 || i.id == 401)) {
-					int count = 0;
 					if (player.getCurStat(6) < 31) {
 						player.getActionSender().sendMessage(
 								"You must have at least 31 magic");

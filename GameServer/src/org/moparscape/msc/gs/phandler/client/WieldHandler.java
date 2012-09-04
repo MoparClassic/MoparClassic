@@ -117,7 +117,6 @@ public class WieldHandler implements PacketHandler {
 		}
 		if (Config.members) {
 			if (item.id == 594) {
-				int count = 0;
 
 				/*
 				 * if (count < World.getQuestManager().getQuests().size() ||
@@ -165,7 +164,6 @@ public class WieldHandler implements PacketHandler {
 		}
 
 		if (item.id == 407 || item.id == 401) {
-			int count = 0;
 
 			if (player.getCurStat(6) < 31) {
 				player.getActionSender().sendMessage(

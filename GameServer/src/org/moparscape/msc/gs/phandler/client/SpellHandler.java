@@ -729,7 +729,7 @@ public class SpellHandler implements PacketHandler {
 							boolean flagispro = false;
 							ListIterator<InvItem> iterator22 = owner
 									.getInventory().getItems().listIterator();
-							for (int slot = 0; iterator22.hasNext(); slot++) {
+							while (iterator22.hasNext()) {
 								InvItem cape = (InvItem) iterator22.next();
 								if (cape.id == 1000 && cape.wielded) {
 									flagispro = flagispro || true;
@@ -811,7 +811,7 @@ public class SpellHandler implements PacketHandler {
 							boolean flag = false;
 							ListIterator<InvItem> iterator = owner
 									.getInventory().getItems().listIterator();
-							for (int slot = 0; iterator.hasNext(); slot++) {
+							while (iterator.hasNext()) {
 								InvItem cape = iterator.next();
 								if (cape.id == 1217 && cape.wielded) {
 									flag = true;
@@ -895,7 +895,7 @@ public class SpellHandler implements PacketHandler {
 							boolean bool = false;
 							ListIterator<InvItem> iterat = owner.getInventory()
 									.getItems().listIterator();
-							for (int slot = 0; iterat.hasNext(); slot++) {
+							while (iterat.hasNext()) {
 								InvItem cape = iterat.next();
 								if (cape.id == 1218 && cape.wielded) {
 									bool = bool || true;
@@ -978,7 +978,7 @@ public class SpellHandler implements PacketHandler {
 							boolean flag2 = false;
 							ListIterator<InvItem> iterato = owner
 									.getInventory().getItems().listIterator();
-							for (int slot = 0; iterato.hasNext(); slot++) {
+							while (iterato.hasNext()) {
 								InvItem cape = iterato.next();
 								if (cape.id == 1216 && cape.wielded) {
 									flag2 = flag2 || true;

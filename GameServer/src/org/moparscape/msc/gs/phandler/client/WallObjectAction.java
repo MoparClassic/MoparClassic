@@ -201,7 +201,7 @@ public class WallObjectAction implements PacketHandler {
 										return;
 									}
 									// Hi jacking for champs etc guild doors.
-									if (object.getX() == 150
+									/*if (object.getX() == 150
 											&& object.getY() == 554) { // Champs
 										if (owner.getY() >= 554) {
 											doDoor();
@@ -265,7 +265,7 @@ public class WallObjectAction implements PacketHandler {
 										doDoor();
 										owner.teleport(268, 3380, false);
 									}
-									break;
+									break;*/
 								case 68: // Crafting Guild Door
 									if (object.getX() != 347
 											|| object.getY() != 601) {

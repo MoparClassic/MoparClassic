@@ -1,6 +1,5 @@
 package org.moparscape.msc.gs.phandler.client;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.mina.common.IoSession;

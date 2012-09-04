@@ -287,7 +287,7 @@ public class Formulae {
 			int maxProb = 5; // 5%
 			int nearMaxProb = 7; // 7%
 			int avProb = 73; // 73%
-			int lowHit = 10; // 15%
+			// int lowHit = 10; // 15% // TODO: Should probably use lowHit...
 
 			// Probablities are shifted up/down based on armour
 			int shiftValue = (int) Math
@@ -295,7 +295,7 @@ public class Formulae {
 			maxProb -= shiftValue;
 			nearMaxProb -= (int) Math.round(shiftValue * 1.5);
 			avProb -= (int) Math.round(shiftValue * 2.0);
-			lowHit += (int) Math.round(shiftValue * 3.5);
+			// lowHit += (int) Math.round(shiftValue * 3.5);
 
 			int hitRange = DataConversions.random(0, 100);
 
@@ -386,7 +386,7 @@ public class Formulae {
 			int maxProb = 5; // 5%
 			int nearMaxProb = 10; // 10%
 			int avProb = 80; // 70%
-			int lowHit = 10; // 15%
+			// int lowHit = 10; // 15% // TODO: Should probably use lowHit...
 
 			// Probablities are shifted up/down based on armour
 			int shiftValue = (int) Math
@@ -394,7 +394,7 @@ public class Formulae {
 			maxProb -= shiftValue;
 			nearMaxProb -= (int) Math.round(shiftValue * 1.5);
 			avProb -= (int) Math.round(shiftValue * 2.0);
-			lowHit += (int) Math.round(shiftValue * 3.5);
+			// lowHit += (int) Math.round(shiftValue * 3.5);
 
 			int hitRange = DataConversions.random(0, 100);
 
@@ -445,7 +445,7 @@ public class Formulae {
 				int maxProb = 5; // 5%
 				int nearMaxProb = 10; // 10%
 				int avProb = 80; // 80%
-				int lowHit = 5; // 5%
+				// int lowHit = 5; // 5% // TODO: Should probably use lowHit...
 
 				// Probablities are shifted up/down based on armour
 				int shiftValue = (int) Math
@@ -453,7 +453,7 @@ public class Formulae {
 				maxProb -= shiftValue;
 				nearMaxProb -= (int) Math.round(shiftValue * 1.5);
 				avProb -= (int) Math.round(shiftValue * 2.0);
-				lowHit += (int) Math.round(shiftValue * 3.5);
+				// lowHit += (int) Math.round(shiftValue * 3.5);
 
 				int hitRange = DataConversions.random(0, 100);
 

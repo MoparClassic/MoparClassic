@@ -7,7 +7,6 @@ import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
-import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.event.WalkToObjectEvent;
 import org.moparscape.msc.gs.model.Bubble;
 import org.moparscape.msc.gs.model.GameObject;
@@ -579,13 +578,13 @@ public class ObjectAction implements PacketHandler {
 								});
 					}
 
-					private void replaceGameObject(int newID, boolean open) {
+					/*private void replaceGameObject(int newID, boolean open) {
 						world.registerGameObject(new GameObject(object
 								.getLocation(), newID, object.getDirection(),
 								object.getType()));
 						owner.getActionSender().sendSound(
 								open ? "opendoor" : "closedoor");
-					}
+					}*/
 				});
 	}
 
