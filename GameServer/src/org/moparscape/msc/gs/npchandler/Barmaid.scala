@@ -19,16 +19,19 @@ class Barmaid extends NpcDialog {
 		end
 	}
 
-	private class BuyAle(id : Int, cost : Int, msg : String, msg1 : String, _npc : Npc, _player : Player) extends GenericEnd(msg, _npc, _player) {
+	private class BuyAle(id : Int, cost : Int, msg : String, msg1 : String, _npc : Npc, _player : Player)
+			extends Transact(msg, Array(10 -> cost), Array(id -> 1), Array("Oh dear. I don't seem to have enough money"), _npc, _player) {
+
 		override def begin {
+			breath
 			this > "That'll be " + cost + " gold"; breath
-			if (player.getInventory.remove(10, cost)) {
-				player.getInventory.add(id)
-				this > "You buy a" + msg1
-			} else {
-				this < "Oh dear. I don't seem to have enough money"
-			}
 			super.begin
 		}
+
+		override def success {
+			this >> "You buy a " + msg1
+			super.success
+		}
+
 	}
 }
