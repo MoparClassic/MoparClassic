@@ -32,8 +32,7 @@ class Inventory(player : Player) extends Container(30) {
 	}
 
 	def getSlot(slot : Int) = {
-		val itm = items.get
-		itm(slot)
+		items.synchronized(items.get()(slot))
 	}
 
 	def sortByValue {

@@ -249,7 +249,8 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, CerterDef> loadCerterDefs() throws Exception {
-		return load("NPCCerter", Map.class);
+		return load("NPCCerter", new TypeToken<Map<Integer, CerterDef>>() {
+		}.getType());
 	}
 
 	@Override
@@ -384,7 +385,9 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, ItemDartTipDef> loadItemDartTipDefs() throws Exception {
-		return load("ItemDartTipDef", Map.class);
+		return load("ItemDartTipDef",
+				new TypeToken<Map<Integer, ItemDartTipDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -395,7 +398,8 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, ItemGemDef> loadGemDefs() throws Exception {
-		return load("ItemGemDef", Map.class);
+		return load("ItemGemDef", new TypeToken<Map<Integer, ItemGemDef>>() {
+		}.getType());
 	}
 
 	@Override
@@ -405,7 +409,9 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, ItemLogCutDef> loadItemLogCutDefs() throws Exception {
-		return load("ItemLogCutDef", Map.class);
+		return load("ItemLogCutDef",
+				new TypeToken<Map<Integer, ItemLogCutDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -417,7 +423,9 @@ public class JsonDataStore implements DataStore {
 	@Override
 	public Map<Integer, ItemBowStringDef> loadItemBowStringDefs()
 			throws Exception {
-		return load("ItemBowStringDef", Map.class);
+		return load("ItemBowStringDef",
+				new TypeToken<Map<Integer, ItemBowStringDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -429,7 +437,9 @@ public class JsonDataStore implements DataStore {
 	@Override
 	public Map<Integer, ItemArrowHeadDef> loadItemArrowHeadDefs()
 			throws Exception {
-		return load("ItemArrowHeadDef", Map.class);
+		return load("ItemArrowHeadDef",
+				new TypeToken<Map<Integer, ItemArrowHeadDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -440,7 +450,9 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, FiremakingDef> loadFiremakingDefs() throws Exception {
-		return load("FiremakingDef", Map.class);
+		return load("FiremakingDef",
+				new TypeToken<Map<Integer, FiremakingDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -451,7 +463,8 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, int[]> loadItemAffectedTypes() throws Exception {
-		return load("ItemAffectedType", Map.class);
+		return load("ItemAffectedType", new TypeToken<Map<Integer, int[]>>() {
+		}.getType());
 	}
 
 	@Override
@@ -463,7 +476,9 @@ public class JsonDataStore implements DataStore {
 	@Override
 	public Map<Integer, ItemWieldableDef> loadItemWieldableDefs()
 			throws Exception {
-		return load("ItemWieldableDef", Map.class);
+		return load("ItemWieldableDef",
+				new TypeToken<Map<Integer, ItemWieldableDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -475,7 +490,9 @@ public class JsonDataStore implements DataStore {
 	@Override
 	public Map<Integer, ItemUnIdentHerbDef> loadItemUnIdentHerbDefs()
 			throws Exception {
-		return load("ItemUnidentHerbDef", Map.class);
+		return load("ItemUnidentHerbDef",
+				new TypeToken<Map<Integer, ItemUnIdentHerbDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -486,7 +503,8 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, ItemHerbDef> loadItemHerbDefs() throws Exception {
-		return load("ItemHerbDef", Map.class);
+		return load("ItemHerbDef", new TypeToken<Map<Integer, ItemHerbDef>>() {
+		}.getType());
 	}
 
 	@Override
@@ -497,7 +515,8 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, Integer> loadItemEdibleHeals() throws Exception {
-		return load("ItemEdibleHeal", Map.class);
+		return load("ItemEdibleHeal", new TypeToken<Map<Integer, Integer>>() {
+		}.getType());
 	}
 
 	@Override
@@ -508,7 +527,9 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, ItemCookingDef> loadItemCookingDefs() throws Exception {
-		return load("ItemCookingDef", Map.class);
+		return load("ItemCookingDef",
+				new TypeToken<Map<Integer, ItemCookingDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -520,7 +541,9 @@ public class JsonDataStore implements DataStore {
 	@Override
 	public Map<Integer, ItemSmeltingDef> loadItemSmeltingDefs()
 			throws Exception {
-		return load("ItemSmeltingDef", Map.class);
+		return load("ItemSmeltingDef",
+				new TypeToken<Map<Integer, ItemSmeltingDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -542,7 +565,9 @@ public class JsonDataStore implements DataStore {
 	@Override
 	public Map<Integer, ObjectMiningDef> loadObjectMiningDefs()
 			throws Exception {
-		return load("ObjectMining", Map.class);
+		return load("ObjectMining",
+				new TypeToken<Map<Integer, ObjectMiningDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -554,7 +579,9 @@ public class JsonDataStore implements DataStore {
 	@Override
 	public Map<Integer, ObjectWoodcuttingDef> loadObjectWoodcuttingDefs()
 			throws Exception {
-		return load("ObjectWoodcutting", Map.class);
+		return load("ObjectWoodcutting",
+				new TypeToken<Map<Integer, ObjectWoodcuttingDef>>() {
+				}.getType());
 	}
 
 	@Override
@@ -566,7 +593,9 @@ public class JsonDataStore implements DataStore {
 	@Override
 	public Map<Integer, ObjectFishingDef[]> loadObjectFishDefs()
 			throws Exception {
-		return load("ObjectFish", Map.class);
+		return load("ObjectFish",
+				new TypeToken<Map<Integer, ObjectFishingDef[]>>() {
+				}.getType());
 	}
 
 	@Override
@@ -577,7 +606,9 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, Integer> loadSpellAgressiveLevel() throws Exception {
-		return load("SpellAgressiveLevel", Map.class);
+		return load("SpellAgressiveLevel",
+				new TypeToken<Map<Integer, Integer>>() {
+				}.getType());
 	}
 
 	@Override
@@ -588,7 +619,8 @@ public class JsonDataStore implements DataStore {
 
 	@Override
 	public Map<Integer, AgilityDef> loadAgilityDefs() throws Exception {
-		return load("AgilityDef", Map.class);
+		return load("AgilityDef", new TypeToken<Map<Integer, AgilityDef>>() {
+		}.getType());
 	}
 
 	@Override
@@ -599,7 +631,9 @@ public class JsonDataStore implements DataStore {
 	@Override
 	public Map<Integer, AgilityCourseDef> loadAgilityCourseDefs()
 			throws Exception {
-		return load("AgilityCourseDef", Map.class);
+		return load("AgilityCourseDef",
+				new TypeToken<Map<Integer, AgilityCourseDef>>() {
+				}.getType());
 	}
 
 	@Override
