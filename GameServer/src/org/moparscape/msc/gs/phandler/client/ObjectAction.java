@@ -1,31 +1,20 @@
 package org.moparscape.msc.gs.phandler.client;
 
+import org.moparscape.msc.gs.event.handler.objectaction.ObjectActionManager;
+import org.moparscape.msc.gs.event.handler.objectaction.ObjectActionParam;
+
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
-import org.moparscape.msc.gs.event.DelayedEvent;
-import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToObjectEvent;
-import org.moparscape.msc.gs.model.Bubble;
 import org.moparscape.msc.gs.model.GameObject;
-import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Path;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
-import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
-import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
-import org.moparscape.msc.gs.model.definition.skill.AgilityDef;
-import org.moparscape.msc.gs.model.definition.skill.ObjectFishDef;
-import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDef;
-import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.states.Action;
-import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
 
 public class ObjectAction implements PacketHandler {
@@ -33,6 +22,8 @@ public class ObjectAction implements PacketHandler {
 	 * World instance
 	 */
 	public static final World world = Instance.getWorld();
+
+	private static final ObjectActionManager oam = new ObjectActionManager();
 
 	// mining
 	public void handlePacket(Packet p, IoSession session) {
@@ -70,8 +61,22 @@ public class ObjectAction implements PacketHandler {
 		Instance.getDelayedEventHandler().add(
 				new WalkToObjectEvent(player, object, false) {
 					public void arrived() {
-
-						try {
+						if (owner.isBusy() || owner.isRanging()
+								|| !owner.nextTo(object)
+								|| owner.getStatus() != Action.USING_OBJECT) {
+							return;
+						}
+						world.addEntryToSnapshots(new Activity(owner
+								.getUsername(), owner.getUsername()
+								+ " used an Object (" + object.getID()
+								+ ") @ " + object.getX() + ", "
+								+ object.getY()));
+						owner.resetAll();
+						Logger.println("Triggering " + object.getID());
+						oam.trigger(object.getID(), new ObjectActionParam(
+								owner, object, click));
+						return;
+						/*try {
 							if (owner.getStatus() != Action.AGILITYING)
 								owner.resetPath();
 
@@ -217,10 +222,10 @@ public class ObjectAction implements PacketHandler {
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
-						}
+						}*/
 					}
 
-					private void handleAgility(final GameObject object) {
+					/*private void handleAgility(final GameObject object) {
 						if (!World.isMembers()) {
 							owner.getActionSender()
 									.sendMessage(
@@ -388,14 +393,14 @@ public class ObjectAction implements PacketHandler {
 										}
 									}
 								});
-					}
+					}*/
 
-					private void handleFishing(final int click) {
+					/*private void handleFishing(final int click) {
 						int retries = (int) Math.ceil(owner.getMaxStat(10) / 10);
 						handleFishing(click, retries);
-					}
+					}*/
 
-					private void handleFishing(final int click, int passvalue) {
+					/*private void handleFishing(final int click, int passvalue) {
 						final int tries = --passvalue;
 						final ObjectFishingDef def = EntityHandler
 								.getObjectFishingDef(object.getID(), click);
@@ -481,14 +486,14 @@ public class ObjectAction implements PacketHandler {
 										}
 									}
 								});
-					}
+					}*/
 
-					private void handleWoodcutting(final int click) {
+					/*private void handleWoodcutting(final int click) {
 						int retries = (int) Math.ceil(owner.getMaxStat(8) / 10);
 						handleWoodcutting(click, retries);
-					}
+					}*/
 
-					private void handleWoodcutting(final int click,
+					/*private void handleWoodcutting(final int click,
 							int passedvalue) {
 						final int tries = --passedvalue;
 						final ObjectWoodcuttingDef def = EntityHandler
@@ -576,16 +581,15 @@ public class ObjectAction implements PacketHandler {
 										}
 									}
 								});
-					}
-
-					/*private void replaceGameObject(int newID, boolean open) {
-						world.registerGameObject(new GameObject(object
-								.getLocation(), newID, object.getDirection(),
-								object.getType()));
-						owner.getActionSender().sendSound(
-								open ? "opendoor" : "closedoor");
 					}*/
+
+					/*
+					 * private void replaceGameObject(int newID, boolean open) {
+					 * world.registerGameObject(new GameObject(object
+					 * .getLocation(), newID, object.getDirection(),
+					 * object.getType())); owner.getActionSender().sendSound(
+					 * open ? "opendoor" : "closedoor"); }
+					 */
 				});
 	}
-
 }

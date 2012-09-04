@@ -64,7 +64,6 @@ public class WieldHandler implements PacketHandler {
 
 		switch (pID) {
 		case 181:
-			Logger.println("181 Part");
 			if (!item.wielded) {
 				try {
 					wieldItem(player, item, idx);
@@ -79,7 +78,6 @@ public class WieldHandler implements PacketHandler {
 			}
 			break;
 		}
-		Logger.println("Updating");
 		player.getActionSender().sendInventory();
 		player.getActionSender().sendEquipmentStats();
 	}

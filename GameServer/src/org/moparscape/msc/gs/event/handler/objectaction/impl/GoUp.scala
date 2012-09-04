@@ -48,13 +48,13 @@ class GoUp extends ObjectEvent {
 					Formulae.getNewY(o.getY(), true))
 				o.getDirection() match {
 					case 0 =>
-						coords(1) -= -o.getGameObjectDef.getHeight
+						coords(1) += o.getGameObjectDef.getHeight
 					case 2 =>
-						coords(0) -= -o.getGameObjectDef.getHeight
+						coords(0) += o.getGameObjectDef.getHeight
 					case 4 =>
-						coords(1) += -1
+						coords(1) -= 1
 					case 6 =>
-						coords(0) += -1
+						coords(0) -= 1
 				}
 				coords
 			}

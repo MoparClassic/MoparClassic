@@ -16,11 +16,15 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 	private implicit def values(l : List[(GameObjectDef, Int)]) : java.util.List[Int] = l.map(_._2)
 	private implicit def eventToChain(o : ObjectEvent) = new ObjectActionChain(o)
 
-	override def init {
-
+	{
 		val objects = EntityHandler.getGameObjectDefs.zipWithIndex.toList
 
-		bind(new Cupboard, objects.filter(_._1.name == "cupboard"))
+		objects.find(_._2 == 41) match {
+			case Some(e) => println(e._1.command1 + " - " + e._1.command2)
+			case None => println("Could not find 41")
+		}
+
+		bind(new Cupboard, objects.filter(_._1.name == "cupboard").map(_._2))
 
 		bind(new ObjectActionChain(new ChestOpen, new OpenOrClose),
 			filterByCommands(objects.filter(_._1.name == "Chest"), "open")
@@ -39,36 +43,37 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 		bind(new Rest, filterByCommands(objects, "rest"))
 
 		bind(new Hit, filterByCommands(objects, "hit"))
-		
+
 		bind(new Pick, filterByCommands(objects, "pick", "pick banana"))
 
-		bind(
-			new ObjectActionChain(new DamagingApproach, new NormalApproach, new NothingApproach),
-			filterByCommands(objects, "approach")
-		)
+		bind(new ObjectActionChain(new DamagingApproach, new NormalApproach, new NothingApproach), filterByCommands(objects, "approach"))
 
-		bind(new RockSlide, 982)
+		bind(new RockSlide, List(982))
 
 		bind(new Hopper, List(52, 173))
 
 		// Bind OpenOrClose to all non-bound objects that have the command open or close.
-		bind(new OpenOrClose,
-			filterByCommands(objects, "open", "close").diff(this.mapping.keySet.toList)
-		)
+		bind(new OpenOrClose, {
+
+				def openOrClose(o : GameObjectDef) = filterByCommands(List(o -> 0), "open", "close").size > 0
+
+			val possibles = objects.filter(i => if (!openOrClose(i._1)) false else mapping.exists(_._2 == i._2))
+			
+			filterByCommands(possibles, "open", "close")
+		})
 
 		val tp = new TelePoint
 		this.mapping.foreach {
 			t =>
 				t._2.addLast(tp)
 		}
-
 	}
 
 	private def filterByCommands(objects : List[(GameObjectDef, Int)], commands : String*) = {
 		objects.filter(
 			m =>
-				commands.contains(m._1.command1) || commands.contains(m._1.command2)
-		)
+				commands.contains(m._1.command1.toLowerCase) || commands.contains(m._1.command2.toLowerCase)
+		).map(_._2)
 	}
 
 }

@@ -51,7 +51,7 @@ class GoDown extends ObjectEvent {
 					Formulae.getNewY(player.getY(), false))
 			} else {
 				val coords = Array(o.getX(),
-					Formulae.getNewY(o.getY(), true))
+					Formulae.getNewY(o.getY(), false))
 				o.getDirection() match {
 					case 0 =>
 						coords(1) -= 1
