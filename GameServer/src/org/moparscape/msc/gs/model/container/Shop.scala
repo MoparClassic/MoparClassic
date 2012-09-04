@@ -10,7 +10,7 @@ import scala.collection.JavaConversions._
 class Shop(val name : String, val greeting : String,
 		_options : java.util.List[String], val min : Point,
 		val max : Point, val general : Boolean,
-		val respawnRate : Int, val buyModifier : Int, val sellModifier : Int) extends Container(40, true) {
+		val respawnRate : Int, val buyModifier : Int, val sellModifier : Int) extends Container(40, true, true) {
 	val options = _options.toList
 
 	var inited = false

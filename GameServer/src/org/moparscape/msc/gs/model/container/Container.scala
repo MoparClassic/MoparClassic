@@ -7,11 +7,13 @@ import org.moparscape.msc.gs.model.InvItem
 import scala.collection.JavaConversions._
 
 @ThreadSafe
-class Container(val maxSize : Int, allStackable : Boolean = false) {
+class Container(val maxSize : Int, allStackable : Boolean = false, allowZeros : Boolean = false) {
 	protected var items = new AtomicReference(List[InvItem]())
 
 	def add(id : Int, amount : Int = 1, ignoreMaxSize : Boolean = false) : Boolean = {
-		if (amount <= 0) {
+		if (amount < 0) {
+			return false
+		} else if (!allowZeros && amount == 0) {
 			return false
 		} else {
 			items.synchronized {
@@ -40,7 +42,11 @@ class Container(val maxSize : Int, allStackable : Boolean = false) {
 		items.synchronized {
 			var itm = items.get
 			val size = itm.size
-			itm = itm.filterNot(_.id == id)
+			if (allowZeros) {
+				itm = itm.map(e => if (e.id == id) new InvItem(id, 0) else e)
+			} else {
+				itm = itm.filterNot(_.id == id)
+			}
 			items.set(itm)
 			size - itm.size
 		}
@@ -65,7 +71,11 @@ class Container(val maxSize : Int, allStackable : Boolean = false) {
 				}
 				ret = true
 			}
-			itm = if (!ignoreAmount) itm.filterNot(_.amount <= 0) else itm
+			if (allowZeros && !ignoreAmount) {
+				itm = itm.map(e => if (e.id == id && e.amount < 0) new InvItem(id, 0) else e)
+			} else {
+				itm = if (!ignoreAmount) itm.filterNot(_.amount <= 0) else itm
+			}
 			items.set(itm.reverse)
 			return ret
 		}
