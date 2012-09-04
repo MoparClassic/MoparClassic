@@ -45,7 +45,7 @@ class Aggie extends NpcDialog {
 						npc, player) {
 						override def success {
 							this > "Here is your new dye, enjoy."
-							exit
+							super.success
 						}
 					}
 

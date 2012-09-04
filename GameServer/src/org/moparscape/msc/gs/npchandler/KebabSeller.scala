@@ -16,18 +16,18 @@ class KebabSeller extends NpcDialog {
 
 		end
 	}
-	
+
 	lazy val option1 = new Transact("Yes please", Array((10, 1)), Array((210, 1)),
-			Array("Oops I don't seem to have enough money on me"), npc, player) {
-		
+		Array("Oops I don't seem to have enough money on me"), npc, player) {
+
 		override def success {
 			this >> "You buy a kebab"
-			exit
+			super.success
 		}
-		
+
 		override def fail {
 			this > "Come back when you have some"
-			exit
+			super.fail
 		}
 	}
 

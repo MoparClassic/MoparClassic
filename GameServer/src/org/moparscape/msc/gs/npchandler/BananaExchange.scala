@@ -29,7 +29,7 @@ class BananaExchange extends NpcDialog {
 			npc, player) {
 			override def success {
 				this >> "You receive 30gp"
-				exit
+				super.success
 			}
 		}
 

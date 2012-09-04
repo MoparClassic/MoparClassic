@@ -6,7 +6,7 @@ class FromKaramjaToPortSarim extends NpcDialog {
 	override def init {
 		this + new Board(npc, player)
 		this + new RespondEnd("Does Karamja have any unusal customs then?",
-			"I'm not that sort of customs officer", npc, player)
+			Array("I'm not that sort of customs officer"), npc, player)
 	}
 
 	override def begin {
@@ -21,21 +21,11 @@ class FromKaramjaToPortSarim extends NpcDialog {
 			end
 		}
 
-		this + new GenericEnd("Why?", _npc, _player) {
-			override def begin {
-				this > "Because asgarnia has banned the import of intoxicating spirits"
-				super.begin
-			}
-		}
+		this + new RespondEnd("Why?", Array("Because asgarnia has banned the import of intoxicating spirits"), _npc, _player)
 
 		this + new Search(_npc, _player)
 
-		this + new GenericEnd("You're not putting your hands on my things!", _npc, _player) {
-			override def begin {
-				this > "You're not getting on this ship then"
-				super.begin
-			}
-		}
+		this + new RespondEnd("You're not putting your hands on my things!", Array("You're not getting on this ship then"), _npc, _player)
 	}
 
 	private class Search(_npc : Npc, _player : Player)
@@ -55,8 +45,6 @@ class FromKaramjaToPortSarim extends NpcDialog {
 			override def begin {
 				this >> "You pay 30 gold"
 				super.begin
-				player.setBusy(false)
-				npc.unblock
 			}
 
 			override def success {
@@ -64,6 +52,7 @@ class FromKaramjaToPortSarim extends NpcDialog {
 				this >> "You board the ship"; pause(3000)
 				player.teleport(269, 648, false); pause(1000)
 				this >> "You arrive at Port Sarim"; breath
+				super.success
 			}
 		}
 

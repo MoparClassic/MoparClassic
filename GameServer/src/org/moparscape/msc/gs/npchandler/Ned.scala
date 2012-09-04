@@ -31,25 +31,17 @@ class Ned extends NpcDialog {
 			end
 		}
 
-		this + new GenericEnd("Okay, please sell me some rope", npc, player) {
-			override def begin {
-				if (player.getInventory.remove(10, 15)) {
-					player.getInventory.add(237)
-					this > "There you go. Finest rope in RuneScape"; breath
-					player.getActionSender.sendInventory
-				} else {
-					this < "It seems I don't have enough money, I'll be back later!"
-				}
-				super.begin
+		this + new Transact("Okay, please sell me some rope", Array(10 -> 15), Array(237 -> 1), Array("It seems I don't have enough money, I'll be back later!"), npc, player) {
+			override def success {
+				this > "There you go. Finest rope in RuneScape"; breath
 			}
 		}
 
-		this + new GenericEnd("That's a little more then I want to pay", npc, player) {
-			override def begin {
-				this > "Well, if you ever need rope that's the price. Sorry."; breath
-				this > "An old sailor needs money for a little drop o' rum."
-				super.begin
-			}
+		this + new RespondEnd("That's a little more then I want to pay",
+			Array(
+				"Well, if you ever need rope that's the price. Sorry.",
+				"An old sailor needs money for a little drop o' rum."
+			), npc, player) {
 		}
 
 		this + new GenericEnd("I have wool that I would like to trade", npc, player) {

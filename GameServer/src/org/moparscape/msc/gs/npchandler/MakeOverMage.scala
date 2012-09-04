@@ -20,7 +20,7 @@ class MakeOverMage extends NpcDialog {
 		override def success {
 			player.setChangingAppearance(true)
 			player.getActionSender.sendAppearanceScreen
-			exit
+			super.success
 		}
 	}
 

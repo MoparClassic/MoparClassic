@@ -21,7 +21,7 @@ class Apothecary extends NpcDialog {
 		override def success {
 			this > "Here you are, enjoy this"
 			this >> "Apothecary hands you a mysterious potion"
-			exit
+			super.success
 		}
 	}
 
@@ -38,7 +38,7 @@ class Apothecary extends NpcDialog {
 			npc, player) {
 			override def success {
 				this >> "Apothecary hands you a Strength Potion (4 dose)"
-				exit
+				super.success
 			}
 		}
 
