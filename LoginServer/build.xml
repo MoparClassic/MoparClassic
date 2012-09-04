@@ -15,12 +15,8 @@
 		<javac srcdir="${src}" destdir="${build}" debug="on">
 			<classpath>
 				<pathelement location="${lib}/mina.jar" />
-				<pathelement location="${lib}/xpp3.jar" />
 				<pathelement location="${lib}/slf4j.jar" />
-				<pathelement location="${lib}/xstream.jar" />
 				<pathelement location="${lib}/mysql-connector.jar" />
-				<pathelement location="${lib}/hex-string.jar" />
-
 				<pathelement path="${java.class.path}/" />
 			</classpath>
 		</javac>
@@ -35,11 +31,8 @@
 		<java classname="org.moparscape.msc.ls.Server" fork="true">
 			<classpath>
 				<pathelement location="${lib}/mina.jar" />
-				<pathelement location="${lib}/xpp3.jar" />
 				<pathelement location="${lib}/slf4j.jar" />
-				<pathelement location="${lib}/xstream.jar" />
 				<pathelement location="${lib}/mysql-connector.jar" />
-				<pathelement location="${lib}/hex-string.jar" />
 				<pathelement location="${jar}" />
 				<pathelement path="${java.class.path}/" />
 			</classpath>
