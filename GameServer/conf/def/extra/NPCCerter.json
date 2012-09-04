@@ -1,0 +1,508 @@
+)]}'
+{
+  "341": {
+    "certs": [
+      {
+        "certID": 1310,
+        "itemID": 636,
+        "name": "Magic Logs"
+      },
+      {
+        "certID": 711,
+        "itemID": 635,
+        "name": "Yew Logs"
+      },
+      {
+        "certID": 712,
+        "itemID": 634,
+        "name": "Maple Logs"
+      },
+      {
+        "certID": 713,
+        "itemID": 633,
+        "name": "Willow Logs"
+      },
+      {
+        "certID": 1290,
+        "itemID": 632,
+        "name": "Oak Logs"
+      }
+    ],
+    "type": "log"
+  },
+  "369": {
+    "certs": [
+      {
+        "certID": 533,
+        "itemID": 373,
+        "name": "Lobster"
+      },
+      {
+        "certID": 534,
+        "itemID": 372,
+        "name": "Raw Lobster"
+      },
+      {
+        "certID": 535,
+        "itemID": 370,
+        "name": "Swordfish"
+      },
+      {
+        "certID": 536,
+        "itemID": 369,
+        "name": "Raw Swordfish"
+      },
+      {
+        "certID": 1291,
+        "itemID": 367,
+        "name": "Tuna"
+      },
+      {
+        "certID": 1292,
+        "itemID": 366,
+        "name": "Raw Tuna"
+      }
+    ],
+    "type": "fish"
+  },
+  "370": {
+    "certs": [
+      {
+        "certID": 630,
+        "itemID": 546,
+        "name": "Shark"
+      },
+      {
+        "certID": 631,
+        "itemID": 545,
+        "name": "Raw Shark"
+      },
+      {
+        "certID": 628,
+        "itemID": 555,
+        "name": "Bass"
+      },
+      {
+        "certID": 629,
+        "itemID": 554,
+        "name": "Raw Bass"
+      }
+    ],
+    "type": "fish"
+  },
+  "231": {
+    "certs": [
+      {
+        "certID": 521,
+        "itemID": 152,
+        "name": "Gold"
+      },
+      {
+        "certID": 520,
+        "itemID": 383,
+        "name": "Silver"
+      }
+    ],
+    "type": "ore"
+  },
+  "348": {
+    "certs": [
+      {
+        "certID": 1310,
+        "itemID": 636,
+        "name": "Magic Logs"
+      },
+      {
+        "certID": 711,
+        "itemID": 635,
+        "name": "Yew Logs"
+      },
+      {
+        "certID": 712,
+        "itemID": 634,
+        "name": "Maple Logs"
+      },
+      {
+        "certID": 713,
+        "itemID": 633,
+        "name": "Willow Logs"
+      },
+      {
+        "certID": 1290,
+        "itemID": 632,
+        "name": "Oak Logs"
+      }
+    ],
+    "type": "log"
+  },
+  "795": {
+    "certs": [
+      {
+        "certID": 1297,
+        "itemID": 465,
+        "name": "Empty Vial"
+      },
+      {
+        "certID": 1298,
+        "itemID": 464,
+        "name": "Full Vial"
+      },
+      {
+        "certID": 1299,
+        "itemID": 270,
+        "name": "Eye of Newt"
+      },
+      {
+        "certID": 1271,
+        "itemID": 220,
+        "name": "Limpwurt Root"
+      },
+      {
+        "certID": 1311,
+        "itemID": 469,
+        "name": "Snape Grass"
+      },
+      {
+        "certID": 1312,
+        "itemID": 471,
+        "name": "White Berries"
+      },
+      {
+        "certID": 1313,
+        "itemID": 219,
+        "name": "Red Spider Eggs"
+      }
+    ],
+    "type": "herblaw supplies"
+  },
+  "227": {
+    "certs": [
+      {
+        "certID": 533,
+        "itemID": 373,
+        "name": "Lobster"
+      },
+      {
+        "certID": 534,
+        "itemID": 372,
+        "name": "Raw Lobster"
+      },
+      {
+        "certID": 535,
+        "itemID": 370,
+        "name": "Swordfish"
+      },
+      {
+        "certID": 536,
+        "itemID": 369,
+        "name": "Raw Swordfish"
+      },
+      {
+        "certID": 1291,
+        "itemID": 367,
+        "name": "Tuna"
+      },
+      {
+        "certID": 1292,
+        "itemID": 366,
+        "name": "Raw Tuna"
+      }
+    ],
+    "type": "fish"
+  },
+  "466": {
+    "certs": [
+      {
+        "certID": 517,
+        "itemID": 151,
+        "name": "Iron"
+      },
+      {
+        "certID": 518,
+        "itemID": 155,
+        "name": "Coal"
+      },
+      {
+        "certID": 519,
+        "itemID": 153,
+        "name": "Mithril"
+      },
+      {
+        "certID": 1295,
+        "itemID": 154,
+        "name": "Adamantite"
+      },
+      {
+        "certID": 521,
+        "itemID": 152,
+        "name": "Gold"
+      },
+      {
+        "certID": 520,
+        "itemID": 383,
+        "name": "Silver"
+      }
+    ],
+    "type": "ore"
+  },
+  "347": {
+    "certs": [
+      {
+        "certID": 1300,
+        "itemID": 413,
+        "name": "Big Bones"
+      },
+      {
+        "certID": 1270,
+        "itemID": 814,
+        "name": "Dragon Bones"
+      }
+    ],
+    "type": "bone"
+  },
+  "794": {
+    "certs": [
+      {
+        "certID": 1293,
+        "itemID": 675,
+        "name": "Flax"
+      },
+      {
+        "certID": 1294,
+        "itemID": 676,
+        "name": "Bow Strings"
+      }
+    ],
+    "type": "flax"
+  },
+  "226": {
+    "certs": [
+      {
+        "certID": 528,
+        "itemID": 170,
+        "name": "Iron"
+      },
+      {
+        "certID": 529,
+        "itemID": 171,
+        "name": "Steel"
+      },
+      {
+        "certID": 530,
+        "itemID": 173,
+        "name": "Mithril"
+      },
+      {
+        "certID": 1296,
+        "itemID": 174,
+        "name": "Adamantite"
+      },
+      {
+        "certID": 532,
+        "itemID": 172,
+        "name": "Gold"
+      },
+      {
+        "certID": 531,
+        "itemID": 384,
+        "name": "Silver"
+      }
+    ],
+    "type": "bar"
+  },
+  "467": {
+    "certs": [
+      {
+        "certID": 528,
+        "itemID": 170,
+        "name": "Iron"
+      },
+      {
+        "certID": 529,
+        "itemID": 171,
+        "name": "Steel"
+      },
+      {
+        "certID": 530,
+        "itemID": 173,
+        "name": "Mithril"
+      },
+      {
+        "certID": 1296,
+        "itemID": 174,
+        "name": "Adamantite"
+      },
+      {
+        "certID": 532,
+        "itemID": 172,
+        "name": "Gold"
+      },
+      {
+        "certID": 531,
+        "itemID": 384,
+        "name": "Silver"
+      }
+    ],
+    "type": "bar"
+  },
+  "225": {
+    "certs": [
+      {
+        "certID": 517,
+        "itemID": 151,
+        "name": "Iron"
+      },
+      {
+        "certID": 518,
+        "itemID": 155,
+        "name": "Coal"
+      },
+      {
+        "certID": 519,
+        "itemID": 153,
+        "name": "Mithril"
+      },
+      {
+        "certID": 1295,
+        "itemID": 154,
+        "name": "Adamantite"
+      },
+      {
+        "certID": 521,
+        "itemID": 152,
+        "name": "Gold"
+      },
+      {
+        "certID": 520,
+        "itemID": 383,
+        "name": "Silver"
+      }
+    ],
+    "type": "ore"
+  },
+  "144": {
+    "certs": [
+      {
+        "certID": 517,
+        "itemID": 151,
+        "name": "Iron"
+      },
+      {
+        "certID": 518,
+        "itemID": 155,
+        "name": "Coal"
+      },
+      {
+        "certID": 519,
+        "itemID": 153,
+        "name": "Mithril"
+      }
+    ],
+    "type": "ore"
+  },
+  "267": {
+    "certs": [
+      {
+        "certID": 533,
+        "itemID": 373,
+        "name": "Lobster"
+      },
+      {
+        "certID": 534,
+        "itemID": 372,
+        "name": "Raw Lobster"
+      },
+      {
+        "certID": 535,
+        "itemID": 370,
+        "name": "Swordfish"
+      },
+      {
+        "certID": 536,
+        "itemID": 369,
+        "name": "Raw Swordfish"
+      },
+      {
+        "certID": 1291,
+        "itemID": 367,
+        "name": "Tuna"
+      },
+      {
+        "certID": 1292,
+        "itemID": 366,
+        "name": "Raw Tuna"
+      }
+    ],
+    "type": "fish"
+  },
+  "299": {
+    "certs": [
+      {
+        "certID": 630,
+        "itemID": 546,
+        "name": "Shark"
+      },
+      {
+        "certID": 631,
+        "itemID": 545,
+        "name": "Raw Shark"
+      },
+      {
+        "certID": 628,
+        "itemID": 555,
+        "name": "Bass"
+      },
+      {
+        "certID": 629,
+        "itemID": 554,
+        "name": "Raw Bass"
+      }
+    ],
+    "type": "fish"
+  },
+  "778": {
+    "certs": [
+      {
+        "certID": 1302,
+        "itemID": 474,
+        "name": "Attack Potion"
+      },
+      {
+        "certID": 1304,
+        "itemID": 222,
+        "name": "Strength Potion"
+      },
+      {
+        "certID": 1303,
+        "itemID": 480,
+        "name": "Defense Potion"
+      },
+      {
+        "certID": 1273,
+        "itemID": 486,
+        "name": "Super Attack Potion"
+      },
+      {
+        "certID": 1274,
+        "itemID": 495,
+        "name": "Super Defense Potion"
+      },
+      {
+        "certID": 1275,
+        "itemID": 492,
+        "name": "Super Strength Potion"
+      },
+      {
+        "certID": 1272,
+        "itemID": 483,
+        "name": "Prayer Potion"
+      },
+      {
+        "certID": 1301,
+        "itemID": 498,
+        "name": "Ranged Potion"
+      }
+    ],
+    "type": "potion"
+  }
+}

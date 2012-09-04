@@ -1,0 +1,93 @@
+)]}'
+[
+  {
+    "exp": 15,
+    "itemID": 283,
+    "requiredLvl": 5
+  },
+  {
+    "exp": 20,
+    "itemID": 288,
+    "requiredLvl": 6
+  },
+  {
+    "exp": 30,
+    "itemID": 296,
+    "requiredLvl": 8
+  },
+  {
+    "exp": 40,
+    "itemID": 284,
+    "requiredLvl": 8
+  },
+  {
+    "exp": 55,
+    "itemID": 289,
+    "requiredLvl": 10
+  },
+  {
+    "exp": 65,
+    "itemID": 297,
+    "requiredLvl": 13
+  },
+  {
+    "exp": 55,
+    "itemID": 285,
+    "requiredLvl": 18
+  },
+  {
+    "exp": 60,
+    "itemID": 290,
+    "requiredLvl": 24
+  },
+  {
+    "exp": 70,
+    "itemID": 298,
+    "requiredLvl": 30
+  },
+  {
+    "exp": 70,
+    "itemID": 286,
+    "requiredLvl": 30
+  },
+  {
+    "exp": 75,
+    "itemID": 291,
+    "requiredLvl": 40
+  },
+  {
+    "exp": 85,
+    "itemID": 299,
+    "requiredLvl": 50
+  },
+  {
+    "exp": 85,
+    "itemID": 287,
+    "requiredLvl": 42
+  },
+  {
+    "exp": 90,
+    "itemID": 292,
+    "requiredLvl": 56
+  },
+  {
+    "exp": 100,
+    "itemID": 300,
+    "requiredLvl": 70
+  },
+  {
+    "exp": 100,
+    "itemID": 543,
+    "requiredLvl": 55
+  },
+  {
+    "exp": 105,
+    "itemID": 544,
+    "requiredLvl": 72
+  },
+  {
+    "exp": 150,
+    "itemID": 524,
+    "requiredLvl": 80
+  }
+]

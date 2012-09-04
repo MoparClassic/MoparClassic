@@ -323,12 +323,7 @@ public class XMLUsingXStream implements DataStore {
 	public List<InvItem>[] loadKeyChestLoots() {
 		return (List<InvItem>[]) load("defs/extras/KeyChestLoot.xml.gz");
 	}
-
-	@Override
-	public Map<Integer, ItemDartTipDef> loadDartTips() {
-		return (HashMap<Integer, ItemDartTipDef>) load("defs/extras/ItemDartTipDef.xml.gz");
-	}
-
+	
 	@Override
 	public void dispose() {
 

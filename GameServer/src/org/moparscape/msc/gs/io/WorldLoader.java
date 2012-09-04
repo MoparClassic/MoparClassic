@@ -7,17 +7,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.model.GameObject;
-import org.moparscape.msc.gs.model.Item;
-import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.World;
-import org.moparscape.msc.gs.model.container.Shop;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
-import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
-import org.moparscape.msc.gs.model.definition.entity.ItemLoc;
-import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.definition.extra.ShopDef;
 import org.moparscape.msc.gs.model.landscape.MutableTileValue;
 import org.moparscape.msc.gs.model.landscape.Sector;
@@ -56,8 +48,9 @@ public class WorldLoader {
 				if (!world.withinWorld(bx, by)) {
 					continue;
 				}
-				
-				MutableTileValue t = new MutableTileValue(world.getTileValue(bx, by));
+
+				MutableTileValue t = new MutableTileValue(world.getTileValue(
+						bx, by));
 				t.overlay = s.getTile(x, y).groundOverlay;
 				t.diagWallVal = s.getTile(x, y).diagonalWalls;
 				t.horizontalWallVal = s.getTile(x, y).horizontalWall;
@@ -82,7 +75,8 @@ public class WorldLoader {
 						&& EntityHandler.getDoorDef(verticalWall - 1)
 								.getDoorType() != 0) {
 					t.mapValue |= 1; // 1
-					MutableTileValue t1 = new MutableTileValue(world.getTileValue(bx, by - 1));
+					MutableTileValue t1 = new MutableTileValue(
+							world.getTileValue(bx, by - 1));
 					t1.mapValue |= 4; // 4
 					world.setTileValue(bx, by - 1, t1.toTileValue());
 				}
@@ -94,7 +88,8 @@ public class WorldLoader {
 						&& EntityHandler.getDoorDef(horizontalWall - 1)
 								.getDoorType() != 0) {
 					t.mapValue |= 2; // 2
-					MutableTileValue t1 = new MutableTileValue(world.getTileValue(bx - 1, by));
+					MutableTileValue t1 = new MutableTileValue(
+							world.getTileValue(bx - 1, by));
 					t1.mapValue |= 8;
 					world.setTileValue(bx - 1, by, t1.toTileValue());
 				}
@@ -159,17 +154,16 @@ public class WorldLoader {
 				}
 			}
 		}
-		Logger.println(((System.currentTimeMillis() - now) / 1000) + "s to load landscape");
+		Logger.println(((System.currentTimeMillis() - now) / 1000)
+				+ "s to load landscape");
 		// try { out.close(); } catch(Exception e) { Logger.error(e); }
 		for (ShopDef shop : Instance.getDataStore().loadShops()) {
 			world.registerShop(shop.toShop());
 		}
-		System.gc();
 	}
 
 	public void loadObjects() throws Exception {
 		WorldPopulationService.run();
-		
 	}
 
 }

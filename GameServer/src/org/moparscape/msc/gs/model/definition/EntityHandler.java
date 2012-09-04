@@ -94,7 +94,7 @@ public class EntityHandler {
 			tiles = dataStore.loadTileDefs();
 			keyChestLoots = dataStore.loadKeyChestLoots();
 			herbSeconds = dataStore.loadItemHerbSeconds();
-			dartTips = dataStore.loadDartTips();
+			dartTips = dataStore.loadItemDartTipDefs();
 			gems = dataStore.loadGemDefs();
 			logCut = dataStore.loadItemLogCutDefs();
 			bowString = dataStore.loadItemBowStringDefs();
@@ -121,7 +121,7 @@ public class EntityHandler {
 			e.printStackTrace();
 			System.exit(0);
 		}
-		dataStore.dispose();
+		//dataStore.dispose(); - this will be called at the end of world loader.
 	}
 
 	/**

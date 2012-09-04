@@ -1,11 +1,15 @@
 package org.moparscape.msc.gs.persistence.impl;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.jcip.annotations.ThreadSafe;
-
+import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.TelePoint;
@@ -41,507 +45,532 @@ import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
 import org.moparscape.msc.gs.model.definition.skill.SpellDef;
 import org.moparscape.msc.gs.persistence.DataStore;
-import org.moparscape.msc.gs.persistence.impl.bun.CodecLookupService;
-import org.moparscape.msc.gs.persistence.impl.bun.FileLookupService;
-import org.moparscape.msc.gs.persistence.impl.bun.IO;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 
-@ThreadSafe
-public class BinaryUsingNIO implements DataStore {
-	
-	protected BinaryUsingNIO() throws Exception {
-		throw new Exception("Not yet implemented!");
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+public class JsonDataStore implements DataStore {
+
+	protected JsonDataStore() {
+		// To conform to the contract specified by the DataStore interface.
+	}
+
+	private Map<Object, File> files = new HashMap<Object, File>();
+	{
+		files.put("PacketHandler", wrap("PacketHandler"));
+		files.put("LSPacketHandler", wrap("LSPacketHandler"));
+		files.put("ObjectTelePoint", wrap(loc(extra("ObjectTelePoint"))));
+		files.put("Shop", wrap(loc("Shop")));
+		files.put("NPCCerter", wrap(def(extra("NPCCerter"))));
+		files.put("GameObjectLoc", wrap(loc("GameObjectLoc")));
+		files.put("ItemLoc", wrap(loc("ItemLoc")));
+		files.put("NPCLoc", wrap(loc("NPCLoc")));
+		files.put(TileDef[].class, wrap(def("TileDef")));
+		files.put(GameObjectDef[].class, wrap(def("GameObjectDef")));
+		files.put(DoorDef[].class, wrap(def("DoorDef")));
+		files.put(ItemDef[].class, wrap(def("ItemDef")));
+		files.put(PrayerDef[].class, wrap(def("PrayerDef")));
+		files.put(SpellDef[].class, wrap(def("SpellDef")));
+		files.put(NPCDef[].class, wrap(def("NPCDef")));
+		files.put(ItemCraftingDef[].class, wrap(def(extra("ItemCraftingDef"))));
+		files.put(ItemHerbSecondDef[].class, wrap(def(extra("ItemHerbSecond"))));
+		files.put("ItemDartTipDef", wrap(def(extra("ItemDartTipDef"))));
+		files.put("ItemGemDef", wrap(def(extra("ItemGemDef"))));
+		files.put("ItemLogCutDef", wrap(def(extra("ItemLogCutDef"))));
+		files.put("ItemBowStringDef", wrap(def(extra("ItemBowStringDef"))));
+		files.put("ItemArrowHeadDef", wrap(def(extra("ItemArrowHeadDef"))));
+		files.put("FiremakingDef", wrap(def(extra("FiremakingDef"))));
+		files.put("ItemAffectedType", wrap(def(extra("ItemAffectedType"))));
+		files.put("ItemWieldableDef", wrap(def(extra("ItemWieldableDef"))));
+		files.put("ItemUnidentHerbDef", wrap(def(extra("ItemUnidentHerbDef"))));
+		files.put("ItemHerbDef", wrap(def(extra("ItermHerbDef"))));
+		files.put("ItemEdibleHeal", wrap(def(extra("ItemEdibleHeal"))));
+		files.put("ItemCookingDef", wrap(def(extra("ItemCookingDef"))));
+		files.put(ItemSmithingDef[].class, wrap(def(extra("ItemSmithingDef"))));
+		files.put("ItemSmeltingDef", wrap(def(extra("ItemSmeltingDef"))));
+		files.put("ObjectMining", wrap(def(extra("ObjectMining"))));
+		files.put("ObjectWoodcutting", wrap(def(extra("ObjectWoodcutting"))));
+		files.put("ObjectFish", wrap(def(extra("ObjectFish"))));
+		files.put("SpellAgressiveLevel",
+				wrap(def(extra("SpellAgressiveLevel"))));
+		files.put("AgilityDef", wrap(def(extra("AgilityDef"))));
+		files.put("AgilityCourseDef", wrap(def(extra("AgilityCourseDef"))));
+		files.put("KeyChestLoot", wrap(def(extra("KeyChestLoot"))));
+	}
+
+	private File wrap(String file) { // Shortens code and helps prevent typos
+		return new File(Config.CONF_DIR, file + ".json");
+	}
+
+	private String loc(String f) { // Shortens code and helps prevent typos
+		return "loc" + File.separator + f;
+	}
+
+	private String def(String f) { // Shortens code and helps prevent typos
+		return "def" + File.separator + f;
+	}
+
+	private String extra(String f) { // Shortens code and helps prevent typos
+		return "extra" + File.separator + f;
+	}
+
+	private Gson gson = new GsonBuilder().setPrettyPrinting()
+			.excludeFieldsWithModifiers(Modifier.TRANSIENT)
+			.generateNonExecutableJson().create();
+
+	private <T> T load(Class<?> cls) throws Exception {
+		return load(files.get(cls), cls);
+	}
+
+	private <T> T load(Object ident, Class<?> cls) throws Exception {
+		return load(files.get(ident), cls);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> T load(Object ident, Type t) throws Exception {
+		return (T) gson.fromJson(new FileReader(files.get(ident)), t);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> T load(File f, Class<?> cls) throws Exception {
+		return (T) gson.fromJson(new FileReader(f), cls);
+	}
+
+	private <T> void save(T data) throws Exception {
+		save(files.get(data.getClass()), data);
+	}
+
+	private <T> void save(Object ident, T data) throws Exception {
+		save(files.get(ident), data);
+	}
+
+	private <T> void save(File file, T data) throws Exception {
+		if (!new File(file.getParent()).exists()) {
+			new File(file.getParent()).mkdirs();
+		}
+		FileWriter fw = new FileWriter(file);
+		fw.write(gson.toJson(data));
+		fw.close();
 	}
 
 	@Override
 	public PacketHandlerDef[] loadPacketHandlerDefs() throws Exception {
-		String cls = PacketHandlerDef.class.getName();
-		File f = FileLookupService.lookup(cls);
-		return (PacketHandlerDef[]) CodecLookupService.lookup(cls).decode(IO.read(f));
+		return load("PacketHandler", PacketHandlerDef[].class);
 	}
 
 	@Override
 	public void savePacketHandlerDefs(PacketHandlerDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("PacketHandler", defs);
 	}
 
 	@Override
 	public PacketHandlerDef[] loadLSPacketHandlerDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("LSPacketHandler", PacketHandlerDef[].class);
 	}
 
 	@Override
 	public void saveLSPacketHandlerDefs(PacketHandlerDef[] defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("LSPacketHandler", defs);
 	}
 
 	@Override
 	public Map<Point, TelePoint> loadTelePoints() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ObjectTelePoint", Map.class);
 	}
 
 	@Override
 	public void saveTelePoints(Map<Point, TelePoint> points) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ObjectTelePoint", points);
 	}
 
 	@Override
 	public List<ShopDef> loadShops() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("Shop", new TypeToken<List<ShopDef>>() {
+		}.getType());
 	}
 
 	@Override
 	public void saveShops(List<ShopDef> shops) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("Shop", shops);
 	}
 
 	@Override
 	public Map<Integer, CerterDef> loadCerterDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("NPCCerter", Map.class);
 	}
 
 	@Override
 	public void saveCerterDefs(Map<Integer, CerterDef> certers)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("NPCCerter", certers);
 	}
 
 	@Override
 	public List<GameObjectLoc> loadGameObjectLocs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("GameObjectLoc", new TypeToken<List<GameObjectLoc>>() {
+		}.getType());
 	}
 
 	@Override
 	public void saveGameObjectLocs(List<GameObjectLoc> locs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("GameObjectLoc", locs);
 	}
 
 	@Override
 	public List<ItemLoc> loadItemLocs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemLoc", new TypeToken<List<ItemLoc>>() {
+		}.getType());
 	}
 
 	@Override
 	public void saveItemLocs(List<ItemLoc> locs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemLoc", locs);
 	}
 
 	@Override
 	public List<NPCLoc> loadNPCLocs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("NPCLoc", new TypeToken<List<NPCLoc>>() {
+		}.getType());
 	}
 
 	@Override
 	public void saveNPCLocs(List<NPCLoc> locs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("NPCLoc", locs);
 	}
 
 	@Override
 	public TileDef[] loadTileDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(TileDef[].class);
 	}
 
 	@Override
 	public void saveTileDefs(TileDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save(defs);
 	}
 
 	@Override
 	public GameObjectDef[] loadGameObjectDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(GameObjectDef[].class);
 	}
 
 	@Override
 	public void saveGameObjectDefs(GameObjectDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save(defs);
 	}
 
 	@Override
 	public DoorDef[] loadDoorDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(DoorDef[].class);
 	}
 
 	@Override
 	public void saveDoorDefs(DoorDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save(defs);
 	}
 
 	@Override
 	public ItemDef[] loadItemDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(ItemDef[].class);
 	}
 
 	@Override
 	public void saveItemDefs(ItemDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save(defs);
 	}
 
 	@Override
 	public PrayerDef[] loadPrayerDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(PrayerDef[].class);
 	}
 
 	@Override
 	public void savePrayerDefs(PrayerDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save(defs);
 	}
 
 	@Override
 	public SpellDef[] loadSpellDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(SpellDef[].class);
 	}
 
 	@Override
 	public void saveSpellDefs(SpellDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save(defs);
 	}
 
 	@Override
 	public NPCDef[] loadNPCDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(NPCDef[].class);
 	}
 
 	@Override
 	public void saveNPCDefs(NPCDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save(defs);
 	}
 
 	@Override
 	public ItemCraftingDef[] loadItemCraftingDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(ItemCraftingDef[].class);
 	}
 
 	@Override
 	public void saveItemCraftingDefs(ItemCraftingDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save(defs);
 	}
 
 	@Override
 	public ItemHerbSecondDef[] loadItemHerbSeconds() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(ItemHerbSecondDef[].class);
 	}
 
 	@Override
-	public void saveItemHerbSeconds(ItemHerbSecondDef[] seconds) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void saveItemHerbSeconds(ItemHerbSecondDef[] seconds)
+			throws Exception {
+		save(seconds);
 	}
 
 	@Override
 	public Map<Integer, ItemDartTipDef> loadItemDartTipDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemDartTipDef", Map.class);
 	}
 
 	@Override
 	public void saveItemDartTipDefs(Map<Integer, ItemDartTipDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemDartTipDef", defs);
 	}
 
 	@Override
 	public Map<Integer, ItemGemDef> loadGemDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemGemDef", Map.class);
 	}
 
 	@Override
 	public void saveGemDefs(Map<Integer, ItemGemDef> defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemGemDef", defs);
 	}
 
 	@Override
 	public Map<Integer, ItemLogCutDef> loadItemLogCutDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemLogCutDef", Map.class);
 	}
 
 	@Override
 	public void saveItemLogCutDefs(Map<Integer, ItemLogCutDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemLogCutDef", defs);
 	}
 
 	@Override
 	public Map<Integer, ItemBowStringDef> loadItemBowStringDefs()
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemBowStringDef", Map.class);
 	}
 
 	@Override
 	public void saveItemBowStringDefs(Map<Integer, ItemBowStringDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemBowStringDef", defs);
 	}
 
 	@Override
 	public Map<Integer, ItemArrowHeadDef> loadItemArrowHeadDefs()
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemArrowHeadDef", Map.class);
 	}
 
 	@Override
 	public void saveItemArrowHeadDefs(Map<Integer, ItemArrowHeadDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemArrowHeadDef", defs);
 	}
 
 	@Override
 	public Map<Integer, FiremakingDef> loadFiremakingDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("FiremakingDef", Map.class);
 	}
 
 	@Override
 	public void saveFiremakingDefs(Map<Integer, FiremakingDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("FiremakingDef", defs);
 	}
 
 	@Override
 	public Map<Integer, int[]> loadItemAffectedTypes() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemAffectedType", Map.class);
 	}
 
 	@Override
 	public void saveItemAffectedTypes(Map<Integer, int[]> types)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemAffectedType", types);
 	}
 
 	@Override
 	public Map<Integer, ItemWieldableDef> loadItemWieldableDefs()
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemWieldableDef", Map.class);
 	}
 
 	@Override
 	public void saveItemWieldableDefs(Map<Integer, ItemWieldableDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemWieldableDef", defs);
 	}
 
 	@Override
 	public Map<Integer, ItemUnIdentHerbDef> loadItemUnIdentHerbDefs()
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemUnidentHerbDef", Map.class);
 	}
 
 	@Override
 	public void saveItemUnIdentHerbDefs(Map<Integer, ItemUnIdentHerbDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemUnidentHerbDef", defs);
 	}
 
 	@Override
 	public Map<Integer, ItemHerbDef> loadItemHerbDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemHerbDef", Map.class);
 	}
 
 	@Override
 	public void saveItemHerbDefs(Map<Integer, ItemHerbDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemHerbDef", defs);
 	}
 
 	@Override
 	public Map<Integer, Integer> loadItemEdibleHeals() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemEdibleHeal", Map.class);
 	}
 
 	@Override
 	public void saveItemEdibleHeals(Map<Integer, Integer> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemEdibleHeal", defs);
 	}
 
 	@Override
 	public Map<Integer, ItemCookingDef> loadItemCookingDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemCookingDef", Map.class);
 	}
 
 	@Override
 	public void saveItemCookingDefs(Map<Integer, ItemCookingDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemCookingDef", defs);
 	}
 
 	@Override
 	public Map<Integer, ItemSmeltingDef> loadItemSmeltingDefs()
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ItemSmeltingDef", Map.class);
 	}
 
 	@Override
 	public void saveItemSmeltingDefs(Map<Integer, ItemSmeltingDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemSmeltingDef", defs);
 	}
 
 	@Override
 	public ItemSmithingDef[] loadItemSmithingDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load(ItemSmithingDef[].class);
 	}
 
 	@Override
 	public void saveItemSmithingDefs(ItemSmithingDef[] defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ItemSmithingDef", defs);
 	}
 
 	@Override
 	public Map<Integer, ObjectMiningDef> loadObjectMiningDefs()
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ObjectMining", Map.class);
 	}
 
 	@Override
 	public void saveObjectMiningDefs(Map<Integer, ObjectMiningDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ObjectMining", defs);
 	}
 
 	@Override
 	public Map<Integer, ObjectWoodcuttingDef> loadObjectWoodcuttingDefs()
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ObjectWoodcutting", Map.class);
 	}
 
 	@Override
 	public void saveObjectWoodcuttingDefs(
 			Map<Integer, ObjectWoodcuttingDef> defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ObjectWoodcutting", defs);
 	}
 
 	@Override
 	public Map<Integer, ObjectFishingDef[]> loadObjectFishDefs()
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("ObjectFish", Map.class);
 	}
 
 	@Override
 	public void saveObjectFishingDefs(Map<Integer, ObjectFishingDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("ObjectFish", defs);
 	}
 
 	@Override
 	public Map<Integer, Integer> loadSpellAgressiveLevel() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("SpellAgressiveLevel", Map.class);
 	}
 
 	@Override
 	public void saveSpellAgressiveLevel(Map<Integer, Integer> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("SpellAgressiveLevel", defs);
 	}
 
 	@Override
 	public Map<Integer, AgilityDef> loadAgilityDefs() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("AgilityDef", Map.class);
 	}
 
 	@Override
 	public void saveAgilityDefs(Map<Integer, AgilityDef> defs) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("AgilityDef", defs);
 	}
 
 	@Override
 	public Map<Integer, AgilityCourseDef> loadAgilityCourseDefs()
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("AgilityCourseDef", Map.class);
 	}
 
 	@Override
 	public void saveAgilityCourseDef(Map<Integer, AgilityCourseDef> defs)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("AgilityCourseDef", defs);
 	}
 
 	@Override
 	public List<InvItem>[] loadKeyChestLoots() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return load("KeyChestLoot", List[].class);
 	}
 
 	@Override
 	public void saveKeyChestLoots(List<InvItem>[] loots) throws Exception {
-		// TODO Auto-generated method stub
-		
+		save("KeyChestLoot", loots);
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		gson = null;
 	}
 
 }

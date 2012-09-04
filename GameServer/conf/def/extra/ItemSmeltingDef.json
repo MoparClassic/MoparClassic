@@ -1,0 +1,87 @@
+)]}'
+{
+  "152": {
+    "barId": 172,
+    "exp": 22,
+    "reqOres": [],
+    "requiredLvl": 40
+  },
+  "153": {
+    "barId": 173,
+    "exp": 30,
+    "reqOres": [
+      {
+        "amount": 4,
+        "oreId": 155
+      }
+    ],
+    "requiredLvl": 50
+  },
+  "154": {
+    "barId": 174,
+    "exp": 37,
+    "reqOres": [
+      {
+        "amount": 6,
+        "oreId": 155
+      }
+    ],
+    "requiredLvl": 70
+  },
+  "409": {
+    "barId": 408,
+    "exp": 50,
+    "reqOres": [
+      {
+        "amount": 8,
+        "oreId": 155
+      }
+    ],
+    "requiredLvl": 85
+  },
+  "9999": {
+    "barId": 170,
+    "exp": 12,
+    "reqOres": [],
+    "requiredLvl": 15
+  },
+  "202": {
+    "barId": 169,
+    "exp": 6,
+    "reqOres": [
+      {
+        "amount": 1,
+        "oreId": 150
+      }
+    ],
+    "requiredLvl": 1
+  },
+  "383": {
+    "barId": 384,
+    "exp": 13,
+    "reqOres": [],
+    "requiredLvl": 20
+  },
+  "150": {
+    "barId": 169,
+    "exp": 6,
+    "reqOres": [
+      {
+        "amount": 1,
+        "oreId": 202
+      }
+    ],
+    "requiredLvl": 1
+  },
+  "151": {
+    "barId": 171,
+    "exp": 17,
+    "reqOres": [
+      {
+        "amount": 2,
+        "oreId": 155
+      }
+    ],
+    "requiredLvl": 30
+  }
+}

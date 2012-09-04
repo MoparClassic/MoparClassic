@@ -1,0 +1,87 @@
+)]}'
+[
+  {
+    "drainRate": 15,
+    "reqLevel": 1,
+    "description": "Increases your defense by 5%",
+    "name": "Thick skin"
+  },
+  {
+    "drainRate": 15,
+    "reqLevel": 4,
+    "description": "Increases your strength by 5%",
+    "name": "Burst of strength"
+  },
+  {
+    "drainRate": 15,
+    "reqLevel": 7,
+    "description": "Increases your attack by 5%",
+    "name": "Clarity of thought"
+  },
+  {
+    "drainRate": 30,
+    "reqLevel": 10,
+    "description": "Increases your defense by 10%",
+    "name": "Rock skin"
+  },
+  {
+    "drainRate": 30,
+    "reqLevel": 13,
+    "description": "Increases your strength by 10%",
+    "name": "Superhuman strength"
+  },
+  {
+    "drainRate": 30,
+    "reqLevel": 16,
+    "description": "Increases your attack by 10%",
+    "name": "Improved reflexes"
+  },
+  {
+    "drainRate": 5,
+    "reqLevel": 19,
+    "description": "2x restore rate for all stats except hits",
+    "name": "Rapid restore"
+  },
+  {
+    "drainRate": 10,
+    "reqLevel": 22,
+    "description": "2x restore rate for hitpoints stat",
+    "name": "Rapid heal"
+  },
+  {
+    "drainRate": 10,
+    "reqLevel": 25,
+    "description": "Keep 1 extra item if you die",
+    "name": "Protect items"
+  },
+  {
+    "drainRate": 60,
+    "reqLevel": 28,
+    "description": "Increases your defense by 15%",
+    "name": "Steel skin"
+  },
+  {
+    "drainRate": 60,
+    "reqLevel": 31,
+    "description": "Increases your strength by 15%",
+    "name": "Ultimate strength"
+  },
+  {
+    "drainRate": 60,
+    "reqLevel": 34,
+    "description": "Increases your attack by 15%",
+    "name": "Incredible reflexes"
+  },
+  {
+    "drainRate": 60,
+    "reqLevel": 37,
+    "description": "Stops monsters from fighting back",
+    "name": "Paralyze monster"
+  },
+  {
+    "drainRate": 60,
+    "reqLevel": 40,
+    "description": "100% protection from ranged attack",
+    "name": "Protect from missiles"
+  }
+]

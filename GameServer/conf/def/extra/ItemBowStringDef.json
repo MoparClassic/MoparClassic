@@ -1,0 +1,63 @@
+)]}'
+{
+  "664": {
+    "bowID": 654,
+    "exp": 75,
+    "requiredLvl": 70
+  },
+  "665": {
+    "bowID": 655,
+    "exp": 67,
+    "requiredLvl": 65
+  },
+  "666": {
+    "bowID": 656,
+    "exp": 92,
+    "requiredLvl": 85
+  },
+  "277": {
+    "bowID": 189,
+    "exp": 5,
+    "requiredLvl": 5
+  },
+  "667": {
+    "bowID": 657,
+    "exp": 83,
+    "requiredLvl": 80
+  },
+  "276": {
+    "bowID": 188,
+    "exp": 10,
+    "requiredLvl": 10
+  },
+  "660": {
+    "bowID": 650,
+    "exp": 42,
+    "requiredLvl": 40
+  },
+  "661": {
+    "bowID": 651,
+    "exp": 33,
+    "requiredLvl": 35
+  },
+  "662": {
+    "bowID": 652,
+    "exp": 58,
+    "requiredLvl": 55
+  },
+  "663": {
+    "bowID": 653,
+    "exp": 50,
+    "requiredLvl": 50
+  },
+  "658": {
+    "bowID": 648,
+    "exp": 25,
+    "requiredLvl": 25
+  },
+  "659": {
+    "bowID": 649,
+    "exp": 17,
+    "requiredLvl": 20
+  }
+}

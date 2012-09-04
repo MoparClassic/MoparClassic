@@ -77,7 +77,7 @@
 	<entry key="command-config">conf/command-config.xml</entry>
 	
 	<!-- The class that should be used for the DataStore -->
-	<entry key="data-store">org.moparscape.msc.gs.persistence.impl.XMLUsingXStream</entry>
+	<entry key="data-store">org.moparscape.msc.gs.persistence.impl.JsonDataStore</entry>
 	
 	<!-- The amount of packets per second before the user is disconnected. -->
 	<entry key="packet-per-second-threshold">30</entry>

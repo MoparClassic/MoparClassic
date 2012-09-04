@@ -62,6 +62,7 @@ public class Server {
 				+ "Server starting up...");
 
 		server = new Server();
+		Instance.getDataStore().dispose();
 	}
 
 	private static Server server;

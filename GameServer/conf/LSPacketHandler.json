@@ -1,0 +1,76 @@
+)]}'
+[
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.StatRequestHandler",
+    "ids": [
+      1
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.PlayerListRequestHandler",
+    "ids": [
+      2
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.ShutdownHandler",
+    "ids": [
+      3
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.UpdateHandler",
+    "ids": [
+      4
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.GlobalHandler",
+    "ids": [
+      5
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.AlertHandler",
+    "ids": [
+      6
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.ForceLogout",
+    "ids": [
+      7
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.ReportInfoRequestHandler",
+    "ids": [
+      8
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.PlayerInfoRequestHandler",
+    "ids": [
+      9
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.ReceivePM",
+    "ids": [
+      10
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.FriendLogin",
+    "ids": [
+      11
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.ls.FriendLogout",
+    "ids": [
+      12,
+      13
+    ]
+  }
+]

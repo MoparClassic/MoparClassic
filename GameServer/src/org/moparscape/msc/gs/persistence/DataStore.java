@@ -219,8 +219,6 @@ public abstract interface DataStore {
 	
 	public void saveKeyChestLoots(List<InvItem>[] loots) throws Exception;
 
-	public Map<Integer, ItemDartTipDef> loadDartTips() throws Exception;
-
 	public void dispose();
 
 }
