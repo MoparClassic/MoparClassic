@@ -51,12 +51,21 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * A {@link DataStore} implementation that uses JSON.
+ * 
+ * @author Joe Pritzel
+ * 
+ */
 public class JsonDataStore implements DataStore {
 
 	protected JsonDataStore() {
 		// To conform to the contract specified by the DataStore interface.
 	}
 
+	/**
+	 * A map of identifiers to files.
+	 */
 	private Map<Object, File> files = new HashMap<Object, File>();
 	{
 		files.put("PacketHandler", wrap("PacketHandler"));
@@ -100,52 +109,93 @@ public class JsonDataStore implements DataStore {
 		files.put("KeyChestLoot", wrap(def(extra("KeyChestLoot"))));
 	}
 
+	/**
+	 * Wraps the given string in a file with the JSON extension and is in the
+	 * Config.CONF_DIR directory.
+	 * 
+	 * @param file
+	 *            - The file to wrap.
+	 * @return A file that represents the given string.
+	 */
 	private File wrap(String file) { // Shortens code and helps prevent typos
 		return new File(Config.CONF_DIR, file + ".json");
 	}
 
+	/**
+	 * Adds "loc" + File.separator to the beginning of the given string.
+	 */
 	private String loc(String f) { // Shortens code and helps prevent typos
 		return "loc" + File.separator + f;
 	}
 
+	/**
+	 * Adds "def" + File.separator to the beginning of the given string.
+	 */
 	private String def(String f) { // Shortens code and helps prevent typos
 		return "def" + File.separator + f;
 	}
 
+	/**
+	 * Adds "extra" + File.separator to the beginning of the given string.
+	 */
 	private String extra(String f) { // Shortens code and helps prevent typos
 		return "extra" + File.separator + f;
 	}
 
+	/**
+	 * The Gson object that we'll be using.
+	 */
 	private Gson gson = new GsonBuilder().setPrettyPrinting()
 			.excludeFieldsWithModifiers(Modifier.TRANSIENT)
 			.generateNonExecutableJson().create();
 
+	/**
+	 * A helper method for load.
+	 */
 	private <T> T load(Class<?> cls) throws Exception {
 		return load(files.get(cls), cls);
 	}
 
+	/**
+	 * A helper method for load.
+	 */
 	private <T> T load(Object ident, Class<?> cls) throws Exception {
 		return load(files.get(ident), cls);
 	}
 
+	/**
+	 * Loads the JSON based on the given identity and type.
+	 */
 	@SuppressWarnings("unchecked")
 	private <T> T load(Object ident, Type t) throws Exception {
 		return (T) gson.fromJson(new FileReader(files.get(ident)), t);
 	}
 
+	/**
+	 * Loads the JSON based on the given file and class.
+	 */
 	@SuppressWarnings("unchecked")
 	private <T> T load(File f, Class<?> cls) throws Exception {
 		return (T) gson.fromJson(new FileReader(f), cls);
 	}
 
+	/**
+	 * A helper method for save.
+	 */
 	private <T> void save(T data) throws Exception {
 		save(files.get(data.getClass()), data);
 	}
 
+	/**
+	 * A helper method for save.
+	 */
 	private <T> void save(Object ident, T data) throws Exception {
 		save(files.get(ident), data);
 	}
 
+	/**
+	 * Saves the given data to the given file.
+	 */
 	private <T> void save(File file, T data) throws Exception {
 		if (!new File(file.getParent()).exists()) {
 			new File(file.getParent()).mkdirs();

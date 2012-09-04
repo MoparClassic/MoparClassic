@@ -9,7 +9,7 @@ import org.moparscape.msc.ls.net.LSPacket;
 import org.moparscape.msc.ls.net.PacketQueue;
 import org.moparscape.msc.ls.packethandler.PacketHandler;
 import org.moparscape.msc.ls.packethandler.PacketHandlerDef;
-import org.moparscape.msc.ls.persistence.PersistenceManager;
+import org.moparscape.msc.ls.persistence.ConfigManager;
 
 public class LoginEngine extends Thread {
 	/**
@@ -60,7 +60,7 @@ public class LoginEngine extends Thread {
 	 * Loads the packet handling classes from the persistence manager.
 	 */
 	protected void loadPacketHandlers() {
-		PacketHandlerDef[] handlerDefs = PersistenceManager.load(
+		PacketHandlerDef[] handlerDefs = ConfigManager.load(
 				"LSPacketHandler.json", PacketHandlerDef[].class);
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
@@ -76,7 +76,7 @@ public class LoginEngine extends Thread {
 				Server.error(e);
 			}
 		}
-		handlerDefs = PersistenceManager.load("FPacketHandler.json",
+		handlerDefs = ConfigManager.load("FPacketHandler.json",
 				PacketHandlerDef[].class);
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
