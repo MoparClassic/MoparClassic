@@ -44,7 +44,6 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 				if (owner.isBusy) {
 					return
 				}
-				breath
 				owner.informOfChatMessage(new ChatMessage(owner, reply,
 					npc))
 				owner.setBusy(true)
