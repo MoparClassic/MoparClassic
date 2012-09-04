@@ -60,7 +60,8 @@ public class StaticPacketBuilder {
 	}
 
 	/**
-	 * TODO needs a proper description.
+	 * Adds bits to the data buffer. The size of this packet will grow by
+	 * numBits / 8.
 	 */
 	public StaticPacketBuilder addBits(int value, int numBits) {
 		int bytePos = bitPosition >> 3;
@@ -194,7 +195,7 @@ public class StaticPacketBuilder {
 		addByte((byte) val, false);
 		return this;
 	}
-	
+
 	/**
 	 * Ensures that the buffer is at least <code>minimumBytes</code> bytes.
 	 * 

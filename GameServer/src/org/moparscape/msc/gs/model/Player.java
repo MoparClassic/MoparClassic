@@ -1877,19 +1877,10 @@ public final class Player extends Mob {
 					continue;
 				}
 
-				// TODO: Update wielded items
-				/*
-				 * if (affectedItem.wielded) { affectedItem.setWield(false);
-				 * updateWornItems(
-				 * affectedItem.getWieldableDef().getWieldPos(),
-				 * getPlayerAppearance().getSprite(
-				 * affectedItem.getWieldableDef() .getWieldPos())); }
-				 */
 				final long playerhash = DataConversions.usernameToHash(player
 						.getUsername());
 				DuelLog.sendlog(playerhash, usernameHash, item.id, item.amount,
 						getX(), getY(), 2);
-				// newItem.setdroppedby(getUsernameHash());
 				world.registerItem(new Item(item.id, getX(), getY(),
 						item.amount, player));
 			}
