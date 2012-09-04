@@ -10,9 +10,12 @@ class Inventory(player : Player) extends Container(30) {
 		case None => false
 	}
 
-	override def remove(id : Int, amount : Int = 1, ignoreAmount : Boolean = false) = {
+	override def remove(id : Int, amount : Int = 1, ignoreAmount : Boolean = false) : Boolean = {
 		items.synchronized {
 			val index = this.getLastItemSlot(id)
+			if (index == -1) {
+				return false
+			}
 			val wasWielding = this.getSlot(index).wielded
 			val ret = super.remove(id, amount, ignoreAmount)
 			if (ret && wasWielding) {
@@ -36,7 +39,7 @@ class Inventory(player : Player) extends Container(30) {
 	def sortByValue {
 		items.synchronized {
 			items.set(items.get.sortWith(_.getDef.getBasePrice > _.getDef.getBasePrice).
-					sortWith((a, b) => !isStackable(a.id) > isStackable(b.id)))
+				sortWith((a, b) => !isStackable(a.id) > isStackable(b.id)))
 		}
 	}
 

@@ -23,9 +23,13 @@ class Transact(msg : String, give : Array[(Int, Int)],
 		}
 	}
 
-	protected def success {}
+	protected def success {
+		exit // Defaults to exit so player's don't get stuck if you don't implement it.
+	}
 
-	protected def fail {}
+	protected def fail {
+		exit // Defaults to exit so player's don't get stuck if you don't implement it.
+	}
 
 	private def hasItems(items : Array[(Int, Int)]) = {
 		items find {
