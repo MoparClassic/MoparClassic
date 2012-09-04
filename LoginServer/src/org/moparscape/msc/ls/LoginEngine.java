@@ -61,7 +61,7 @@ public class LoginEngine extends Thread {
 	 */
 	protected void loadPacketHandlers() {
 		PacketHandlerDef[] handlerDefs = PersistenceManager.load(
-				"LSPacketHandlers.json", PacketHandlerDef[].class);
+				"LSPacketHandler.json", PacketHandlerDef[].class);
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
@@ -76,7 +76,7 @@ public class LoginEngine extends Thread {
 				Server.error(e);
 			}
 		}
-		handlerDefs = PersistenceManager.load("FPacketHandlers.json",
+		handlerDefs = PersistenceManager.load("FPacketHandler.json",
 				PacketHandlerDef[].class);
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
