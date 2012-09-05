@@ -50,4 +50,9 @@ class Inventory(player : Player) extends Container(30) {
 			items.set(itm)
 		}
 	}
+
+	def doThenSend(f : => Unit) {
+		f
+		player.getActionSender.sendInventory
+	}
 }

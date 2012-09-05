@@ -76,8 +76,6 @@ public class ObjectAction implements PacketHandler {
 								owner, object, click));
 						return;
 						/*try {
-							} else if (command.equals("chop")) {
-								handleWoodcutting(click);
 							} else if (command.equals("recharge at")) {
 								owner.getActionSender().sendMessage(
 										"You recharge at the altar.");
@@ -365,109 +363,6 @@ public class ObjectAction implements PacketHandler {
 									}
 								});
 					}*/
-
-					/*private void handleWoodcutting(final int click) {
-						int retries = (int) Math.ceil(owner.getMaxStat(8) / 10);
-						handleWoodcutting(click, retries);
-					}*/
-
-					/*private void handleWoodcutting(final int click,
-							int passedvalue) {
-						final int tries = --passedvalue;
-						final ObjectWoodcuttingDef def = EntityHandler
-								.getObjectWoodcuttingDef(object.getID());
-						if (owner.isBusy()) {
-							return;
-						}
-						if (!owner.withinRange(object, 2))
-							return;
-						if (def == null) { // This shoudln't happen
-							return;
-						}
-						if (owner.getCurStat(8) < def.getReqLevel()) {
-							owner.getActionSender().sendMessage(
-									"You need a woodcutting level of "
-											+ def.getReqLevel()
-											+ " to axe this tree.");
-							return;
-						}
-						int axeId = -1;
-						for (int a : Formulae.woodcuttingAxeIDs) {
-							if (owner.getInventory().countId(a) > 0) {
-								axeId = a;
-								break;
-							}
-						}
-						if (axeId < 0) {
-							owner.getActionSender().sendMessage(
-									"You need an axe to chop this tree down.");
-							return;
-						}
-						owner.setBusy(true);
-						Bubble bubble = new Bubble(owner, axeId);
-						for (Player p : owner.getViewArea().getPlayersInView()) {
-							p.informOfBubble(bubble);
-						}
-						owner.getActionSender().sendMessage(
-								"You swing your "
-										+ EntityHandler.getItemDef(axeId)
-												.getName() + " at the tree...");
-						final int axeID = axeId;
-						Instance.getDelayedEventHandler().add(
-								new ShortEvent(owner) {
-									public void action() {
-										if (Formulae.getLog(def,
-												owner.getCurStat(8), axeID)) {
-											InvItem log = new InvItem(def
-													.getLogId());
-											owner.getInventory().add(log.id,
-													log.amount, false);
-											owner.getActionSender()
-													.sendMessage(
-															"You get some wood.");
-											owner.getActionSender()
-													.sendInventory();
-											owner.incExp(8, def.getExp(), true);
-											owner.getActionSender().sendStat(8);
-											if (DataConversions.random(1, 100) <= def
-													.getFell()) {
-												world.registerGameObject(new GameObject(
-														object.getLocation(),
-														4,
-														object.getDirection(),
-														object.getType()));
-												world.delayedSpawnObject(
-														object.getLoc(),
-														def.getRespawnTime() * 1000);
-												owner.setBusy(false);
-											} else {
-												owner.setBusy(false);
-												if (tries > 0) {
-													handleWoodcutting(click,
-															tries);
-												}
-											}
-
-										} else {
-											owner.getActionSender()
-													.sendMessage(
-															"You slip and fail to hit the tree.");
-											owner.setBusy(false);
-											if (tries > 0) {
-												handleWoodcutting(click, tries);
-											}
-										}
-									}
-								});
-					}*/
-
-					/*
-					 * private void replaceGameObject(int newID, boolean open) {
-					 * world.registerGameObject(new GameObject(object
-					 * .getLocation(), newID, object.getDirection(),
-					 * object.getType())); owner.getActionSender().sendSound(
-					 * open ? "opendoor" : "closedoor"); }
-					 */
 				});
 	}
 }

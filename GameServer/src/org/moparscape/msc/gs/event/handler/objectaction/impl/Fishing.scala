@@ -1,13 +1,14 @@
 package org.moparscape.msc.gs.event.handler.objectaction.impl
-import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
-import org.moparscape.msc.gs.model.definition.EntityHandler
-import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDef
-import org.moparscape.msc.gs.service.ItemAttributes
 import java.lang.{ IllegalArgumentException => IAE }
-import org.moparscape.msc.gs.model.Bubble
-import org.moparscape.msc.gs.Instance
-import org.moparscape.msc.gs.event.ShortEvent
+
 import org.moparscape.msc.config.Formulae
+import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
+import org.moparscape.msc.gs.event.ShortEvent
+import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDef
+import org.moparscape.msc.gs.model.definition.EntityHandler
+import org.moparscape.msc.gs.model.Bubble
+import org.moparscape.msc.gs.service.ItemAttributes
+import org.moparscape.msc.gs.Instance
 
 class Fishing extends ObjectEvent {
 
@@ -56,14 +57,14 @@ class Fishing extends ObjectEvent {
 						if (fishDef == null) {
 							owner.getActionSender.sendMessage("You fail to catch anything.")
 						} else {
-							val i = owner.getInventory
-
-							i.remove(baitId)
-							i.add(fishDef.getId)
 
 							owner.getActionSender.sendMessage("You catch a " + ItemAttributes.getItemName(fishDef.getId) + ".")
 
-							owner.getActionSender.sendInventory
+							val i = owner.getInventory
+							i.doThenSend {
+								i.remove(baitId)
+								i.add(fishDef.getId)
+							}
 
 							owner.incExp(FISHING, fishDef.getExp, true)
 							owner.getActionSender.sendStat(FISHING)
