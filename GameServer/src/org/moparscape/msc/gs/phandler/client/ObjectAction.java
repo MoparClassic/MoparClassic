@@ -25,7 +25,6 @@ public class ObjectAction implements PacketHandler {
 
 	private static final ObjectActionManager oam = new ObjectActionManager();
 
-	// mining
 	public void handlePacket(Packet p, IoSession session) {
 		Player player = (Player) session.getAttachment();
 		int pID = ((RSCPacket) p).getID();
@@ -34,7 +33,7 @@ public class ObjectAction implements PacketHandler {
 				player.resetPath();
 
 			return;
-		}// f2p
+		}
 
 		player.resetAll();
 		ActiveTile t = world.getTile(p.readShort(), p.readShort());
@@ -77,34 +76,6 @@ public class ObjectAction implements PacketHandler {
 								owner, object, click));
 						return;
 						/*try {
-							if (owner.getStatus() != Action.AGILITYING)
-								owner.resetPath();
-
-							GameObjectDef def = object.getGameObjectDef();
-							if (owner.isBusy() || owner.isRanging()
-									|| !owner.nextTo(object) || def == null
-									|| owner.getStatus() != Action.USING_OBJECT) {
-								return;
-							}
-							world.addEntryToSnapshots(new Activity(owner
-									.getUsername(), owner.getUsername()
-									+ " used an Object (" + object.getID()
-									+ ") @ " + object.getX() + ", "
-									+ object.getY()));
-							owner.resetAll();
-							String command = (click == 0 ? def.getCommand1()
-									: def.getCommand2()).toLowerCase();
-
-							Logger.println("Command: " + command);
-
-							if (command.equals("lure")
-									|| command.equals("bait")
-									|| command.equals("net")
-									|| command.equals("harpoon")
-									|| command.equals("cage")) {
-								owner.setSkillLoops(0);
-
-								handleFishing(click);
 							} else if (command.equals("chop")) {
 								handleWoodcutting(click);
 							} else if (command.equals("recharge at")) {
@@ -390,99 +361,6 @@ public class ObjectAction implements PacketHandler {
 											owner.getActionSender()
 													.sendStat(16);
 											stop();
-										}
-									}
-								});
-					}*/
-
-					/*private void handleFishing(final int click) {
-						int retries = (int) Math.ceil(owner.getMaxStat(10) / 10);
-						handleFishing(click, retries);
-					}*/
-
-					/*private void handleFishing(final int click, int passvalue) {
-						final int tries = --passvalue;
-						final ObjectFishingDef def = EntityHandler
-								.getObjectFishingDef(object.getID(), click);
-						if (owner.isBusy()) {
-							return;
-						}
-						if (!owner.withinRange(object, 1))
-							return;
-						if (def == null) { // This shouldn't happen
-							return;
-						}
-						if (owner.getCurStat(10) < def.getReqLevel()) {
-							owner.getActionSender().sendMessage(
-									"You need a fishing level of "
-											+ def.getReqLevel()
-											+ " to fish here.");
-							return;
-						}
-						int netId = def.getNetId();
-						if (owner.getInventory().countId(netId) <= 0) {
-							owner.getActionSender().sendMessage(
-									"You need a "
-											+ EntityHandler.getItemDef(netId)
-													.getName()
-											+ " to catch these fish.");
-							return;
-						}
-						final int baitId = def.getBaitId();
-						if (baitId >= 0) {
-							if (owner.getInventory().countId(baitId) <= 0) {
-								owner.getActionSender().sendMessage(
-										"You don't have any "
-												+ EntityHandler.getItemDef(
-														baitId).getName()
-												+ " left.");
-								return;
-							}
-						}
-
-						owner.setBusy(true);
-						owner.getActionSender().sendSound("fish");
-						Bubble bubble = new Bubble(owner, netId);
-						for (Player p : owner.getViewArea().getPlayersInView()) {
-							p.informOfBubble(bubble);
-						}
-
-						owner.getActionSender().sendMessage(
-								"You attempt to catch some fish");
-						Instance.getDelayedEventHandler().add(
-								new ShortEvent(owner) {
-									public void action() {
-										ObjectFishDef def = Formulae.getFish(
-												object.getID(),
-												owner.getCurStat(10), click);
-										if (def != null) {
-											if (baitId >= 0) {
-												owner.getInventory().remove(
-														baitId, 1, false);
-											}
-											InvItem fish = new InvItem(def
-													.getId());
-											owner.getInventory().add(fish.id,
-													fish.amount, false);
-											owner.getActionSender()
-													.sendMessage(
-															"You catch a "
-																	+ fish.getDef()
-																			.getName()
-																	+ ".");
-											owner.getActionSender()
-													.sendInventory();
-											owner.incExp(10, def.getExp(), true);
-											owner.getActionSender()
-													.sendStat(10);
-										} else {
-											owner.getActionSender()
-													.sendMessage(
-															"You fail to catch anything.");
-										}
-										owner.setBusy(false);
-										if (tries > 0) {
-											handleFishing(click, tries);
 										}
 									}
 								});

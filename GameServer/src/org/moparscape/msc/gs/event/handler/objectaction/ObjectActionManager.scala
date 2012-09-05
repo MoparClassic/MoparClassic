@@ -19,11 +19,6 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 	{
 		val objects = EntityHandler.getGameObjectDefs.zipWithIndex.toList
 
-		objects.find(_._2 == 41) match {
-			case Some(e) => println(e._1.command1 + " - " + e._1.command2)
-			case None => println("Could not find 41")
-		}
-
 		bind(new Cupboard, objects.filter(_._1.name == "cupboard").map(_._2))
 
 		bind(new ObjectActionChain(new ChestOpen, new OpenOrClose),
@@ -52,13 +47,15 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 
 		bind(new Hopper, List(52, 173))
 
+		bind(new Fishing, filterByCommands(objects, "lure", "bait", "net", "harpoon", "cage"))
+
 		// Bind OpenOrClose to all non-bound objects that have the command open or close.
 		bind(new OpenOrClose, {
 
 				def openOrClose(o : GameObjectDef) = filterByCommands(List(o -> 0), "open", "close").size > 0
 
 			val possibles = objects.filter(i => if (!openOrClose(i._1)) false else mapping.exists(_._2 == i._2))
-			
+
 			filterByCommands(possibles, "open", "close")
 		})
 

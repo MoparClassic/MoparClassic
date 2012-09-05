@@ -40,7 +40,9 @@ abstract class ChainManager[IdType, ChainType, ParamType](defaultChain : ChainTy
 	  */
 	def trigger(id : IdType, param : ParamType) {
 		lock {
-			_mapping.filter(_._1 == id).foreach(c => fire(c._2, param))
+			var chain = _mapping.filter(_._1 == id)
+			if (chain.size == 0) fire(defaultChain, param)
+			else chain.foreach(c => fire(c._2, param))
 		}
 	}
 

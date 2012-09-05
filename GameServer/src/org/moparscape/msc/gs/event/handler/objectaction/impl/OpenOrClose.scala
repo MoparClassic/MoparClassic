@@ -12,25 +12,29 @@ class OpenOrClose extends ObjectEvent with MembersOnly {
 	def fire = {
 		if (command == "open" || command == "close") {
 			o.getID match {
-				case 18 => replaceGameObject(17, true)
+				case 18 => replaceDoor(17, true)
 
-				case 17 => replaceGameObject(18, false)
+				case 17 => replaceDoor(18, false)
 
-				case 58 => replaceGameObject(57, false)
+				case 58 => replaceDoor(57, false)
 
-				case 57 => replaceGameObject(58, true)
+				case 57 => replaceDoor(58, true)
 
-				case 63 => replaceGameObject(64, false)
+				case 63 => replaceDoor(64, false)
 
-				case 64 => replaceGameObject(63, true)
+				case 64 => replaceDoor(63, true)
 
-				case 79 => replaceGameObject(78, false)
+				case 79 => replaceDoor(78, false)
 
-				case 78 => replaceGameObject(79, true)
+				case 78 => replaceDoor(79, true)
 
-				case 60 => replaceGameObject(59, true)
+				case 60 => replaceDoor(59, true)
 
-				case 59 => replaceGameObject(60, false)
+				case 59 => replaceDoor(60, false)
+
+				// Gasmask Cupboard 
+				case 452 => replaceGameObject(451)
+				case 451 => replaceGameObject(452)
 
 				// Members Gate (Doriks)
 				case 137 => {
@@ -226,12 +230,18 @@ class OpenOrClose extends ObjectEvent with MembersOnly {
 		} else true
 	}
 
-	private def replaceGameObject(newID : Int, open : Boolean) {
+	private def replaceDoor(newID : Int, open : Boolean) {
 		Instance.getWorld.registerGameObject(new GameObject(o
 			.getLocation, newID, o.getDirection,
 			o.getType))
 		player.getActionSender.sendSound(
 			if (open) "opendoor" else "closedoor")
+	}
+
+	private def replaceGameObject(newID : Int) {
+		Instance.getWorld.registerGameObject(new GameObject(o
+			.getLocation, newID, o.getDirection,
+			o.getType))
 	}
 
 	private def doGate {

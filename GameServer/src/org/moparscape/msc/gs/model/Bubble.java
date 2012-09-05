@@ -23,4 +23,10 @@ public class Bubble {
 		return owner;
 	}
 
+	public void broadcast() {
+		for (Player p : owner.getViewArea().getPlayersInView()) {
+			p.informOfBubble(this);
+		}
+	}
+
 }
