@@ -67,8 +67,11 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 
 		if (owner.withinRange(affectedMob, radius))
 			arrived();
-		else if (owner.hasMoved())
+		else if (owner.hasMoved() || affectedMob.hasMoved()) {
+			owner.resetPath();
+			owner.setPath(new Path(owner.getX(), owner.getY(), affectedMob.getX(), affectedMob.getY()));
 			return; // We're still moving
+		}
 		else {
 			if (GameEngine.getTime() - startTime <= 10000) // Make NPCs
 			// give a 10
