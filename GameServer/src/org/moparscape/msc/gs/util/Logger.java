@@ -27,7 +27,7 @@ public class Logger {
 			}
 			return formatter;
 		} catch (Exception e) {
-			return new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+			return new SimpleDateFormat("[yyyy.MM.dd HH:mm:ss]");
 		}
 	}
 

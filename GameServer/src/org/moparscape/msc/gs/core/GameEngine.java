@@ -352,8 +352,8 @@ public final class GameEngine extends Thread {
 	 * Cleans snapshots of entries over 60 seconds old (executed every second)
 	 */
 	public void cleanSnapshotDeque() {
-		long curTime = GameEngine.getTime();
-		if (curTime - lastCleanedChatlogs > 1000) {
+		long curTime = GameEngine.getTimestamp(); // We need to compare timestamps
+		if (curTime - lastCleanedChatlogs > 1000) { // Every second
 			lastCleanedChatlogs = curTime;
 			lastCleanedChatlogsOutput++;
 			if (lastCleanedChatlogsOutput > 60 * 5) {

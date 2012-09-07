@@ -15,7 +15,6 @@ import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.states.Action;
-import org.moparscape.msc.gs.util.Logger;
 
 public class ObjectAction implements PacketHandler {
 	/**
@@ -71,22 +70,10 @@ public class ObjectAction implements PacketHandler {
 								+ ") @ " + object.getX() + ", "
 								+ object.getY()));
 						owner.resetAll();
-						Logger.println("Triggering " + object.getID());
 						oam.trigger(object.getID(), new ObjectActionParam(
 								owner, object, click));
 						return;
 						/*try {
-							} else if (command.equals("recharge at")) {
-								owner.getActionSender().sendMessage(
-										"You recharge at the altar.");
-								owner.getActionSender().sendSound("recharge");
-								int maxPray = object.getID() == 200 ? owner
-										.getMaxStat(5) + 2 : owner
-										.getMaxStat(5);
-								if (owner.getCurStat(5) < maxPray) {
-									owner.setCurStat(5, maxPray);
-								}
-								owner.getActionSender().sendStat(5);
 							} else if (command.equals("board")) {
 								owner.getActionSender()
 										.sendMessage(
