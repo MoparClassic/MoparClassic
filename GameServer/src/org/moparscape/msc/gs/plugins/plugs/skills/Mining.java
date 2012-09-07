@@ -64,7 +64,7 @@ public class Mining implements ObjectListener {
 		if (owner.getClick() == 1) {
 			owner.getActionSender().sendMessage("You examine the rock for ores...");
 			Instance.getDelayedEventHandler()
-				.add(new MiniEvent(owner, 1000) {
+				.add(new MiniEvent(owner, 2400) {
 					@Override
 					public void action() {
 						owner.getActionSender().sendMessage(
@@ -94,22 +94,22 @@ public class Mining implements ObjectListener {
 		int reqlvl = 1;
 		switch (axeID) {
 		case 1258:
-			retrytimes = 2;
+			retrytimes = 1; // 1 retry + initial swing = 2
 			break;
 		case 1259:
-			retrytimes = 4;
+			retrytimes = 3;
 			reqlvl = 6;
 			break;
 		case 1260:
-			retrytimes = 6;
+			retrytimes = 5;
 			reqlvl = 21;
 			break;
 		case 1261:
-			retrytimes = 8;
+			retrytimes = 7;
 			reqlvl = 31;
 			break;
 		case 1262:
-			retrytimes = 12;
+			retrytimes = 11;
 			reqlvl = 41;
 			break;
 
@@ -140,9 +140,9 @@ public class Mining implements ObjectListener {
 				//return;
 				//}
 				if (Formulae.getOre(def, owner.getCurStat(14), axeID)) {
-					if (DataConversions.random(0, 200) == 0) {
+					if (DataConversions.random(0, 100) == 0) {
 						InvItem gem = new InvItem(Formulae.getGem(), 1);
-						owner.incExp(14, 100, true);
+						//owner.incExp(14, 100, true);
 						owner.getInventory().add(gem);
 						owner.getActionSender().sendMessage("You found a gem!");
 					} else {
@@ -172,7 +172,8 @@ public class Mining implements ObjectListener {
 
 								new SingleEvent(owner, 500) {
 									public void action() {
-										if(!owner.isMining() || owner.inCombat()) {
+										//if(!owner.isMining() || owner.inCombat()) {
+										if (owner.inCombat()) {
 											return;
 										}
 										owner.setSkillLoops(swings + 1);
