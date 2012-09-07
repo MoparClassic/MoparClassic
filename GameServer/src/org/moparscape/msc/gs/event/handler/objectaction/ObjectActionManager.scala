@@ -52,6 +52,8 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 		bind(new Woodcutting, filterByCommands(objects, "chop"))
 
 		bind(new Recharge, filterByCommands(objects, "recharge at"))
+		
+		bind(new Board, filterByCommands(objects, "board"))
 
 		// Bind OpenOrClose to all non-bound objects that have the command open or close.
 		bind(new OpenOrClose, {

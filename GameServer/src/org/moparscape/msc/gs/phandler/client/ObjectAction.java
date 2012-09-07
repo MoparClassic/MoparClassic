@@ -74,10 +74,7 @@ public class ObjectAction implements PacketHandler {
 								owner, object, click));
 						return;
 						/*try {
-							} else if (command.equals("board")) {
-								owner.getActionSender()
-										.sendMessage(
-												"You must talk to the owner about this.");
+
 							} else if (EntityHandler.getAgilityDef(object
 									.getID()) != null) {
 								handleAgility(object);
