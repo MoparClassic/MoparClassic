@@ -578,7 +578,7 @@ public class Npc extends Mob {
 			Instance.getDelayedEventHandler().add(fighting);
 		}
 
-		if (now - lastMovement > 1800) {
+		if (now - lastMovement > 2200) {
 			if (now - getCombatTimer() < (getCombatState() == 
 					CombatState.WAITING ? 5000 : 500)) {
 			}
