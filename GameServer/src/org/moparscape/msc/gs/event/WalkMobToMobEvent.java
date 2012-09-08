@@ -67,9 +67,12 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 
 		if (owner.withinRange(affectedMob, radius))
 			arrived();
-		else if (owner.hasMoved() || affectedMob.hasMoved()) {
+		else if (affectedMob.hasMoved()){
 			owner.resetPath();
 			owner.setPath(new Path(owner.getX(), owner.getY(), affectedMob.getX(), affectedMob.getY()));
+			return; // Target is moving.. correcting path
+		}
+		else if (owner.hasMoved()) {
 			return; // We're still moving
 		}
 		else {
@@ -86,6 +89,9 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 						super.matchRunning = false;
 						failed();
 						return;
+					}
+					else if (owner.nextTo(affectedMob) && owner.finishedPath()) {
+						return; // if stuck behind gate, keep chasing in case it opens
 					}
 				}
 
