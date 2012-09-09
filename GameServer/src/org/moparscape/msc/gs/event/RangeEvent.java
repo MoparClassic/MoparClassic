@@ -304,6 +304,10 @@ public class RangeEvent extends DelayedEvent {
 									npc.setChasing(null);
 								}
 							});
+					// target is still alive? is still around?
+					if (!npc.isRemoved() || owner.withinRange(npc)) {
+						return;
+					}
 					this.stop();
 				}
 			}
