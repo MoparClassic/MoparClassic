@@ -1,12 +1,11 @@
 package org.moparscape.msc.gs.event.handler.objectaction.impl
 
 import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
-import org.moparscape.msc.gs.Instance
-import org.moparscape.msc.gs.event.SingleEvent
+import org.moparscape.msc.gs.event.EventHandler
 
 class Pick extends ObjectEvent with MembersOnly {
 
-	def fire = {
+	override def fire = {
 		if (command == "pick" || command == "pick banana") {
 			o.getID match {
 				case 72 => pick(29, "You get some gain")
@@ -29,9 +28,7 @@ class Pick extends ObjectEvent with MembersOnly {
 		player.getActionSender.sendSound("potato")
 		player.getActionSender.sendInventory
 		player.setBusy(true);
-		Instance.getDelayedEventHandler().add(new SingleEvent(player, 200) {
-			def action = owner.setBusy(false)
-		})
+		EventHandler.addSingle(200)(player.setBusy(false))
 	}
 
 }

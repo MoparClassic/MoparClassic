@@ -5,10 +5,11 @@ import org.moparscape.msc.config.Formulae
 import org.moparscape.msc.gs.model.{ ChatMessage, Player }
 import org.moparscape.msc.gs.Instance
 import org.moparscape.msc.gs.event.ShortEvent
+import org.moparscape.msc.gs.event.EventHandler
 
 class GoUp extends ObjectEvent {
 
-	def fire = {
+	override def fire = {
 		if (command == "climb-up" || command == "climb up" || command == "go up") {
 			(o.getX, o.getY) match {
 				// Prayer guild
@@ -29,12 +30,10 @@ class GoUp extends ObjectEvent {
 						abbot, "Hello only people with high prayer are allowed in here", player
 					)
 				)
-			Instance.getDelayedEventHandler.add(new ShortEvent(player) {
-				override def action {
-					owner.setBusy(false)
-					owner.getActionSender.sendMessage("You need a prayer level of 31 to enter")
-				}
-			})
+			EventHandler.addShort {
+				player.setBusy(false)
+				player.getActionSender.sendMessage("You need a prayer level of 31 to enter")
+			}
 		} else tele
 	}
 

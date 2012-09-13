@@ -3,7 +3,7 @@ import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
 import org.moparscape.msc.gs.plugins.extras.Thieving
 
 class ChestOpen extends ObjectEvent with MembersOnly {
-	def fire = {
+	override def fire = {
 		if (command == "open" && !player.isPacketSpam && p2pCheck(player)) {
 			val lock = new Thieving(player, o);
 			// This logic seems wrong. 

@@ -1,28 +1,26 @@
 package org.moparscape.msc.gs.event.handler.objectaction.impl
+import scala.collection.JavaConversions.asScalaBuffer
+
 import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
-import org.moparscape.msc.gs.Instance
-import org.moparscape.msc.gs.event.ShortEvent
-import collection.JavaConversions._
+import org.moparscape.msc.gs.event.EventHandler
 
 class DamagingApproach extends ObjectEvent {
-	def fire = {
+	override def fire = {
 		if (o.getID == 88) {
 			player.setBusy(true)
 			player.getActionSender.sendMessage(
 				"The tree seems to lash out at you!")
-			Instance.getDelayedEventHandler.add(new ShortEvent(player) {
-				def action {
-					val damage = owner.getCurStat(3) / 5
-					owner.setLastDamage(damage)
-					owner.setCurStat(3, owner.getCurStat(3) - damage)
-					owner.getActionSender.sendStat(3)
-					val playersToInform = owner.getViewArea.getPlayersInView.toList
-					playersToInform.foreach(_.informOfModifiedHits(owner))
+			EventHandler.addShort {
+					val damage = player.getCurStat(3) / 5
+					player.setLastDamage(damage)
+					player.setCurStat(3, player.getCurStat(3) - damage)
+					player.getActionSender.sendStat(3)
+					val playersToInform = player.getViewArea.getPlayersInView.toList
+					playersToInform.foreach(_.informOfModifiedHits(player))
 
-					owner.getActionSender.sendMessage("You are badly scratched by the tree")
-					owner.setBusy(false)
-				}
-			})
+					player.getActionSender.sendMessage("You are badly scratched by the tree")
+					player.setBusy(false)
+			}
 			false
 		} else true
 	}
@@ -31,14 +29,14 @@ class DamagingApproach extends ObjectEvent {
 class NormalApproach extends ObjectEvent {
 
 	val ids = Array(400, 494)
-	def fire = {
+	override def fire = {
 		if (ids.contains(o.getID)) false
 		else true
 	}
 }
 
 class NothingApproach extends ObjectEvent {
-	def fire = {
+	override def fire = {
 		player.getActionSender.sendMessage("Nothing interesting happens.")
 		true
 	}

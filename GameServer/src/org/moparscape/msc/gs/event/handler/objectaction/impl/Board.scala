@@ -4,7 +4,7 @@ import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
 
 class Board extends ObjectEvent {
 
-	def fire = {
+	override def fire = {
 		player.getActionSender.sendMessage("You must talk to the owner about this.")
 		false
 	}

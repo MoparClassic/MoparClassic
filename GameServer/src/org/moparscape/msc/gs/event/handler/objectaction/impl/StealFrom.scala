@@ -7,7 +7,7 @@ import org.moparscape.msc.gs.plugins.extras.Thieving
 
 class StealFrom extends ObjectEvent with MembersOnly {
 
-	def fire = {
+	override def fire = {
 		if (command == "steal from") {
 			if (p2pCheck(player) && !player.isPacketSpam) {
 				player.setSpam(true)

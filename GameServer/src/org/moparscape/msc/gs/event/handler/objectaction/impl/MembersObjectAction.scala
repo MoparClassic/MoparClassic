@@ -4,7 +4,7 @@ import org.moparscape.msc.gs.model.World
 import org.moparscape.msc.config.Constants
 
 class MembersObjectAction extends ObjectEvent {
-	def fire = {
+	override def fire = {
 		if (!World.isMembers && isMembersObject) {
 			player.getActionSender.sendMessage(Constants.GameServer.P2P_LIMIT_MESSAGE)
 			false

@@ -5,7 +5,7 @@ import org.moparscape.msc.gs.plugins.extras.Thieving
 
 class SearchForTraps extends ObjectEvent with MembersOnly {
 
-	def fire = {
+	override def fire = {
 		if (command == "search for traps") {
 			if (p2pCheck(player) && !player.isPacketSpam) {
 				player.setSpam(true)

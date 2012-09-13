@@ -1,24 +1,18 @@
 package org.moparscape.msc.gs.event.handler.objectaction.impl
 
 import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
-import org.moparscape.msc.gs.Instance
-import org.moparscape.msc.gs.event.ShortEvent
+import org.moparscape.msc.gs.event.EventHandler
 
 class Cupboard extends ObjectEvent {
 
-	def fire = {
-		if(command == "search")
-		try {
-			player.getActionSender.sendMessage("You search the " + o.getGameObjectDef.name + "...");
-			Instance.getDelayedEventHandler().add(
-				new ShortEvent(player) {
-					def action() {
-						actions
-					}
-				});
-		} catch {
-			case _ =>
-		}
+	override def fire = {
+		if (command == "search")
+			try {
+				player.getActionSender.sendMessage("You search the " + o.getGameObjectDef.name + "...");
+				EventHandler.addShort(actions)
+			} catch {
+				case _ =>
+			}
 		true
 	}
 

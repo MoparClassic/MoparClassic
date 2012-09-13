@@ -1,15 +1,13 @@
 package org.moparscape.msc.gs.event.handler.objectaction.impl
 
 import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
+import org.moparscape.msc.gs.event.EventHandler
+import org.moparscape.msc.gs.model.{GameObject, ChatMessage}
 import org.moparscape.msc.gs.Instance
-import org.moparscape.msc.gs.model.World
-import org.moparscape.msc.gs.model.GameObject
-import org.moparscape.msc.gs.model.ChatMessage
-import org.moparscape.msc.gs.event.ShortEvent
 
 class OpenOrClose extends ObjectEvent with MembersOnly {
 
-	def fire = {
+	override def fire = {
 		if (command == "open" || command == "close") {
 			o.getID match {
 				case 18 => replaceDoor(17, true)
@@ -145,12 +143,10 @@ class OpenOrClose extends ObjectEvent with MembersOnly {
 										)
 									)
 								}
-								Instance.getDelayedEventHandler.add(new ShortEvent(player) {
-									def action {
-										player.setBusy(false)
-										player.getActionSender.sendMessage("You need a woodcutting level of 70 to enter")
-									}
-								})
+								EventHandler.addShort {
+									player.setBusy(false)
+									player.getActionSender.sendMessage("You need a woodcutting level of 70 to enter")
+								}
 							} else {
 								doGate
 								player.teleport(560, 472, false)
@@ -231,24 +227,25 @@ class OpenOrClose extends ObjectEvent with MembersOnly {
 	}
 
 	private def replaceDoor(newID : Int, open : Boolean) {
-		Instance.getWorld.registerGameObject(new GameObject(o
-			.getLocation, newID, o.getDirection,
-			o.getType))
+		Instance.getWorld.registerGameObject(
+			new GameObject(o.getLocation, newID, o.getDirection, o.getType)
+		)
 		player.getActionSender.sendSound(
-			if (open) "opendoor" else "closedoor")
+			if (open) "opendoor" else "closedoor"
+		)
 	}
 
 	private def replaceGameObject(newID : Int) {
-		Instance.getWorld.registerGameObject(new GameObject(o
-			.getLocation, newID, o.getDirection,
-			o.getType))
+		Instance.getWorld.registerGameObject(
+			new GameObject(o.getLocation, newID, o.getDirection, o.getType)
+		)
 	}
 
 	private def doGate {
 		player.getActionSender.sendSound("opendoor")
-		Instance.getWorld.registerGameObject(new GameObject(o
-			.getLocation, 181, o.getDirection,
-			o.getType))
+		Instance.getWorld.registerGameObject(
+			new GameObject(o.getLocation, 181, o.getDirection, o.getType)
+		)
 		Instance.getWorld.delayedSpawnObject(o.getLoc, 1000)
 	}
 

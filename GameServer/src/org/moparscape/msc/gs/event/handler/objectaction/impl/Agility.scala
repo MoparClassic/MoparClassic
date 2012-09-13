@@ -1,20 +1,20 @@
 package org.moparscape.msc.gs.event.handler.objectaction.impl
 
-import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
-import org.moparscape.msc.gs.model.definition.EntityHandler
+import scala.collection.JavaConversions.asScalaBuffer
+
 import org.moparscape.msc.config.Formulae
-import org.moparscape.msc.gs.model.Path
-import org.moparscape.msc.gs.event.DelayedEvent
-import org.moparscape.msc.gs.Instance
+import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
+import org.moparscape.msc.gs.event.{EventHandler, DelayedEvent}
 import org.moparscape.msc.gs.model.definition.skill.AgilityDef
+import org.moparscape.msc.gs.model.definition.EntityHandler
+import org.moparscape.msc.gs.model.Path
 import org.moparscape.msc.gs.states.Action
-import scala.collection.JavaConversions._
 
 class Agility extends ObjectEvent with MembersOnly {
 
 	private val AGILITY = 16
 
-	def fire = {
+	override def fire = {
 		if (this.p2pCheck(player)) false
 		val d = EntityHandler.getAgilityDef(o.getID)
 
@@ -28,7 +28,7 @@ class Agility extends ObjectEvent with MembersOnly {
 			player.setPath(new Path(d.getX, d.getY, d.getToX, d.getToY, true))
 		else
 			player.teleport(d.getToX, d.getToY, false)
-		Instance.getDelayedEventHandler.add(new Event(d))
+		EventHandler.add(new Event(d))
 		false
 	}
 
