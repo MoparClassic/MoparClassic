@@ -15,6 +15,7 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 
 	private implicit def values(l : List[(GameObjectDef, Int)]) : java.util.List[Int] = l.map(_._2)
 	private implicit def eventToChain(o : ObjectEvent) = new ObjectActionChain(o)
+	private implicit def int2List(i : Int) = List(i)
 
 	{
 		val objects = EntityHandler.getGameObjectDefs.zipWithIndex.toList
@@ -43,7 +44,7 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 
 		bind(new ObjectActionChain(new DamagingApproach, new NormalApproach, new NothingApproach), filterByCommands(objects, "approach"))
 
-		bind(new RockSlide, List(982))
+		bind(new RockSlide, 982)
 
 		bind(new Hopper, List(52, 173))
 
@@ -52,8 +53,12 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 		bind(new Woodcutting, filterByCommands(objects, "chop"))
 
 		bind(new Recharge, filterByCommands(objects, "recharge at"))
-		
+
 		bind(new Board, filterByCommands(objects, "board"))
+
+		bind(new Agility, objects.filter(i => EntityHandler.getAgilityDef(i._2) != null).map(_._2))
+
+		bind(new ShiloCart, 613)
 
 		// Bind OpenOrClose to all non-bound objects that have the command open or close.
 		bind(new OpenOrClose, {
