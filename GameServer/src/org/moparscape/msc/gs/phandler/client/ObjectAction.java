@@ -73,18 +73,7 @@ public class ObjectAction implements PacketHandler {
 								owner, object, click));
 						return;
 						/*
-						 * case 643: // Gnome
-						 * tree stone if (object.getX() != 416 || object.getY()
-						 * != 161) { return; }// getCurStat(14
-						 * owner.setBusy(true); owner.getActionSender()
-						 * .sendMessage(
-						 * "You twist the stone tile to one side");
-						 * Instance.getDelayedEventHandler().add( new
-						 * ShortEvent(owner) { public void action() {
-						 * owner.getActionSender() .sendMessage(
-						 * "It reveals a ladder, you climb down");
-						 * owner.teleport(703, 3284, false);
-						 * owner.setBusy(false); } }); break; case 638: // First
+						 * case 638: // First
 						 * roots in gnome cave if (object.getX() != 701 ||
 						 * object.getY() != 3280) { return; } // door
 						 * owner.setBusy(true);
@@ -95,7 +84,9 @@ public class ObjectAction implements PacketHandler {
 						 * owner.getActionSender() .sendMessage(
 						 * "They wrap around you and drag you forwards");
 						 * owner.teleport(701, 3278, false);
-						 * owner.setBusy(false); } }); case 639: // Second roots
+						 * owner.setBusy(false); } });
+						 * 
+						 * case 639: // Second roots
 						 * in gnome cave if (object.getX() != 701 ||
 						 * object.getY() != 3279) { return; }
 						 * owner.setBusy(true);
