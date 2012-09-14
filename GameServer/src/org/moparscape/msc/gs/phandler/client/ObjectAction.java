@@ -71,37 +71,6 @@ public class ObjectAction implements PacketHandler {
 						owner.resetAll();
 						oam.trigger(object.getID(), new ObjectActionParam(
 								owner, object, click));
-						return;
-						/*
-						 * case 638: // First
-						 * roots in gnome cave if (object.getX() != 701 ||
-						 * object.getY() != 3280) { return; } // door
-						 * owner.setBusy(true);
-						 * owner.getActionSender().sendMessage(
-						 * "You push the roots");
-						 * Instance.getDelayedEventHandler().add( new
-						 * ShortEvent(owner) { public void action() {
-						 * owner.getActionSender() .sendMessage(
-						 * "They wrap around you and drag you forwards");
-						 * owner.teleport(701, 3278, false);
-						 * owner.setBusy(false); } });
-						 * 
-						 * case 639: // Second roots
-						 * in gnome cave if (object.getX() != 701 ||
-						 * object.getY() != 3279) { return; }
-						 * owner.setBusy(true);
-						 * owner.getActionSender().sendMessage(
-						 * "You push the roots");
-						 * Instance.getDelayedEventHandler().add( new
-						 * ShortEvent(owner) { public void action() {
-						 * owner.getActionSender() .sendMessage(
-						 * "They wrap around you and drag you forwards");
-						 * owner.teleport(701, 3281, false);
-						 * owner.setBusy(false); } }); break; default:
-						 * owner.getActionSender().sendMessage(
-						 * "Nothing interesting happens."); return; } } } catch
-						 * (Exception e) { e.printStackTrace(); }
-						 */
 
 					}
 				});

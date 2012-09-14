@@ -59,8 +59,10 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 		bind(new Agility, objects.filter(i => EntityHandler.getAgilityDef(i._2) != null).map(_._2))
 
 		bind(new ShiloCart, 613)
-		
+
 		bind(new GnomeStoneTile, 643)
+
+		bind(new GnomeCaveRoots, List(638, 639))
 
 		// Bind OpenOrClose to all non-bound objects that have the command open or close.
 		bind(new OpenOrClose, {
