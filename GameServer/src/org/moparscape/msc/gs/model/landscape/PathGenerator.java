@@ -12,12 +12,10 @@ public class PathGenerator {
 	 * If the tile has a wall on it, here is a list of the wall id's allowed to
 	 * shoot thru Use the landscape editor to record their ID's
 	 */
-	public static final int[][] ALLOWED_WALL_ID_TYPES = { { 5, 6, 42, 14 }, // VERTICAL
-			// //
-			// WALL
-			// ID's
-			{ 5, 6, 42, 14 }, // HORIZONTAL WALL ID's
-			{ 229, 5 } // DIAGONAL WALL ID's
+	public static final int[][] ALLOWED_WALL_ID_TYPES = { 
+		{ 5, 6, 42, 14 }, // VERTICAL WALL ID's
+		{ 5, 6, 42, 14 }, // HORIZONTAL WALL ID's
+		{ 5, 6, 42, 14 } // DIAGONAL WALL ID's [/] and [\] ???
 	};
 
 	private int destX;
@@ -126,10 +124,10 @@ public class PathGenerator {
 		if ((val & bit) != 0) { // There is a wall in the way
 			return true;
 		}
-		if ((val & 16) != 0) { // There is a diagonal wall here: \
+		if ((val & 16) != 0) { // There is a diagonal wall here: [\]
 			return true;
 		}
-		if ((val & 32) != 0) { // There is a diagonal wall here: /
+		if ((val & 32) != 0) { // There is a diagonal wall here: [/]
 			return true;
 		}
 		if ((val & 64) != 0) { // This tile is un walkable
@@ -204,8 +202,20 @@ public class PathGenerator {
 			coords = getNextCoords(newX, enemyX, newY, enemyY);
 			newX = coords[0];
 			newY = coords[1];
-			if (newX == -1)
-				return !isWallAllowed(stuckX, stuckY);
+			if (newX == -1) {
+				if (ourX > enemyX && ourY > enemyY) {
+					return !isWallAllowed(stuckX + 1, stuckY + 1); //NE
+				}
+				else if (ourX > enemyX && ourY <= enemyY) {
+					return !isWallAllowed(stuckX + 1, stuckY); //NW
+				}
+				else if (ourX <= enemyX && ourY > enemyY) {
+					return !isWallAllowed(stuckX, stuckY + 1); //SE
+				}
+				else {
+					return !isWallAllowed(stuckX, stuckY);
+				}
+			}
 
 			if (newX == enemyX && newY == enemyY)
 				return false;
