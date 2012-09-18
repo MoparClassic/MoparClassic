@@ -90,24 +90,25 @@ class Certer extends NpcDialog {
 	private class Amount(certId : Int, itemId : Int, amount : Int, certing : Boolean, _npc : Npc, _player : Player) extends GenericEnd(msgForAmount(amount), _npc, _player) {
 
 		override def begin {
-			if (enough) {
-				// Creating certificates
-				if (certing) {
-					for (i <- (0 until amount))
-						player.getInventory.remove(itemId, 1)
-					player.getInventory.add(certId, amount / 5)
-					breath
-					this > ("You exchange the " + EntityHandler.getItemDef(itemId).getName + "s")
-				} else {
-					player.getInventory.remove(certId, amount)
+			// Creating certificates
+			if (enough && certing) {
+				for (i <- (0 until amount))
+					if (player.getInventory.remove(itemId, 1)) {
+						player.getInventory.add(certId, 5)
+					}
+
+				breath
+				this > ("You exchange the " + EntityHandler.getItemDef(itemId).getName + "s")
+			} else if (enough) {
+				if (player.getInventory.remove(certId, amount)) {
 					for (i <- (0 until amount * 5))
 						player.getInventory.add(itemId, 1)
 					breath
 					this > "You exchange the certificates."
 				}
-				breath
-				player.getActionSender.sendInventory
 			}
+			breath
+			player.getActionSender.sendInventory
 			super.begin
 		}
 
@@ -119,8 +120,9 @@ class Certer extends NpcDialog {
 			} else if (!certing && player.getInventory.countId(certId) < amount * 5) {
 				this >> "You don't have enough certificates"; breath
 				false
+			} else {
+				true
 			}
-			true
 		}
 
 	}
