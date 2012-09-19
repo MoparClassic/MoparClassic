@@ -8,6 +8,8 @@ ls.jar
 *.class
 bin
 build
+target
+*~
 .*
 !.gitignore
 !.gitmodules
