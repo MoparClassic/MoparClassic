@@ -217,9 +217,7 @@ class OpenOrClose extends ObjectEvent with MembersOnly {
 						}
 					}
 				}
-				case _ =>
-					player.getActionSender.sendMessage(
-						"Nothing interesting happens.")
+				case _ => new DefaultObjectAction().fire
 
 			}
 			false

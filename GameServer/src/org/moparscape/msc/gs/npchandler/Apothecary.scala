@@ -11,7 +11,6 @@ class Apothecary extends NpcDialog {
 	}
 
 	override def begin {
-
 		this > "Hello, may I help you?"; breath
 		end
 	}
@@ -28,18 +27,24 @@ class Apothecary extends NpcDialog {
 	lazy val option2 = new NpcDialog("I am in need of a strength potion.") {
 
 		override def begin {
+			breath
 			this > "Bring me a limpwurt root and a spider egg and i will make you one"; breath
 			end
 		}
 
 		this + new Transact("I have the ingredients.",
-			Array((220, 1), (219, 1)), Array((221, 1)),
-			Array("It seems you don't have everything i asked for, come back later."),
+			Array((220, 1), (219, 1)), Array((221, 1)), Array(),
 			npc, player) {
 			override def success {
 				this >> "Apothecary hands you a Strength Potion (4 dose)"
 				super.success
 			}
+			
+			override def fail {
+				breath; this > "It seems you don't have everything i asked for, come back later."
+				super.fail
+			}
+
 		}
 
 		this + new GenericEnd("Ok, I'll find them", npc, player)

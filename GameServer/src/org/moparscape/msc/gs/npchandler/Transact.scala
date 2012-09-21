@@ -17,7 +17,7 @@ class Transact(msg : String, give : Array[(Int, Int)],
 			player.getActionSender.sendInventory
 			success
 		} else {
-			failMsg foreach { e => this < e; breath }
+			failMsg foreach { e => breath; this < e }
 			failed = true
 			fail
 		}
@@ -32,13 +32,10 @@ class Transact(msg : String, give : Array[(Int, Int)],
 	}
 
 	private def hasItems(items : Array[(Int, Int)]) = {
-		items find {
+		items forall {
 			item =>
-				if (_player.getInventory.countId(item._1) >= item._2) false
-				else true
-		} match {
-			case Some(x) => false
-			case None => true
+				if (player.getInventory.countId(item._1) >= item._2) true
+				else false
 		}
 	}
 

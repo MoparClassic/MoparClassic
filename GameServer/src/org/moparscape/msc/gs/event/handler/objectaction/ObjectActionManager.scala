@@ -63,15 +63,12 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 		bind(new GnomeStoneTile, 643)
 
 		bind(new GnomeCaveRoots, List(638, 639))
-
+		
 		// Bind OpenOrClose to all non-bound objects that have the command open or close.
 		bind(new OpenOrClose, {
 
-				def openOrClose(o : GameObjectDef) = filterByCommands(List(o -> 0), "open", "close").size > 0
-
-			val possibles = objects.filter(i => if (!openOrClose(i._1)) false else mapping.exists(_._2 == i._2))
-
-			filterByCommands(possibles, "open", "close")
+			val map = mapping.map(_._1)
+			filterByCommands(objects, "open", "close").filterNot(map.contains)
 		})
 
 		val tp = new TelePoint
