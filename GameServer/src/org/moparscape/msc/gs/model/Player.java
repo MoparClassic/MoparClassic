@@ -1908,8 +1908,16 @@ public final class Player extends Mob {
 
 				inventory.clear();
 
+				int slot = 0;
 				for (InvItem k : keep) {
 					inventory.add(k.id, k.amount, false);
+					if (k.wielded) {
+						ItemWieldableDef def = ItemAttributes
+								.getWieldable(k.id);
+						inventory.setWield(slot, true);
+						this.updateWornItems(def.getWieldPos(), def.getSprite());
+					}
+					slot++;
 				}
 			}
 
@@ -3044,10 +3052,6 @@ public final class Player extends Mob {
 
 	public void setUsernameHash(long usernameHash) {
 		this.usernameHash = usernameHash;
-	}
-
-	public void setWatchedItems(StatefulEntityCollection<Item> watchedItems) {
-		this.watchedItems = watchedItems;
 	}
 
 	public void setWatchedNpcs(StatefulEntityCollection<Npc> watchedNpcs) {

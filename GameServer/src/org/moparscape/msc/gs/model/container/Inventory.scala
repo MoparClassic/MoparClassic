@@ -28,7 +28,7 @@ class Inventory(player : Player) extends Container(30) {
 	}
 
 	def clear {
-		items.synchronized(items.set(List[InvItem]()))
+		items.synchronized(items.get.foreach(i => remove(i.id, i.amount)))
 	}
 
 	def getSlot(slot : Int) = {
@@ -38,7 +38,7 @@ class Inventory(player : Player) extends Container(30) {
 	def sortByValue {
 		items.synchronized {
 			items.set(items.get.sortWith(_.getDef.getBasePrice > _.getDef.getBasePrice).
-				sortWith((a, b) => !isStackable(a.id) > isStackable(b.id)))
+				sortWith((a, b) => !isStackable(a.id) && isStackable(b.id)))
 		}
 	}
 
