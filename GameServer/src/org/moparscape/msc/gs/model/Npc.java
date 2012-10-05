@@ -14,7 +14,6 @@ import org.moparscape.msc.gs.model.definition.entity.ItemDropDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
-import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -253,11 +252,6 @@ public class Npc extends Mob {
 		if (this.loc.getId() == 189 || this.loc.getId() == 53) {
 			this.def.aggressive = true;
 		}
-		for (NpcAI ai : Instance.getPluginHandler().getNpcAI()) {
-			if (getID() == ai.getID()) {
-				setScripted(true);
-			}
-		}
 	}
 
 	public Syndicate getSyndicate() {
@@ -414,10 +408,6 @@ public class Npc extends Mob {
 		if (mob instanceof Player) {
 			Player player = (Player) mob;
 			player.getActionSender().sendSound("victory");
-			if (this.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(getID())
-				.onNpcDeath(this, player);
-			}
 		}
 
 		Mob opponent = super.getOpponent();
@@ -547,10 +537,6 @@ public class Npc extends Mob {
 			resetPath();
 			victim.resetPath();
 			victim.resetAll();
-			if (this.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(getID())
-				.onNpcAttack(this, victim);
-			}
 			victim.setStatus(Action.FIGHTING_MOB);
 			/*
 			 * Do not want if (victim.isSleeping()) {

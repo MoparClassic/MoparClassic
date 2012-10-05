@@ -278,14 +278,7 @@ public final class GameEngine extends Thread {
 	 */
 	public void run() {
 		Logger.println("GameEngine now running");
-		// Captcha.loadCharacters();
-		for (Npc n : Instance.getWorld().getNpcs()) {
-			for (NpcAI ai : Instance.getPluginHandler().getNpcAI()) {
-				if (n.getID() == ai.getID()) {
-					n.setScripted(true);
-				}
-			}
-		}
+
 		time = System.currentTimeMillis();
 
 		eventHandler

@@ -1976,7 +1976,7 @@ public final class Player extends Mob {
 
 		resetPath();
 		resetCombat(CombatState.LOST);
-		actionSender.sendWorldInfo();
+		actionSender.sendWorldInfo(); // died method sends world info and 
 		actionSender.sendEquipmentStats();
 		actionSender.sendInventory();
 	}
