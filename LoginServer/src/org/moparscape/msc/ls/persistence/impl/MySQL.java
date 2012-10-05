@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -267,15 +268,16 @@ class MySQL implements StorageMedium {
 
 	@Override
 	public List<Long> getFriendsOnline(long user) {
+		List<Long> list = Collections.emptyList();
 		try {
-			List<Long> list = longListFromResultSet(
+			list = longListFromResultSet(
 					resultSetFromLongs(Statements.friendsList0, user), "user");
 			list.addAll(longListFromResultSet(
 					resultSetFromLongs(Statements.friendsList1, user), "user"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return list;
 	}
 
 	@Override
@@ -292,14 +294,15 @@ class MySQL implements StorageMedium {
 
 	@Override
 	public List<Long> getPrivateBlockFriendsOnline(long user) {
+		List<Long> list = Collections.emptyList();
 		try {
-			return longListFromResultSet(
+			list = longListFromResultSet(
 					resultSetFromLongs(Statements.privateBlock_online, user,
 							user), "user");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		return list;
 	}
 
 	@Override
