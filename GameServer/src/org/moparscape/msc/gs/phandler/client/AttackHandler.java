@@ -68,7 +68,7 @@ public class AttackHandler implements PacketHandler {
 			}
 
 			if (pl.getLocation().inWilderness()
-					&& System.currentTimeMillis() - pl.getLastRun() < 3000) {
+					&& GameEngine.getTime() - pl.getLastRun() < 3000) {
 				return;
 			}
 		}
@@ -152,6 +152,7 @@ public class AttackHandler implements PacketHandler {
 							owner.setStatus(Action.FIGHTING_MOB);
 							if (affectedMob instanceof Player) {
 								Player affectedPlayer = (Player) affectedMob;
+								owner.setSkulledOn(affectedPlayer);
 								affectedPlayer.resetAll();
 								affectedPlayer.setStatus(Action.FIGHTING_MOB);
 								affectedPlayer.getActionSender().sendSound(
@@ -255,6 +256,7 @@ public class AttackHandler implements PacketHandler {
 							owner.setStatus(Action.RANGING_MOB);
 							if (affectedMob instanceof Player) {
 								Player affectedPlayer = (Player) affectedMob;
+								owner.setSkulledOn(affectedPlayer);
 								affectedPlayer.resetTrade();
 								if (affectedPlayer.getMenuHandler() != null) {
 									affectedPlayer.resetMenuHandler();

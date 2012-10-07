@@ -64,6 +64,17 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 			super.matchRunning = false;
 			return;
 		}
+		
+		if (loc != null) {
+			if (affectedMob.getX() < (loc.minX() - 4)
+					|| affectedMob.getX() > (loc.maxX() + 4)
+					|| affectedMob.getY() < (loc.minY() - 4)
+					|| affectedMob.getY() > (loc.maxY() + 4)) {
+				super.matchRunning = false;
+				failed();
+				return;
+			}
+		}
 
 		if (owner.withinRange(affectedMob, radius))
 			arrived();
@@ -81,18 +92,8 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 			// second
 			// chase
 			{
-				if (loc != null) {
-					if (affectedMob.getX() < (loc.minX() - 4)
-							|| affectedMob.getX() > (loc.maxX() + 4)
-							|| affectedMob.getY() < (loc.minY() - 4)
-							|| affectedMob.getY() > (loc.maxY() + 4)) {
-						super.matchRunning = false;
-						failed();
-						return;
-					}
-					else if (owner.nextTo(affectedMob) && owner.finishedPath()) {
-						return; // if stuck behind gate, keep chasing in case it opens
-					}
+				if (owner.nextTo(affectedMob) && owner.finishedPath()) {
+					return;
 				}
 
 				if (owner.isBusy())
