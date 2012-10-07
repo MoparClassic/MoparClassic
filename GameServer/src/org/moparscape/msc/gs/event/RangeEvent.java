@@ -186,10 +186,7 @@ public class RangeEvent extends DelayedEvent {
 						owner.getUsername() + " is shooting at you!");
 			}
 		}
-		if (affectedMob instanceof Npc && ((Npc) affectedMob).isScripted()) {
-			Instance.getPluginHandler().getNpcAIHandler(affectedMob.getID())
-					.onRangedAttack(owner, (Npc) affectedMob);
-		}
+
 		if (affectedMob instanceof Npc) {
 			Npc npc = (Npc) affectedMob;
 			npc.getSyndicate().addDamage(owner, damage, Damage.RANGE_DAMAGE);
@@ -213,9 +210,7 @@ public class RangeEvent extends DelayedEvent {
 				double max = n.getDef().hits;
 				double cur = n.getHits();
 				int percent = (int) ((cur / max) * 100);
-				if (n.isScripted())
-					Instance.getPluginHandler().getNpcAIHandler(n.getID())
-							.onHealthPercentage(n, percent);
+		
 			}
 			for (Player p : playersToInform) {
 				p.informOfModifiedHits(affectedMob);
@@ -265,10 +260,7 @@ public class RangeEvent extends DelayedEvent {
 									player.setBusy(true);
 									player.resetPath();
 									player.resetAll();
-									if (npc.isScripted())
-										Instance.getPluginHandler()
-												.getNpcAIHandler(npc.getID())
-												.onNpcAttack(npc, player);
+									
 									player.setStatus(Action.FIGHTING_MOB);
 									player.getActionSender().sendSound(
 											"underattack");

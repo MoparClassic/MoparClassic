@@ -28,10 +28,6 @@ public class PluginHandler {
 	 * All plugins using an object listener is stored here
 	 */
 	private ArrayList<ObjectListener> objListeners = new ArrayList<ObjectListener>();
-	/**
-	 * All npc plugins using some AI go here.
-	 */
-	private ArrayList<NpcAI> npcAI = new ArrayList<NpcAI>();
 
 	public static ArrayList<Class<?>> getAllClasses() {
 		return allClasses;
@@ -39,22 +35,6 @@ public class PluginHandler {
 
 	public static void setAllClasses(ArrayList<Class<?>> allClasses) {
 		PluginHandler.allClasses = allClasses;
-	}
-
-	public NpcAI getNpcAIHandler(int id) {
-		for (NpcAI ai : getNpcAI()) {
-			if (ai.getID() == id)
-				return ai;
-		}
-		return null;
-	}
-
-	public ArrayList<NpcAI> getNpcAI() {
-		return npcAI;
-	}
-
-	public void setNpcAI(ArrayList<NpcAI> npcAI) {
-		this.npcAI = npcAI;
 	}
 
 	public ArrayList<ObjectListener> getObjListeners() {
@@ -96,9 +76,6 @@ public class PluginHandler {
 					if (cl instanceof ObjectListener) {
 						ObjectListener obj = (ObjectListener) cl;
 						objListeners.add(obj);
-					} else if (cl instanceof NpcAI) {
-						NpcAI ai = (NpcAI) cl;
-						npcAI.add(ai);
 					}
 				}
 

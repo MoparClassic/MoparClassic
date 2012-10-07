@@ -174,10 +174,6 @@ public class FightEvent extends DelayedEvent {
 			double max = n.getDef().hits;
 			double cur = n.getHits();
 			int percent = (int) ((cur / max) * 100);
-			if (n.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(opponent.getID())
-						.onHealthPercentage(n, percent);
-			}
 		}
 
 		String combatSound = null;
