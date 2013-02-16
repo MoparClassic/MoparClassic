@@ -10,15 +10,12 @@ import org.moparscape.msc.ls.util.DataConversions;
 
 public class PlayerSave implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2613872958788286998L;
+	private static final long serialVersionUID = -420044120264286741L;
 
 	public static PlayerSave loadPlayer(long user) {
 		return Server.storage.loadPlayer(user);
 	}
-
+	
 	private long eventcd = 0;
 	private long muted;
 	private ArrayList<BankItem> bankItems = new ArrayList<BankItem>();
@@ -40,7 +37,6 @@ public class PlayerSave implements Serializable {
 	private int[] lvl = new int[18];
 	private boolean male;
 	private int owner, group;
-	private int questPoints;
 	private HashMap<Integer, Integer> questStage = new HashMap<Integer, Integer>();
 	private long skulled;
 	private long subExpires;
@@ -192,10 +188,6 @@ public class PlayerSave implements Serializable {
 
 	public int getOwner() {
 		return owner;
-	}
-
-	public int getQuestPoints() {
-		return questPoints;
 	}
 
 	public int getQuestStage(int id) {
@@ -381,11 +373,7 @@ public class PlayerSave implements Serializable {
 			break;
 		}
 	}
-
-	public void setQuestPoints(int i) {
-		questPoints = i;
-	}
-
+	
 	public void setQuestStage(int index, int stage) {
 		questStage.put(index, stage);
 	}

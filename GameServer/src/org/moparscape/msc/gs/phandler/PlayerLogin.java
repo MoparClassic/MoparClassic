@@ -142,11 +142,13 @@ public class PlayerLogin implements PacketHandler {
 			for (int i = 0; i < ignoreCount; i++)
 				player.addIgnore(p.readLong());
 
-			player.setQuestPoints(p.readShort(), false);
+			
+			
 			int questCount = p.readShort();
 			// Logging.debug(questCount);
-			for (int i = 0; i < questCount; i++)
-				player.setQuestStage(p.readShort(), p.readShort(), false, false);
+			for (int i = 0; i < questCount; i++) {
+				player.quests.set(p.readShort(), p.readShort());
+			}
 			/* Muted */
 
 			player.setMuted(p.readLong());
@@ -158,7 +160,7 @@ public class PlayerLogin implements PacketHandler {
 
 			long eventcd = p.readLong();
 			player.setEventCD(eventcd);
-
+			
 			/* End of loading methods */
 
 			/* Send client data */

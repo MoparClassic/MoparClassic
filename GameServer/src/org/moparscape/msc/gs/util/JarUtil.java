@@ -29,8 +29,7 @@ public class JarUtil {
 				jars.add(files[i]);
 
 		for (int i = 0; i < jars.size(); i++) {
-			try {
-				JarFile currentFile = new JarFile(jars.get(i).toString());
+			try (JarFile currentFile = new JarFile(jars.get(i).toString())) {
 				for (Enumeration<?> e = currentFile.entries(); e
 						.hasMoreElements();) {
 					JarEntry current = (JarEntry) e.nextElement();
@@ -62,9 +61,8 @@ public class JarUtil {
 				jars.add(files[i]);
 
 		for (int i = 0; i < jars.size(); i++) {
-			try {
-				JarFile currentFile = new JarFile(baseDirPath + File.separator
-						+ jars.get(i));
+			try (JarFile currentFile = new JarFile(baseDirPath + File.separator
+					+ jars.get(i))) {
 
 				for (Enumeration<?> e = currentFile.entries(); e
 						.hasMoreElements();) {

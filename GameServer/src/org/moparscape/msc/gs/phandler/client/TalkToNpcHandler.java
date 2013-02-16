@@ -28,7 +28,6 @@ public class TalkToNpcHandler implements PacketHandler {
 		}
 		if (GameEngine.getTime() - player.getLastNPCChat() < 1500)
 			return;
-		player.setLastQuestMenuReply(-2);
 		player.setLastNPCChat(GameEngine.getTime());
 		player.resetAll();
 		final Npc affectedNpc = world.getNpc(p.readShort());

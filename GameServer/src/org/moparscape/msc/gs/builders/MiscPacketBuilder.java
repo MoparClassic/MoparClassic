@@ -234,7 +234,7 @@ public class MiscPacketBuilder {
 		s.addShort(player.getWeaponAimPoints());
 		s.addShort(player.getWeaponPowerPoints());
 		s.addShort(player.getMagicPoints());
-		s.addShort(player.getPrayerPoints());
+		s.addShort(player.getPrayerBonus());
 		s.addShort(player.getRangePoints());
 		packets.add(s.toPacket());
 	}
@@ -245,7 +245,7 @@ public class MiscPacketBuilder {
 	public void sendFatigue() {
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(126);
-		s.addShort(player.getFatigue());
+		s.addShort(player.getFatigue() / 10);
 		packets.add(s.toPacket());
 	}
 

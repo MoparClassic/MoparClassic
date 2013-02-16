@@ -8,6 +8,7 @@ import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToPointEvent;
+import org.moparscape.msc.gs.event.handler.objectaction.ObjectActionParam;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.Npc;
@@ -19,7 +20,7 @@ import org.moparscape.msc.gs.model.definition.extra.DoorDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
-import org.moparscape.msc.gs.plugins.extras.Thieving;
+import org.moparscape.msc.gs.skill.thieving.Door;
 import org.moparscape.msc.gs.states.Action;
 
 public class WallObjectAction implements PacketHandler {
@@ -50,6 +51,8 @@ public class WallObjectAction implements PacketHandler {
 					+ " used a door ("
 					+ object.getID()
 					+ ") at: " + player.getX() + "/" + player.getY()));
+			System.out.println("id = " + object.getID() + " type = " + object.getType());
+			System.out.println("dir = " + object.getDirection() + " type = " + object.getType());
 			
 			player.setStatus(Action.USING_DOOR);
 			Instance.getDelayedEventHandler()
@@ -116,9 +119,8 @@ public class WallObjectAction implements PacketHandler {
 									if (owner.isPacketSpam()) {
 										return;
 									}
-									Thieving thiev = new Thieving(owner, object);
 									owner.setSpam(true);
-									thiev.lockpick();
+									new Door(owner, object).pickLock();
 									return;
 								}
 
@@ -512,8 +514,7 @@ public class WallObjectAction implements PacketHandler {
 											"The door is locked shut");
 									break;
 								default:
-									owner.getActionSender().sendMessage(
-											"Nothing interesting happens.");
+									ObjectAction.oam().trigger(object.getID(), new ObjectActionParam(owner, object, click));
 									break;
 								}
 							}

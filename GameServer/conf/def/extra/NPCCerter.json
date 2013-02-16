@@ -135,46 +135,6 @@
     ],
     "type": "log"
   },
-  "795": {
-    "certs": [
-      {
-        "certID": 1297,
-        "itemID": 465,
-        "name": "Empty Vial"
-      },
-      {
-        "certID": 1298,
-        "itemID": 464,
-        "name": "Full Vial"
-      },
-      {
-        "certID": 1299,
-        "itemID": 270,
-        "name": "Eye of Newt"
-      },
-      {
-        "certID": 1271,
-        "itemID": 220,
-        "name": "Limpwurt Root"
-      },
-      {
-        "certID": 1311,
-        "itemID": 469,
-        "name": "Snape Grass"
-      },
-      {
-        "certID": 1312,
-        "itemID": 471,
-        "name": "White Berries"
-      },
-      {
-        "certID": 1313,
-        "itemID": 219,
-        "name": "Red Spider Eggs"
-      }
-    ],
-    "type": "herblaw supplies"
-  },
   "227": {
     "certs": [
       {
@@ -259,21 +219,6 @@
       }
     ],
     "type": "bone"
-  },
-  "794": {
-    "certs": [
-      {
-        "certID": 1293,
-        "itemID": 675,
-        "name": "Flax"
-      },
-      {
-        "certID": 1294,
-        "itemID": 676,
-        "name": "Bow Strings"
-      }
-    ],
-    "type": "flax"
   },
   "226": {
     "certs": [
@@ -459,50 +404,5 @@
       }
     ],
     "type": "fish"
-  },
-  "778": {
-    "certs": [
-      {
-        "certID": 1302,
-        "itemID": 474,
-        "name": "Attack Potion"
-      },
-      {
-        "certID": 1304,
-        "itemID": 222,
-        "name": "Strength Potion"
-      },
-      {
-        "certID": 1303,
-        "itemID": 480,
-        "name": "Defense Potion"
-      },
-      {
-        "certID": 1273,
-        "itemID": 486,
-        "name": "Super Attack Potion"
-      },
-      {
-        "certID": 1274,
-        "itemID": 495,
-        "name": "Super Defense Potion"
-      },
-      {
-        "certID": 1275,
-        "itemID": 492,
-        "name": "Super Strength Potion"
-      },
-      {
-        "certID": 1272,
-        "itemID": 483,
-        "name": "Prayer Potion"
-      },
-      {
-        "certID": 1301,
-        "itemID": 498,
-        "name": "Ranged Potion"
-      }
-    ],
-    "type": "potion"
   }
 }

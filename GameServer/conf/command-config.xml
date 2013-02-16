@@ -1,16 +1,16 @@
 <command>
 	<!-- Dev Mode 11 - Admin 10 - Mod 7 - PMod 5 - Sub 2 - Norm 1 -->
 
-	
-	
+
+
 	<!-- Teleports the player to a target players location - ALPHA ONLY-->
 	<permission name="goto">1</permission>
 	<!-- Spawns an item - ALPHA ONLY -->
 	<permission name="item">1</permission>
 	<!-- Global chat - ALPHA ONLY -->
 	<permission name="say">1</permission>
-	
-	
+
+
 	<!-- Displays "A list of commands is shown on the forums." -->
 	<permission name="help">11</permission>
 	<!-- Displays the time at UTC -->

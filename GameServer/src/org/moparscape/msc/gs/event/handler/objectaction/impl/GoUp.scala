@@ -58,6 +58,10 @@ class GoUp extends ObjectEvent {
 				coords
 			}
 		}
+		val regionX = coords(0) / 48 + 48
+        val regionY = ((coords(1) % 944) / 48) + 37
+        val regionZ = Formulae.getHeight(coords(1))
+        println(s"$regionX, $regionY, $regionZ")
 		player.teleport(coords(0), coords(1), false)
 
 	}

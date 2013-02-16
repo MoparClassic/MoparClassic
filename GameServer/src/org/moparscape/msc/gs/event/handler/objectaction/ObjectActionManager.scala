@@ -19,6 +19,8 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 
 	{
 		val objects = EntityHandler.getGameObjectDefs.zipWithIndex.toList
+		
+		bind(new Door, 213)
 
 		bind(new Cupboard, objects.filter(_._1.name == "cupboard").map(_._2))
 
@@ -63,6 +65,8 @@ class ObjectActionManager extends ChainManager[Int, ObjectActionChain, ObjectAct
 		bind(new GnomeStoneTile, 643)
 
 		bind(new GnomeCaveRoots, List(638, 639))
+		
+		bind(new Mining, filterByCommands(objects, "mine", "prospect"))
 		
 		// Bind OpenOrClose to all non-bound objects that have the command open or close.
 		bind(new OpenOrClose, {

@@ -30,7 +30,7 @@ public class MapGenerator {
 			Logger.println("Invalid args");
 			return;
 		}
-		String configFile = "conf/server/Conf.xml";
+		String configFile = "conf/world.xml";
 		if (args.length > 1) {
 			File f = new File(args[1]);
 			if (f.exists()) {

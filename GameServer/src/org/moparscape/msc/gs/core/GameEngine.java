@@ -148,7 +148,7 @@ public final class GameEngine extends Thread {
 	 * @throws Exception
 	 */
 	protected void loadPacketHandlers() throws Exception {
-		PacketHandlerDef[] handlerDefs = Instance.getDataStore()
+		PacketHandlerDef[] handlerDefs = Instance.dataStore()
 				.loadPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
@@ -297,7 +297,7 @@ public final class GameEngine extends Thread {
 						}).start();
 					}
 				});
-		eventHandler.add(new DelayedEvent(null, Config.SAVE_INTERVAL) { // 5 min
+		eventHandler.add(new DelayedEvent(null, Config.SAVE_INTERVAL) {
 					public void run() {
 						long now = GameEngine.getTime();
 						for (Player p : world.getPlayers()) {

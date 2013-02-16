@@ -32,6 +32,7 @@ import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
 import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
+import org.moparscape.msc.gs.model.player.attribute.Quests;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
 import org.moparscape.msc.gs.service.ItemAttributes;
@@ -46,6 +47,8 @@ import org.moparscape.msc.gs.util.StatefulEntityCollection;
  * A single player.
  */
 public final class Player extends Mob {
+
+	public Quests quests = new Quests();
 
 	public int dropTickCount = 0;
 
@@ -218,9 +221,6 @@ public final class Player extends Mob {
 	private boolean inBank = false;
 
 	/**
-	 * Quests
-	 */
-	/**
 	 * Has the player been registered into the world?
 	 */
 	private boolean initialized = false;
@@ -270,10 +270,6 @@ public final class Player extends Mob {
 
 	private long lastbanktime = 0;
 
-	/**
-	 * The last menu reply this player gave in a quest
-	 */
-	//
 	private long lastCast = GameEngine.getTime();
 
 	/**
@@ -309,8 +305,6 @@ public final class Player extends Mob {
 	 */
 	private long lastPing = GameEngine.getTime();
 	private String lastPlayerInfo2 = null;
-	private int lastQuestMenuReply = -1;
-	// don't remove this. -xEnt
 	private int lastRandom = 0;
 	private long lastRange = GameEngine.getTime();
 	/**
@@ -400,14 +394,7 @@ public final class Player extends Mob {
 	 * List of all projectiles needing displayed
 	 */
 	private ArrayList<Projectile> projectilesNeedingDisplayed = new ArrayList<Projectile>();
-	/**
-	 * This player's quest points
-	 */
-	private int questPoints = 0;
-	/**
-	 * This player's quest stage array
-	 */
-	private HashMap<Integer, Integer> questStage = new HashMap<Integer, Integer>();
+
 	/**
 	 * Ranging event
 	 */
@@ -624,12 +611,11 @@ public final class Player extends Mob {
 		for (int x = 0; x <= 13; x++) {
 			prayer = EntityHandler.getPrayerDef(x);
 			if (super.isPrayerActivated(x)) {
-				drainRate += prayer.getDrainRate() / 2;
+				drainRate += prayer.getDrainRate();
 			}
 		}
-		drainRate = drainRate - getPrayerPoints();
 		if (drainRate > 0) {
-			drainer.setDelay((int) (240000 / drainRate));
+			drainer.setDelay((int) (180000.0 / drainRate * (1 + getPrayerBonus() / 30.0)));
 		} else if (drainRate <= 0) {
 			drainRate = 0;
 			drainer.setDelay(Integer.MAX_VALUE);
@@ -1165,13 +1151,6 @@ public final class Player extends Mob {
 		return lastPlayerInfo2;
 	}
 
-	/**
-	 * @return this player's last quest menu reply
-	 */
-	public int getLastQuestMenuReply() {
-		return lastQuestMenuReply;
-	}
-
 	public int getLastRandom() {
 		return lastRandom;
 	}
@@ -1297,7 +1276,7 @@ public final class Player extends Mob {
 		return playersNeedingHitsUpdate;
 	}
 
-	public int getPrayerPoints() {
+	public int getPrayerBonus() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
 			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
@@ -1318,22 +1297,6 @@ public final class Player extends Mob {
 
 	public List<Projectile> getProjectilesNeedingDisplayed() {
 		return projectilesNeedingDisplayed;
-	}
-
-	public int getQuestPoints() {
-		return questPoints;
-	}
-
-	public HashMap<Integer, Integer> getQuestStage() {
-		return questStage;
-	}
-
-	public int getQuestStage(int questId) {
-		return questStage.get(questId);
-	}
-
-	public HashMap<Integer, Integer> getQuestStages() {
-		return questStage;
 	}
 
 	public int getRangeEquip() {
@@ -1530,17 +1493,17 @@ public final class Player extends Mob {
 		if (isPMod())
 			return;
 		if (useFatigue) {
-			if (fatigue >= 100) {
+			if (fatigue >= 7500) { // 100%
 				actionSender
 						.sendMessage("@gre@You are too tired to gain experience, get some rest!");
 				return;
 			}
-			if (fatigue >= 96) {
+			if (fatigue >= 7200) { // 96%
 				actionSender
 						.sendMessage("@gre@You start to feel tired, maybe you should rest soon.");
 			}
 			if (i >= 3 && useFatigue) {
-				fatigue++;
+				fatigue += 4 * amount / 5;
 				actionSender.sendFatigue();
 			}
 		}
@@ -1615,10 +1578,6 @@ public final class Player extends Mob {
 		if (maxStat[i] < 0) {
 			maxStat[i] = 0;
 		}
-	}
-
-	public void incQuestPoints(int amount) {
-		setQuestPoints(getQuestPoints() + amount, true);
 	}
 
 	public void informOfBubble(Bubble b) {
@@ -1887,38 +1846,35 @@ public final class Player extends Mob {
 		} else {
 			inventory.sortByValue();
 			List<InvItem> items = inventory.getItems();
-			List<InvItem> onGround = new ArrayList<InvItem>(items);
-			if (!isSkulled()) {
+			List<InvItem> onGround = new ArrayList<InvItem>();
 
-				List<InvItem> keep = new ArrayList<InvItem>();
-				try {
-					int canKeep = 3 + (activatedPrayers[8] ? 1 : 0);
-					for (InvItem item : items) {
-						if (keep.size() >= canKeep) {
-							break;
-						}
-						if (!ItemAttributes.isStackable(item.id)) {
-							keep.add(item);
-							onGround.remove(item);
-						}
+			List<InvItem> keep = new ArrayList<InvItem>();
+			try {
+				int canKeep = (isSkulled() ? 0 : 3)
+						+ (activatedPrayers[8] ? 1 : 0);
+				for (InvItem item : items) {
+					if (keep.size() < canKeep
+							&& !ItemAttributes.isStackable(item.id)) {
+						keep.add(item);
+					} else {
+						onGround.add(item);
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-				inventory.clear();
+			inventory.clear();
 
-				int slot = 0;
-				for (InvItem k : keep) {
-					inventory.add(k.id, k.amount, false);
-					if (k.wielded) {
-						ItemWieldableDef def = ItemAttributes
-								.getWieldable(k.id);
-						inventory.setWield(slot, true);
-						this.updateWornItems(def.getWieldPos(), def.getSprite());
-					}
-					slot++;
+			int slot = 0;
+			for (InvItem k : keep) {
+				inventory.add(k.id, k.amount, false);
+				if (k.wielded) {
+					ItemWieldableDef def = ItemAttributes.getWieldable(k.id);
+					inventory.setWield(slot, true);
+					this.updateWornItems(def.getWieldPos(), def.getSprite());
 				}
+				slot++;
 			}
 
 			for (InvItem i : onGround) {
@@ -2031,7 +1987,7 @@ public final class Player extends Mob {
 						}
 					}
 					if (drainRate != 0) {
-						setDelay((int) (240000 / drainRate));
+						setDelay((int) ((int) (180000.0 / drainRate * (1 + getPrayerBonus() / 30.0))));
 					}
 				}
 			};
@@ -2685,13 +2641,6 @@ public final class Player extends Mob {
 		this.lastPlayerInfo2 = lastPlayerInfo2;
 	}
 
-	/**
-	 * Sets this player's last quest menu reply
-	 */
-	public void setLastQuestMenuReply(int i) {
-		lastQuestMenuReply = i;
-	}
-
 	public void setLastRandom(int lastRandom) {
 		this.lastRandom = lastRandom;
 	}
@@ -2852,64 +2801,6 @@ public final class Player extends Mob {
 	public void setProjectilesNeedingDisplayed(
 			ArrayList<Projectile> projectilesNeedingDisplayed) {
 		this.projectilesNeedingDisplayed = projectilesNeedingDisplayed;
-	}
-
-	public void setQuestMenuHandler(MenuHandler menuHandler) {
-		this.menuHandler = menuHandler;
-		menuHandler.setOwner(this);
-		actionSender.sendMenu(menuHandler.getOptions());
-	}
-
-	public void setQuestPoints(int questPoints) {
-		this.questPoints = questPoints;
-	}
-
-	public void setQuestPoints(int newquestPoints, boolean save) {
-		int old = questPoints;
-		questPoints = newquestPoints;
-		int gained = questPoints - old;
-
-		if (save) {
-			// save();
-			setLastSaveTime(GameEngine.getTime());
-			getActionSender().sendQuestInfo();
-			getActionSender().sendMessage(
-					"@gre@You just gained " + gained + " quest point"
-							+ (gained > 1 ? "s" : "") + "!");
-		}
-	}
-
-	public void setQuestStage(HashMap<Integer, Integer> questStage) {
-		this.questStage = questStage;
-	}
-
-	public void setQuestStage(int qid, int stage) {
-		setQuestStage(qid, stage, true);
-	}
-
-	public void setQuestStage(int questId, int stage, boolean save) {
-		setQuestStage(questId, stage, save, true);
-	}
-
-	public void setQuestStage(int questId, int stage, boolean save,
-			boolean verbose) {
-		Instance.getWorld();
-
-		questStage.put(questId, stage);
-
-		if (save) {
-			// save();
-			getActionSender().sendQuestInfo();
-		}
-
-		if (verbose) {
-			/*
-			 * if (stage == 1) { getActionSender().sendMessage(
-			 * "You have started the " + q.getName() + " quest!"); } else if
-			 * (stage == Quest.COMPLETE) { getActionSender().sendMessage(
-			 * "You have completed the " + q.getName() + " quest!"); }
-			 */
-		}
 	}
 
 	// 335000

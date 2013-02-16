@@ -36,13 +36,12 @@ import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.model.definition.skill.ReqOreDef;
 import org.moparscape.msc.gs.model.definition.skill.SpellDef;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
-import org.moparscape.msc.gs.model.landscape.PathGenerator;
+import org.moparscape.msc.gs.model.landscape.ProjectilePath;
 import org.moparscape.msc.gs.model.mini.Damage;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.states.Action;
-import org.moparscape.msc.gs.tools.DataConversions;
 
 public class SpellHandler implements PacketHandler {
 	static int[] spellDamage = {};
@@ -437,19 +436,6 @@ public class SpellHandler implements PacketHandler {
 						owner.resetAllExceptDueling();
 						switch (id) {
 						case 16: // Telekinetic grab
-							if (affectedItem.getID() == 575) {
-								owner.getActionSender().sendMessage(
-										"You may not telegrab this item");
-								return;
-							}
-
-							if (DataConversions.inArray(
-									Formulae.telegrabBlocked,
-									affectedItem.getID())) {
-								owner.getActionSender().sendMessage(
-										"This item cannot be telegrabbed!");
-								return;
-							}
 							if (!checkAndRemoveRunes(owner, spell)) {
 								return;
 							}
@@ -484,7 +470,7 @@ public class SpellHandler implements PacketHandler {
 		if (player.isAdmin()) {
 			player.getActionSender().sendMessage("Spellid: " + spellID);
 		}
-		if (!new PathGenerator(player.getX(), player.getY(),
+		if (!new ProjectilePath(player.getX(), player.getY(),
 				affectedMob.getX(), affectedMob.getY()).isValid()) {
 			player.getActionSender().sendMessage(
 					"I can't get a clear shot from here");
@@ -509,7 +495,7 @@ public class SpellHandler implements PacketHandler {
 		Instance.getDelayedEventHandler().add(
 				new WalkToMobEvent(player, affectedMob, 5) {
 					public void arrived() {
-						if (!new PathGenerator(owner.getX(), owner.getY(),
+						if (!new ProjectilePath(owner.getX(), owner.getY(),
 								affectedMob.getX(), affectedMob.getY())
 								.isValid()) {
 							owner.getActionSender().sendMessage(

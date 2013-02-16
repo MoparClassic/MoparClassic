@@ -9,7 +9,6 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
-import org.moparscape.msc.gs.plugins.extras.Thieving;
 
 public class NpcCommand implements PacketHandler {
 	/**
@@ -33,13 +32,13 @@ public class NpcCommand implements PacketHandler {
 			return;
 		}
 
-		Thieving thiev = new Thieving(player, affectedNpc, affectedMob);
 		world.addEntryToSnapshots(new Activity(player.getUsername(), player
 				.getUsername()
 				+ " thieved a ("
 				+ affectedNpc.getDef().name
 				+ ")"));
-		thiev.beginPickpocket();
+		new org.moparscape.msc.gs.skill.thieving.Npc(player, affectedNpc)
+				.pickpocket();
 
 	}
 

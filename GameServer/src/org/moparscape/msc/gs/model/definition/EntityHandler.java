@@ -78,7 +78,7 @@ public class EntityHandler {
 	private static TileDef[] tiles;
 
 	static {
-		DataStore dataStore = Instance.getDataStore();
+		DataStore dataStore = Instance.dataStore();
 		try {
 			doors = dataStore.loadDoorDefs();
 			gameObjects = dataStore.loadGameObjectDefs();

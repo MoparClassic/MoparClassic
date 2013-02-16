@@ -3,11 +3,14 @@ package org.moparscape.msc.gs.io;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.model.Point3D;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.extra.ShopDef;
@@ -22,7 +25,7 @@ public class WorldLoader {
 
 	// private ZipOutputStream out;
 
-	private void loadSection(int sectionX, int sectionY, int height,
+	private boolean loadSection(int sectionX, int sectionY, int height,
 			World world, int bigX, int bigY) {
 		// Logging.debug(1);
 		Sector s = null;
@@ -30,7 +33,9 @@ public class WorldLoader {
 			String filename = "h" + height + "x" + sectionX + "y" + sectionY;
 			ZipEntry e = tileArchive.getEntry(filename);
 			if (e == null) {
-				throw new Exception("Missing tile: " + filename);
+				//throw new Exception("Missing tile: " + filename);
+				System.out.println("Missing tile: " + filename + " ex: " + (bigX + 10) + ", " + (bigY + 10));
+				return false;
 			}
 			ByteBuffer data = DataConversions
 					.streamToBuffer(new BufferedInputStream(tileArchive
@@ -112,10 +117,9 @@ public class WorldLoader {
 					t.mapValue |= 0x10; // 16
 				}
 				world.setTileValue(bx, by, t.toTileValue());
-				/** end of shit **/
 			}
 		}
-		// Logging.debug(3);
+		return true;
 	}
 
 	/*
@@ -131,7 +135,7 @@ public class WorldLoader {
 	 * }
 	 */
 
-	public void loadWorld(World world) throws Exception {
+	public List<Point3D> loadWorld(World world) throws Exception {
 		Logger.println("Loading world.");
 		try {
 			tileArchive = new ZipFile(new File(Config.CONF_DIR,
@@ -142,6 +146,7 @@ public class WorldLoader {
 		} catch (Exception e) {
 			Logger.error(e);
 		}
+		List<Point3D> sections = new ArrayList<>();
 		long now = System.currentTimeMillis();
 		for (int lvl = 0; lvl < 4; lvl++) {
 			int wildX = 2304;
@@ -150,20 +155,22 @@ public class WorldLoader {
 				for (int sy = 0; sy < 1000; sy += 48) {
 					int x = (sx + wildX) / 48;
 					int y = (sy + (lvl * 944) + wildY) / 48;
-					loadSection(x, y, lvl, world, sx, sy + (944 * lvl));
+					if(loadSection(x, y, lvl, world, sx, sy + (944 * lvl))) {
+						sections.add(new Point3D(x, y, lvl));
+					}
 				}
 			}
 		}
 		Logger.println(((System.currentTimeMillis() - now) / 1000)
 				+ "s to load landscape");
-		// try { out.close(); } catch(Exception e) { Logger.error(e); }
-		for (ShopDef shop : Instance.getDataStore().loadShops()) {
+		for (ShopDef shop : Instance.dataStore().loadShops()) {
 			world.registerShop(shop.toShop());
 		}
+		return sections;
 	}
 
-	public void loadObjects() throws Exception {
-		WorldPopulationService.run();
+	public void loadObjects(List<Point3D> sections) throws Exception {
+		WorldPopulationService.run(sections);
 	}
 
 }

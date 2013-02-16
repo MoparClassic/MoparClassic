@@ -16,7 +16,7 @@ import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
-import org.moparscape.msc.gs.model.landscape.PathGenerator;
+import org.moparscape.msc.gs.model.landscape.ProjectilePath;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.states.Action;
@@ -176,7 +176,7 @@ public class AttackHandler implements PacketHandler {
 						}
 					});
 		} else {
-			if (!new PathGenerator(player.getX(), player.getY(),
+			if (!new ProjectilePath(player.getX(), player.getY(),
 					affectedMob.getX(), affectedMob.getY()).isValid()) {
 				player.getActionSender().sendMessage(
 						"I can't get a clear shot from here");
@@ -212,7 +212,7 @@ public class AttackHandler implements PacketHandler {
 								return;
 							}
 
-							if (!new PathGenerator(owner.getX(), owner.getY(),
+							if (!new ProjectilePath(owner.getX(), owner.getY(),
 									affectedMob.getX(), affectedMob.getY())
 									.isValid()) {
 								owner.getActionSender().sendMessage(

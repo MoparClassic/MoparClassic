@@ -3,7 +3,7 @@ package org.moparscape.msc.gs.event.handler.objectaction.impl
 import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
 import org.moparscape.msc.gs.model.World
 import org.moparscape.msc.config.Constants
-import org.moparscape.msc.gs.plugins.extras.Thieving
+import org.moparscape.msc.gs.skill.thieving.Stall
 
 class StealFrom extends ObjectEvent with MembersOnly {
 
@@ -11,8 +11,7 @@ class StealFrom extends ObjectEvent with MembersOnly {
 		if (command == "steal from") {
 			if (p2pCheck(player) && !player.isPacketSpam) {
 				player.setSpam(true)
-				val thiev = new Thieving(player, o)
-				thiev.thieveStall
+				new Stall(player, o).stealFrom
 			}
 			false
 		} else true

@@ -108,9 +108,12 @@ public final class World {
 			worldInstance = new World();
 			try {
 				worldInstance.wl = new WorldLoader();
-				worldInstance.wl.loadWorld(worldInstance);
+				List<Point3D> sections = worldInstance.wl.loadWorld(worldInstance);
+				Logger.println("Loading world objects.");
+				worldInstance.wl.loadObjects(sections);
 			} catch (Exception e) {
 				Logger.error(e);
+				System.exit(0);
 			}
 		}
 		return worldInstance;

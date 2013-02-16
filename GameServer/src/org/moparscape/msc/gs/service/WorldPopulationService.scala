@@ -1,56 +1,97 @@
 package org.moparscape.msc.gs.service
-import scala.collection.JavaConversions.asScalaBuffer
-
+import scala.collection.JavaConversions._
 import org.moparscape.msc.config.{ Formulae, Config }
-import org.moparscape.msc.gs.Instance.{ getWorld => w, getDataStore => ds }
+import org.moparscape.msc.gs.Instance.{ getWorld => w, dataStore => ds }
 import org.moparscape.msc.gs.model.definition.entity.{ NPCLoc, ItemLoc, GameObjectLoc }
 import org.moparscape.msc.gs.model.definition.EntityHandler
 import org.moparscape.msc.gs.model.{ World, Npc, Item, GameObject }
+import org.moparscape.msc.gs.model.Point3D
 
 /**
-  *
-  * This service populates the world.
-  *
-  * @author Joe Pritzel
-  */
+ *
+ * This service populates the world.
+ *
+ * @author Joe Pritzel
+ */
 object WorldPopulationService {
 
-	private implicit def toGOL(o : Any) = o.asInstanceOf[GameObjectLoc]
-	private implicit def toNL(o : Any) = o.asInstanceOf[NPCLoc]
-	private implicit def toIL(o : Any) = o.asInstanceOf[ItemLoc]
-	private implicit def toScalaList(o : java.util.List[_]) = o.toList
+  private implicit def toGOL(o: Any) = o.asInstanceOf[GameObjectLoc]
+  private implicit def toNL(o: Any) = o.asInstanceOf[NPCLoc]
+  private implicit def toIL(o: Any) = o.asInstanceOf[ItemLoc]
+  private implicit def toScalaList(o: java.util.List[_]) = o.toList
 
-	/**
-	  * Populates the world.
-	  */
-	def run {
+  /**
+   * Populates the world.
+   */
+  def run(_sections: java.util.List[Point3D]) {
 
-		filter(ds.loadGameObjectLocs).foreach(o =>
-			w.registerGameObject(new GameObject(o)))
+    val sections = _sections.toList
 
-		var items = filter(ds.loadItemLocs)
+    filterP2P(filterOutOfBoundsG(sections, ds.loadGameObjectLocs.toList)).foreach(o =>
+      w.registerGameObject(new GameObject(o)))
 
-		// Remove P2P items that might spawn in F2P areas
+    var items = filterP2P(filterOutOfBoundsI(sections, ds.loadItemLocs.toList))
 
-			// Checks if the item is P2P
-			def isMem(i : ItemLoc) = EntityHandler.getItemDef(i.id).isMembers
+    // Remove P2P items that might spawn in F2P areas
 
-		if (!World.isMembers)
-			items = items.filterNot(isMem(_))
+    // Checks if the item is P2P
+    def isMem(i: ItemLoc) = EntityHandler.getItemDef(i.id).isMembers
 
-		items.foreach(i => w.registerItem(new Item(i)))
+    if (!World.isMembers)
+      items = items.filterNot(isMem(_))
 
-		filter(ds.loadNPCLocs).foreach(n =>
-			w.registerNpc(new Npc(n)))
-	}
+    items.foreach(i => w.registerItem(new Item(i)))
 
-	/**
-	  * Filters out P2P 'things' when needed, based on their location.
-	  */
-	private def filter(data : List[_]) = {
-		if (!World.isMembers)
-			data.filterNot(o => Formulae.isP2P(Config.f2pWildy, o.asInstanceOf[Object]))
-		else data
-	}
+    filterP2P(filterOutOfBoundsN(sections, ds.loadNPCLocs.toList)).foreach(n =>
+      w.registerNpc(new Npc(n)))
+  }
+
+  /**
+   * Filters out P2P 'things' when needed, based on their location.
+   */
+  private def filterP2P(data: List[Any]) = {
+    if (!World.isMembers)
+      data.filterNot(o => Formulae.isP2P(Config.f2pWildy, o.asInstanceOf[Object]))
+    else data
+  }
+
+  private def filterOutOfBoundsI(sections: List[Point3D], data: List[ItemLoc]) = {
+    data.filter {
+      i =>
+        val regionX = i.getX / 48 + 48
+        val regionY = ((i.getY % 944) / 48) + 37
+        val regionZ = Formulae.getHeight(i.getY)
+
+        find(sections, new Point3D(regionX, regionY, regionZ))
+    }
+  }
+
+  private def filterOutOfBoundsN(sections: List[Point3D], data: List[NPCLoc]) = {
+    data.filter {
+      i =>
+        val regionX = i.startX / 48 + 48
+        val regionY = ((i.startY % 944) / 48) + 37
+        val regionZ = Formulae.getHeight(i.startY)
+
+        find(sections, new Point3D(regionX, regionY, regionZ))
+    }
+
+  }
+
+  private def filterOutOfBoundsG(sections: List[Point3D], data: List[GameObjectLoc]) = {
+    data.filter {
+      i =>
+        val regionX = i.getX / 48 + 48
+        val regionY = ((i.getY % 944) / 48) + 37
+        val regionZ = Formulae.getHeight(i.getY)
+
+        find(sections, new Point3D(regionX, regionY, regionZ))
+    }
+  }
+
+  private def find(sections: List[Point3D], p: Point3D) = sections.find(p==) match {
+    case Some(x) => true
+    case None => false
+  }
 
 }

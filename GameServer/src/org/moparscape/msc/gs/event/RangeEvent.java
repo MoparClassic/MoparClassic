@@ -12,7 +12,7 @@ import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Projectile;
-import org.moparscape.msc.gs.model.landscape.PathGenerator;
+import org.moparscape.msc.gs.model.landscape.ProjectilePath;
 import org.moparscape.msc.gs.model.mini.Damage;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -82,11 +82,13 @@ public class RangeEvent extends DelayedEvent {
 			owner.setFollowing(affectedMob);
 			return;
 		}
-		if (!new PathGenerator(owner.getX(), owner.getY(), affectedMob.getX(),
-				affectedMob.getY()).isValid()) {
+		ProjectilePath path = new ProjectilePath(owner.getX(), owner.getY(),
+				affectedMob.getX(), affectedMob.getY());
+		if (!path.isValid()) {
 			owner.getActionSender().sendMessage(
 					"I can't get a clear shot from here");
 			owner.resetPath();
+			owner.resetRange();
 			this.stop();
 			return;
 		}
@@ -133,7 +135,7 @@ public class RangeEvent extends DelayedEvent {
 				}
 			}
 
-			owner.getInventory().remove(arrow.id, arrow.amount, false);
+			owner.getInventory().remove(arrow.id, 1, false);
 			owner.getActionSender().sendInventory();
 			break;
 		}
@@ -255,7 +257,7 @@ public class RangeEvent extends DelayedEvent {
 									player.setBusy(true);
 									player.resetPath();
 									player.resetAll();
-									
+
 									player.setStatus(Action.FIGHTING_MOB);
 									player.getActionSender().sendSound(
 											"underattack");
@@ -291,6 +293,10 @@ public class RangeEvent extends DelayedEvent {
 									npc.setChasing(null);
 								}
 							});
+					// target is still alive? is still around?
+					if (!npc.isRemoved() || owner.withinRange(npc)) {
+						return;
+					}
 					this.stop();
 				}
 			}

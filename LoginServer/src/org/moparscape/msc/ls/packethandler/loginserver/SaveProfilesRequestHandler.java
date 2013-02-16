@@ -1,7 +1,6 @@
 package org.moparscape.msc.ls.packethandler.loginserver;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.LSPacket;
 import org.moparscape.msc.ls.net.Packet;
 import org.moparscape.msc.ls.packetbuilder.loginserver.ReplyPacketBuilder;
@@ -13,8 +12,6 @@ public class SaveProfilesRequestHandler implements PacketHandler {
 
     public void handlePacket(Packet p, final IoSession session) throws Exception {
 	final long uID = ((LSPacket) p).getUID();
-	World world = (World) session.getAttachment();
-	System.out.println("World " + world.getID() + " requested we save all profiles");
 	/**
 	try {
 	    //Runtime.getRuntime().exec("/home/org.moparscape.msc/unblock");

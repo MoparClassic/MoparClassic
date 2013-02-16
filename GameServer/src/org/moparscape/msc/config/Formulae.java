@@ -51,9 +51,6 @@ public class Formulae {
 			7195629, 7944614, 8771558, 9684577, 10692629, 11805606, 13034431,
 			14391160 };
 	public static final int[] headSprites = { 1, 4, 6, 7, 8 };
-	public static final int[] miningAxeIDs = { 1262, 1261, 1260, 1259, 1258,
-			156 };
-	public static final int[] miningAxeLvls = { 41, 31, 21, 6, 1, 1 };
 
 	/**
 	 * Cubic P2P boundaries. MinX, MinY - MaxX, MaxY
@@ -95,26 +92,6 @@ public class Formulae {
 			87 };
 
 	public static final int[] xbowIDs = { 59, 60 };
-
-	public static ArrayList<Point> dray2edge = new ArrayList<Point>();
-	/**
-	 * Array of items that cannot be telegrabbed.
-	 */
-	public static int[] telegrabBlocked = { 828, 831, 832, 1289, 422, 1315,
-			1314, 1316, 971 };
-
-	static {
-		dray2edge.add(new Point(114, 638));
-		dray2edge.add(new Point(120, 621));
-		dray2edge.add(new Point(131, 612));
-		dray2edge.add(new Point(159, 596));
-		dray2edge.add(new Point(195, 583));
-		dray2edge.add(new Point(201, 562));
-		dray2edge.add(new Point(200, 540));
-		dray2edge.add(new Point(227, 501));
-		dray2edge.add(new Point(225, 460));
-		dray2edge.add(new Point(206, 448));
-	}
 
 	/**
 	 * Adds the prayers together to calculate what perecntage the stat should be

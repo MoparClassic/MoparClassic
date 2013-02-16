@@ -49,20 +49,13 @@ public class Server {
 
 		Config.initConfig(configFile);
 		world = Instance.getWorld();
-		try {
-			Logger.println("Loading world objects.");
-			world.wl.loadObjects();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
 
 		Logger.println(Config.SERVER_NAME + " ["
 				+ (Config.members ? "P2P" : "F2P") + "] "
 				+ "Server starting up...");
 
 		server = new Server();
-		Instance.getDataStore().dispose();
+		Instance.dataStore().dispose();
 	}
 
 	private static Server server;
@@ -141,11 +134,7 @@ public class Server {
 	public Server() {
 		running = true;
 		world.setServer(this);
-		try {
-			Instance.getPluginHandler().initPlugins();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 		try {
 			connector = new LoginConnector();
 			engine = new GameEngine();

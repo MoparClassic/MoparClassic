@@ -198,7 +198,7 @@ public class PathGenerator {
 		int count = 0;
 		while (true) {
 			count++;
-			if (count > 30) // this should not happen
+			if (count > 1) // this should not happen
 				break; // in case something goes wrong, let's not tie up the CPU
 
 			coords = getNextCoords(newX, enemyX, newY, enemyY);

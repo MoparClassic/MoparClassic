@@ -144,7 +144,7 @@ public class LoginConnector {
 	}
 
 	private void loadPacketHandlers() throws Exception {
-		PacketHandlerDef[] handlerDefs = Instance.getDataStore().loadLSPacketHandlerDefs();
+		PacketHandlerDef[] handlerDefs = Instance.dataStore().loadLSPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();

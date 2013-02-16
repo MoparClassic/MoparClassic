@@ -63,9 +63,9 @@ object IPBanManager extends Blocker {
 
   override def unblock(ip: String) {
     if (ip != null && ip.length > 0 && blocked.remove(ip)) {
-        DataManager.dataService.unbanIP(ip)
-        if (Config.OS_LEVEL_BLOCKING)
-          OSLevelBlocking.unblock(ip)
+      DataManager.dataService.unbanIP(ip)
+      if (Config.OS_LEVEL_BLOCKING)
+        OSLevelBlocking.unblock(ip)
     }
   }
 
@@ -101,7 +101,7 @@ private object OSLevelBlocking {
       Runtime.getRuntime.exec(Config.BLOCK_COMMAND.replaceAll("\\$\\{ip\\}", ip))
       ret = true
     } catch {
-      case _ => ret = false
+      case _: Throwable => ret = false
     }
     ret
   }

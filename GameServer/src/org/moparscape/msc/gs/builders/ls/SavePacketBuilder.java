@@ -7,6 +7,7 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.PlayerAppearance;
 import org.moparscape.msc.gs.model.container.Bank;
 import org.moparscape.msc.gs.model.container.Inventory;
+import org.moparscape.msc.gs.quest.Quest;
 import org.moparscape.msc.gs.tools.DataConversions;
 
 public class SavePacketBuilder {
@@ -63,19 +64,13 @@ public class SavePacketBuilder {
 			packet.addInt(i.amount);
 		}
 
-		packet.addShort(player.getQuestPoints());
-		@SuppressWarnings("unchecked")
-		java.util.HashMap<Integer, Integer> questStage = (java.util.HashMap<Integer, Integer>) player
-				.getQuestStages().clone();
-
-		packet.addShort(questStage.size());
-		java.util.Set<Integer> set = questStage.keySet();
-
-		for (int i : set) {
-			packet.addShort(i);
-			packet.addShort(questStage.get(i));
+		packet.addShort(player.quests.quests().size());		
+		for (Quest q : player.quests.quests()) {
+			packet.addShort(q.id());
+			packet.addShort(q.stage());
 		}
 		packet.addLong(player.getEventCD());
+		
 		return packet.toPacket();
 	}
 

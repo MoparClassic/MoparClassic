@@ -503,12 +503,17 @@ public class Npc extends Mob {
 		}
 
 		if (now - lastMovement > 2200) {
-			lastMovement = now;
-			int rand = DataConversions.random(0, 1);
-			if (!isBusy() && finishedPath() && rand == 1 && !this.isRemoved()) {
-				int newX = DataConversions.random(loc.minX(), loc.maxX());
-				int newY = DataConversions.random(loc.minY(), loc.maxY());
-				super.setPath(new Path(getX(), getY(), newX, newY));
+			if (now - getCombatTimer() < (getCombatState() == CombatState.WAITING ? 5000
+					: 500)) {
+			} else {
+				lastMovement = now;
+				int rand = DataConversions.random(0, 1);
+				if (!isBusy() && finishedPath() && rand == 1
+						&& !this.isRemoved()) {
+					int newX = DataConversions.random(loc.minX(), loc.maxX());
+					int newY = DataConversions.random(loc.minY(), loc.maxY());
+					super.setPath(new Path(getX(), getY(), newX, newY));
+				}
 			}
 		}
 

@@ -14,7 +14,7 @@ import org.moparscape.msc.gs.model.snapshot.Activity
 import org.moparscape.msc.gs.event.WalkToObjectEvent
 
 object ObjectAction {
-	private val oam = new ObjectActionManager
+	val oam = new ObjectActionManager
 }
 
 class ObjectAction extends PacketHandler {
@@ -32,7 +32,7 @@ class ObjectAction extends PacketHandler {
 
 		val t = Instance.getWorld.getTile(p.readShort, p.readShort)
 		val o = t.getGameObject
-		val click = if (opcode == 51) 0 else 51
+		val click = if (opcode == 51) 0 else 1
 		player.setClick(click)
 
 		if (o == null) {

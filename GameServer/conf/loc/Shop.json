@@ -869,12 +869,12 @@
     "greeting": "Welcome to lowe\u0027s archery store, do you want to see my wares?",
     "items": [
       {
-        "amount": 500,
+        "amount": 200,
         "wielded": false,
         "id": 11
       },
       {
-        "amount": 400,
+        "amount": 150,
         "wielded": false,
         "id": 190
       },
@@ -912,102 +912,102 @@
     "greeting": "Would you like to see the latest treats of Gnome fashion?",
     "items": [
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 836
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 837
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 838
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 839
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 840
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 841
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 842
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 843
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 844
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 845
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 846
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 847
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 848
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 849
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 850
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 966
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 967
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 968
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 969
       },
       {
-        "amount": 200,
+        "amount": 5,
         "wielded": false,
         "id": 970
       }
@@ -1174,47 +1174,47 @@
     "greeting": "Welcome to the magic emporium",
     "items": [
       {
-        "amount": 300,
+        "amount": 30,
         "wielded": false,
         "id": 31
       },
       {
-        "amount": 300,
+        "amount": 30,
         "wielded": false,
         "id": 32
       },
       {
-        "amount": 300,
+        "amount": 30,
         "wielded": false,
         "id": 33
       },
       {
-        "amount": 300,
+        "amount": 30,
         "wielded": false,
         "id": 34
       },
       {
-        "amount": 300,
+        "amount": 30,
         "wielded": false,
         "id": 35
       },
       {
-        "amount": 300,
+        "amount": 30,
         "wielded": false,
         "id": 36
       },
       {
-        "amount": 100,
+        "amount": 30,
         "wielded": false,
         "id": 270
       },
       {
-        "amount": 5,
+        "amount": 1,
         "wielded": false,
         "id": 185
       },
       {
-        "amount": 5,
+        "amount": 1,
         "wielded": false,
         "id": 199
       }
@@ -1635,32 +1635,32 @@
     "greeting": "Do you want to buy some runes?",
     "items": [
       {
-        "amount": 400,
+        "amount": 50,
         "wielded": false,
         "id": 31
       },
       {
-        "amount": 400,
+        "amount": 50,
         "wielded": false,
         "id": 32
       },
       {
-        "amount": 400,
+        "amount": 50,
         "wielded": false,
         "id": 33
       },
       {
-        "amount": 400,
+        "amount": 50,
         "wielded": false,
         "id": 34
       },
       {
-        "amount": 400,
+        "amount": 50,
         "wielded": false,
         "id": 35
       },
       {
-        "amount": 400,
+        "amount": 50,
         "wielded": false,
         "id": 36
       }
@@ -1708,7 +1708,7 @@
         "id": 236
       },
       {
-        "amount": 1,
+        "amount": 0,
         "wielded": false,
         "id": 138
       },
@@ -1776,12 +1776,12 @@
         "id": 375
       },
       {
-        "amount": 1000,
+        "amount": 200,
         "wielded": false,
         "id": 380
       },
       {
-        "amount": 1000,
+        "amount": 200,
         "wielded": false,
         "id": 381
       },
@@ -1854,17 +1854,12 @@
     "greeting": "So are you looking to buy some weapons?",
     "items": [
       {
-        "amount": 400,
+        "amount": 200,
         "wielded": false,
         "id": 11
       },
       {
-        "amount": 100,
-        "wielded": false,
-        "id": 638
-      },
-      {
-        "amount": 400,
+        "amount": 150,
         "wielded": false,
         "id": 190
       },
@@ -1889,9 +1884,19 @@
         "id": 669
       },
       {
-        "amount": 6,
+        "amount": 180,
         "wielded": false,
-        "id": 87
+        "id": 670
+      },
+      {
+        "amount": 160,
+        "wielded": false,
+        "id": 671
+      },
+      {
+        "amount": 140,
+        "wielded": false,
+        "id": 672
       },
       {
         "amount": 5,
@@ -1899,19 +1904,9 @@
         "id": 12
       },
       {
-        "amount": 4,
+        "amount": 3,
         "wielded": false,
         "id": 88
-      },
-      {
-        "amount": 2,
-        "wielded": false,
-        "id": 203
-      },
-      {
-        "amount": 6,
-        "wielded": false,
-        "id": 205
       },
       {
         "amount": 5,
@@ -1919,44 +1914,44 @@
         "id": 89
       },
       {
-        "amount": 4,
+        "amount": 2,
         "wielded": false,
         "id": 90
       },
       {
-        "amount": 3,
-        "wielded": false,
-        "id": 429
-      },
-      {
-        "amount": 2,
+        "amount": 1,
         "wielded": false,
         "id": 91
       },
       {
-        "amount": 6,
+        "amount": 4,
         "wielded": false,
         "id": 76
       },
       {
-        "amount": 5,
+        "amount": 3,
         "wielded": false,
         "id": 77
       },
       {
-        "amount": 4,
+        "amount": 2,
         "wielded": false,
         "id": 78
       },
       {
-        "amount": 3,
+        "amount": 1,
         "wielded": false,
         "id": 426
       },
       {
-        "amount": 2,
+        "amount": 1,
         "wielded": false,
         "id": 79
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 80
       }
     ],
     "minX": 651,
@@ -2284,12 +2279,12 @@
     "greeting": "Welcome to hickton\u0027s archery store, do you want to see my wares?",
     "items": [
       {
-        "amount": 400,
+        "amount": 200,
         "wielded": false,
         "id": 190
       },
       {
-        "amount": 400,
+        "amount": 200,
         "wielded": false,
         "id": 11
       },
@@ -2299,14 +2294,54 @@
         "id": 638
       },
       {
+        "amount": 0,
+        "wielded": false,
+        "id": 640
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 642
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 644
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 646
+      },
+      {
         "amount": 200,
         "wielded": false,
         "id": 669
       },
       {
-        "amount": 100,
+        "amount": 180,
         "wielded": false,
         "id": 670
+      },
+      {
+        "amount": 160,
+        "wielded": false,
+        "id": 671
+      },
+      {
+        "amount": 140,
+        "wielded": false,
+        "id": 672
+      },
+      {
+        "amount": 120,
+        "wielded": false,
+        "id": 673
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 674
       },
       {
         "amount": 4,
@@ -2322,6 +2357,16 @@
         "amount": 2,
         "wielded": false,
         "id": 60
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 649
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 648
       }
     ],
     "minX": 425,
@@ -2433,29 +2478,34 @@
     "greeting": "Do you want to buy any armoured skirts?",
     "items": [
       {
-        "amount": 6,
+        "amount": 5,
         "wielded": false,
         "id": 214
       },
       {
-        "amount": 5,
+        "amount": 3,
         "wielded": false,
         "id": 215
       },
       {
-        "amount": 4,
+        "amount": 2,
         "wielded": false,
         "id": 225
       },
       {
-        "amount": 3,
+        "amount": 1,
         "wielded": false,
         "id": 434
       },
       {
-        "amount": 2,
+        "amount": 1,
         "wielded": false,
         "id": 226
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 227
       }
     ],
     "minX": 53,
@@ -2547,12 +2597,7 @@
     "greeting": "Hello how can I help you?",
     "items": [
       {
-        "amount": 400,
-        "wielded": false,
-        "id": 464
-      },
-      {
-        "amount": 400,
+        "amount": 10,
         "wielded": false,
         "id": 465
       },
@@ -2562,7 +2607,7 @@
         "id": 468
       },
       {
-        "amount": 500,
+        "amount": 10,
         "wielded": false,
         "id": 270
       }
@@ -3206,32 +3251,32 @@
     "greeting": "Welcome to the magic guild store, would you like to buy some supplies?",
     "items": [
       {
-        "amount": 1000,
+        "amount": 100,
         "wielded": false,
         "id": 31
       },
       {
-        "amount": 1000,
+        "amount": 100,
         "wielded": false,
         "id": 32
       },
       {
-        "amount": 1000,
+        "amount": 100,
         "wielded": false,
         "id": 33
       },
       {
-        "amount": 1000,
+        "amount": 100,
         "wielded": false,
         "id": 34
       },
       {
-        "amount": 1000,
+        "amount": 100,
         "wielded": false,
         "id": 35
       },
       {
-        "amount": 1000,
+        "amount": 100,
         "wielded": false,
         "id": 36
       },
@@ -3307,32 +3352,32 @@
     "greeting": "Do you want to buy some runes?",
     "items": [
       {
-        "amount": 500,
+        "amount": 50,
         "wielded": false,
         "id": 31
       },
       {
-        "amount": 500,
+        "amount": 50,
         "wielded": false,
         "id": 32
       },
       {
-        "amount": 500,
+        "amount": 50,
         "wielded": false,
         "id": 33
       },
       {
-        "amount": 500,
+        "amount": 50,
         "wielded": false,
         "id": 34
       },
       {
-        "amount": 500,
+        "amount": 50,
         "wielded": false,
         "id": 35
       },
       {
-        "amount": 500,
+        "amount": 50,
         "wielded": false,
         "id": 36
       },
