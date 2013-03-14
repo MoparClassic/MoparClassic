@@ -1,0 +1,53 @@
+)]}'
+{
+  "444": {
+    "exp": 13,
+    "potionId": 454,
+    "requiredLvl": 1
+  },
+  "445": {
+    "exp": 19,
+    "potionId": 455,
+    "requiredLvl": 5
+  },
+  "446": {
+    "exp": 25,
+    "potionId": 456,
+    "requiredLvl": 12
+  },
+  "447": {
+    "exp": 31,
+    "potionId": 457,
+    "requiredLvl": 22
+  },
+  "453": {
+    "exp": 81,
+    "potionId": 463,
+    "requiredLvl": 72
+  },
+  "452": {
+    "exp": 70,
+    "potionId": 462,
+    "requiredLvl": 66
+  },
+  "451": {
+    "exp": 63,
+    "potionId": 461,
+    "requiredLvl": 55
+  },
+  "450": {
+    "exp": 57,
+    "potionId": 460,
+    "requiredLvl": 50
+  },
+  "449": {
+    "exp": 50,
+    "potionId": 459,
+    "requiredLvl": 45
+  },
+  "448": {
+    "exp": 38,
+    "potionId": 458,
+    "requiredLvl": 30
+  }
+}

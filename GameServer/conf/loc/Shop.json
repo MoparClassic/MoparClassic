@@ -1,0 +1,3900 @@
+)]}'
+[
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "What can I get you?",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 829
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 830
+      }
+    ],
+    "minX": 627,
+    "maxX": 363,
+    "minY": 766,
+    "maxY": 761,
+    "name": "Bar",
+    "options": [
+      "I\u0027ll give it a miss I think",
+      "I\u0027ll try the dragon bitter",
+      "Can I have some greenmans ale?"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 124,
+    "maxX": 129,
+    "minY": 513,
+    "maxY": 518,
+    "name": "Varrock General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 329,
+    "maxX": 332,
+    "minY": 658,
+    "maxY": 664,
+    "name": "Rimmington General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can i help you at all?",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 370
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 257
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 1263
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 474
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 640
+      }
+    ],
+    "minX": 510,
+    "maxX": 515,
+    "minY": 1479,
+    "maxY": 1483,
+    "name": "Legends-Guild General Store",
+    "options": [
+      "Yes please. What are you selling?",
+      "No thanks."
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 222,
+    "maxX": 227,
+    "minY": 439,
+    "maxY": 443,
+    "name": "Edgeville General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 163,
+    "maxX": 169,
+    "minY": 3521,
+    "maxY": 3525,
+    "name": "Lost City General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 358,
+    "maxX": 364,
+    "minY": 712,
+    "maxY": 716,
+    "name": "Karamja General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 317,
+    "maxX": 322,
+    "minY": 530,
+    "maxY": 536,
+    "name": "Falador General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 54,
+    "maxX": 58,
+    "minY": 679,
+    "maxY": 684,
+    "name": "Al-Kharid General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 133,
+    "maxX": 136,
+    "minY": 641,
+    "maxY": 642,
+    "name": "Lumbridge General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 289,
+    "maxX": 295,
+    "minY": 3337,
+    "maxY": 3342,
+    "name": "Dwarven Mines General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Can I help you at all?",
+    "items": [
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 464
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 156
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 12
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 132
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 207
+      },
+      {
+        "amount": 30,
+        "wielded": false,
+        "id": 11
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 237
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 577,
+    "maxX": 583,
+    "minY": 598,
+    "maxY": 602,
+    "name": "Ardougne General Store",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Welcome to the jungle store, can I help you at all?",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 465
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 468
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 87
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 156
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 12
+      },
+      {
+        "amount": 12,
+        "wielded": false,
+        "id": 15
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 16
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 17
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 132
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 138
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 169
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 211
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 464
+      }
+    ],
+    "minX": 453,
+    "maxX": 462,
+    "minY": 750,
+    "maxY": 760,
+    "name": "Jungle General Store",
+    "options": [
+      "Yes please, what are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": true,
+    "greeting": "Welcome to obli\u0027s general store bwana! Would you like to see my items?",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 465
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 468
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 87
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 156
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 12
+      },
+      {
+        "amount": 12,
+        "wielded": false,
+        "id": 15
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 16
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 17
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 132
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 138
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 169
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 211
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 464
+      }
+    ],
+    "minX": 415,
+    "maxX": 420,
+    "minY": 846,
+    "maxY": 849,
+    "name": "Shilo General Store",
+    "options": [
+      "Yes please!",
+      "No, but thanks for the offer"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome to lowe\u0027s archery store, do you want to see my wares?",
+    "items": [
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 11
+      },
+      {
+        "amount": 150,
+        "wielded": false,
+        "id": 190
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 189
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 188
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 60
+      }
+    ],
+    "minX": 113,
+    "maxX": 116,
+    "minY": 511,
+    "maxY": 516,
+    "name": "Lowe\u0027s Archery store",
+    "options": [
+      "Yes Please.",
+      "No, I prefer to bash things close up"
+    ],
+    "respawnRate": 2000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Would you like to see the latest treats of Gnome fashion?",
+    "items": [
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 836
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 837
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 838
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 839
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 840
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 841
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 842
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 843
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 844
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 845
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 846
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 847
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 848
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 849
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 850
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 966
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 967
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 968
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 969
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 970
+      }
+    ],
+    "minX": 715,
+    "maxX": 717,
+    "minY": 1400,
+    "maxY": 1411,
+    "name": "Rometti\u0027s Gnome Robe Shop",
+    "options": [
+      "Yes I would!",
+      "No thank you."
+    ],
+    "respawnRate": 8000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome, do you want to buy some chain mail?",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 113
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 7
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 114
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 431
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 115
+      }
+    ],
+    "minX": 300,
+    "maxX": 306,
+    "minY": 577,
+    "maxY": 580,
+    "name": "Wayne\u0027s Chains",
+    "options": [
+      "Yes please",
+      "No thanks"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello! Do you wish to buy some jewel\u0027s?",
+    "items": [
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 160
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 159
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 158
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 157
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 164
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 163
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 162
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 161
+      }
+    ],
+    "minX": 331,
+    "maxX": 334,
+    "minY": 565,
+    "maxY": 569,
+    "name": "Falador Jewel Shop",
+    "options": [
+      "Yes please",
+      "No thanks"
+    ],
+    "respawnRate": 300000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello, do you want to buy or sell any maces?",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 94
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 0
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 95
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 430
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 96
+      }
+    ],
+    "minX": 327,
+    "maxX": 328,
+    "minY": 537,
+    "maxY": 540,
+    "name": "Falador Mace Shop",
+    "options": [
+      "I\u0027ll have a look",
+      "No thanks"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome to the magic emporium",
+    "items": [
+      {
+        "amount": 30,
+        "wielded": false,
+        "id": 31
+      },
+      {
+        "amount": 30,
+        "wielded": false,
+        "id": 32
+      },
+      {
+        "amount": 30,
+        "wielded": false,
+        "id": 33
+      },
+      {
+        "amount": 30,
+        "wielded": false,
+        "id": 34
+      },
+      {
+        "amount": 30,
+        "wielded": false,
+        "id": 35
+      },
+      {
+        "amount": 30,
+        "wielded": false,
+        "id": 36
+      },
+      {
+        "amount": 30,
+        "wielded": false,
+        "id": 270
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 185
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 199
+      }
+    ],
+    "minX": 271,
+    "maxX": 274,
+    "minY": 630,
+    "maxY": 634,
+    "name": "Port Sarim Rune Shop",
+    "options": [
+      "Can I see your wares?",
+      "Sorry I\u0027m not into magic"
+    ],
+    "respawnRate": 2500,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Ello mate! Want buy some of these great axes?",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 205
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 89
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 90
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 429
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 91
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 92
+      }
+    ],
+    "minX": 262,
+    "maxX": 267,
+    "minY": 626,
+    "maxY": 632,
+    "name": "Port Sarim Axe Shop",
+    "options": [
+      "Sure mate!",
+      "No thanks"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Would you like to buy some crafting equipment?",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 293
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 295
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 294
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 39
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 43
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 386
+      }
+    ],
+    "minX": 49,
+    "maxX": 52,
+    "minY": 673,
+    "maxY": 677,
+    "name": "Al-Kharid Crafting Store",
+    "options": [
+      "Let\u0027s see what you\u0027ve got then",
+      "No I\u0027ve got all the crafting equipment I need"
+    ],
+    "respawnRate": 10000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Would you like to buy some crafting equipment?",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 293
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 295
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 294
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 39
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 43
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 386
+      }
+    ],
+    "minX": 328,
+    "maxX": 332,
+    "minY": 666,
+    "maxY": 670,
+    "name": "Rimmington Crafting Store",
+    "options": [
+      "Let\u0027s see what you\u0027ve got then",
+      "No I\u0027ve got all the crafting equipment I need"
+    ],
+    "respawnRate": 10000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome you can buy fishing equipment at my store",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 376
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 377
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 379
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 375
+      },
+      {
+        "amount": 400,
+        "wielded": false,
+        "id": 380
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 548
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 349
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 351
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 354
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 356
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 358
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 361
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 363
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 366
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 369
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 372
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 545
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 550
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 552
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 554
+      }
+    ],
+    "minX": 416,
+    "maxX": 421,
+    "minY": 484,
+    "maxY": 488,
+    "name": "Catherby Fishing Store",
+    "options": [
+      "Let\u0027s see what you\u0027ve got then",
+      "Sorry, I\u0027m not interested"
+    ],
+    "respawnRate": 10000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome you can buy fishing equipment at my store",
+    "items": [
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 380
+      },
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 381
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 550
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 552
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 554
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 366
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 372
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 369
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 551
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 553
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 555
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 367
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 373
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 370
+      }
+    ],
+    "minX": 599,
+    "maxX": 600,
+    "minY": 516,
+    "maxY": 518,
+    "name": "Fishing-Guild Fishing Store",
+    "options": [
+      "Let\u0027s see what you\u0027ve got then",
+      "Sorry, I\u0027m not interested"
+    ],
+    "respawnRate": 5000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome bwana, would you like some fishing supplies?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 378
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 377
+      },
+      {
+        "amount": 1000,
+        "wielded": false,
+        "id": 380
+      },
+      {
+        "amount": 1000,
+        "wielded": false,
+        "id": 381
+      }
+    ],
+    "minX": 411,
+    "maxX": 415,
+    "minY": 833,
+    "maxY": 835,
+    "name": "Shilo Fishing Store",
+    "options": [
+      "Yes please!",
+      "Sorry, I\u0027m not interested"
+    ],
+    "respawnRate": 5000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Do you want to buy some runes?",
+    "items": [
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 31
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 32
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 33
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 34
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 35
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 36
+      }
+    ],
+    "minX": 101,
+    "maxX": 103,
+    "minY": 522,
+    "maxY": 525,
+    "name": "Varrock Rune Shop",
+    "options": [
+      "Yes please",
+      "Oh it\u0027s a rune shop. No thank you, then"
+    ],
+    "respawnRate": 2000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 136
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 133
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 18
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 249
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 236
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 138
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 337
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 319
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 320
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 348
+      }
+    ],
+    "minX": 273,
+    "maxX": 276,
+    "minY": 655,
+    "maxY": 659,
+    "name": "Port Sarim Food Shop",
+    "options": [
+      "Can I buy something please?",
+      "Hi there"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome you can buy fishing equipment at my store",
+    "items": [
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 376
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 377
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 378
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 379
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 375
+      },
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 380
+      },
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 381
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 349
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 351
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 361
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 354
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 356
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 358
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 363
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 366
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 369
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 372
+      }
+    ],
+    "minX": 276,
+    "maxX": 280,
+    "minY": 646,
+    "maxY": 650,
+    "name": "Port Sarim Fishing Store",
+    "options": [
+      "Let\u0027s see what you\u0027ve got then",
+      "Sorry, I\u0027m not interested"
+    ],
+    "respawnRate": 10000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "So are you looking to buy some weapons?",
+    "items": [
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 11
+      },
+      {
+        "amount": 150,
+        "wielded": false,
+        "id": 190
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 189
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 188
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 60
+      },
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 669
+      },
+      {
+        "amount": 180,
+        "wielded": false,
+        "id": 670
+      },
+      {
+        "amount": 160,
+        "wielded": false,
+        "id": 671
+      },
+      {
+        "amount": 140,
+        "wielded": false,
+        "id": 672
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 12
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 88
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 89
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 90
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 91
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 76
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 77
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 78
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 426
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 79
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 80
+      }
+    ],
+    "minX": 651,
+    "maxX": 653,
+    "minY": 534,
+    "maxY": 539,
+    "name": "King Lanthlas Archery Store",
+    "options": [
+      "What do you have?",
+      "No thanks"
+    ],
+    "respawnRate": 5000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Would you like to buy or sell some staffs?",
+    "items": [
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 614
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 100
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 198
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 101
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 102
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 103
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 197
+      }
+    ],
+    "minX": 138,
+    "maxX": 142,
+    "minY": 503,
+    "maxY": 506,
+    "name": "Zaffs Staff Store",
+    "options": [
+      "yes please",
+      "No, thank you"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Do you want to buy any fine clothes?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 182
+      },
+      {
+        "amount": 12,
+        "wielded": false,
+        "id": 15
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 16
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 17
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 191
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 194
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 195
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 187
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 183
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 200
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 807
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 808
+      }
+    ],
+    "minX": 135,
+    "maxX": 139,
+    "minY": 515,
+    "maxY": 517,
+    "name": "Varrock Clothes Shop",
+    "options": [
+      "What have you got?",
+      "No, thank you"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello bold adventurer, can I interest you in some swords?",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 62
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 28
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 63
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 423
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 64
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 65
+      },
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 66
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 1
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 67
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 424
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 68
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 69
+      },
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 70
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 71
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 72
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 425
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 73
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 74
+      }
+    ],
+    "minX": 133,
+    "maxX": 138,
+    "minY": 522,
+    "maxY": 527,
+    "name": "Varrock Sword Shop",
+    "options": [
+      "Yes please",
+      "No, I\u0027m OK for swords right now"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello, do you need any help?",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 113
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 7
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 114
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 431
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 115
+      },
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 117
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 8
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 118
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 196
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 119
+      }
+    ],
+    "minX": 113,
+    "maxX": 119,
+    "minY": 498,
+    "maxY": 505,
+    "name": "Varrock Armour Shop",
+    "options": [
+      "Do you want to trade?",
+      "No thanks. I\u0027m just looking around"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome to hickton\u0027s archery store, do you want to see my wares?",
+    "items": [
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 190
+      },
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 11
+      },
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 638
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 640
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 642
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 644
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 646
+      },
+      {
+        "amount": 200,
+        "wielded": false,
+        "id": 669
+      },
+      {
+        "amount": 180,
+        "wielded": false,
+        "id": 670
+      },
+      {
+        "amount": 160,
+        "wielded": false,
+        "id": 671
+      },
+      {
+        "amount": 140,
+        "wielded": false,
+        "id": 672
+      },
+      {
+        "amount": 120,
+        "wielded": false,
+        "id": 673
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 674
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 189
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 188
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 60
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 649
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 648
+      }
+    ],
+    "minX": 425,
+    "maxX": 429,
+    "minY": 487,
+    "maxY": 491,
+    "name": "Hickton\u0027s Archery store",
+    "options": [
+      "Yes Please.",
+      "No, I prefer to bash things close up"
+    ],
+    "respawnRate": 5000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome to my two handed sword shop",
+    "items": [
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 76
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 77
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 78
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 426
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 79
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 80
+      }
+    ],
+    "minX": 377,
+    "maxX": 381,
+    "minY": 500,
+    "maxY": 503,
+    "name": "Taverly 2-handed store",
+    "options": [
+      "Let\u0027s trade",
+      "Thank you"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hey, wanna buy some armour?",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 206
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 9
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 121
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 122
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 123
+      }
+    ],
+    "minX": 54,
+    "maxX": 57,
+    "minY": 685,
+    "maxY": 688,
+    "name": "Al-Kharid Plate-Mail Leg Store",
+    "options": [
+      "What have you got?",
+      "No, thank you"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Do you want to buy any armoured skirts?",
+    "items": [
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 214
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 215
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 225
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 434
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 226
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 227
+      }
+    ],
+    "minX": 53,
+    "maxX": 56,
+    "minY": 693,
+    "maxY": 696,
+    "name": "Al-Kharid Plated Skirt Store",
+    "options": [
+      "Yes please",
+      "No thank you that\u0027s not my scene"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hey are you wanting to try some of my fine wines and spirits?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 193
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 318
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 142
+      }
+    ],
+    "minX": 344,
+    "maxX": 349,
+    "minY": 712,
+    "maxY": 715,
+    "name": "Karamja Rum Store",
+    "options": [
+      "Yes please",
+      "No thank you"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello how can I help you?",
+    "items": [
+      {
+        "amount": 400,
+        "wielded": false,
+        "id": 464
+      },
+      {
+        "amount": 400,
+        "wielded": false,
+        "id": 465
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 468
+      },
+      {
+        "amount": 500,
+        "wielded": false,
+        "id": 270
+      }
+    ],
+    "minX": 366,
+    "maxX": 370,
+    "minY": 504,
+    "maxY": 508,
+    "name": "Taverly vial store",
+    "options": [
+      "What are you selling?",
+      "I\u0027m okay, thank you"
+    ],
+    "respawnRate": 5000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello how can I help you?",
+    "items": [
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 465
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 468
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 270
+      }
+    ],
+    "minX": 434,
+    "maxX": 437,
+    "minY": 561,
+    "maxY": 567,
+    "name": "Entrana Herblaw store",
+    "options": [
+      "What are you selling?",
+      "I\u0027m okay, thank you"
+    ],
+    "respawnRate": 5000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Do you want to trade?",
+    "items": [
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 4
+      },
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 124
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 3
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 125
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 432
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 126
+      },
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 128
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 2
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 129
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 433
+      }
+    ],
+    "minX": 307,
+    "maxX": 312,
+    "minY": 529,
+    "maxY": 535,
+    "name": "Varrock Shield Shop",
+    "options": [
+      "Yes please",
+      "No thank you"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Do you want to buy my premium quality pickaxes?",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 156
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 1258
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 1259
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 1260
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 1261
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 1262
+      }
+    ],
+    "minX": 289,
+    "maxX": 296,
+    "minY": 3327,
+    "maxY": 3334,
+    "name": "Pickaxe shop",
+    "options": [
+      "Yes please",
+      "No thank you"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Are you interested in buying or selling a helmet?",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 104
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 5
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 105
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 470
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 106
+      },
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 108
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 6
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 109
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 110
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 107
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 111
+      }
+    ],
+    "minX": 233,
+    "maxX": 239,
+    "minY": 507,
+    "maxY": 512,
+    "name": "Barbarian Village Helmet Store",
+    "options": [
+      "I could be, yes",
+      "No, I\u0027ll pass on that thanks"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Would you like to buy or sell some gold jewellery?",
+    "items": [
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 283
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 284
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 285
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 286
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 287
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 288
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 289
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 290
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 291
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 292
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 301
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 302
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 303
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 304
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 305
+      }
+    ],
+    "minX": 277,
+    "maxX": 280,
+    "minY": 630,
+    "maxY": 634,
+    "name": "Port Sarim Jewellers",
+    "options": [
+      "Yes please",
+      "No, I\u0027m not that rich"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello how can I help you?",
+    "items": [
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 156
+      },
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 87
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 12
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 88
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 203
+      },
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 205
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 89
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 90
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 429
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 91
+      }
+    ],
+    "minX": 122,
+    "maxX": 124,
+    "minY": 666,
+    "maxY": 670,
+    "name": "Bob\u0027s Axes",
+    "options": [
+      "Have you anything to sell?",
+      "Sorry nevermind"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Would you be interested in buying some gems?",
+    "items": [
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 160
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 159
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 158
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 157
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 164
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 163
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 162
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 161
+      }
+    ],
+    "minX": 79,
+    "maxX": 83,
+    "minY": 660,
+    "maxY": 663,
+    "name": "Gem Trader",
+    "options": [
+      "Yes please",
+      "No thank you"
+    ],
+    "respawnRate": 300000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "A thousand greetings sir",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 82
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 83
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 84
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 427
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 85
+      }
+    ],
+    "minX": 74,
+    "maxX": 78,
+    "minY": 674,
+    "maxY": 678,
+    "name": "Al-Kharid Scimitar Store",
+    "options": [
+      "Do you want to trade?",
+      "Nice cloak"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello I sell plate mail tops",
+    "items": [
+      {
+        "amount": 6,
+        "wielded": false,
+        "id": 308
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 312
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 309
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 313
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 310
+      }
+    ],
+    "minX": 554,
+    "maxX": 557,
+    "minY": 600,
+    "maxY": 605,
+    "name": "Ardougne Plate-Mail Top Store",
+    "options": [
+      "I may be interested",
+      "Sorry I\u0027m not interested"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Here, look at my lovely gems",
+    "items": [
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 164
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 163
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 162
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 161
+      }
+    ],
+    "minX": 549,
+    "maxX": 553,
+    "minY": 597,
+    "maxY": 602,
+    "name": "Ardougne Gem Stall",
+    "options": [
+      "Ok show them to me",
+      "I\u0027m not interested thank you"
+    ],
+    "respawnRate": 300000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Silver! Silver!",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 44
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 383
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 384
+      }
+    ],
+    "minX": 553,
+    "maxX": 558,
+    "minY": 592,
+    "maxY": 595,
+    "name": "Ardougne Silver Stall",
+    "options": [
+      "Show me",
+      "Thats nice"
+    ],
+    "respawnRate": 120000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Good day monsieur, Would you like ze nice freshly baked bread?",
+    "items": [
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 138
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 330
+      },
+      {
+        "amount": 8,
+        "wielded": false,
+        "id": 336
+      }
+    ],
+    "minX": 543,
+    "maxX": 546,
+    "minY": 597,
+    "maxY": 602,
+    "name": "Ardougne Baker Stall",
+    "options": [
+      "Lets see what you have",
+      "No thank you"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Get your exotic spices here, rare very valuable spices here",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 707
+      }
+    ],
+    "minX": 542,
+    "maxX": 547,
+    "minY": 588,
+    "maxY": 593,
+    "name": "Ardougne Spice Stall",
+    "options": [
+      "Lets have a look at them then",
+      "No thank you I\u0027m not interested"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Welcome to the magic guild store, would you like to buy some supplies?",
+    "items": [
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 31
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 32
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 33
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 34
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 35
+      },
+      {
+        "amount": 100,
+        "wielded": false,
+        "id": 36
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 825
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 614
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 101
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 102
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 103
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 197
+      }
+    ],
+    "minX": 599,
+    "maxX": 601,
+    "minY": 1703,
+    "maxY": 1705,
+    "name": "Magic Guild Store",
+    "options": [
+      "Yes please",
+      "No thank you"
+    ],
+    "respawnRate": 10000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hi would you be interested in some of my fine candles?",
+    "items": [
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 599
+      }
+    ],
+    "minX": 448,
+    "maxX": 450,
+    "minY": 492,
+    "maxY": 493,
+    "name": "Catherby Candle Seller",
+    "options": [
+      "Yes please",
+      "No thank you"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Do you want to buy some runes?",
+    "items": [
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 31
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 32
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 33
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 34
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 35
+      },
+      {
+        "amount": 50,
+        "wielded": false,
+        "id": 36
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 1216
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 1217
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 1218
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 1213
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 1214
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 1215
+      }
+    ],
+    "minX": 438,
+    "maxX": 442,
+    "minY": 3376,
+    "maxY": 3377,
+    "name": "Mage Area Rune Store",
+    "options": [
+      "Yes please",
+      "No thank you"
+    ],
+    "respawnRate": 5000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Ello",
+    "items": [
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 4,
+        "wielded": false,
+        "id": 156
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 150
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 202
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 151
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 155
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 169
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 170
+      },
+      {
+        "amount": 0,
+        "wielded": false,
+        "id": 172
+      }
+    ],
+    "minX": 267,
+    "maxX": 271,
+    "minY": 3327,
+    "maxY": 3331,
+    "name": "Dwarven Mine Ore Shop",
+    "options": [
+      "Do you want to trade?",
+      "Hello shorty"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hello there and welcome to the shop of unusual items.",
+    "items": [
+      {
+        "amount": 20,
+        "wielded": false,
+        "id": 796
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 596
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 421
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 1276
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 1288
+      }
+    ],
+    "minX": 508,
+    "maxX": 513,
+    "minY": 2424,
+    "maxY": 2427,
+    "name": "Legends-Guild Shop",
+    "options": [
+      "What are you selling?",
+      "Thanks"
+    ],
+    "respawnRate": 30000,
+    "sellModifier": 60
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Interested in a drink matey?",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 193
+      }
+    ],
+    "minX": 116,
+    "maxX": 119,
+    "minY": 520,
+    "maxY": 526,
+    "name": "Bar",
+    "options": [
+      "Yes please!",
+      "No, but thanks for the offer"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Interested in a drink matey?",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 193
+      }
+    ],
+    "minX": 78,
+    "maxX": 85,
+    "minY": 451,
+    "maxY": 454,
+    "name": "Bar",
+    "options": [
+      "Yes please!",
+      "No, but thanks for the offer"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Would you like to see my rare goods?",
+    "items": [
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1213
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1214
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1215
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1216
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1217
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1218
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1006
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 98
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 401
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 593
+      },
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 594
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 400
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 402
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 396
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 397
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 75
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 398
+      }
+    ],
+    "minX": 148,
+    "maxX": 152,
+    "minY": 1504,
+    "maxY": 1507,
+    "name": "Champs Guild Shop Scavvo",
+    "options": [
+      "Yes please!",
+      "No thank you."
+    ],
+    "respawnRate": 20000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hi, i collect rare goods, want to trade?",
+    "items": [
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 514
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 120
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 248
+      },
+      {
+        "amount": 1,
+        "wielded": false,
+        "id": 230
+      }
+    ],
+    "minX": 148,
+    "maxX": 152,
+    "minY": 1498,
+    "maxY": 1501,
+    "name": "Champs Guild Shop Valiane",
+    "options": [
+      "Yes please!",
+      "No thank you."
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hi, i have some rare brews, want to see?",
+    "items": [
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 193
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 267
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 268
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 269
+      }
+    ],
+    "minX": 316,
+    "maxX": 322,
+    "minY": 544,
+    "maxY": 550,
+    "name": "Bar",
+    "options": [
+      "Sure",
+      "Maybe another time"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hi, i sell high-quality alchohol, want to see?",
+    "items": [
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 193
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 267
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 268
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 269
+      }
+    ],
+    "minX": 316,
+    "maxX": 322,
+    "minY": 1488,
+    "maxY": 1494,
+    "name": "Bar",
+    "options": [
+      "Sure",
+      "Maybe another time"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Hi, I have great gardening supplies! Wanna trade?",
+    "items": [
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 281
+      }
+    ],
+    "minX": 285,
+    "maxX": 296,
+    "minY": 545,
+    "maxY": 551,
+    "name": "Wysons Garden shop",
+    "options": [
+      "Sure",
+      "No thank you"
+    ],
+    "respawnRate": 60000,
+    "sellModifier": 50
+  },
+  {
+    "buyModifier": 0,
+    "general": true,
+    "greeting": "Would you like to buy from the cheapest store around?",
+    "items": [
+      {
+        "amount": 3,
+        "wielded": false,
+        "id": 135
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 140
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 144
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 21
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 166
+      },
+      {
+        "amount": 2,
+        "wielded": false,
+        "id": 167
+      },
+      {
+        "amount": 5,
+        "wielded": false,
+        "id": 168
+      },
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 1263
+      }
+    ],
+    "minX": 278,
+    "maxX": 281,
+    "minY": 293,
+    "maxY": 298,
+    "name": "Bandit shop",
+    "options": [
+      "Yes Please. What are you selling?",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 0
+  },
+  {
+    "buyModifier": 100,
+    "general": false,
+    "greeting": "Wanna buy something to eat??",
+    "items": [
+      {
+        "amount": 10,
+        "wielded": false,
+        "id": 321
+      }
+    ],
+    "minX": 267,
+    "maxX": 273,
+    "minY": 289,
+    "maxY": 292,
+    "name": "Bandit shop Fat Tony",
+    "options": [
+      "Yes Please.",
+      "No thanks"
+    ],
+    "respawnRate": 15000,
+    "sellModifier": 50
+  }
+]

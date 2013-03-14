@@ -103,7 +103,6 @@ public class PlayerLoginPacketBuilder {
 	    for (int i = 0; i < ignoreCount; i++) {
 		packet.addLong(save.getIgnore(i));
 	    }
-	    packet.addShort(save.getQuestPoints());
 	    java.util.Set<Integer> keys = save.getQuestStages().keySet();
 	    packet.addShort(keys.size());
 

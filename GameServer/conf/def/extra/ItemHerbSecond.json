@@ -1,0 +1,94 @@
+)]}'
+[
+  {
+    "exp": 13,
+    "potionID": 474,
+    "requiredLvl": 1,
+    "secondID": 270,
+    "unfinishedID": 454
+  },
+  {
+    "exp": 19,
+    "potionID": 566,
+    "requiredLvl": 5,
+    "secondID": 473,
+    "unfinishedID": 455
+  },
+  {
+    "exp": 25,
+    "potionID": 222,
+    "requiredLvl": 12,
+    "secondID": 220,
+    "unfinishedID": 456
+  },
+  {
+    "exp": 31,
+    "potionID": 477,
+    "requiredLvl": 22,
+    "secondID": 219,
+    "unfinishedID": 457
+  },
+  {
+    "exp": 38,
+    "potionID": 480,
+    "requiredLvl": 30,
+    "secondID": 471,
+    "unfinishedID": 458
+  },
+  {
+    "exp": 54,
+    "potionID": 483,
+    "requiredLvl": 38,
+    "secondID": 469,
+    "unfinishedID": 458
+  },
+  {
+    "exp": 50,
+    "potionID": 486,
+    "requiredLvl": 45,
+    "secondID": 270,
+    "unfinishedID": 459
+  },
+  {
+    "exp": 58,
+    "potionID": 569,
+    "requiredLvl": 48,
+    "secondID": 473,
+    "unfinishedID": 459
+  },
+  {
+    "exp": 57,
+    "potionID": 489,
+    "requiredLvl": 50,
+    "secondID": 469,
+    "unfinishedID": 460
+  },
+  {
+    "exp": 63,
+    "potionID": 492,
+    "requiredLvl": 55,
+    "secondID": 220,
+    "unfinishedID": 461
+  },
+  {
+    "exp": 70,
+    "potionID": 572,
+    "requiredLvl": 60,
+    "secondID": 472,
+    "unfinishedID": 461
+  },
+  {
+    "exp": 75,
+    "potionID": 495,
+    "requiredLvl": 66,
+    "secondID": 471,
+    "unfinishedID": 462
+  },
+  {
+    "exp": 81,
+    "potionID": 498,
+    "requiredLvl": 72,
+    "secondID": 501,
+    "unfinishedID": 463
+  }
+]

@@ -1,9 +1,9 @@
 package org.moparscape.msc.gs.model;
 
-import org.moparscape.msc.gs.external.DoorDef;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.GameObjectDef;
-import org.moparscape.msc.gs.external.GameObjectLoc;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
+import org.moparscape.msc.gs.model.definition.extra.DoorDef;
 
 public class GameObject extends Entity {
 	/**

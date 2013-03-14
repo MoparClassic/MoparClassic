@@ -1,0 +1,207 @@
+)]}'
+{
+  "261": [
+    {
+      "baitId": -1,
+      "defs": [
+        {
+          "exp": 20,
+          "fishId": 552,
+          "requiredLevel": 16
+        },
+        {
+          "exp": 30,
+          "fishId": 550,
+          "requiredLevel": 23
+        },
+        {
+          "exp": 50,
+          "fishId": 554,
+          "requiredLevel": 46
+        },
+        {
+          "exp": 30,
+          "fishId": 17,
+          "requiredLevel": 16
+        },
+        {
+          "exp": 30,
+          "fishId": 16,
+          "requiredLevel": 16
+        },
+        {
+          "exp": 30,
+          "fishId": 622,
+          "requiredLevel": 16
+        }
+      ],
+      "netId": 548
+    },
+    {
+      "baitId": -1,
+      "defs": [
+        {
+          "exp": 200,
+          "fishId": 545,
+          "requiredLevel": 76
+        }
+      ],
+      "netId": 379
+    }
+  ],
+  "557": [
+    {
+      "baitId": -1,
+      "defs": [
+        {
+          "exp": 100,
+          "fishId": 369,
+          "requiredLevel": 50
+        },
+        {
+          "exp": 80,
+          "fishId": 366,
+          "requiredLevel": 35
+        }
+      ],
+      "netId": 379
+    },
+    {
+      "baitId": -1,
+      "defs": [
+        {
+          "exp": 90,
+          "fishId": 372,
+          "requiredLevel": 40
+        }
+      ],
+      "netId": 375
+    }
+  ],
+  "193": [
+    {
+      "baitId": -1,
+      "defs": [
+        {
+          "exp": 10,
+          "fishId": 349,
+          "requiredLevel": 1
+        },
+        {
+          "exp": 40,
+          "fishId": 351,
+          "requiredLevel": 15
+        }
+      ],
+      "netId": 376
+    },
+    {
+      "baitId": 380,
+      "defs": [
+        {
+          "exp": 20,
+          "fishId": 354,
+          "requiredLevel": 5
+        },
+        {
+          "exp": 30,
+          "fishId": 361,
+          "requiredLevel": 10
+        }
+      ],
+      "netId": 377
+    }
+  ],
+  "376": [
+    {
+      "baitId": -1,
+      "defs": [
+        {
+          "exp": 90,
+          "fishId": 372,
+          "requiredLevel": 40
+        }
+      ],
+      "netId": 375
+    },
+    {
+      "baitId": -1,
+      "defs": [
+        {
+          "exp": 100,
+          "fishId": 369,
+          "requiredLevel": 50
+        },
+        {
+          "exp": 80,
+          "fishId": 366,
+          "requiredLevel": 35
+        }
+      ],
+      "netId": 379
+    }
+  ],
+  "192": [
+    {
+      "baitId": 381,
+      "defs": [
+        {
+          "exp": 50,
+          "fishId": 358,
+          "requiredLevel": 20
+        },
+        {
+          "exp": 70,
+          "fishId": 356,
+          "requiredLevel": 30
+        }
+      ],
+      "netId": 378
+    },
+    {
+      "baitId": 380,
+      "defs": [
+        {
+          "exp": 20,
+          "fishId": 354,
+          "requiredLevel": 5
+        },
+        {
+          "exp": 30,
+          "fishId": 361,
+          "requiredLevel": 10
+        }
+      ],
+      "netId": 377
+    }
+  ],
+  "194": [
+    {
+      "baitId": -1,
+      "defs": [
+        {
+          "exp": 100,
+          "fishId": 369,
+          "requiredLevel": 50
+        },
+        {
+          "exp": 80,
+          "fishId": 366,
+          "requiredLevel": 35
+        }
+      ],
+      "netId": 379
+    },
+    {
+      "baitId": -1,
+      "defs": [
+        {
+          "exp": 90,
+          "fishId": 372,
+          "requiredLevel": 40
+        }
+      ],
+      "netId": 375
+    }
+  ]
+}

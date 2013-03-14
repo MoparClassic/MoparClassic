@@ -1,105 +1,55 @@
 package org.moparscape.msc.gs.model;
 
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.ItemCookingDef;
-import org.moparscape.msc.gs.external.ItemDef;
-import org.moparscape.msc.gs.external.ItemSmeltingDef;
-import org.moparscape.msc.gs.external.ItemUnIdentHerbDef;
-import org.moparscape.msc.gs.external.ItemWieldableDef;
+import net.jcip.annotations.ThreadSafe;
 
-public class InvItem extends Entity implements Comparable<InvItem> {
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.entity.ItemDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 
-	private int amount;
-	private boolean wielded = false;
+@ThreadSafe
+public class InvItem {
+
+	public final int amount;
+	public final boolean wielded;
+	public final int id;
 
 	public InvItem(int id) {
-		setID(id);
-		setAmount(1);
+		this(id, 1);
 	}
 
 	public InvItem(int id, int amount) {
-		setID(id);
-		setAmount(amount);
+		this(id, amount, false);
 	}
 
-	public int compareTo(InvItem item) {
-		if (item.getDef().isStackable()) {
-			return -1;
-		}
-		if (getDef().isStackable()) {
-			return 1;
-		}
-		return item.getDef().getBasePrice() - getDef().getBasePrice();
-	}
-
-	public int eatingHeals() {
-		if (!isEdible()) {
-			return 0;
-		}
-		return EntityHandler.getItemEdibleHeals(id);
+	public InvItem(int id, int amount, boolean wielded) {
+		this.id = id;
+		this.amount = amount;
+		this.wielded = wielded;
 	}
 
 	public boolean equals(Object o) {
 		if (o instanceof InvItem) {
 			InvItem item = (InvItem) o;
-			return item.getID() == getID();
+			return item.id == id;
 		}
 		return false;
-	}
-
-	public int getAmount() {
-		return amount;
-	}
-
-	public ItemCookingDef getCookingDef() {
-		return EntityHandler.getItemCookingDef(id);
 	}
 
 	public ItemDef getDef() {
 		return EntityHandler.getItemDef(id);
 	}
 
-	public ItemSmeltingDef getSmeltingDef() {
-		return EntityHandler.getItemSmeltingDef(id);
-	}
-
-	public ItemUnIdentHerbDef getUnIdentHerbDef() {
-		return EntityHandler.getItemUnIdentHerbDef(id);
-	}
-
-	public ItemWieldableDef getWieldableDef() {
-		return EntityHandler.getItemWieldableDef(id);
-	}
-
-	public boolean isEdible() {
-		return EntityHandler.getItemEdibleHeals(id) > 0;
-	}
-
-	public boolean isWieldable() {
+	private boolean isWieldable() {
 		return EntityHandler.getItemWieldableDef(id) != null;
 	}
 
-	public boolean isWielded() {
-		return wielded;
-	}
-
-	public void setAmount(int amount) {
-		if (amount < 0) {
-			amount = 0;
-		}
-		this.amount = amount;
-	}
-
-	public void setWield(boolean wielded) {
-		this.wielded = wielded;
-	}
-
-	public boolean wieldingAffectsItem(InvItem i) {
-		if (!i.isWieldable() || !isWieldable()) {
+	public boolean wieldingAffectsItem() {
+		if (!isWieldable()) {
 			return false;
 		}
-		for (int affected : getWieldableDef().getAffectedTypes()) {
-			if (i.getWieldableDef().getType() == affected) {
+		ItemWieldableDef def = EntityHandler.getItemWieldableDef(id);
+		for (int affected : def.getAffectedTypes()) {
+			if (def.getType() == affected) {
 				return true;
 			}
 		}

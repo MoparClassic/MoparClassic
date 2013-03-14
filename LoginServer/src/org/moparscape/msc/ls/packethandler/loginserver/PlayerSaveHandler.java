@@ -51,7 +51,6 @@ public class PlayerSaveHandler implements PacketHandler {
 	    save.addBankItem(p.readShort(), p.readInt());
 	}
 
-	save.setQuestPoints(p.readShort());
 	int qstCount = p.readShort();
 	for (int i = 0; i < qstCount; i++)
 	    save.setQuestStage(p.readShort(), p.readShort());

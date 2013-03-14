@@ -1,14 +1,21 @@
 package org.moparscape.msc.ls.model;
 
-public class InvItem extends Item {
-    private boolean wielded;
+import java.io.Serializable;
 
-    public InvItem(int id, int amount, boolean wielded) {
-	super(id, amount);
-	this.wielded = wielded;
-    }
+public class InvItem extends Item implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private boolean wielded;
 
-    public boolean isWielded() {
-	return wielded;
-    }
+	public InvItem(int id, int amount, boolean wielded) {
+		super(id, amount);
+		this.wielded = wielded;
+	}
+
+
+	public boolean isWielded() {
+		return wielded;
+	}
 }

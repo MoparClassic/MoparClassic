@@ -144,7 +144,7 @@ public class LoginConnector {
 	}
 
 	private void loadPacketHandlers() throws Exception {
-		PacketHandlerDef[] handlerDefs = Instance.getDataStore().loadLSPacketHandlerDefs();
+		PacketHandlerDef[] handlerDefs = Instance.dataStore().loadLSPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
 				String className = handlerDef.getClassName();
@@ -240,7 +240,7 @@ public class LoginConnector {
 	public void setRegistered(boolean registered) {
 		if (registered) {
 			this.registered = true;
-			Logger.print("World successfully registered with LS");
+			Logger.println("World successfully registered with LS");
 		} else {
 			Logger.error(new Exception("Error registering world"));
 		}

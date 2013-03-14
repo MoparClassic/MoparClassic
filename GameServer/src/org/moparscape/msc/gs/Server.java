@@ -14,6 +14,7 @@ import org.apache.mina.transport.socket.nio.SocketSessionConfig;
 import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.connection.RSCConnectionHandler;
 import org.moparscape.msc.gs.connection.filter.ConnectionFilter;
+import org.moparscape.msc.gs.connection.filter.PacketThrottler;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.core.LoginConnector;
 import org.moparscape.msc.gs.event.DelayedEvent;
@@ -38,31 +39,23 @@ public class Server {
 			if (f.exists()) {
 				configFile = f.getName();
 			} else {
-				System.out.println("Config not found: " + f.getCanonicalPath());
+				Logger.println("Config not found: " + f.getCanonicalPath());
 				displayConfigDefaulting(configFile);
 			}
 		} else {
-			System.out.println("No config file specified.");
+			Logger.println("No config file specified.");
 			displayConfigDefaulting(configFile);
 		}
 
-
 		Config.initConfig(configFile);
 		world = Instance.getWorld();
-		try {
-			world.wl.loadObjects();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-
-		World.initilizeDB();
 
 		Logger.println(Config.SERVER_NAME + " ["
 				+ (Config.members ? "P2P" : "F2P") + "] "
 				+ "Server starting up...");
 
 		server = new Server();
+		Instance.dataStore().dispose();
 	}
 
 	private static Server server;
@@ -141,11 +134,7 @@ public class Server {
 	public Server() {
 		running = true;
 		world.setServer(this);
-		try {
-			Instance.getPluginHandler().initPlugins();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 		try {
 			connector = new LoginConnector();
 			engine = new GameEngine();
@@ -156,6 +145,8 @@ public class Server {
 
 			acceptor = new SocketAcceptor(Runtime.getRuntime()
 					.availableProcessors() + 1, Executors.newCachedThreadPool());
+			acceptor.getFilterChain().addFirst("packetthrottler",
+					PacketThrottler.getInstance());
 			acceptor.getFilterChain().addFirst("connectionfilter",
 					new ConnectionFilter());
 			IoAcceptorConfig config = new SocketAcceptorConfig();
@@ -252,8 +243,8 @@ public class Server {
 	public static Server getServer() {
 		return server;
 	}
-	
+
 	private static void displayConfigDefaulting(String file) {
-		System.out.println("Defaulting to use " + file);
+		Logger.println("Defaulting to use " + file);
 	}
 }

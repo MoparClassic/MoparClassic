@@ -21,18 +21,19 @@ public class ConnectionFilter extends BlacklistFilter {
 			final InetSocketAddress a = (InetSocketAddress) sa;
 			final String host = a.getAddress().getHostAddress();
 			if (IPBanManager.isBlocked(host)) {
-				block(a.getAddress());
 				session.close();
 				return;
+			} else {
+				unblock(a.getAddress());
 			}
 			Integer val;
 			synchronized (connections) {
 				val = connections.get(host);
 				connections.put(host, val == null ? 1 : val + 1);
 			}
-			if (val != null
-					&& val + 1 >= Config.CONENCTION_THROTTLE_THRESHOLD && !IPBanManager.isBlocked(host)) {
-				IPBanManager.block(host);
+			if (val != null && val + 1 >= Config.CONENCTION_THROTTLE_THRESHOLD) {
+				IPBanManager.throttle(host);
+				connections.remove(host);
 				block(a.getAddress());
 				session.close();
 				return;
@@ -66,27 +67,22 @@ public class ConnectionFilter extends BlacklistFilter {
 		}
 		super.sessionClosed(nextFilter, session);
 	}
-
+	
 	private void unblock(InetSocketAddress a) {
 		final String host = a.getAddress().getHostAddress();
 		final Integer val;
 		synchronized (connections) {
 			val = connections.get(host);
 
-			// Prevents NPE caused by blocking connections 
-			if (val == null) {
+			if(val == null) {
 				return;
 			}
+			
 			if (val == 1) {
 				connections.remove(host);
 			} else {
 				connections.put(host, val - 1);
 			}
-		}
-		if (val != null && val - 1 < Config.CONENCTION_THROTTLE_THRESHOLD) {
-			if (IPBanManager.isBlocked(a))
-				IPBanManager.unblock(a);
-			unblock(a.getAddress());
 		}
 	}
 }

@@ -1,0 +1,53 @@
+)]}'
+{
+  "440": {
+    "exp": 10,
+    "newId": 450,
+    "requiredLvl": 48
+  },
+  "441": {
+    "exp": 12,
+    "newId": 451,
+    "requiredLvl": 54
+  },
+  "442": {
+    "exp": 13,
+    "newId": 452,
+    "requiredLvl": 65
+  },
+  "443": {
+    "exp": 14,
+    "newId": 453,
+    "requiredLvl": 70
+  },
+  "435": {
+    "exp": 4,
+    "newId": 445,
+    "requiredLvl": 5
+  },
+  "436": {
+    "exp": 5,
+    "newId": 446,
+    "requiredLvl": 10
+  },
+  "437": {
+    "exp": 6,
+    "newId": 447,
+    "requiredLvl": 20
+  },
+  "438": {
+    "exp": 8,
+    "newId": 448,
+    "requiredLvl": 25
+  },
+  "165": {
+    "exp": 2,
+    "newId": 444,
+    "requiredLvl": 1
+  },
+  "439": {
+    "exp": 9,
+    "newId": 449,
+    "requiredLvl": 40
+  }
+}

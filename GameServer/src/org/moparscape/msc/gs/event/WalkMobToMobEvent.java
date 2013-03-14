@@ -1,10 +1,10 @@
 package org.moparscape.msc.gs.event;
 
 import org.moparscape.msc.gs.core.GameEngine;
-import org.moparscape.msc.gs.external.NPCLoc;
 import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Path;
+import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 
 public abstract class WalkMobToMobEvent extends DelayedEvent {
 	protected Mob affectedMob;
@@ -21,25 +21,18 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 			return;
 		}
 
-		if (owner instanceof Npc) {
-			Npc npc = (Npc) owner;
-			loc = npc.getLoc();
-
-			if (affectedMob.getX() < (loc.minX() - 4)
-					|| affectedMob.getX() > (loc.maxX() + 4)
-					|| affectedMob.getY() < (loc.minY() - 4)
-					|| affectedMob.getY() > (loc.maxY() + 4)) {
-				super.matchRunning = false;
-				return;
-			}
-		}
-
 		this.owner = owner;
-		owner.setPath(new Path(owner.getX(), owner.getY(), affectedMob.getX(),
-				affectedMob.getY()));
 
 		this.affectedMob = affectedMob;
 		this.radius = radius;
+
+		if (!inBounds()) {
+			failed();
+			return;
+		}
+
+		owner.setPath(new Path(owner.getX(), owner.getY(), affectedMob.getX(),
+				affectedMob.getY()));
 
 		if (owner.withinRange(affectedMob, radius)) {
 			arrived();
@@ -67,23 +60,29 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 
 		if (owner.withinRange(affectedMob, radius))
 			arrived();
-		else if (owner.hasMoved())
-			return; // We're still moving
-		else {
+		else if (owner.hasMoved()) {
+			owner.resetPath();
+			if (!inBounds()) {
+				failed();
+				return;
+			}
+			owner.setPath(new Path(owner.getX(), owner.getY(), affectedMob
+					.getX(), affectedMob.getY()));
+			return; // Target is moving.. correcting path
+		} else {
 			if (GameEngine.getTime() - startTime <= 10000) // Make NPCs
 			// give a 10
 			// second
 			// chase
 			{
 				if (loc != null) {
-					if (affectedMob.getX() < (loc.minX() - 4)
-							|| affectedMob.getX() > (loc.maxX() + 4)
-							|| affectedMob.getY() < (loc.minY() - 4)
-							|| affectedMob.getY() > (loc.maxY() + 4)) {
-						super.matchRunning = false;
+					if (!inBounds()) {
 						failed();
 						return;
 					}
+				} else if (owner.nextTo(affectedMob) && owner.finishedPath()) {
+					return; // if stuck behind gate, keep chasing in case it
+							// opens
 				}
 
 				if (owner.isBusy())
@@ -97,5 +96,21 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 		}
 
 		super.matchRunning = false;
+	}
+
+	public boolean inBounds() {
+		if (owner instanceof Npc) {
+			Npc npc = (Npc) owner;
+			loc = npc.getLoc();
+
+			if (affectedMob.getX() < (loc.minX() - 4)
+					|| affectedMob.getX() > (loc.maxX() + 4)
+					|| affectedMob.getY() < (loc.minY() - 4)
+					|| affectedMob.getY() > (loc.maxY() + 4)) {
+				super.matchRunning = false;
+				return false;
+			}
+		}
+		return true;
 	}
 }

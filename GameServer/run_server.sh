@@ -1,1 +1,2 @@
-ant runf2p
+#!/bin/sh
+java -jar moparclassic.jar

@@ -1,0 +1,759 @@
+)]}'
+[
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 62,
+    "level": 1
+  },
+  {
+    "amount": 2,
+    "bars": 1,
+    "itemID": 1076,
+    "level": 7
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 66,
+    "level": 4
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 70,
+    "level": 6
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 82,
+    "level": 5
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 76,
+    "level": 14
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 87,
+    "level": 1
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 156,
+    "level": 1
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 205,
+    "level": 10
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 94,
+    "level": 2
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 104,
+    "level": 3
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 108,
+    "level": 7
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 124,
+    "level": 8
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 128,
+    "level": 12
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 113,
+    "level": 11
+  },
+  {
+    "amount": 1,
+    "bars": 5,
+    "itemID": 117,
+    "level": 18
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 206,
+    "level": 16
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 214,
+    "level": 16
+  },
+  {
+    "amount": 10,
+    "bars": 1,
+    "itemID": 669,
+    "level": 5
+  },
+  {
+    "amount": 50,
+    "bars": 5,
+    "itemID": 669,
+    "level": 18
+  },
+  {
+    "amount": 7,
+    "bars": 1,
+    "itemID": 1062,
+    "level": 4
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 28,
+    "level": 15
+  },
+  {
+    "amount": 2,
+    "bars": 1,
+    "itemID": 1075,
+    "level": 22
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 1,
+    "level": 19
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 71,
+    "level": 21
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 83,
+    "level": 20
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 77,
+    "level": 29
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 12,
+    "level": 16
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 1258,
+    "level": 16
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 89,
+    "level": 25
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 0,
+    "level": 17
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 5,
+    "level": 18
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 6,
+    "level": 22
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 3,
+    "level": 23
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 2,
+    "level": 27
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 7,
+    "level": 25
+  },
+  {
+    "amount": 1,
+    "bars": 5,
+    "itemID": 8,
+    "level": 33
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 9,
+    "level": 31
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 215,
+    "level": 31
+  },
+  {
+    "amount": 10,
+    "bars": 1,
+    "itemID": 670,
+    "level": 20
+  },
+  {
+    "amount": 50,
+    "bars": 5,
+    "itemID": 670,
+    "level": 33
+  },
+  {
+    "amount": 7,
+    "bars": 1,
+    "itemID": 1063,
+    "level": 19
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 63,
+    "level": 30
+  },
+  {
+    "amount": 2,
+    "bars": 1,
+    "itemID": 1077,
+    "level": 37
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 67,
+    "level": 34
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 72,
+    "level": 36
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 84,
+    "level": 35
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 78,
+    "level": 44
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 88,
+    "level": 31
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 1259,
+    "level": 31
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 90,
+    "level": 40
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 95,
+    "level": 32
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 105,
+    "level": 33
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 109,
+    "level": 37
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 125,
+    "level": 38
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 129,
+    "level": 42
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 114,
+    "level": 41
+  },
+  {
+    "amount": 1,
+    "bars": 5,
+    "itemID": 118,
+    "level": 48
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 121,
+    "level": 46
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 225,
+    "level": 46
+  },
+  {
+    "amount": 10,
+    "bars": 1,
+    "itemID": 671,
+    "level": 35
+  },
+  {
+    "amount": 50,
+    "bars": 5,
+    "itemID": 671,
+    "level": 48
+  },
+  {
+    "amount": 7,
+    "bars": 1,
+    "itemID": 1064,
+    "level": 34
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 64,
+    "level": 50
+  },
+  {
+    "amount": 2,
+    "bars": 1,
+    "itemID": 1078,
+    "level": 57
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 68,
+    "level": 54
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 73,
+    "level": 56
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 85,
+    "level": 55
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 79,
+    "level": 64
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 203,
+    "level": 51
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 1260,
+    "level": 51
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 91,
+    "level": 60
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 96,
+    "level": 52
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 106,
+    "level": 53
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 110,
+    "level": 57
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 126,
+    "level": 58
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 130,
+    "level": 62
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 115,
+    "level": 61
+  },
+  {
+    "amount": 1,
+    "bars": 5,
+    "itemID": 119,
+    "level": 68
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 122,
+    "level": 66
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 226,
+    "level": 66
+  },
+  {
+    "amount": 10,
+    "bars": 1,
+    "itemID": 672,
+    "level": 55
+  },
+  {
+    "amount": 50,
+    "bars": 5,
+    "itemID": 672,
+    "level": 68
+  },
+  {
+    "amount": 7,
+    "bars": 1,
+    "itemID": 1065,
+    "level": 54
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 65,
+    "level": 70
+  },
+  {
+    "amount": 2,
+    "bars": 1,
+    "itemID": 1079,
+    "level": 77
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 69,
+    "level": 74
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 74,
+    "level": 76
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 86,
+    "level": 75
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 80,
+    "level": 84
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 204,
+    "level": 71
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 1261,
+    "level": 71
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 92,
+    "level": 80
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 97,
+    "level": 72
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 107,
+    "level": 73
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 111,
+    "level": 77
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 127,
+    "level": 78
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 131,
+    "level": 82
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 116,
+    "level": 81
+  },
+  {
+    "amount": 1,
+    "bars": 5,
+    "itemID": 120,
+    "level": 88
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 123,
+    "level": 86
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 227,
+    "level": 86
+  },
+  {
+    "amount": 10,
+    "bars": 1,
+    "itemID": 673,
+    "level": 75
+  },
+  {
+    "amount": 50,
+    "bars": 5,
+    "itemID": 673,
+    "level": 88
+  },
+  {
+    "amount": 7,
+    "bars": 1,
+    "itemID": 1066,
+    "level": 74
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 396,
+    "level": 85
+  },
+  {
+    "amount": 2,
+    "bars": 1,
+    "itemID": 1080,
+    "level": 92
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 397,
+    "level": 89
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 75,
+    "level": 91
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 398,
+    "level": 90
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 81,
+    "level": 99
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 405,
+    "level": 86
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 1262,
+    "level": 86
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 93,
+    "level": 95
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 98,
+    "level": 87
+  },
+  {
+    "amount": 1,
+    "bars": 1,
+    "itemID": 399,
+    "level": 88
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 112,
+    "level": 93
+  },
+  {
+    "amount": 1,
+    "bars": 2,
+    "itemID": 403,
+    "level": 92
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 404,
+    "level": 97
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 400,
+    "level": 96
+  },
+  {
+    "amount": 1,
+    "bars": 5,
+    "itemID": 401,
+    "level": 99
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 402,
+    "level": 99
+  },
+  {
+    "amount": 1,
+    "bars": 3,
+    "itemID": 406,
+    "level": 99
+  },
+  {
+    "amount": 10,
+    "bars": 1,
+    "itemID": 674,
+    "level": 90
+  },
+  {
+    "amount": 50,
+    "bars": 5,
+    "itemID": 674,
+    "level": 99
+  },
+  {
+    "amount": 7,
+    "bars": 1,
+    "itemID": 1067,
+    "level": 89
+  }
+]

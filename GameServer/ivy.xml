@@ -2,15 +2,13 @@
 <ivy-module version="2.0">
 	<info organisation="org.moparscape" module="MoparClassic" />
 	<dependencies>
-		<dependency org="org.scala-lang" name="scala-library" rev="2.9.1" />
+		<dependency org="org.scala-lang" name="scala-library" rev="2.10.0" />
 
-		<dependency org="org.scala-lang" name="scala-compiler" rev="2.9.1" />
+		<dependency org="org.scala-lang" name="scala-compiler" rev="2.10.0" />
 
 		<dependency org="javax.mail" name="mail" rev="1.4.4" />
 
 		<dependency org="mysql" name="mysql-connector-java" rev="5.1.18" />
-
-		<dependency org="org.beanshell" name="bsh" rev="2.0b4"/>
 		
 		<dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
 

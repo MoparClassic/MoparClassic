@@ -5,7 +5,7 @@
 	<property name="bin" location="${base}/bin" />
 	<property name="lib" location="${base}/lib" />
 	<property name="common-lib" location="${base}/../lib" />
-	<property name="jar" value="${base}/XMLUsingXStreamDataStore.jar" />
+	<property name="jar" value="${base}/XMLUsingXStream.jar" />
 
 	<fileset id="mopar" dir="GameServer">
 		<include name="moparclassic.jar" />

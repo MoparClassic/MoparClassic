@@ -1,0 +1,129 @@
+)]}'
+{
+  "102": {
+    "exp": 35,
+    "oreId": 151,
+    "requiredLvl": 15,
+    "respawnTime": 5
+  },
+  "103": {
+    "exp": 35,
+    "oreId": 151,
+    "requiredLvl": 15,
+    "respawnTime": 5
+  },
+  "100": {
+    "exp": 18,
+    "oreId": 150,
+    "requiredLvl": 1,
+    "respawnTime": 3
+  },
+  "101": {
+    "exp": 18,
+    "oreId": 150,
+    "requiredLvl": 1,
+    "respawnTime": 3
+  },
+  "110": {
+    "exp": 50,
+    "oreId": 155,
+    "requiredLvl": 30,
+    "respawnTime": 30
+  },
+  "196": {
+    "exp": 40,
+    "oreId": 383,
+    "requiredLvl": 20,
+    "respawnTime": 30
+  },
+  "111": {
+    "exp": 50,
+    "oreId": 155,
+    "requiredLvl": 30,
+    "respawnTime": 30
+  },
+  "108": {
+    "exp": 95,
+    "oreId": 154,
+    "requiredLvl": 70,
+    "respawnTime": 120
+  },
+  "109": {
+    "exp": 95,
+    "oreId": 154,
+    "requiredLvl": 70,
+    "respawnTime": 120
+  },
+  "106": {
+    "exp": 80,
+    "oreId": 153,
+    "requiredLvl": 55,
+    "respawnTime": 60
+  },
+  "107": {
+    "exp": 80,
+    "oreId": 153,
+    "requiredLvl": 55,
+    "respawnTime": 60
+  },
+  "195": {
+    "exp": 40,
+    "oreId": 383,
+    "requiredLvl": 20,
+    "respawnTime": 30
+  },
+  "104": {
+    "exp": 18,
+    "oreId": 202,
+    "requiredLvl": 1,
+    "respawnTime": 3
+  },
+  "105": {
+    "exp": 18,
+    "oreId": 202,
+    "requiredLvl": 1,
+    "respawnTime": 3
+  },
+  "115": {
+    "exp": 5,
+    "oreId": 149,
+    "requiredLvl": 1,
+    "respawnTime": 2
+  },
+  "114": {
+    "exp": 5,
+    "oreId": 149,
+    "requiredLvl": 1,
+    "respawnTime": 2
+  },
+  "113": {
+    "exp": 65,
+    "oreId": 152,
+    "requiredLvl": 40,
+    "respawnTime": 30
+  },
+  "112": {
+    "exp": 65,
+    "oreId": 152,
+    "requiredLvl": 40,
+    "respawnTime": 30
+  },
+  "176": {
+    "exp": 5,
+    "oreId": 266,
+    "requiredLvl": 1,
+    "respawnTime": 15
+  },
+  "210": {
+    "exp": 125,
+    "oreId": 409,
+    "requiredLvl": 85,
+    "respawnTime": 600
+  },
+  "211": {
+    "exp": 125,
+    "oreId": 409,
+    "requiredLvl": 85,
+    "respawnTime": 600
+  }
+}

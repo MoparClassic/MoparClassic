@@ -3,6 +3,8 @@ package org.moparscape.msc.gs.connection;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;
+import org.moparscape.msc.gs.connection.codec.RSCProtocolDecoder;
+import org.moparscape.msc.gs.connection.codec.RSCProtocolEncoder;
 
 /**
  * Provides access to the protocol encoders and decoders for the RSC protocol.

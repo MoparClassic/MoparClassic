@@ -208,6 +208,7 @@ public class Entity {
 				}
 			}
 		}
+		
 		world.setLocation(this, location, p);
 		location = p;
 	}

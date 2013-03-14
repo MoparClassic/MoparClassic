@@ -3,6 +3,8 @@ package org.moparscape.msc.gs.connection;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;
+import org.moparscape.msc.gs.connection.codec.LSProtocolDecoder;
+import org.moparscape.msc.gs.connection.codec.LSProtocolEncoder;
 
 /**
  * Provides access to the protocol encoders and decoders for the LS protocol.

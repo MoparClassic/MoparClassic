@@ -251,7 +251,7 @@ public class MiscPacketBuilder {
 		s.addInt(x);
 		s.addInt(y);
 		s.addInt(type);
-		s.addLong((GameEngine.getTime() / 1000));
+		s.addLong((GameEngine.getTimestamp() / 1000));
 		packets.add(s.toPacket());
 	}
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MySQL Report Handler" default="build" basedir="../../../">
+	<property name="name" value="MySQLReportHandler" />
+	<property name="package" value="DataService" />
+	<property name="base" location="Modules/${package}/${name}" />
+	<property name="src" location="${base}/src" />
+	<property name="bin" location="${base}/bin" />
+	<property name="common-lib" location="${base}/../MySQLCommon" />
+	<property name="jar" value="${base}/${name}.jar" />
+
+	<fileset id="mopar" dir="GameServer">
+		<include name="moparclassic.jar" />
+	</fileset>
+	
+	<fileset id="common-libraries" dir="${common-lib}">
+		<include name="*.jar" />
+	</fileset>
+
+	<fileset id="production-classes" dir="${bin}">
+		<include name="**/*.class" />
+	</fileset>
+
+	<path id="binary-path">
+		<pathelement path="${bin}" />
+	</path>
+
+	<path id="library-path">
+		<fileset refid="common-libraries" />
+		<fileset refid="mopar" />
+	</path>
+
+	<path id="master-path">
+		<path refid="binary-path" />
+		<path refid="library-path" />
+	</path>
+
+	<target name="init">
+		<mkdir dir="${bin}" />
+	</target>
+
+	<target name="build" depends="init">
+		<javac destdir="${bin}" includeantruntime="false">
+			<src path="${src}" />
+			<classpath refid="library-path" />
+		</javac>
+		<jar destfile="${jar}">
+			<fileset refid="production-classes" />
+		</jar>
+		<delete dir="${bin}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${bin}" />
+		<delete file="${jar}" />
+	</target>
+</project>

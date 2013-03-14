@@ -10,11 +10,9 @@ public class Constants {
 	/**
 	 * @category GameServer
 	 */
-	public static class GameServer {
-		/**
-		 * Message of the Day (Seen as you log in)
-		 */
-		public static String MOTD = "";
+	public static class GameServer {		
+		
+		public static final String P2P_LIMIT_MESSAGE = "This feature of only available on a members server";
 		/**
 		 * Each time a connection is made to the server, this is incremented.
 		 */

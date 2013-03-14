@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -93,8 +94,7 @@ class MySQL implements StorageMedium {
 			statement.setInt(12, s.isMale() ? 1 : 0);
 			statement.setLong(13, s.getSkullTime());
 			statement.setInt(14, s.getCombatStyle());
-			statement.setInt(15, s.getQuestPoints());
-			statement.setLong(16, s.getUser());
+			statement.setLong(15, s.getUser());
 			statement.executeUpdate();
 			close(statement);
 
@@ -115,6 +115,8 @@ class MySQL implements StorageMedium {
 					+ " WHERE `user`=" + s.getUser());
 			updateLongs(Statements.save_SetEventCD, s.getEventCD() / 1000,
 					s.getUser());
+
+			close(statement);
 
 			return true;
 		} catch (Exception e) {
@@ -272,10 +274,11 @@ class MySQL implements StorageMedium {
 					resultSetFromLongs(Statements.friendsList0, user), "user");
 			list.addAll(longListFromResultSet(
 					resultSetFromLongs(Statements.friendsList1, user), "user"));
+			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -298,7 +301,7 @@ class MySQL implements StorageMedium {
 							user), "user");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			return Collections.emptyList();
 		}
 	}
 
@@ -438,16 +441,14 @@ class MySQL implements StorageMedium {
 					(byte) result.getInt("bodysprite"),
 					result.getInt("male") == 1, result.getInt("skulled"));
 
-			save.setQuestPoints(result.getInt("quest_points"));
-
 			save.setExp(intArrayFromStringArray(Statements.playerExp, "exp_",
 					Config.statArray, user));
 			save.setCurStats(intArrayFromStringArray(Statements.playerCurExp,
 					"cur_", Config.statArray, user));
-			
+
 			close(result);
 			result = resultSetFromLongs(Statements.playerInvItems, user);
-			
+
 			while (result.next()) {
 				save.addInvItem(result.getInt("id"), result.getInt("amount"),
 						result.getInt("wielded") == 1);
@@ -455,11 +456,11 @@ class MySQL implements StorageMedium {
 
 			close(result);
 			result = resultSetFromLongs(Statements.playerBankItems, user);
-			
+
 			while (result.next()) {
 				save.addBankItem(result.getInt("id"), result.getInt("amount"));
 			}
-			
+
 			close(result);
 
 			save.addFriends(longListFromResultSet(
@@ -474,6 +475,7 @@ class MySQL implements StorageMedium {
 				save.setQuestStage(result.getInt("id"), result.getInt("stage"));
 			}
 			close(result);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -610,10 +612,10 @@ class MySQL implements StorageMedium {
 	}
 
 	private void close(ResultSet res) {
-		if(res == null) {
+		if (res == null) {
 			return;
 		}
-		
+
 		try {
 			close(res.getStatement());
 		} catch (SQLException e) {
@@ -622,10 +624,10 @@ class MySQL implements StorageMedium {
 	}
 
 	private void close(Statement s) {
-		if(s == null) {
+		if (s == null) {
 			return;
 		}
-		
+
 		try {
 			s.close();
 		} catch (SQLException e) {
@@ -681,7 +683,8 @@ class MySQL implements StorageMedium {
 				+ PREFIX + "friends` WHERE user=?)";
 		private static final String tradeBlock = "UPDATE `" + PREFIX
 				+ "players` SET block_trade=? WHERE user=?";
-		private static final String duelBlock = "UPDATE `pk_players` SET block_duel=? WHERE user=?";
+		private static final String duelBlock = "UPDATE `" + PREFIX
+				+ "players` SET block_duel=? WHERE user=?";
 		private static final String basicInfo = "SELECT banned, owner, group_id FROM `"
 				+ PREFIX + "players` WHERE `user` = ?";
 		private static final String setOnlineFlag = "UPDATE `" + PREFIX
@@ -717,15 +720,17 @@ class MySQL implements StorageMedium {
 				+ "invitems`(`user`, `id`, `amount`, `wielded`, `slot`) VALUES(?, ?, ?, ?, ?)";
 		private static final String save_UpdateBasicInfo = "UPDATE `"
 				+ PREFIX
-				+ "players` SET `combat`=?, skill_total=?, `x`=?, `y`=?, `fatigue`=?, `haircolour`=?, `topcolour`=?, `trousercolour`=?, `skincolour`=?, `headsprite`=?, `bodysprite`=?, `male`=?, `skulled`=?, `combatstyle`=?, `quest_points`=? WHERE `user`=?";
+				+ "players` SET `combat`=?, skill_total=?, `x`=?, `y`=?, `fatigue`=?, `haircolour`=?, `topcolour`=?, `trousercolour`=?, `skincolour`=?, `headsprite`=?, `bodysprite`=?, `male`=?, `skulled`=?, `combatstyle`=? WHERE `user`=?";
 		private static final String save_DeleteQuests = "DELETE FROM `"
 				+ PREFIX + "quests` WHERE `user`=?";
 		private static final String save_AddQuest = "INSERT INTO `" + PREFIX
 				+ "quests` (`user`, `id`, `stage`) VALUES(?, ?, ?)";
 		private static final String save_SetEventCD = "UPDATE `" + PREFIX
 				+ "players` SET eventcd=? WHERE user=?";
-		private static final String logLogin = "INSERT INTO `pk_logins`(`user`, `time`, `ip`) VALUES(?, ?, ?)";
-		private static final String logIn = "UPDATE `pk_players` SET login_date=?, login_ip=? WHERE user=?";
+		private static final String logLogin = "INSERT INTO `" + PREFIX
+				+ "logins`(`user`, `time`, `ip`) VALUES(?, ?, ?)";
+		private static final String logIn = "UPDATE `" + PREFIX
+				+ "players` SET login_date=?, login_ip=? WHERE user=?";
 	}
 
 	@Override

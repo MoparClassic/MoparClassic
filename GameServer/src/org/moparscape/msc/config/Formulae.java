@@ -4,15 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.FiremakingDef;
-import org.moparscape.msc.gs.external.GameObjectLoc;
-import org.moparscape.msc.gs.external.ItemLoc;
-import org.moparscape.msc.gs.external.NPCLoc;
-import org.moparscape.msc.gs.external.ObjectFishDef;
-import org.moparscape.msc.gs.external.ObjectMiningDef;
-import org.moparscape.msc.gs.external.ObjectWoodcuttingDef;
-import org.moparscape.msc.gs.external.SpellDef;
 import org.moparscape.msc.gs.model.Entity;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
@@ -20,7 +11,16 @@ import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
-import org.moparscape.msc.gs.model.Shop;
+import org.moparscape.msc.gs.model.container.Shop;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
+import org.moparscape.msc.gs.model.definition.entity.ItemLoc;
+import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
+import org.moparscape.msc.gs.model.definition.skill.FiremakingDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectFishDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
+import org.moparscape.msc.gs.model.definition.skill.SpellDef;
 import org.moparscape.msc.gs.tools.DataConversions;
 
 public class Formulae {
@@ -51,9 +51,6 @@ public class Formulae {
 			7195629, 7944614, 8771558, 9684577, 10692629, 11805606, 13034431,
 			14391160 };
 	public static final int[] headSprites = { 1, 4, 6, 7, 8 };
-	public static final int[] miningAxeIDs = { 1262, 1261, 1260, 1259, 1258,
-			156 };
-	public static final int[] miningAxeLvls = { 41, 31, 21, 6, 1, 1 };
 
 	/**
 	 * Cubic P2P boundaries. MinX, MinY - MaxX, MaxY
@@ -95,26 +92,6 @@ public class Formulae {
 			87 };
 
 	public static final int[] xbowIDs = { 59, 60 };
-
-	public static ArrayList<Point> dray2edge = new ArrayList<Point>();
-	/**
-	 * Array of items that cannot be telegrabbed.
-	 */
-	public static int[] telegrabBlocked = { 828, 831, 832, 1289, 422, 1315,
-			1314, 1316, 971 };
-
-	static {
-		dray2edge.add(new Point(114, 638));
-		dray2edge.add(new Point(120, 621));
-		dray2edge.add(new Point(131, 612));
-		dray2edge.add(new Point(159, 596));
-		dray2edge.add(new Point(195, 583));
-		dray2edge.add(new Point(201, 562));
-		dray2edge.add(new Point(200, 540));
-		dray2edge.add(new Point(227, 501));
-		dray2edge.add(new Point(225, 460));
-		dray2edge.add(new Point(206, 448));
-	}
 
 	/**
 	 * Adds the prayers together to calculate what perecntage the stat should be
@@ -287,7 +264,7 @@ public class Formulae {
 			int maxProb = 5; // 5%
 			int nearMaxProb = 7; // 7%
 			int avProb = 73; // 73%
-			int lowHit = 10; // 15%
+			// int lowHit = 10; // 15% // TODO: Should probably use lowHit...
 
 			// Probablities are shifted up/down based on armour
 			int shiftValue = (int) Math
@@ -295,7 +272,7 @@ public class Formulae {
 			maxProb -= shiftValue;
 			nearMaxProb -= (int) Math.round(shiftValue * 1.5);
 			avProb -= (int) Math.round(shiftValue * 2.0);
-			lowHit += (int) Math.round(shiftValue * 3.5);
+			// lowHit += (int) Math.round(shiftValue * 3.5);
 
 			int hitRange = DataConversions.random(0, 100);
 
@@ -386,7 +363,7 @@ public class Formulae {
 			int maxProb = 5; // 5%
 			int nearMaxProb = 10; // 10%
 			int avProb = 80; // 70%
-			int lowHit = 10; // 15%
+			// int lowHit = 10; // 15% // TODO: Should probably use lowHit...
 
 			// Probablities are shifted up/down based on armour
 			int shiftValue = (int) Math
@@ -394,7 +371,7 @@ public class Formulae {
 			maxProb -= shiftValue;
 			nearMaxProb -= (int) Math.round(shiftValue * 1.5);
 			avProb -= (int) Math.round(shiftValue * 2.0);
-			lowHit += (int) Math.round(shiftValue * 3.5);
+			// lowHit += (int) Math.round(shiftValue * 3.5);
 
 			int hitRange = DataConversions.random(0, 100);
 
@@ -445,7 +422,7 @@ public class Formulae {
 				int maxProb = 5; // 5%
 				int nearMaxProb = 10; // 10%
 				int avProb = 80; // 80%
-				int lowHit = 5; // 5%
+				// int lowHit = 5; // 5% // TODO: Should probably use lowHit...
 
 				// Probablities are shifted up/down based on armour
 				int shiftValue = (int) Math
@@ -453,7 +430,7 @@ public class Formulae {
 				maxProb -= shiftValue;
 				nearMaxProb -= (int) Math.round(shiftValue * 1.5);
 				avProb -= (int) Math.round(shiftValue * 2.0);
-				lowHit += (int) Math.round(shiftValue * 3.5);
+				// lowHit += (int) Math.round(shiftValue * 3.5);
 
 				int hitRange = DataConversions.random(0, 100);
 
@@ -761,11 +738,7 @@ public class Formulae {
 	}
 
 	public static int getItemPos(Shop shop, int id) {
-		for (int i = 0; i < shop.getItems().size(); i++) {
-			if (shop.getItems().get(i).getID() == id)
-				return i;
-		}
-		return -1;
+		return shop.getLastItemSlot(id);
 	}
 
 	public static List<InvItem> getKeyChestLoot() {

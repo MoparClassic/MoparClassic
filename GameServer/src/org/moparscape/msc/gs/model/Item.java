@@ -2,11 +2,11 @@ package org.moparscape.msc.gs.model;
 
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.core.GameEngine;
-import org.moparscape.msc.gs.db.DBConnection;
+import org.moparscape.msc.gs.db.DataManager;
 import org.moparscape.msc.gs.event.DelayedEvent;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.ItemDef;
-import org.moparscape.msc.gs.external.ItemLoc;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.entity.ItemDef;
+import org.moparscape.msc.gs.model.definition.entity.ItemLoc;
 
 public class Item extends Entity {
 	/**
@@ -57,7 +57,7 @@ public class Item extends Entity {
 				username = owner.getUsername();
 				usernameHash = owner.getUsernameHash();
 			}
-			DBConnection.getReport().submitDupeData(username, usernameHash);
+			DataManager.reportHandler.submitDupeData(username, usernameHash);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class Item extends Entity {
 				username = owner.getUsername();
 				usernameHash = owner.getUsernameHash();
 			}
-			DBConnection.getReport().submitDupeData(username, usernameHash);
+			DataManager.reportHandler.submitDupeData(username, usernameHash);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class Item extends Entity {
 				username = this.owner.getUsername();
 				usernameHash = this.owner.getUsernameHash();
 			}
-			DBConnection.getReport().submitDupeData(username, usernameHash);
+			DataManager.reportHandler.submitDupeData(username, usernameHash);
 		}
 	}
 
@@ -111,7 +111,7 @@ public class Item extends Entity {
 	public boolean equals(Object o) {
 		if (o instanceof Item) {
 			Item item = (Item) o;
-			return item.getID() == getID()
+			return item.id == getID()
 					&& item.getAmount() == getAmount()
 					&& item.getSpawnedTime() == getSpawnedTime()
 					&& (item.getOwner() == null || item.getOwner().equals(

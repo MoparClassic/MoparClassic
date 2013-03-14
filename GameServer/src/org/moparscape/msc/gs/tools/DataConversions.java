@@ -374,7 +374,7 @@ public final class DataConversions {
 	}
 
 	public static String timeSince(long time) {
-		int seconds = (int) ((GameEngine.getTime() - time) / 1000);
+		int seconds = (int) ((GameEngine.getTimestamp() - time) / 1000);
 		int minutes = (int) (seconds / 60);
 		int hours = (int) (minutes / 60);
 		int days = (int) (hours / 24);

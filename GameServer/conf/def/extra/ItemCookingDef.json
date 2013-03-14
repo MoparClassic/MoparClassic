@@ -1,0 +1,159 @@
+)]}'
+{
+  "550": {
+    "burnedId": 365,
+    "cookedId": 551,
+    "exp": 75,
+    "requiredLvl": 1
+  },
+  "137": {
+    "burnedId": 139,
+    "cookedId": 138,
+    "exp": 40,
+    "requiredLvl": 1
+  },
+  "339": {
+    "burnedId": 331,
+    "cookedId": 330,
+    "exp": 120,
+    "requiredLvl": 40
+  },
+  "545": {
+    "burnedId": 547,
+    "cookedId": 546,
+    "exp": 210,
+    "requiredLvl": 80
+  },
+  "351": {
+    "burnedId": 353,
+    "cookedId": 352,
+    "exp": 30,
+    "requiredLvl": 15
+  },
+  "349": {
+    "burnedId": 353,
+    "cookedId": 350,
+    "exp": 30,
+    "requiredLvl": 1
+  },
+  "133": {
+    "burnedId": 134,
+    "cookedId": 132,
+    "exp": 30,
+    "requiredLvl": 1
+  },
+  "554": {
+    "burnedId": 368,
+    "cookedId": 555,
+    "exp": 130,
+    "requiredLvl": 42
+  },
+  "552": {
+    "burnedId": 365,
+    "cookedId": 553,
+    "exp": 60,
+    "requiredLvl": 1
+  },
+  "345": {
+    "burnedId": 347,
+    "cookedId": 346,
+    "exp": 90,
+    "requiredLvl": 25
+  },
+  "256": {
+    "burnedId": 260,
+    "cookedId": 258,
+    "exp": 60,
+    "requiredLvl": 10
+  },
+  "324": {
+    "burnedId": 322,
+    "cookedId": 325,
+    "exp": 110,
+    "requiredLvl": 35
+  },
+  "372": {
+    "burnedId": 374,
+    "cookedId": 373,
+    "exp": 120,
+    "requiredLvl": 40
+  },
+  "32": {
+    "burnedId": 34,
+    "cookedId": 34,
+    "exp": 0,
+    "requiredLvl": 1
+  },
+  "504": {
+    "burnedId": 134,
+    "cookedId": 132,
+    "exp": 30,
+    "requiredLvl": 1
+  },
+  "369": {
+    "burnedId": 371,
+    "cookedId": 370,
+    "exp": 140,
+    "requiredLvl": 45
+  },
+  "502": {
+    "burnedId": 134,
+    "cookedId": 132,
+    "exp": 30,
+    "requiredLvl": 1
+  },
+  "503": {
+    "burnedId": 134,
+    "cookedId": 132,
+    "exp": 30,
+    "requiredLvl": 1
+  },
+  "356": {
+    "burnedId": 360,
+    "cookedId": 357,
+    "exp": 90,
+    "requiredLvl": 25
+  },
+  "254": {
+    "burnedId": 260,
+    "cookedId": 257,
+    "exp": 100,
+    "requiredLvl": 30
+  },
+  "255": {
+    "burnedId": 260,
+    "cookedId": 259,
+    "exp": 80,
+    "requiredLvl": 20
+  },
+  "358": {
+    "burnedId": 360,
+    "cookedId": 359,
+    "exp": 70,
+    "requiredLvl": 15
+  },
+  "354": {
+    "burnedId": 360,
+    "cookedId": 355,
+    "exp": 40,
+    "requiredLvl": 1
+  },
+  "366": {
+    "burnedId": 368,
+    "cookedId": 367,
+    "exp": 100,
+    "requiredLvl": 30
+  },
+  "361": {
+    "burnedId": 365,
+    "cookedId": 362,
+    "exp": 50,
+    "requiredLvl": 5
+  },
+  "363": {
+    "burnedId": 365,
+    "cookedId": 364,
+    "exp": 80,
+    "requiredLvl": 20
+  }
+}

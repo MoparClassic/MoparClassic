@@ -2,19 +2,19 @@ package org.moparscape.msc.gs.phandler;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Constants;
 import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.RSCPacketBuilder;
-import org.moparscape.msc.gs.model.Bank;
 import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.PlayerAppearance;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.container.Inventory;
+import org.moparscape.msc.gs.model.container.Bank;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
-import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.tools.DataConversions;
 
 public class PlayerLogin implements PacketHandler {
@@ -44,14 +44,14 @@ public class PlayerLogin implements PacketHandler {
 			player.getSession().close();
 			return;
 		}
-		boolean newchar = false;
 		RSCPacketBuilder pb = new RSCPacketBuilder();
 		pb.setBare(true);
 		pb.addByte(loginCode);
 		player.getSession().write(pb.toPacket());
 		if (loginCode == 0 || loginCode == 1 || loginCode == 99) {
 			player.setOwner(p.readInt());
-			player.setGroupID(p.readInt());
+			int gid = p.readInt();
+			player.setGroupID(gid);
 
 			player.setSubscriptionExpires(p.readLong());
 
@@ -66,7 +66,6 @@ public class PlayerLogin implements PacketHandler {
 				int x = p.readShort();
 				@SuppressWarnings("unused")
 				int y = p.readShort();
-				newchar = true;
 			} else {
 				player.setLocation(
 						Point.location(p.readShort(), p.readShort()), true);
@@ -115,26 +114,23 @@ public class PlayerLogin implements PacketHandler {
 			}
 
 			player.setCombatLevel(Formulae.getCombatlevel(player.getMaxStats()));
-
 			Inventory inventory = new Inventory(player);
 			int invCount = p.readShort();
 			for (int i = 0; i < invCount; i++) {
 				InvItem item = new InvItem(p.readShort(), p.readInt());
-				if (p.readByte() == 1 && item.isWieldable()) {
-					item.setWield(true);
-					player.updateWornItems(
-							item.getWieldableDef().getWieldPos(), item
-									.getWieldableDef().getSprite());
+				inventory.add(item.id, item.amount, false);
+				if (p.readByte() == 1 && ItemAttributes.isWieldable(item.id)) {
+					inventory.setWield(i, true);
+					ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+					player.updateWornItems(def.getWieldPos(), def.getSprite());
 				}
-				inventory.add(item);
 			}
-
 			player.setInventory(inventory);
 
 			Bank bank = new Bank();
 			int bnkCount = p.readShort();
 			for (int i = 0; i < bnkCount; i++)
-				bank.add(new InvItem(p.readShort(), p.readInt()));
+				bank.add(p.readShort(), p.readInt(), true);
 
 			player.setBank(bank);
 
@@ -146,12 +142,13 @@ public class PlayerLogin implements PacketHandler {
 			for (int i = 0; i < ignoreCount; i++)
 				player.addIgnore(p.readLong());
 
-			player.setQuestPoints(p.readShort(), false);
+			
+			
 			int questCount = p.readShort();
 			// Logging.debug(questCount);
-			for (int i = 0; i < questCount; i++)
-				player.setQuestStage(p.readShort(), p.readShort(), false, false);
-
+			for (int i = 0; i < questCount; i++) {
+				player.quests.set(p.readShort(), p.readShort());
+			}
 			/* Muted */
 
 			player.setMuted(p.readLong());
@@ -163,7 +160,7 @@ public class PlayerLogin implements PacketHandler {
 
 			long eventcd = p.readLong();
 			player.setEventCD(eventcd);
-
+			
 			/* End of loading methods */
 
 			/* Send client data */
@@ -188,25 +185,17 @@ public class PlayerLogin implements PacketHandler {
 			sender.sendQuestData();
 			sender.sendQuestInfo();
 
+			int slot = 0;
 			for (InvItem i : player.getInventory().getItems()) {
-				if (i.isWielded() && (i.getID() == 407 || i.getID() == 401)) {
-					int count = 0;
-					for (Quest q : World.getQuestManager().getQuests()) {
-						if (player.getQuestStage(q.getUniqueID()) == Quest.COMPLETE)
-							count++;
-					}
-					if (player.getCurStat(6) < 31
-							|| count <= World.getQuestManager().getQuests()
-									.size() - 1) {
+				if (i.wielded && (i.id == 407 || i.id == 401)) {
+					if (player.getCurStat(6) < 31) {
 						player.getActionSender().sendMessage(
-								"You must have at least 31 magic & completed "
-										+ (World.getQuestManager().getQuests()
-												.size() - 1) + " quests");
-						WieldHandler.unWieldItem(player, i, true);
+								"You must have at least 31 magic");
+						WieldHandler.unWieldItem(player, i, true, slot);
 						player.getActionSender().sendInventory();
 					}
 				}
-				if (i.getID() == 1288 && i.isWielded()) {
+				if (i.id == 1288 && i.wielded) {
 					boolean found = false;
 					for (int it = 0; it < 18; it++) {
 						if (player.getMaxStat(it) == 99) {
@@ -218,9 +207,10 @@ public class PlayerLogin implements PacketHandler {
 						player.getActionSender()
 								.sendMessage(
 										"Sorry, you need any skill of level 99 to wield this cape of legends");
-						WieldHandler.unWieldItem(player, i, true);
+						WieldHandler.unWieldItem(player, i, true, slot);
 					}
 				}
+				slot++;
 			}
 			if (player.getLocation().inWilderness())
 				player.p2pWildy();
@@ -230,12 +220,12 @@ public class PlayerLogin implements PacketHandler {
 				sender.startShutdown((int) (timeTillShutdown / 1000));
 
 			if (player.getLastLogin() == 0L) {
-				player.getInventory().add(new InvItem(4));
-				player.getInventory().add(new InvItem(70));
-				player.getInventory().add(new InvItem(376));
-				player.getInventory().add(new InvItem(156));
-				player.getInventory().add(new InvItem(87));
-				player.getInventory().add(new InvItem(1263));
+				player.getInventory().add(4, 1, false);
+				player.getInventory().add(70, 1, false);
+				player.getInventory().add(376, 1, false);
+				player.getInventory().add(156, 1, false);
+				player.getInventory().add(87, 1, false);
+				player.getInventory().add(1263, 1, false);
 				player.getActionSender().sendInventory();
 				player.setChangingAppearance(true);
 				sender.sendAppearanceScreen();
@@ -243,13 +233,9 @@ public class PlayerLogin implements PacketHandler {
 
 			player.getActionSender().sendWakeUp(false);
 			sender.sendLoginBox();
-			sender.sendMessage(Constants.GameServer.MOTD);
 			sender.sendOnlinePlayers();
-
-			if (newchar)
-				player.getActionSender().sendMessage(
-						"@ran@Talk to the Community Instructor for information about "
-								+ Config.SERVER_NAME);
+			for (String m : Config.MOTD.split("\n"))
+				sender.sendMessage(m);
 
 			if (player.clientWarn()) {
 				player.getActionSender()

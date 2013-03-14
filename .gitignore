@@ -1,6 +1,7 @@
 .classpath
 .project
 rscd.jar
+moparclassic.jar
 ls.jar
 *.ipr
 *.iws
