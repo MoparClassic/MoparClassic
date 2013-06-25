@@ -17,21 +17,26 @@ class Ore(p: Player, o: GameObject) {
   private val axes = List(
     (1262, 41, 12),
     (1261, 31, 8),
-    (1260, 21, 6),
-    (1259, 6, 4),
+    (1260, 21, 5),
+    (1259, 6, 3),
     (1258, 1, 2),
-    (156, 1, -1))
+    (156, 1, 1))
 
   def mine {
     p.setSkillLoops(0)
+    p.setIsMining(true)
     _mine
   }
 
   private def _mine {
-    if (!canMine || !hasOre) return
+    if (!canMine || !hasOre) {
+      p.setIsMining(false)
+      return
+    }
 
     if (miningLvl < oreDef().getReqLevel) {
       this > "You need a mining level of " + oreDef().getReqLevel + " to mine this rock."
+      p.setIsMining(false)
       return
     }
 
@@ -39,6 +44,7 @@ class Ore(p: Player, o: GameObject) {
       val inInv = axes.filter(i => p.getInventory.contains(i._1))
       if (inInv.size > 0) this > "You need to be level " + inInv.head._2 + " to use this pick"
       else this > "You need a pickaxe to mine this rock."
+      p.setIsMining(false)
       return
     }
 
@@ -65,6 +71,7 @@ class Ore(p: Player, o: GameObject) {
             w.registerObject(new GameObject(o.getLocation, 98, o.getDirection, o.getType))
           }
           p.getActionSender.sendInventory
+          p.setIsMining(false)
         } else {
           Ore.this > "You only succeed in scratching the rock."
           if (axe._3 - p.getSkillLoops > 0) {

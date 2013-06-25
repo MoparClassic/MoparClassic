@@ -2564,6 +2564,10 @@ public final class Player extends Mob {
 		this.ioSession = ioSession;
 	}
 
+        public void setIsMining(boolean isMining) {
+                this.isMining = isMining;
+        }
+
 	public void setKnownPlayersAppearanceIDs(
 			HashMap<Integer, Integer> knownPlayersAppearanceIDs) {
 		this.knownPlayersAppearanceIDs = knownPlayersAppearanceIDs;
