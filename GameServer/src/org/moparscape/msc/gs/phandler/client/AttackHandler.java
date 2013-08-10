@@ -44,8 +44,7 @@ public class AttackHandler implements PacketHandler {
 		}
 		if (player.isPMod() && !player.isMod())
 			return;
-		if (affectedMob == null
-				|| affectedMob.equals(player)) {
+		if (affectedMob == null || affectedMob.equals(player)) {
 			player.resetPath();
 			return;
 		}
@@ -186,9 +185,8 @@ public class AttackHandler implements PacketHandler {
 			if (Config.f2pWildy && player.getLocation().inWilderness()) {
 
 				for (InvItem i : player.getInventory().getItems()) {
-					if (i.id == 638 || i.id == 640
-							|| i.id == 642 || i.id == 644
-							|| i.id == 646) {
+					if (i.id == 638 || i.id == 640 || i.id == 642
+							|| i.id == 644 || i.id == 646) {
 						player.getActionSender()
 								.sendMessage(
 										"You can not have any P2P arrows in your inventory in a F2P wilderness");

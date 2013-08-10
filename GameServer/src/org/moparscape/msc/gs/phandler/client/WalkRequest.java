@@ -144,7 +144,7 @@ public class WalkRequest implements PacketHandler {
 
 		if (GameEngine.getTime() - player.getLastCast() < 600)
 			return;
-		
+
 		player.isMining(false);
 		player.resetAll();
 

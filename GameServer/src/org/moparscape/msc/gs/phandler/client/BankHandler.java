@@ -94,7 +94,7 @@ public class BankHandler implements PacketHandler {
 
 			if (!inventory.isStackable(itemID) && amount > 1) {
 				Logger.println(player.getUsername() + " tried to withdraw ID: "
-								+ itemID + " amount: " + amount + " unstackable items");
+						+ itemID + " amount: " + amount + " unstackable items");
 				player.setSuspiciousPlayer(true);
 			}
 

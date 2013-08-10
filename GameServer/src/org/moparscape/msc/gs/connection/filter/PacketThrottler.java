@@ -26,9 +26,9 @@ import org.moparscape.msc.gs.util.annotation.Singleton;
 @Singleton
 public class PacketThrottler extends IoFilterAdapter {
 
-	/////////////////////////////////////////
-	///////// Singleton Boilerplate /////////
-	/////////////////////////////////////////
+	// ///////////////////////////////////////
+	// /////// Singleton Boilerplate /////////
+	// ///////////////////////////////////////
 
 	private static final PacketThrottler instance = new PacketThrottler();
 
@@ -36,9 +36,9 @@ public class PacketThrottler extends IoFilterAdapter {
 		return instance;
 	}
 
-	/////////////////////////////////////////
-	/////// Singleton Boilerplate End ///////
-	/////////////////////////////////////////
+	// ///////////////////////////////////////
+	// ///// Singleton Boilerplate End ///////
+	// ///////////////////////////////////////
 
 	/**
 	 * The map of username hashes to packet per second.
@@ -46,7 +46,8 @@ public class PacketThrottler extends IoFilterAdapter {
 	private Map<Long, Integer> playerToPacketCount = new ConcurrentHashMap<Long, Integer>();
 
 	private PacketThrottler() {
-		// Clears the count every second, so we can check the packets per second.
+		// Clears the count every second, so we can check the packets per
+		// second.
 		Instance.getDelayedEventHandler().add(new DelayedEvent(null, 1000) {
 
 			@Override
@@ -103,7 +104,7 @@ public class PacketThrottler extends IoFilterAdapter {
 
 			// If it is null, default to 0
 			Integer i = playerToPacketCount.get(hash);
-			if(i == null) {
+			if (i == null) {
 				count = 1;
 			} else {
 				count = i + 1;

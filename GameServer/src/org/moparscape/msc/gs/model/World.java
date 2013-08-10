@@ -95,6 +95,7 @@ public final class World {
 	}
 
 	public WorldLoader wl;
+
 	/**
 	 * Database connection
 	 */
@@ -108,7 +109,8 @@ public final class World {
 			worldInstance = new World();
 			try {
 				worldInstance.wl = new WorldLoader();
-				List<Point3D> sections = worldInstance.wl.loadWorld(worldInstance);
+				List<Point3D> sections = worldInstance.wl
+						.loadWorld(worldInstance);
 				Logger.println("Loading world objects.");
 				worldInstance.wl.loadObjects(sections);
 			} catch (Exception e) {
@@ -311,7 +313,7 @@ public final class World {
 	public Shop getShop(Point location) {
 		for (Shop shop : shops) {
 			if (shop.withinShop(location)) {
-				if(!shop.inited()) {
+				if (!shop.inited()) {
 					shop.init();
 				}
 				return shop;
@@ -360,7 +362,6 @@ public final class World {
 		}
 		return t;
 	}
-
 
 	/**
 	 * Checks if the given npc is on the server
@@ -491,22 +492,26 @@ public final class World {
 					t.objectValue |= 0x40;
 				} else if (dir == 0) {
 					t.objectValue |= 2;
-					MutableTileValue t1 = new MutableTileValue(getTileValue(x - 1, y));
+					MutableTileValue t1 = new MutableTileValue(getTileValue(
+							x - 1, y));
 					t1.objectValue |= 8;
 					setTileValue(x - 1, y, t1.toTileValue());
 				} else if (dir == 2) {
 					t.objectValue |= 4;
-					MutableTileValue t1 = new MutableTileValue(getTileValue(x, y + 1));
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x,
+							y + 1));
 					t1.objectValue |= 1;
 					setTileValue(x, y + 1, t1.toTileValue());
 				} else if (dir == 4) {
 					t.objectValue |= 8;
-					MutableTileValue t1 = new MutableTileValue(getTileValue(x + 1, y));
+					MutableTileValue t1 = new MutableTileValue(getTileValue(
+							x + 1, y));
 					t1.objectValue |= 2;
 					setTileValue(x + 1, y, t1.toTileValue());
 				} else if (dir == 6) {
 					t.objectValue |= 1;
-					MutableTileValue t1 = new MutableTileValue(getTileValue(x, y - 1));
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x,
+							y - 1));
 					t1.objectValue |= 4;
 					setTileValue(x, y - 1, t1.toTileValue());
 				}
@@ -694,22 +699,26 @@ public final class World {
 					t.objectValue &= 0xffbf;
 				} else if (dir == 0) {
 					t.objectValue &= 0xfffd;
-					MutableTileValue t1 = new MutableTileValue(getTileValue(x - 1, y));
+					MutableTileValue t1 = new MutableTileValue(getTileValue(
+							x - 1, y));
 					t1.objectValue &= 65535 - 8;
 					setTileValue(x - 1, y, t1.toTileValue());
 				} else if (dir == 2) {
 					t.objectValue &= 0xfffb;
-					MutableTileValue t1 = new MutableTileValue(getTileValue(x, y + 1));
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x,
+							y + 1));
 					t1.objectValue &= 65535 - 1;
 					setTileValue(x, y + 1, t1.toTileValue());
 				} else if (dir == 4) {
 					t.objectValue &= 0xfff7;
-					MutableTileValue t1 = new MutableTileValue(getTileValue(x + 1, y));
+					MutableTileValue t1 = new MutableTileValue(getTileValue(
+							x + 1, y));
 					t1.objectValue &= 65535 - 2;
 					setTileValue(x + 1, y, t1.toTileValue());
 				} else if (dir == 6) {
 					t.objectValue &= 0xfffe;
-					MutableTileValue t1 = new MutableTileValue(getTileValue(x, y - 1));
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x,
+							y - 1));
 					t1.objectValue &= 65535 - 4;
 					setTileValue(x, y - 1, t1.toTileValue());
 				}

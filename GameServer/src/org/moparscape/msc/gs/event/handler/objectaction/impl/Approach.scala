@@ -11,15 +11,15 @@ class DamagingApproach extends ObjectEvent {
 			player.getActionSender.sendMessage(
 				"The tree seems to lash out at you!")
 			EventHandler.addShort {
-					val damage = player.getCurStat(3) / 5
-					player.setLastDamage(damage)
-					player.setCurStat(3, player.getCurStat(3) - damage)
-					player.getActionSender.sendStat(3)
-					val playersToInform = player.getViewArea.getPlayersInView.toList
-					playersToInform.foreach(_.informOfModifiedHits(player))
+				val damage = player.getCurStat(3) / 5
+				player.setLastDamage(damage)
+				player.setCurStat(3, player.getCurStat(3) - damage)
+				player.getActionSender.sendStat(3)
+				val playersToInform = player.getViewArea.getPlayersInView.toList
+				playersToInform.foreach(_.informOfModifiedHits(player))
 
-					player.getActionSender.sendMessage("You are badly scratched by the tree")
-					player.setBusy(false)
+				player.getActionSender.sendMessage("You are badly scratched by the tree")
+				player.setBusy(false)
 			}
 			false
 		} else true

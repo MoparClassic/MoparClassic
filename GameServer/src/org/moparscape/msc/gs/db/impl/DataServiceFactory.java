@@ -9,10 +9,11 @@ import org.moparscape.msc.gs.util.ModuleUtil;
 
 public class DataServiceFactory {
 
-	public static DataService createDataRequestService(String className) throws Exception {
+	public static DataService createDataRequestService(String className)
+			throws Exception {
 		try {
-			return Class.forName(className)
-					.asSubclass(DataService.class).newInstance();
+			return Class.forName(className).asSubclass(DataService.class)
+					.newInstance();
 		} catch (Exception e) {
 			Class<?> clss = JarUtil.loadClassFromJar(
 					ModuleUtil.getClassLoader(), className,
@@ -23,17 +24,20 @@ public class DataServiceFactory {
 			return con.newInstance(new Object[0]);
 		}
 	}
-	
-	public static ReportHandler createReportHandler(String className) throws Exception {
+
+	public static ReportHandler createReportHandler(String className)
+			throws Exception {
 		try {
-			return Class.forName(className)
-					.asSubclass(ReportHandler.class).newInstance();
+			return Class.forName(className).asSubclass(ReportHandler.class)
+					.newInstance();
 		} catch (Exception e) {
 			Class<?> clss = JarUtil.loadClassFromJar(
 					ModuleUtil.getClassLoader(), className,
 					ModuleUtil.moduleFolder.getPath());
-			Class<? extends ReportHandler> c = clss.asSubclass(ReportHandler.class);
-			Constructor<? extends ReportHandler> con = c.getDeclaredConstructor();
+			Class<? extends ReportHandler> c = clss
+					.asSubclass(ReportHandler.class);
+			Constructor<? extends ReportHandler> con = c
+					.getDeclaredConstructor();
 			con.setAccessible(true);
 			return con.newInstance(new Object[0]);
 		}

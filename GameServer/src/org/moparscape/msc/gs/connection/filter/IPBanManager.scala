@@ -18,105 +18,105 @@ import org.moparscape.msc.gs.event.SingleEvent
 
 object IPBanManager extends Blocker {
 
-  private val throttled = new CopyOnWriteArrayList[String]
-  private val blocked = new CopyOnWriteArrayList[String]
+	private val throttled = new CopyOnWriteArrayList[String]
+	private val blocked = new CopyOnWriteArrayList[String]
 
-  override def isBlocked(ip: String): Boolean = {
-    throttled.contains(ip) || blocked.contains(ip)
-  }
+	override def isBlocked(ip : String) : Boolean = {
+		throttled.contains(ip) || blocked.contains(ip)
+	}
 
-  override def throttle(ip: String) {
-    if (throttled.addIfAbsent(ip)) {
-      if (Config.OS_LEVEL_BLOCKING)
-        OSLevelBlocking.block(ip)
-      Logger.println("Throttled " + ip)
+	override def throttle(ip : String) {
+		if (throttled.addIfAbsent(ip)) {
+			if (Config.OS_LEVEL_BLOCKING)
+				OSLevelBlocking.block(ip)
+			Logger.println("Throttled " + ip)
 
-      Instance.getDelayedEventHandler.add(new SingleEvent(null, Config.IP_BAN_REMOVAL_DELAY) {
-        override def action {
-          if (throttled.remove(ip)) {
-            if (Config.OS_LEVEL_BLOCKING)
-              OSLevelBlocking.unblock(ip)
-            Logger.println("Removed throttle on " + ip)
-          }
-        }
-      })
-    }
-  }
+			Instance.getDelayedEventHandler.add(new SingleEvent(null, Config.IP_BAN_REMOVAL_DELAY) {
+				override def action {
+					if (throttled.remove(ip)) {
+						if (Config.OS_LEVEL_BLOCKING)
+							OSLevelBlocking.unblock(ip)
+						Logger.println("Removed throttle on " + ip)
+					}
+				}
+			})
+		}
+	}
 
-  def throttle(ip: java.util.List[String]) {
-    ip foreach { throttle(_) }
-  }
+	def throttle(ip : java.util.List[String]) {
+		ip foreach { throttle(_) }
+	}
 
-  override def block(ip: String) {
-    if (ip != null && ip.length > 0) {
-      if (blocked.addIfAbsent(ip)) {
-        DataManager.dataService.banIP(ip)
-        if (Config.OS_LEVEL_BLOCKING)
-          OSLevelBlocking.block(ip)
-      }
-    }
-  }
+	override def block(ip : String) {
+		if (ip != null && ip.length > 0) {
+			if (blocked.addIfAbsent(ip)) {
+				DataManager.dataService.banIP(ip)
+				if (Config.OS_LEVEL_BLOCKING)
+					OSLevelBlocking.block(ip)
+			}
+		}
+	}
 
-  def block(ip: java.util.List[String]) {
-    ip foreach { block(_) }
-  }
+	def block(ip : java.util.List[String]) {
+		ip foreach { block(_) }
+	}
 
-  override def unblock(ip: String) {
-    if (ip != null && ip.length > 0 && blocked.remove(ip)) {
-      DataManager.dataService.unbanIP(ip)
-      if (Config.OS_LEVEL_BLOCKING)
-        OSLevelBlocking.unblock(ip)
-    }
-  }
+	override def unblock(ip : String) {
+		if (ip != null && ip.length > 0 && blocked.remove(ip)) {
+			DataManager.dataService.unbanIP(ip)
+			if (Config.OS_LEVEL_BLOCKING)
+				OSLevelBlocking.unblock(ip)
+		}
+	}
 
-  def unblock(ip: java.util.List[String]) {
-    ip foreach { unblock(_) }
-  }
+	def unblock(ip : java.util.List[String]) {
+		ip foreach { unblock(_) }
+	}
 
-  def reloadIPBans {
-    blocked.clear
-    load
-  }
+	def reloadIPBans {
+		blocked.clear
+		load
+	}
 
-  private def load {
-    val bans = DataManager.dataService.requestIPBans
-    block(bans)
-  }
+	private def load {
+		val bans = DataManager.dataService.requestIPBans
+		block(bans)
+	}
 
-  load
+	load
 }
 
 trait Blocker {
-  def isBlocked(ip: String): Boolean
-  def block(ip: String)
-  def unblock(ip: String)
-  def throttle(ip: String)
+	def isBlocked(ip : String) : Boolean
+	def block(ip : String)
+	def unblock(ip : String)
+	def throttle(ip : String)
 }
 
 private object OSLevelBlocking {
 
-  def block(ip: String) = {
-    var ret = false
-    try {
-      Runtime.getRuntime.exec(Config.BLOCK_COMMAND.replaceAll("\\$\\{ip\\}", ip))
-      ret = true
-    } catch {
-      case _: Throwable => ret = false
-    }
-    ret
-  }
+	def block(ip : String) = {
+		var ret = false
+		try {
+			Runtime.getRuntime.exec(Config.BLOCK_COMMAND.replaceAll("\\$\\{ip\\}", ip))
+			ret = true
+		} catch {
+			case _ : Throwable => ret = false
+		}
+		ret
+	}
 
-  def unblock(ip: String) = {
-    try {
-      Runtime.getRuntime.exec(Config.UNBLOCK_COMMAND.replaceAll("\\$\\{ip\\}", ip))
-      Logger.println("OS - Unblocked " + ip)
-    } catch {
-      case e: Any => {
-        Logger.println("OS - Failed to unblock " + ip)
-        Logger.error(e)
-        if (Config.OS_LEVEL_UNBLOCK_FAILED_ALERT)
-          AlertHandler.sendAlert("OS - Failed to unblock " + ip, 2)
-      }
-    }
-  }
+	def unblock(ip : String) = {
+		try {
+			Runtime.getRuntime.exec(Config.UNBLOCK_COMMAND.replaceAll("\\$\\{ip\\}", ip))
+			Logger.println("OS - Unblocked " + ip)
+		} catch {
+			case e : Any => {
+				Logger.println("OS - Failed to unblock " + ip)
+				Logger.error(e)
+				if (Config.OS_LEVEL_UNBLOCK_FAILED_ALERT)
+					AlertHandler.sendAlert("OS - Failed to unblock " + ip, 2)
+			}
+		}
+	}
 }

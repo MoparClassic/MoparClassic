@@ -298,18 +298,18 @@ public final class GameEngine extends Thread {
 					}
 				});
 		eventHandler.add(new DelayedEvent(null, Config.SAVE_INTERVAL) {
-					public void run() {
-						long now = GameEngine.getTime();
-						for (Player p : world.getPlayers()) {
-							if (now - p.getLastSaveTime() >= Config.SAVE_INTERVAL) {
-								p.save();
-								p.setLastSaveTime(now);
-							}
-						}
-						Instance.getServer().getLoginConnector()
-								.getActionSender().saveProfiles();
+			public void run() {
+				long now = GameEngine.getTime();
+				for (Player p : world.getPlayers()) {
+					if (now - p.getLastSaveTime() >= Config.SAVE_INTERVAL) {
+						p.save();
+						p.setLastSaveTime(now);
 					}
-				});
+				}
+				Instance.getServer().getLoginConnector().getActionSender()
+						.saveProfiles();
+			}
+		});
 		while (running) {
 			try {
 				Thread.sleep(50);
@@ -352,7 +352,8 @@ public final class GameEngine extends Thread {
 	 * Cleans snapshots of entries over 60 seconds old (executed every second)
 	 */
 	public void cleanSnapshotDeque() {
-		long curTime = GameEngine.getTimestamp(); // We need to compare timestamps
+		long curTime = GameEngine.getTimestamp(); // We need to compare
+													// timestamps
 		if (curTime - lastCleanedChatlogs > 1000) { // Every second
 			lastCleanedChatlogs = curTime;
 			lastCleanedChatlogsOutput++;

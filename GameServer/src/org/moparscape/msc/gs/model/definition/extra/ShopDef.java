@@ -26,7 +26,7 @@ public class ShopDef {
 		Shop shop = new Shop(name, greeting, opts, new Point(minX, minY),
 				new Point(maxX, maxY), general, respawnRate, buyModifier,
 				sellModifier);
-		for(InvItem i : items) {
+		for (InvItem i : items) {
 			shop.add(i.id, i.amount, false);
 		}
 		return shop;

@@ -14,7 +14,7 @@ public class Logger {
 	private static final World getWorld() {
 		return Instance.getWorld();
 	}
-	
+
 	private static SimpleDateFormat formatter;
 
 	/**
@@ -22,7 +22,7 @@ public class Logger {
 	 */
 	private static SimpleDateFormat getFormatter() {
 		try {
-			if(formatter == null) {
+			if (formatter == null) {
 				formatter = new SimpleDateFormat(Config.DATE_FORMAT);
 			}
 			return formatter;
@@ -76,7 +76,8 @@ public class Logger {
 	 *            Object to print
 	 */
 	public static void print(Object o) {
-		System.out.print(getFormatter().format(new Date()) + " " + o.toString());
+		System.out
+				.print(getFormatter().format(new Date()) + " " + o.toString());
 	}
 
 	/**
@@ -86,6 +87,7 @@ public class Logger {
 	 *            Object to print
 	 */
 	public static void println(Object o) {
-		System.out.println(getFormatter().format(new Date()) + " " + o.toString());
+		System.out.println(getFormatter().format(new Date()) + " "
+				+ o.toString());
 	}
 }

@@ -487,7 +487,8 @@ public class InvUseOnItem implements PacketHandler {
 			for (int i = 0; i < stuff.length; i++) {
 				if (stuff[i][0] == item1.id || item2.id == stuff[i][0]) {
 					if (player.getInventory().remove(253, 1, false)
-							&& player.getInventory().remove(stuff[i][0], 1, false)) {
+							&& player.getInventory().remove(stuff[i][0], 1,
+									false)) {
 						player.getInventory().add(stuff[i][1], 1, false);
 						player.getActionSender().sendMessage(
 								"You create an uncooked pie!");
@@ -722,7 +723,8 @@ public class InvUseOnItem implements PacketHandler {
 				for (int i = 0; i < dye.length; i++) {
 					if (dye[i] == item2.id) {
 						if (player.getInventory().remove(item1.id, 1, false)
-								&& player.getInventory().remove(item2.id, 1, false)) {
+								&& player.getInventory().remove(item2.id, 1,
+										false)) {
 							player.getActionSender().sendMessage(
 									"You dye the Cape");
 							player.getInventory().add(newCapes[i], 1, false);
@@ -735,7 +737,8 @@ public class InvUseOnItem implements PacketHandler {
 				for (int i = 0; i < dye.length; i++) {
 					if (dye[i] == item1.id) {
 						if (player.getInventory().remove(item1.id, 1, false)
-								&& player.getInventory().remove(item2.id, 1, false)) {
+								&& player.getInventory().remove(item2.id, 1,
+										false)) {
 							player.getActionSender().sendMessage(
 									"You dye the Cape");
 							player.getInventory().add(newCapes[i], 1, false);
@@ -990,9 +993,12 @@ public class InvUseOnItem implements PacketHandler {
 								"This feature is not avaliable in f2p");
 						return;
 					}
-					if (player.getInventory().remove(combinePotions[i][0], 1, false)
-							&& player.getInventory().remove(combinePotions[i][1], 1, false)) {
-						player.getInventory().add(combinePotions[i][2], 1, false);
+					if (player.getInventory().remove(combinePotions[i][0], 1,
+							false)
+							&& player.getInventory().remove(
+									combinePotions[i][1], 1, false)) {
+						player.getInventory().add(combinePotions[i][2], 1,
+								false);
 						player.getActionSender().sendInventory();
 						player.getActionSender().sendMessage(
 								"You combine the Potions");
@@ -1005,14 +1011,17 @@ public class InvUseOnItem implements PacketHandler {
 								"This feature is not avaliable in f2p");
 						return;
 					}
-					if (player.getInventory().remove(combinePotions[i][1], 1, false)
-							&& player.getInventory().remove(combinePotions[i][1], 1, false)) {
+					if (player.getInventory().remove(combinePotions[i][1], 1,
+							false)
+							&& player.getInventory().remove(
+									combinePotions[i][1], 1, false)) {
 						if (!Server.isMembers()) {
 							player.getActionSender().sendMessage(
 									"This feature is not avaliable in f2p");
 							return;
 						}
-						player.getInventory().add(combinePotions[i][0], 1, false);
+						player.getInventory().add(combinePotions[i][0], 1,
+								false);
 						player.getActionSender().sendInventory();
 						player.getActionSender().sendMessage(
 								"You combine the Potions");
@@ -1024,10 +1033,14 @@ public class InvUseOnItem implements PacketHandler {
 									"This feature is not avaliable in f2p");
 							return;
 						}
-						if (player.getInventory().remove(combinePotions[i][0], 1, false)
-								&& player.getInventory().remove(combinePotions[i][0], 1, false)) {
-							player.getInventory().add(combinePotions[i][2], 1, false);
-							player.getInventory().add(combinePotions[i][1], 1, false);
+						if (player.getInventory().remove(combinePotions[i][0],
+								1, false)
+								&& player.getInventory().remove(
+										combinePotions[i][0], 1, false)) {
+							player.getInventory().add(combinePotions[i][2], 1,
+									false);
+							player.getInventory().add(combinePotions[i][1], 1,
+									false);
 							player.getActionSender().sendInventory();
 							player.getActionSender().sendMessage(
 									"You combine the Potions");
@@ -1088,11 +1101,13 @@ public class InvUseOnItem implements PacketHandler {
 											+ result.getDef().getName() + ".");
 							return;
 						}
-						if (owner.getInventory().remove(leather.id, leather.amount, false)) {
+						if (owner.getInventory().remove(leather.id,
+								leather.amount, false)) {
 							owner.getActionSender().sendMessage(
 									"You make some "
 											+ result.getDef().getName());
-							owner.getInventory().add(result.id, result.amount, false);
+							owner.getInventory().add(result.id, result.amount,
+									false);
 							owner.incExp(12, exp, true);
 							owner.getActionSender().sendStat(12);
 							owner.getActionSender().sendInventory();
@@ -1114,7 +1129,8 @@ public class InvUseOnItem implements PacketHandler {
 		switch (item.id) {
 		case 149: // Clay
 			if (player.getInventory().remove(water.id, water.amount, false)
-					&& player.getInventory().remove(item.id, item.amount, false)) {
+					&& player.getInventory()
+							.remove(item.id, item.amount, false)) {
 				player.getActionSender().sendMessage("You soften the clay.");
 				player.getInventory().add(jugID, 1, false);
 				player.getInventory().add(243, 1, false);
@@ -1166,8 +1182,10 @@ public class InvUseOnItem implements PacketHandler {
 		final int newId = newID;
 		Instance.getDelayedEventHandler().add(new MiniEvent(player) {
 			public void action() {
-				if (owner.getInventory().remove(woolBall.id, woolBall.amount, false)
-						&& owner.getInventory().remove(item.id, item.amount, false)) {
+				if (owner.getInventory().remove(woolBall.id, woolBall.amount,
+						false)
+						&& owner.getInventory().remove(item.id, item.amount,
+								false)) {
 					owner.getActionSender()
 							.sendMessage("You string the amulet");
 					owner.getInventory().add(newId, 1, false);

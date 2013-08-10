@@ -29,7 +29,7 @@ class ShopKeeper extends NpcDialog {
 		this > shop.greeting
 
 		breath
-		
+
 		end
 	}
 }

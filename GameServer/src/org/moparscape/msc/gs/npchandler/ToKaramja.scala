@@ -3,7 +3,7 @@ import org.moparscape.msc.gs.model.dialog.NpcDialog
 
 class ToKaramja extends NpcDialog {
 	override def init {
-		
+
 		this + new Transact("Yes please", Array(10 -> 30), Array(), Array("Oh dear I don't seem to have enough money"), npc, player) {
 
 			override def success {
@@ -13,7 +13,7 @@ class ToKaramja extends NpcDialog {
 				this >> "The ship arrives at Karamja"
 				super.success
 			}
-			
+
 		}
 
 		this + new GenericEnd("No thankyou", npc, player)

@@ -43,8 +43,8 @@ public class ReportHandler implements PacketHandler {
 							+ DataConversions.hashToUsername(temp), 1);
 			// Instance.getServer().getLoginConnector().getActionSender().reportUser(player.getUsernameHash(),
 			// temp, b);
-			DataManager.reportHandler.submitReport(player.getUsernameHash(), temp, b,
-					player);
+			DataManager.reportHandler.submitReport(player.getUsernameHash(),
+					temp, b, player);
 			player.setLastReport();
 			world.addEntryToSnapshots(new Activity(player.getUsername(), player
 					.getUsername()

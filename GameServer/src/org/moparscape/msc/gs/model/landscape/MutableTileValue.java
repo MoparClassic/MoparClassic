@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs.model.landscape;
 
 public class MutableTileValue {
-	
+
 	public MutableTileValue(TileValue t) {
 		this.diagWallVal = t.diagWallVal;
 		this.horizontalWallVal = t.horizontalWallVal;
@@ -10,7 +10,7 @@ public class MutableTileValue {
 		this.verticalWallVal = t.verticalWallVal;
 		this.elevation = t.elevation;
 	}
-	
+
 	public int diagWallVal;
 	public byte horizontalWallVal;
 	public byte mapValue;

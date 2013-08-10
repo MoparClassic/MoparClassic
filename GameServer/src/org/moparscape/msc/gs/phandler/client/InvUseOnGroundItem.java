@@ -101,7 +101,8 @@ public class InvUseOnGroundItem implements PacketHandler {
 							switch (item.getID()) {
 							case 23:
 								if (myItem.id == 135) {
-									if (owner.getInventory().remove(myItem.id, myItem.amount, false))
+									if (owner.getInventory().remove(myItem.id,
+											myItem.amount, false))
 										return;
 									owner.getActionSender().sendMessage(
 											"You put the flour in the pot.");

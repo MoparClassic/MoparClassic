@@ -1,4 +1,3 @@
-
 package org.moparscape.msc.gs.event;
 
 import org.moparscape.msc.gs.model.Mob;

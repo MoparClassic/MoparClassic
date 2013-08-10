@@ -64,13 +64,13 @@ public class SavePacketBuilder {
 			packet.addInt(i.amount);
 		}
 
-		packet.addShort(player.quests.quests().size());		
+		packet.addShort(player.quests.quests().size());
 		for (Quest q : player.quests.quests()) {
 			packet.addShort(q.id());
 			packet.addShort(q.stage());
 		}
 		packet.addLong(player.getEventCD());
-		
+
 		return packet.toPacket();
 	}
 

@@ -71,7 +71,7 @@ public class TalkToNpcHandler implements PacketHandler {
 							owner.setSprite(Formulae.getDirection(affectedNpc,
 									owner));
 						}
-						
+
 						DialogService.talk(affectedNpc, owner);
 
 					}

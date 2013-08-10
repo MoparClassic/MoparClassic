@@ -110,7 +110,8 @@ public class InvUseOnPlayer implements PacketHandler {
 														.sendMessage(
 																owner.getUsername()
 																		+ " got the contents!");
-												owner.getInventory().add(phat.id, 1, false);
+												owner.getInventory().add(
+														phat.id, 1, false);
 											} else {
 												owner.getActionSender()
 														.sendMessage(
@@ -127,7 +128,9 @@ public class InvUseOnPlayer implements PacketHandler {
 												affectedPlayer.getInventory()
 														.add(phat.id, 1, false);
 											}
-											owner.getInventory().remove(item.id, item.amount, false);
+											owner.getInventory()
+													.remove(item.id,
+															item.amount, false);
 											owner.setBusy(false);
 											affectedPlayer.setBusy(false);
 											owner.getActionSender()

@@ -110,9 +110,10 @@ public class FightEvent extends DelayedEvent {
 		if (attacker instanceof Npc && opponent.isPrayerActivated(12)) {
 			return;
 		}
-		//int damage = (attacker instanceof Player && opponent instanceof Player ? Formulae
-		//		.calcFightHit(attacker, opponent) : Formulae
-		//		.calcFightHitWithNPC(attacker, opponent));
+		// int damage = (attacker instanceof Player && opponent instanceof
+		// Player ? Formulae
+		// .calcFightHit(attacker, opponent) : Formulae
+		// .calcFightHitWithNPC(attacker, opponent));
 
 		int damage = CombatFormulae.getNextHit(attacker, opponent);
 		if (attacker instanceof Player && opponent instanceof Npc) {

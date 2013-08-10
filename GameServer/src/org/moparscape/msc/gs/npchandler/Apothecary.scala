@@ -39,7 +39,7 @@ class Apothecary extends NpcDialog {
 				this >> "Apothecary hands you a Strength Potion (4 dose)"
 				super.success
 			}
-			
+
 			override def fail {
 				breath; this > "It seems you don't have everything i asked for, come back later."
 				super.fail

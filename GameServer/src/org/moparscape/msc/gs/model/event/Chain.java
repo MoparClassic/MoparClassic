@@ -1,10 +1,11 @@
 package org.moparscape.msc.gs.model.event;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Chain<T, U> {
-	
+
 	protected final List<T> links = new CopyOnWriteArrayList<T>();
 
 	public final Chain<T, U> addFirst(T link) {

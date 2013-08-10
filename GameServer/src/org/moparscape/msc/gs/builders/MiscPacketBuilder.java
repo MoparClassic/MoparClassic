@@ -444,16 +444,12 @@ public class MiscPacketBuilder {
 	 * Sends this player's quest info
 	 */
 	public void sendQuestInfo() {
-		/*RSCPacketBuilder s = new RSCPacketBuilder();
-		s.setID(233);
-		s.addByte((byte) player.getQuestPoints());
-		// TODO: Send quest info
-		int size = 17;
-		s.addByte((byte) size);
-		for (int i = 0; i < size; i++) {
-			s.addByte((byte) i);
-			s.addByte((byte) 0);
-		}*/
+		/*
+		 * RSCPacketBuilder s = new RSCPacketBuilder(); s.setID(233);
+		 * s.addByte((byte) player.getQuestPoints()); // TODO: Send quest info
+		 * int size = 17; s.addByte((byte) size); for (int i = 0; i < size; i++)
+		 * { s.addByte((byte) i); s.addByte((byte) 0); }
+		 */
 		/*
 		 * for (int i = 0; i < size; i++) { //Quest quest =
 		 * World.getQuestManager().getQuests().get(i); s.addByte((byte)
@@ -464,7 +460,7 @@ public class MiscPacketBuilder {
 		 * s.addByte((byte) 0); }
 		 */
 
-		//packets.add(s.toPacket());
+		// packets.add(s.toPacket());
 		/*
 		 * RSCPacketBuilder s = new RSCPacketBuilder(); // setID(183)
 		 * s.setID(233); s.addByte((byte)player.getQuestPoints()); HashMap qs =

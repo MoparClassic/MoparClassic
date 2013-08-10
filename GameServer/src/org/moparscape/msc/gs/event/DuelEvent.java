@@ -54,9 +54,10 @@ public class DuelEvent extends DelayedEvent {
 		attacker.incHitsMade();
 		attacker.setLastMoved();
 
-		//int damage = (attacker instanceof Player && opponent instanceof Player ? Formulae
-		//		.calcFightHit(attacker, opponent) : Formulae
-		//		.calcFightHitWithNPC(attacker, opponent));
+		// int damage = (attacker instanceof Player && opponent instanceof
+		// Player ? Formulae
+		// .calcFightHit(attacker, opponent) : Formulae
+		// .calcFightHitWithNPC(attacker, opponent));
 		int damage = CombatFormulae.getNextHit(attacker, opponent);
 		opponent.setLastDamage(damage);
 		int newHp = opponent.getHits() - damage;

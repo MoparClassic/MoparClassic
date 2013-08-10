@@ -39,8 +39,8 @@ public class Config {
 	public static int CONNECTION_THROTTLE_SIZE,
 			WILD_LEVEL_FOR_NON_COMBAT_BONUS, WILD_STAND_STILL_TIME,
 			DELAY_REMOVAL;
-	public static boolean OS_LEVEL_BLOCKING, THROTTLE_ALERT, OS_LEVEL_UNBLOCK_FAILED_ALERT,
-			CONGRATS_FOR_MAX_LEVEL;
+	public static boolean OS_LEVEL_BLOCKING, THROTTLE_ALERT,
+			OS_LEVEL_UNBLOCK_FAILED_ALERT, CONGRATS_FOR_MAX_LEVEL;
 	public static String DATA_STORE;
 	public static int PACKET_PER_SECOND_THRESHOLD;
 	public static boolean PACKET_PER_SECOND_ALERT;
@@ -143,11 +143,11 @@ public class Config {
 
 		DATA_SERVICE = props.getProperty("data-service");
 		REPORT_HANDLER = props.getProperty("report-handler");
-		
+
 		MOTD = props.getProperty("MOTD");
-		
+
 		CAPTCHA_DICTIONARY = props.getProperty("captcha-dictionary");
-	 	FONT_DIR = props.getProperty("font-dir");
+		FONT_DIR = props.getProperty("font-dir");
 
 		props.clear();
 	}

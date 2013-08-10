@@ -97,8 +97,8 @@ public class Captcha {
 			// y = 35 +- 5
 			g.drawString(String.valueOf(chr), lastx, 35 + 5 * randomSignFlip());
 			// Width +- an element of (0 through 5)
-			lastx += g.getFontMetrics().charWidth(chr)
-					+ randomSignFlip() * random.nextInt(6);
+			lastx += g.getFontMetrics().charWidth(chr) + randomSignFlip()
+					* random.nextInt(6);
 		}
 		g.dispose();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -112,7 +112,7 @@ public class Captcha {
 		}
 		return bytes;
 	}
-	
+
 	private static int randomSignFlip() {
 		return random.nextBoolean() ? 1 : -1;
 	}

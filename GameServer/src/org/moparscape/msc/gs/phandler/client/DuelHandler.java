@@ -211,8 +211,9 @@ public class DuelHandler implements PacketHandler {
 									ItemAttributes.getWieldable(item.id)
 											.getWieldPos(),
 									player.getPlayerAppearance().getSprite(
-											ItemAttributes.getWieldable(
-													item.id).getWieldPos()));
+											ItemAttributes
+													.getWieldable(item.id)
+													.getWieldPos()));
 						}
 						slot++;
 					}
@@ -414,8 +415,8 @@ public class DuelHandler implements PacketHandler {
 				duelOffer.add(tItem.id, tItem.amount, false);
 			}
 			for (InvItem item : duelOffer.getItems()) {
-				if (duelOffer.countId(item.id) > player.getInventory()
-						.countId(item.id)) {
+				if (duelOffer.countId(item.id) > player.getInventory().countId(
+						item.id)) {
 					player.setSuspiciousPlayer(true);
 					return;
 				}

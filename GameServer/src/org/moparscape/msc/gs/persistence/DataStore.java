@@ -119,7 +119,8 @@ public abstract interface DataStore {
 
 	public ItemHerbSecondDef[] loadItemHerbSeconds() throws Exception;
 
-	public void saveItemHerbSeconds(ItemHerbSecondDef[] seconds) throws Exception;
+	public void saveItemHerbSeconds(ItemHerbSecondDef[] seconds)
+			throws Exception;
 
 	public Map<Integer, ItemDartTipDef> loadItemDartTipDefs() throws Exception;
 
@@ -153,70 +154,82 @@ public abstract interface DataStore {
 			throws Exception;
 
 	public Map<Integer, int[]> loadItemAffectedTypes() throws Exception;
-	
-	public void saveItemAffectedTypes(Map<Integer, int[]> types) throws Exception;
+
+	public void saveItemAffectedTypes(Map<Integer, int[]> types)
+			throws Exception;
 
 	public Map<Integer, ItemWieldableDef> loadItemWieldableDefs()
 			throws Exception;
-	
-	public void saveItemWieldableDefs(Map<Integer, ItemWieldableDef> defs) throws Exception;
+
+	public void saveItemWieldableDefs(Map<Integer, ItemWieldableDef> defs)
+			throws Exception;
 
 	public Map<Integer, ItemUnIdentHerbDef> loadItemUnIdentHerbDefs()
 			throws Exception;
-	
-	public void saveItemUnIdentHerbDefs(Map<Integer, ItemUnIdentHerbDef> defs) throws Exception;
+
+	public void saveItemUnIdentHerbDefs(Map<Integer, ItemUnIdentHerbDef> defs)
+			throws Exception;
 
 	public Map<Integer, ItemHerbDef> loadItemHerbDefs() throws Exception;
-	
-	public void saveItemHerbDefs(Map<Integer, ItemHerbDef> defs) throws Exception;
+
+	public void saveItemHerbDefs(Map<Integer, ItemHerbDef> defs)
+			throws Exception;
 
 	public Map<Integer, Integer> loadItemEdibleHeals() throws Exception;
-	
-	public void saveItemEdibleHeals(Map<Integer, Integer> defs) throws Exception;
+
+	public void saveItemEdibleHeals(Map<Integer, Integer> defs)
+			throws Exception;
 
 	public Map<Integer, ItemCookingDef> loadItemCookingDefs() throws Exception;
-	
-	public void saveItemCookingDefs(Map<Integer, ItemCookingDef> defs) throws Exception;
+
+	public void saveItemCookingDefs(Map<Integer, ItemCookingDef> defs)
+			throws Exception;
 
 	public Map<Integer, ItemSmeltingDef> loadItemSmeltingDefs()
 			throws Exception;
-	
-	public void saveItemSmeltingDefs(Map<Integer, ItemSmeltingDef> defs) throws Exception;
+
+	public void saveItemSmeltingDefs(Map<Integer, ItemSmeltingDef> defs)
+			throws Exception;
 
 	public ItemSmithingDef[] loadItemSmithingDefs() throws Exception;
-	
+
 	public void saveItemSmithingDefs(ItemSmithingDef[] defs) throws Exception;
 
 	public Map<Integer, ObjectMiningDef> loadObjectMiningDefs()
 			throws Exception;
 
-	public void saveObjectMiningDefs(Map<Integer, ObjectMiningDef> defs) throws Exception;
-	
+	public void saveObjectMiningDefs(Map<Integer, ObjectMiningDef> defs)
+			throws Exception;
+
 	public Map<Integer, ObjectWoodcuttingDef> loadObjectWoodcuttingDefs()
 			throws Exception;
-	
-	public void saveObjectWoodcuttingDefs(Map<Integer, ObjectWoodcuttingDef> defs) throws Exception;
+
+	public void saveObjectWoodcuttingDefs(
+			Map<Integer, ObjectWoodcuttingDef> defs) throws Exception;
 
 	public Map<Integer, ObjectFishingDef[]> loadObjectFishDefs()
 			throws Exception;
-	
-	public void saveObjectFishingDefs(Map<Integer, ObjectFishingDef> defs) throws Exception;
+
+	public void saveObjectFishingDefs(Map<Integer, ObjectFishingDef> defs)
+			throws Exception;
 
 	public Map<Integer, Integer> loadSpellAgressiveLevel() throws Exception;
-	
-	public void saveSpellAgressiveLevel(Map<Integer, Integer> defs) throws Exception;
+
+	public void saveSpellAgressiveLevel(Map<Integer, Integer> defs)
+			throws Exception;
 
 	public Map<Integer, AgilityDef> loadAgilityDefs() throws Exception;
-	
+
 	public void saveAgilityDefs(Map<Integer, AgilityDef> defs) throws Exception;
 
 	public Map<Integer, AgilityCourseDef> loadAgilityCourseDefs()
 			throws Exception;
-	
-	public void saveAgilityCourseDef(Map<Integer, AgilityCourseDef> defs) throws Exception;
+
+	public void saveAgilityCourseDef(Map<Integer, AgilityCourseDef> defs)
+			throws Exception;
 
 	public List<InvItem>[] loadKeyChestLoots() throws Exception;
-	
+
 	public void saveKeyChestLoots(List<InvItem>[] loots) throws Exception;
 
 	public void dispose();

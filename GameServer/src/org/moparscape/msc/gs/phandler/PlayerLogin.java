@@ -10,8 +10,8 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.PlayerAppearance;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
-import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.container.Bank;
+import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
 import org.moparscape.msc.gs.service.ItemAttributes;
@@ -142,8 +142,6 @@ public class PlayerLogin implements PacketHandler {
 			for (int i = 0; i < ignoreCount; i++)
 				player.addIgnore(p.readLong());
 
-			
-			
 			int questCount = p.readShort();
 			// Logging.debug(questCount);
 			for (int i = 0; i < questCount; i++) {
@@ -160,7 +158,7 @@ public class PlayerLogin implements PacketHandler {
 
 			long eventcd = p.readLong();
 			player.setEventCD(eventcd);
-			
+
 			/* End of loading methods */
 
 			/* Send client data */

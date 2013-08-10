@@ -33,8 +33,9 @@ public class WorldLoader {
 			String filename = "h" + height + "x" + sectionX + "y" + sectionY;
 			ZipEntry e = tileArchive.getEntry(filename);
 			if (e == null) {
-				//throw new Exception("Missing tile: " + filename);
-				System.out.println("Missing tile: " + filename + " ex: " + (bigX + 10) + ", " + (bigY + 10));
+				// throw new Exception("Missing tile: " + filename);
+				System.out.println("Missing tile: " + filename + " ex: "
+						+ (bigX + 10) + ", " + (bigY + 10));
 				return false;
 			}
 			ByteBuffer data = DataConversions
@@ -155,7 +156,7 @@ public class WorldLoader {
 				for (int sy = 0; sy < 1000; sy += 48) {
 					int x = (sx + wildX) / 48;
 					int y = (sy + (lvl * 944) + wildY) / 48;
-					if(loadSection(x, y, lvl, world, sx, sy + (944 * lvl))) {
+					if (loadSection(x, y, lvl, world, sx, sy + (944 * lvl))) {
 						sections.add(new Point3D(x, y, lvl));
 					}
 				}

@@ -5,7 +5,7 @@ import org.moparscape.msc.gs.model.event.Chain;
 public class ObjectActionChain extends Chain<ObjectEvent, ObjectActionParam> {
 
 	public ObjectActionChain(ObjectEvent... events) {
-		for(ObjectEvent e : events) {
+		for (ObjectEvent e : events) {
 			this.addLast(e);
 		}
 	}

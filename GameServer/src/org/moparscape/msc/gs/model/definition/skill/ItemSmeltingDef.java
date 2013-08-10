@@ -1,6 +1,5 @@
 package org.moparscape.msc.gs.model.definition.skill;
 
-
 /**
  * The definition wrapper for items
  */

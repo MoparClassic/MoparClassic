@@ -67,17 +67,17 @@ public class ConnectionFilter extends BlacklistFilter {
 		}
 		super.sessionClosed(nextFilter, session);
 	}
-	
+
 	private void unblock(InetSocketAddress a) {
 		final String host = a.getAddress().getHostAddress();
 		final Integer val;
 		synchronized (connections) {
 			val = connections.get(host);
 
-			if(val == null) {
+			if (val == null) {
 				return;
 			}
-			
+
 			if (val == 1) {
 				connections.remove(host);
 			} else {

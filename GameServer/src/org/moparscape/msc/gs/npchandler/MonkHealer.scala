@@ -9,7 +9,7 @@ class MonkHealer(_npc : Npc, _player : Player) extends GenericEnd("", _npc, _pla
 		this < "Can you heal me? I'm injured."; breath
 		this > "Ok"; breath
 		this >> "The monk places his hands on you head"; breath
-		
+
 		var newHp = player.getCurStat(3) + 10;
 		if (newHp > player.getMaxStat(3)) {
 			newHp = player.getMaxStat(3)
@@ -17,7 +17,7 @@ class MonkHealer(_npc : Npc, _player : Player) extends GenericEnd("", _npc, _pla
 		player.setCurStat(3, newHp)
 		player.getActionSender.sendStat(3)
 		this >> "You feel a little better."
-		
+
 		super.begin
 	}
 
