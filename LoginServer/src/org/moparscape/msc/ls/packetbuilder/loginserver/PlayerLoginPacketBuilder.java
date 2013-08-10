@@ -1,14 +1,11 @@
 package org.moparscape.msc.ls.packetbuilder.loginserver;
 
-import java.util.List;
-
-import org.moparscape.msc.ls.Server;
 import org.moparscape.msc.ls.model.BankItem;
 import org.moparscape.msc.ls.model.InvItem;
 import org.moparscape.msc.ls.model.PlayerSave;
-import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.LSPacket;
 import org.moparscape.msc.ls.packetbuilder.LSPacketBuilder;
+import org.moparscape.msc.ls.service.FriendsListService;
 
 
 public class PlayerLoginPacketBuilder {
@@ -26,7 +23,6 @@ public class PlayerLoginPacketBuilder {
     private long uID;
 
     public LSPacket getPacket() {
-	Server server = Server.getServer();
 
 	LSPacketBuilder packet = new LSPacketBuilder();
 	packet.setUID(uID);
@@ -87,15 +83,13 @@ public class PlayerLoginPacketBuilder {
 		packet.addInt(item.getAmount());
 	    }
 
-	    List<Long> friendsWithUs = Server.storage.getFriendsOnline(save.getUser());
 
 	    int friendCount = save.getFriendCount();
 	    packet.addShort(friendCount);
 	    for (int i = 0; i < friendCount; i++) {
 		long friend = save.getFriend(i);
-		World world = server.findWorld(friend);
 		packet.addLong(friend);
-		packet.addShort(world == null || !friendsWithUs.contains(friend) ? 0 : world.getID());
+		packet.addShort(FriendsListService.getFriendWorld(save.getUser(), friend));
 	    }
 
 	    int ignoreCount = save.getIgnoreCount();

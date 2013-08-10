@@ -1,4 +1,4 @@
-package org.moparscape.msc.config
+package org.moparscape.msc.gs.config
 
 import org.moparscape.msc.gs.model.Mob
 import scala.util.Random

@@ -14,11 +14,11 @@ import java.util.TreeMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.MiscPacketBuilder;
 import org.moparscape.msc.gs.builders.ls.SavePacketBuilder;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
@@ -381,7 +381,7 @@ public final class Player extends Mob {
 	/**
 	 * The player's password
 	 */
-	private String password;
+	private byte[] password;
 	/**
 	 * List of players who have been hit
 	 */
@@ -1246,7 +1246,7 @@ public final class Player extends Mob {
 		return owner;
 	}
 
-	public String getPassword() {
+	public byte[] getPassword() {
 		return password;
 	}
 
@@ -1914,11 +1914,11 @@ public final class Player extends Mob {
 		return 0;
 	}
 
-	public void load(String username, String password, int uid,
+	public void load(String username, byte[] password2, int uid,
 			boolean reconnecting) {
 		try {
 			setID(uid);
-			this.password = password;
+			this.password = password2;
 			this.reconnecting = reconnecting;
 			usernameHash = DataConversions.usernameToHash(username);
 			this.username = DataConversions.hashToUsername(usernameHash);
@@ -2781,7 +2781,7 @@ public final class Player extends Mob {
 		this.packetSpam = packetSpam;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(byte[] password) {
 		this.password = password;
 	}
 

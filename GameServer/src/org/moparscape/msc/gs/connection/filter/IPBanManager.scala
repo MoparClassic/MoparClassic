@@ -6,7 +6,7 @@ import org.moparscape.msc.gs.Server
 import org.moparscape.msc.gs.core.DelayedEventHandler
 import org.moparscape.msc.gs.event.DelayedEvent
 import org.moparscape.msc.gs.util.Logger
-import org.moparscape.msc.config.Config
+import org.moparscape.msc.gs.config.Config
 import org.moparscape.msc.gs.alert.AlertHandler
 import java.net.InetSocketAddress
 import java.net.SocketAddress

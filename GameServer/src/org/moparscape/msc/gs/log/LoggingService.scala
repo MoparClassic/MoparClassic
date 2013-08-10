@@ -14,5 +14,7 @@ case class Action(p : RSCPacket)
 class LoggingService(logger : Logger = new BatchedLogger) extends Actor {
 	def receive = {
 		case packet : RSCPacket => logger.log(packet)
+		case string : String => logger.log(string)
+		case e : Throwable => logger.log(e)
 	}
 }

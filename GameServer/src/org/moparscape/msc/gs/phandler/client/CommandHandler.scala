@@ -8,7 +8,7 @@ import scala.language.postfixOps
 import scala.xml.{ NodeSeq, XML }
 
 import org.apache.mina.common.IoSession
-import org.moparscape.msc.config.Config
+import org.moparscape.msc.gs.config.Config
 import org.moparscape.msc.gs.Instance
 import org.moparscape.msc.gs.builders.ls.{ MiscPacketBuilder => LSMiscPacketBuilder }
 import org.moparscape.msc.gs.connection.Packet
@@ -100,8 +100,7 @@ class CommandHandler extends PacketHandler {
 			case "nearby" | "inview" => inView(p)
 			case "stuck" => stuck(p)
 			case "info" => info(p, args, ls)
-			case "info2" => info(p, args, world)
-			case "info3" => info_(p, args, world)
+			case "info2" => info_(p, args, world)
 			case "town" => town(p, args)
 			case "ban" => ban(p, args, ls)
 			case "unban" => unban(p, args, ls)
@@ -182,17 +181,6 @@ class CommandHandler extends PacketHandler {
 			return ;
 		}
 		ls.requestPlayerInfo(p, DataConversions.usernameToHash(args(0)))
-	}
-
-	def info(p : Player, args : Array[String], world : World) {
-		val p1 = world.getPlayer(DataConversions.usernameToHash(args(0)))
-		if (p1 == null) {
-			message(p, args(0) + " is offline?")
-			return ;
-		}
-		p.setLastPlayerInfo2(p.getUsername)
-		p1.getActionSender.sendInfo2
-		message(p, "Requesting info.. please wait")
 	}
 
 	def info_(p : Player, args : Array[String], world : World) {

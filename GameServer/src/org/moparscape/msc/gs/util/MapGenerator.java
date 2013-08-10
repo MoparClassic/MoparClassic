@@ -7,8 +7,8 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.landscape.TileValue;

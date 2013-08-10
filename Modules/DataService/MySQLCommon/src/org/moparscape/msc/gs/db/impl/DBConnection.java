@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.util.Logger;
 
 /**
@@ -52,9 +51,10 @@ class DBConnection {
 
 	public boolean createConnection() {
 		try {
+			// TODO: Add config options for data stores
 			con = DriverManager.getConnection("jdbc:mysql://"
-					+ Config.MYSQL_HOST + "/" + Config.MYSQL_DB,
-					Config.MYSQL_USER, Config.MYSQL_PASS);
+					+ "localhost" + "/" + "moparclassic",
+					"root", "");
 			statement = con.createStatement();
 			statement.setEscapeProcessing(true);
 			return isConnected();

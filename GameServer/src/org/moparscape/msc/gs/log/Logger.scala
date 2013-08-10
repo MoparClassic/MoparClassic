@@ -6,5 +6,7 @@ import org.moparscape.msc.gs.connection.RSCPacket
  * @author CodeForFame
  */
 abstract class Logger {
-	def log(P : RSCPacket)
+	def log(p : RSCPacket)
+	def log(s : String)
+	def log(e : Throwable)
 }

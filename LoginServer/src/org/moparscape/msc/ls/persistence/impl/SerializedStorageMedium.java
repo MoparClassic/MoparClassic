@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
-import java.util.List;
 
 import org.moparscape.msc.ls.model.PlayerSave;
 import org.moparscape.msc.ls.persistence.StorageMedium;
@@ -73,12 +72,6 @@ public class SerializedStorageMedium implements StorageMedium {
 	}
 
 	@Override
-	public void resetOnlineFlag(int world) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void logKill(long user, long killed, byte type) {
 		// TODO Auto-generated method stub
 
@@ -91,27 +84,9 @@ public class SerializedStorageMedium implements StorageMedium {
 	}
 
 	@Override
-	public boolean addFriend_isOnline0(long user, long friend) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addFriend_isOnline1(long friend, long user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void removeFriend(long user, long friend) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public boolean removeFriend_isOnline(long user) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -125,43 +100,7 @@ public class SerializedStorageMedium implements StorageMedium {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public List<Long> getFriendsOnline(long user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void chatBlock(int on, long user) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void privateBlock(int on, long user) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public List<Long> getPrivateBlockFriendsOnline(long user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void tradeBlock(int on, long user) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void duelBlock(int on, long user) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	@Override
 	public boolean playerExists(long user) {
 		// TODO Auto-generated method stub
@@ -193,12 +132,6 @@ public class SerializedStorageMedium implements StorageMedium {
 	}
 
 	@Override
-	public void setOnlineFlag(int id, long user) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean ban(boolean setBanned, long user) {
 		// TODO Auto-generated method stub
 		return false;
@@ -206,12 +139,6 @@ public class SerializedStorageMedium implements StorageMedium {
 
 	@Override
 	public void logBan(long user, long modhash) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setGameSettings(int idx, boolean on, long user) {
 		// TODO Auto-generated method stub
 
 	}
@@ -274,8 +201,8 @@ public class SerializedStorageMedium implements StorageMedium {
 	}
 
 	@Override
-	public String getPass(long user) {
-		return "";
+	public byte[] getPass(long user) {
+		return getPlayerData(user).pass;
 	}
 
 	public PlayerSave getPlayerData(long user) {

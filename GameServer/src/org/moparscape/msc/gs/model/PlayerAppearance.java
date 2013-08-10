@@ -1,6 +1,6 @@
 package org.moparscape.msc.gs.model;
 
-import org.moparscape.msc.config.Formulae;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.tools.DataConversions;
 
 public class PlayerAppearance {

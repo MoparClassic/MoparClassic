@@ -1,6 +1,6 @@
 package org.moparscape.msc.gs.event.handler.objectaction.impl
 
-import org.moparscape.msc.config.Formulae
+import org.moparscape.msc.gs.config.Formulae
 import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
 import org.moparscape.msc.gs.event.EventHandler
 import org.moparscape.msc.gs.model.ChatMessage

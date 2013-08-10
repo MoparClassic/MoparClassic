@@ -7,7 +7,7 @@ import scala.collection.mutable.{ HashMap, ListBuffer }
 import scala.language.postfixOps
 import scala.xml.{ Node, XML }
 
-import org.moparscape.msc.config.Config
+import org.moparscape.msc.gs.config.Config
 
 import javax.mail.{ Message, Session }
 import javax.mail.internet.{ InternetAddress, MimeMessage }

@@ -17,7 +17,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.util.Logger;
 

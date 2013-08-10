@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.LSPacketBuilder;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.core.GameEngine;
@@ -111,7 +111,8 @@ public class MiscPacketBuilder {
 		s.setHandler(connector, new PlayerLogin(player));
 		s.addLong(player.getUsernameHash());
 		s.addLong(DataConversions.IPToLong(player.getCurrentIP()));
-		s.addBytes(DataConversions.md5(player.getPassword()).getBytes());
+		s.addInt(player.getPassword().length);
+		s.addBytes(player.getPassword());
 		s.addBytes(player.getClassName().getBytes());
 		packets.add(s.toPacket());
 	}
@@ -136,7 +137,7 @@ public class MiscPacketBuilder {
 				connector.setRegistered(p.readByte() == 1);
 			}
 		});
-		s.addShort(Config.SERVER_NUM);
+		s.addShort(Config.WORLD_ID);
 		EntityList<Player> players = world.getPlayers();
 		s.addShort(players.size());
 		for (Player player : players) {

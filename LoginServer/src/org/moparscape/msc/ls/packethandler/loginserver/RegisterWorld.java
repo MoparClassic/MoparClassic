@@ -26,19 +26,17 @@ public class RegisterWorld implements PacketHandler {
 					world = new World(id, session);
 					server.registerWorld(world);
 					System.out.println("Registering world: " + id);
-					Server.storage.resetOnlineFlag(id);
 
 				} else {
 					world.setSession(session);
 					server.setIdle(world, false);
 					System.out.println("Reattached to world " + id);
-					Server.storage.resetOnlineFlag(id);
-
 				}
 				int playerCount = p.readShort();
 				for (int i = 0; i < playerCount; i++) {
 					world.registerPlayer(p.readLong(),
-							DataConversions.IPToString(p.readLong()));
+							DataConversions.IPToString(p.readLong()),
+							p.readString(p.readInt()));
 				}
 				session.setAttachment(world);
 				builder.setSuccess(true);

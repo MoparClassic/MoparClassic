@@ -10,9 +10,9 @@ import org.apache.mina.common.IoSession;
 import org.apache.mina.transport.socket.nio.SocketConnector;
 import org.apache.mina.transport.socket.nio.SocketConnectorConfig;
 import org.apache.mina.transport.socket.nio.SocketSessionConfig;
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.ls.MiscPacketBuilder;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.LSConnectionHandler;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.connection.PacketQueue;
@@ -139,7 +139,7 @@ public class LoginConnector {
 
 	public void kill() {
 		running = false;
-		Logger.print("Unregistering world (" + Config.SERVER_NUM + ") with LS");
+		Logger.print("Unregistering world (" + Config.WORLD_ID + ") with LS");
 		actionSender.unregisterWorld();
 	}
 
@@ -194,7 +194,7 @@ public class LoginConnector {
 			future.join(3000);
 			if (future.isConnected()) {
 				session = future.getSession();
-				Logger.println("Registering world (" + Config.SERVER_NUM
+				Logger.println("Registering world (" + Config.WORLD_ID
 						+ ") with LS");
 				actionSender.registerWorld();
 				connectionAttempts = 0;

@@ -11,15 +11,8 @@
 	<user>
 		<name>Example</name>
 		<email>
-			<address>codeforfame@gmail.com</address>
+			<address>moparalert@gmail.com</address>
 			<priority>10</priority>
-		</email>
-	</user>
-	<user>
-		<name>Example1</name>
-		<email>
-			<address>codeforfame@gmail.com</address>
-			<priority>1</priority>
 		</email>
 	</user>
 </alert>

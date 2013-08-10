@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs.npchandler
 import org.moparscape.msc.gs.model.dialog.NpcDialog
 import org.moparscape.msc.gs.Server
-import org.moparscape.msc.config.Constants.GameServer
+import org.moparscape.msc.gs.config.Constants.GameServer
 
 class EntranaMonk extends NpcDialog {
 	override def init {

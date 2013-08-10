@@ -3,7 +3,7 @@ package org.moparscape.msc.gs.service
 import scala.collection.JavaConversions.asScalaBuffer
 import scala.language.implicitConversions
 
-import org.moparscape.msc.config.{ Config, Formulae }
+import org.moparscape.msc.gs.config.{ Config, Formulae }
 import org.moparscape.msc.gs.Instance.{ dataStore => ds, getWorld => w }
 import org.moparscape.msc.gs.model.{ GameObject, Item, Npc, Point3D, World }
 import org.moparscape.msc.gs.model.definition.EntityHandler

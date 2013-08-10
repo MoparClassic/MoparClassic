@@ -3,8 +3,8 @@ package org.moparscape.msc.gs.model.landscape;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.model.Entity;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.Item;

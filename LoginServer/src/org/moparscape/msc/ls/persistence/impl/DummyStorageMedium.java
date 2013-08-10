@@ -1,7 +1,6 @@
 package org.moparscape.msc.ls.persistence.impl;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.moparscape.msc.ls.model.PlayerSave;
 import org.moparscape.msc.ls.persistence.StorageMedium;
@@ -14,10 +13,10 @@ class DummyStorageMedium implements StorageMedium {
 
 		return true;
 	}
-	
+
 	@Override
-	public String getPass(long user) {
-		return "";
+	public byte[] getPass(long user) {
+		return new byte[0];
 	}
 
 	@Override
@@ -38,11 +37,6 @@ class DummyStorageMedium implements StorageMedium {
 	}
 
 	@Override
-	public void resetOnlineFlag(int world) {
-
-	}
-
-	@Override
 	public void logKill(long user, long killed, byte type) {
 
 	}
@@ -53,26 +47,8 @@ class DummyStorageMedium implements StorageMedium {
 	}
 
 	@Override
-	public boolean addFriend_isOnline0(long user, long friend) {
-
-		return false;
-	}
-
-	@Override
-	public boolean addFriend_isOnline1(long friend, long user) {
-
-		return false;
-	}
-
-	@Override
 	public void removeFriend(long user, long friend) {
 
-	}
-
-	@Override
-	public boolean removeFriend_isOnline(long user) {
-
-		return false;
 	}
 
 	@Override
@@ -82,38 +58,6 @@ class DummyStorageMedium implements StorageMedium {
 
 	@Override
 	public void removeIgnore(long user, long friend) {
-
-	}
-
-	@Override
-	public List<Long> getFriendsOnline(long user) {
-
-		return null;
-	}
-
-	@Override
-	public void chatBlock(int on, long user) {
-
-	}
-
-	@Override
-	public void privateBlock(int on, long user) {
-
-	}
-
-	@Override
-	public List<Long> getPrivateBlockFriendsOnline(long user) {
-
-		return null;
-	}
-
-	@Override
-	public void tradeBlock(int on, long user) {
-
-	}
-
-	@Override
-	public void duelBlock(int on, long user) {
 
 	}
 
@@ -142,22 +86,12 @@ class DummyStorageMedium implements StorageMedium {
 	}
 
 	@Override
-	public void setOnlineFlag(int id, long user) {
-
-	}
-
-	@Override
 	public boolean ban(boolean setBanned, long user) {
 		return false;
 	}
 
 	@Override
 	public void logBan(long user, long modhash) {
-
-	}
-
-	@Override
-	public void setGameSettings(int idx, boolean on, long user) {
 
 	}
 
@@ -171,7 +105,7 @@ class DummyStorageMedium implements StorageMedium {
 		int[] exp = new int[Config.statArray.length];
 		Arrays.fill(exp, 1);
 		int[] stats = exp.clone();
-		
+
 		exp[3] = 1200;
 		save.setExp(exp);
 		stats[3] = 10;

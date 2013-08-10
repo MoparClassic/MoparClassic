@@ -3,9 +3,9 @@ package org.moparscape.msc.gs.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.moparscape.msc.config.Constants;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Constants;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.FightEvent;

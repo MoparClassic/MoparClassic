@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs.event.handler.objectaction.impl
 import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
 import org.moparscape.msc.gs.model.World
-import org.moparscape.msc.config.Constants
+import org.moparscape.msc.gs.config.Constants
 
 class MembersObjectAction extends ObjectEvent {
 	override def fire = {

@@ -2,9 +2,9 @@ package org.moparscape.msc.gs.event;
 
 import java.util.ArrayList;
 
-import org.moparscape.msc.config.CombatFormulae;
-import org.moparscape.msc.config.Constants;
-import org.moparscape.msc.config.Formulae;
+import org.moparscape.msc.gs.config.CombatFormulae;
+import org.moparscape.msc.gs.config.Constants;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Path;

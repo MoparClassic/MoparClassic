@@ -3,13 +3,14 @@ package org.moparscape.msc.gs.phandler.client;
 import java.net.InetSocketAddress;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.RSCPacketBuilder;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.phandler.PacketHandler;
+import org.moparscape.msc.gs.util.Hash;
 import org.moparscape.msc.gs.util.Logger;
 import org.moparscape.msc.gs.util.RSA;
 
@@ -46,10 +47,12 @@ public class PlayerLogin implements PacketHandler {
 				sessionKeys[key] = p.readInt();
 			}
 			String username = "";
-			String password = "";
+			byte[] password = null;
 
-			username = p.readString(20).trim();
-			password = p.readString(20).trim();
+			int lenU = p.readInt();
+			username = p.readString(lenU).trim();
+			int len = p.readInt();
+			password = new Hash(p.readBytes(len)).value();
 
 			if (world.countPlayers() >= Config.MAX_PLAYERS) {
 				loginCode = 10;
@@ -65,7 +68,7 @@ public class PlayerLogin implements PacketHandler {
 				return;
 			}
 		} catch (Exception e) {
-			System.err.println("Login exception with: " + ip);
+			Logger.println("Login exception with: " + ip);
 			e.printStackTrace();
 			loginCode = 4;
 		}

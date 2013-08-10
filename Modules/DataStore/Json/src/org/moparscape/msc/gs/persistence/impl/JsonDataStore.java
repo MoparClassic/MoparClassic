@@ -9,41 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.TelePoint;
-import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
-import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
-import org.moparscape.msc.gs.model.definition.entity.ItemDef;
-import org.moparscape.msc.gs.model.definition.entity.ItemLoc;
-import org.moparscape.msc.gs.model.definition.entity.NPCDef;
-import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
-import org.moparscape.msc.gs.model.definition.extra.CerterDef;
-import org.moparscape.msc.gs.model.definition.extra.DoorDef;
-import org.moparscape.msc.gs.model.definition.extra.ShopDef;
-import org.moparscape.msc.gs.model.definition.extra.TileDef;
-import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
-import org.moparscape.msc.gs.model.definition.skill.AgilityDef;
-import org.moparscape.msc.gs.model.definition.skill.FiremakingDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemArrowHeadDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemBowStringDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemCookingDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemCraftingDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemDartTipDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemGemDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemHerbDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemHerbSecondDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemLogCutDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemSmithingDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
-import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDef;
-import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
-import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
-import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
-import org.moparscape.msc.gs.model.definition.skill.SpellDef;
+import org.moparscape.msc.gs.model.definition.entity.*;
+import org.moparscape.msc.gs.model.definition.extra.*;
+import org.moparscape.msc.gs.model.definition.skill.*;
 import org.moparscape.msc.gs.persistence.DataStore;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 
@@ -146,8 +118,7 @@ public class JsonDataStore implements DataStore {
 	 * The Gson object that we'll be using.
 	 */
 	private Gson gson = new GsonBuilder().setPrettyPrinting()
-			.excludeFieldsWithModifiers(Modifier.TRANSIENT)
-			.generateNonExecutableJson().create();
+			.excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC).generateNonExecutableJson().create();
 
 	/**
 	 * A helper method for load.

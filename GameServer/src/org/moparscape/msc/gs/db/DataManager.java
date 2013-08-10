@@ -1,6 +1,6 @@
 package org.moparscape.msc.gs.db;
 
-import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.db.impl.DataServiceFactory;
 
 public class DataManager {

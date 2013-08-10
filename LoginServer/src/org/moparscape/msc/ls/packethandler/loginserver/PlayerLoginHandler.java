@@ -7,11 +7,13 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;
 import org.moparscape.msc.ls.auth.Auth;
 import org.moparscape.msc.ls.auth.impl.AuthFactory;
+import org.moparscape.msc.ls.model.PlayerSave;
 import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.LSPacket;
 import org.moparscape.msc.ls.net.Packet;
 import org.moparscape.msc.ls.packetbuilder.loginserver.PlayerLoginPacketBuilder;
 import org.moparscape.msc.ls.packethandler.PacketHandler;
+import org.moparscape.msc.ls.service.UIDTracker;
 import org.moparscape.msc.ls.util.Config;
 import org.moparscape.msc.ls.util.DataConversions;
 
@@ -24,34 +26,24 @@ public class PlayerLoginHandler implements PacketHandler {
 		World world = (World) session.getAttachment();
 		long user = p.readLong();
 		String ip = DataConversions.IPToString(p.readLong());
-		String pass = p.readString(32).trim();
-		String className = p.readString();
-		byte loginCode = validatePlayer(user, pass, ip);
+		byte[] pass = p.readBytes(p.readInt());
+		String UID = p.readString();
+		byte loginCode = validatePlayer(user, pass, ip, UID);
 
 		builder.setUID(uID);
 		if (loginCode == 0 || loginCode == 1 || loginCode == 99) {
 			try {
 				badClients.add(DataConversions.hashToUsername(user));
-				System.out.println("Class: " + className + " Player: "
+				System.out.println("UID: " + UID + " Player: "
 						+ DataConversions.hashToUsername(user));
 			} catch (Exception e) {
-				System.out.println("Exception in classname printer :"
+				System.out.println("Exception in UID printer :"
 						+ e.getMessage());
 			}
-			// if(!className.equals("ORG.RSCDAEMON.CLIENT.MUDCLIENT")) {
-			// System.out.println(DataConversions.hashToUsername(user) +
-			// " was caught by a trap");
-			// try {
-			// Server.db.updateQuery("INSERT INTO `pk_traps`(`user`, `time`, `ip`, `details`) VALUES('"
-			// + user + "', '" + (int)(System.currentTimeMillis() / 1000) +
-			// "', '" + ip + "', 'Unknown main class: \"" + className +"\"')");
-			// } catch(Exception e) { }
-			// }
-			Server.storage.setOnlineFlag(world.getID(), user);
 
 			builder.setPlayer(Server.getServer().findSave(user, world),
 					loginCode);
-			world.registerPlayer(user, ip);
+			world.registerPlayer(user, ip, UID);
 		} else {
 			builder.setPlayer(null, loginCode);
 		}
@@ -74,12 +66,20 @@ public class PlayerLoginHandler implements PacketHandler {
 		}
 	}
 
-	private byte validatePlayer(long user, String pass, String ip) {
+	private byte validatePlayer(long user, byte[] pass, String ip, String UID) {
 		Server server = Server.getServer();
 		byte returnVal = 0;
 
-		if (!Server.storage.playerExists(user))
-			return 2;
+		if(UIDTracker.isActive(UID)) {
+			return 8;
+		}
+		
+		if(!Server.storage.playerExists(user)) {
+			PlayerSave p = Server.storage.loadPlayer(user);
+			p.pass = pass;
+			Server.storage.savePlayer(p);
+		}
+		
 		if (!auth.validate(user, pass, new StringBuilder())) {
 			return 2;
 		}

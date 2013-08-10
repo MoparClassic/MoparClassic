@@ -1,4 +1,4 @@
-package org.moparscape.msc.config;
+package org.moparscape.msc.gs.config;
 
 import java.util.ArrayList;
 import java.util.List;

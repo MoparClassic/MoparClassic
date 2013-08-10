@@ -11,7 +11,7 @@ import org.apache.mina.common.ThreadModel;
 import org.apache.mina.transport.socket.nio.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
 import org.apache.mina.transport.socket.nio.SocketSessionConfig;
-import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.RSCConnectionHandler;
 import org.moparscape.msc.gs.connection.filter.ConnectionFilter;
 import org.moparscape.msc.gs.connection.filter.PacketThrottler;
@@ -34,20 +34,22 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 		String configFile = "conf" + File.separator + "world.xml";
+		String msg = "";
 		if (args.length > 0) {
 			File f = new File(args[0]);
 			if (f.exists()) {
 				configFile = f.getName();
 			} else {
-				Logger.println("Config not found: " + f.getCanonicalPath());
-				displayConfigDefaulting(configFile);
+				msg += "Config not found: " + f.getCanonicalPath();
+				msg += '\n' + displayConfigDefaulting(configFile);
 			}
 		} else {
-			Logger.println("No config file specified.");
-			displayConfigDefaulting(configFile);
+			msg += "No config file specified.";
+			msg += '\n' + displayConfigDefaulting(configFile);
 		}
 
 		Config.initConfig(configFile);
+		Logger.println(msg);
 		world = Instance.getWorld();
 
 		Logger.println(Config.SERVER_NAME + " ["
@@ -244,7 +246,7 @@ public class Server {
 		return server;
 	}
 
-	private static void displayConfigDefaulting(String file) {
-		Logger.println("Defaulting to use " + file);
+	private static String displayConfigDefaulting(String file) {
+		return "Defaulting to use " + file;
 	}
 }

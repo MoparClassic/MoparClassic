@@ -17,7 +17,7 @@ import java.util.zip.GZIPOutputStream;
 
 import net.jcip.annotations.NotThreadSafe;
 
-import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.TelePoint;

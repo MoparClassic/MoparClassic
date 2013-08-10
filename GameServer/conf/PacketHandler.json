@@ -13,12 +13,6 @@
     ]
   },
   {
-    "className": "org.moparscape.msc.gs.phandler.client.BotHandler",
-    "ids": [
-      69
-    ]
-  },
-  {
     "className": "org.moparscape.msc.gs.phandler.client.SessionRequest",
     "ids": [
       32

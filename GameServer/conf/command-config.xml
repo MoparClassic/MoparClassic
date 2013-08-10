@@ -30,10 +30,8 @@
 	<!-- Requests the following: Location, Login data/time, Last moved, Chat 
 		block status, fatigue, state -->
 	<permission name="info">7</permission>
-	<!-- Requests process info from client (scar, Autominer, methoxy, WPE) -->
-	<permission name="info2">7</permission>
 	<!-- Displays last 75 cast intervals -->
-	<permission name="info3">7</permission>
+	<permission name="info2">7</permission>
 	<!-- Teleports the player to the specified town -->
 	<permission name="town">1</permission>
 	<!-- Bans a player -->

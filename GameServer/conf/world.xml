@@ -8,13 +8,9 @@
 	<entry key="name">Moparscape Classic</entry>
 	<entry key="location">USA</entry>
 	<entry key="maxplayers">800</entry>
-	<entry key="servernum">1</entry>
+	<entry key="world-id">1</entry>
 	<entry key="lsip">localhost</entry>
 	<entry key="lsport">34526</entry>
-	<entry key="mysqluser">mc</entry>
-	<entry key="mysqlpass"></entry>
-	<entry key="mysqlhost">localhost</entry>
-	<entry key="mysqldb">moparclassic</entry>
 
 	<entry key="members">false</entry>
 	<entry key="f2pwildy">true</entry>
@@ -33,7 +29,7 @@
 	<!-- The amount of time (in ms) that a player must stand still in the wild 
 		(without being in combat) before they can log out. The message will say they 
 		must wait x seconds. -->
-	<entry key="wild-stand-still-time">10000</entry>
+	<entry key="wild-stand-still-time">0</entry>
 
 	<!-- If true, a message will be sent to all online players when someone 
 		reaches the max level for a skill -->
@@ -82,7 +78,7 @@
 	<!-- The amount of packets per second before the user is disconnected. -->
 	<entry key="packet-per-second-threshold">30</entry>
 	<!-- Alert when someone has broken the threshold? -->
-	<entry key="packet-per-second-alert">true</entry>
+	<entry key="packet-per-second-alert">false</entry>
 
 	<!-- The afk timeout in minutes -->
 	<entry key="afk-timeout">5</entry>
@@ -93,10 +89,15 @@
 	<entry key="report-handler">org.moparscape.msc.gs.db.impl.DropReportHandler</entry>
 
 	<!-- This is displayed on login. Each line will be sent as a new message. Make sure you're using XML entities for things like <, new lines, etc. -->
-	<entry key="MOTD">@yel@Welcome to MoparClassic Alpha!&#10;@red@Report all bugs on GitHub.&#10;@cya@Commands: ::town &lt;townname>, ::item &lt;id>, ::say &lt;msg>, ::goto &lt;name></entry>
+	<entry key="MOTD">@yel@Welcome to MoparClassic Beta!&#10;@red@Report all bugs on GitHub.&#10;@cya@Commands: ::town &lt;townname>, ::item &lt;id>, ::say &lt;msg>, ::goto &lt;name></entry>
 
 	<!-- This is the location of the captcha dictionary -->
 	<entry key="captcha-dictionary">conf/data/dictionary.txt</entry>
 	<!-- This is the directory that contains the fonts -->
 	<entry key="font-dir">conf/fonts</entry>
+	
+	<!-- The directory to save logs in. -->
+	<entry key="log-dir">logs</entry>
+	<!-- The interval in which to save logs, in minutes. -->
+	<entry key="batch-log-interval">1</entry>
 </properties>

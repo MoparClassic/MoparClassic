@@ -3,7 +3,7 @@ package org.moparscape.msc.gs.model;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import org.moparscape.msc.config.Formulae;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.model.mini.Damage;
 import org.moparscape.msc.gs.tools.DataConversions;
 

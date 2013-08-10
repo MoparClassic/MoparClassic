@@ -9,8 +9,8 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.PacketQueue;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.connection.filter.IPBanManager;

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.model.InvItem;

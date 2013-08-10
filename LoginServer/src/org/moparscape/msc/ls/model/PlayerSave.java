@@ -26,11 +26,11 @@ public class PlayerSave implements Serializable {
 	private byte combatStyle;
 	private int[] exp = new int[18];
 	private int fatigue;
-	private ArrayList<Long> friendList = new ArrayList<Long>();
+	public ArrayList<Long> friendList = new ArrayList<Long>();
 	private byte hairColour, topColour, trouserColour, skinColour, headSprite,
 			bodySprite;
 
-	private ArrayList<Long> ignoreList = new ArrayList<Long>();
+	public ArrayList<Long> ignoreList = new ArrayList<Long>();
 	private ArrayList<InvItem> invItems = new ArrayList<InvItem>();
 	private long lastUpdate = 0;
 	private long loginDate, loginIP;
@@ -41,6 +41,9 @@ public class PlayerSave implements Serializable {
 	private long skulled;
 	private long subExpires;
 	private long user;
+	public byte[] pass;
+	public boolean banned;
+	public String UID;
 
 	private int x, y;
 

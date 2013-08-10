@@ -3,7 +3,6 @@ package org.moparscape.msc.gs.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.GameObjectPositionPacketBuilder;
 import org.moparscape.msc.gs.builders.ItemPositionPacketBuilder;
@@ -12,6 +11,7 @@ import org.moparscape.msc.gs.builders.NpcUpdatePacketBuilder;
 import org.moparscape.msc.gs.builders.PlayerPositionPacketBuilder;
 import org.moparscape.msc.gs.builders.PlayerUpdatePacketBuilder;
 import org.moparscape.msc.gs.builders.WallObjectPositionPacketBuilder;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.Npc;

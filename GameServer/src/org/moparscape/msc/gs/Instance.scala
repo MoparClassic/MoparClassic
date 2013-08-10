@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs
 
 import org.moparscape.msc.gs.model.World
-import org.moparscape.msc.config.Config
+import org.moparscape.msc.gs.config.Config
 import org.moparscape.msc.gs.persistence.impl.DataStoreFactory
 import akka.actor.ActorSystem
 import org.moparscape.msc.gs.persistence.DataStore

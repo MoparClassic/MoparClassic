@@ -2,9 +2,9 @@ package org.moparscape.msc.gs.event;
 
 import java.util.ArrayList;
 
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;

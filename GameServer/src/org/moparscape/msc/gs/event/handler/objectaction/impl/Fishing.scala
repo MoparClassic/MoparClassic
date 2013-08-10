@@ -1,6 +1,6 @@
 package org.moparscape.msc.gs.event.handler.objectaction.impl
 import java.lang.{ IllegalArgumentException => IAE }
-import org.moparscape.msc.config.Formulae
+import org.moparscape.msc.gs.config.Formulae
 import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
 import org.moparscape.msc.gs.event.ShortEvent
 import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDef

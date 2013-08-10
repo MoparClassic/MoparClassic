@@ -7,6 +7,7 @@ import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.LSPacket;
 import org.moparscape.msc.ls.net.Packet;
 import org.moparscape.msc.ls.packethandler.PacketHandler;
+import org.moparscape.msc.ls.service.FriendsListService;
 
 public class FriendHandler implements PacketHandler {
 
@@ -31,29 +32,24 @@ public class FriendHandler implements PacketHandler {
 		case 11: // Add friend
 			save.addFriend(friend);
 			Server.storage.addFriend(user, friend);
-			if (Server.storage.addFriend_isOnline0(user, friend)) {
-				w = server.findWorld(friend);
-				if (w != null) {
-					world.getActionSender()
-							.friendLogin(user, friend, w.getID());
-				}
+			if (FriendsListService.isVisible(user, friend)) {
+				w = server.findWorld(user);
+				w.getActionSender().friendLogin(user, friend, w.getID());
 			}
-			if (Server.storage.addFriend_isOnline1(friend, user)) {
-				w = server.findWorld(friend);
-				if (w != null) {
-					w.getActionSender()
-							.friendLogin(friend, user, world.getID());
+			if (FriendsListService.isVisible(friend, user)) {
+				try {
+					w = server.findWorld(friend);
+					w.getActionSender().friendLogin(friend, user, w.getID());
+				} catch (Exception e) {
 				}
 			}
 			break;
 		case 12: // Remove friend
 			save.removeFriend(friend);
 			Server.storage.removeFriend(user, friend);
-			if (Server.storage.removeFriend_isOnline(user)) {
+			if (FriendsListService.isVisible(user, friend)) {
 				w = server.findWorld(friend);
-				if (w != null) {
-					w.getActionSender().friendLogout(friend, user);
-				}
+				w.getActionSender().friendLogout(friend, user);
 			}
 			break;
 		case 13: // Add ignore
@@ -66,5 +62,4 @@ public class FriendHandler implements PacketHandler {
 			break;
 		}
 	}
-
 }

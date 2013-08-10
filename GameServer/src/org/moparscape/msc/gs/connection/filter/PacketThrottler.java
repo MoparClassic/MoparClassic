@@ -7,9 +7,9 @@ import net.jcip.annotations.ThreadSafe;
 
 import org.apache.mina.common.IoFilterAdapter;
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.alert.AlertHandler;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.util.annotation.Singleton;

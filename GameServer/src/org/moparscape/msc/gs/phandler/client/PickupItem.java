@@ -1,9 +1,9 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.ls.MiscPacketBuilder;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.db.DataManager;
 import org.moparscape.msc.gs.event.FightEvent;

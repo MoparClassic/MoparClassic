@@ -3,8 +3,8 @@ package org.moparscape.msc.gs.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.model.World;
 
 public class Logger {
@@ -35,16 +35,18 @@ public class Logger {
 		// Logging.debug(o.toString());
 	}
 
-	public static void error(Object o) {
+	public static void error(Object o, boolean terminate) {
 		if (o instanceof Exception) {
 			Exception e = (Exception) o;
 			e.printStackTrace();
-			if (getWorld() == null || !Instance.getServer().isInitialized()) {
-				System.exit(1);
-			} else {
-				Instance.getServer().kill();
+			Instance.loggingService().tell(e, null);
+			if (terminate) {
+				if (getWorld() == null || !Instance.getServer().isInitialized()) {
+					System.exit(1);
+				} else {
+					Instance.getServer().kill();
+				}
 			}
-			return;
 		}
 	}
 
@@ -76,8 +78,8 @@ public class Logger {
 	 *            Object to print
 	 */
 	public static void print(Object o) {
-		System.out
-				.print(getFormatter().format(new Date()) + " " + o.toString());
+		Instance.loggingService().tell(
+				getFormatter().format(new Date()) + " " + o.toString(), null);
 	}
 
 	/**
@@ -87,7 +89,11 @@ public class Logger {
 	 *            Object to print
 	 */
 	public static void println(Object o) {
-		System.out.println(getFormatter().format(new Date()) + " "
-				+ o.toString());
+		Instance.loggingService().tell(
+				getFormatter().format(new Date()) + " " + o.toString(), null);
+	}
+
+	public static void error(Object e) {
+		error(e, true);
 	}
 }

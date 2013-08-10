@@ -14,7 +14,6 @@ public class GameSettingHandler implements PacketHandler {
 	long user = p.readLong();
 	boolean on = p.readByte() == 1;
 	int idx = (int) p.readByte();
-	Server.storage.setGameSettings(idx, on, user);
 	Server.getServer().findSave(user, world).setGameSetting(idx, on);
     }
 

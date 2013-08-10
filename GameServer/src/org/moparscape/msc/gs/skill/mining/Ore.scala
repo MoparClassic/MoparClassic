@@ -5,7 +5,7 @@ import org.moparscape.msc.gs.model.Player
 import org.moparscape.msc.gs.model.definition.EntityHandler
 import org.moparscape.msc.gs.model.InvItem
 import org.moparscape.msc.gs.Instance
-import org.moparscape.msc.config.Formulae
+import org.moparscape.msc.gs.config.Formulae
 import scala.collection.JavaConversions._
 import org.moparscape.msc.gs.model.Bubble
 import org.moparscape.msc.gs.event.ShortEvent

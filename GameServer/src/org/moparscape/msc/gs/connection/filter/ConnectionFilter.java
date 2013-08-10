@@ -6,8 +6,8 @@ import java.net.SocketAddress;
 import org.apache.mina.common.IoFilter;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.filter.BlacklistFilter;
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.util.Cache;
 

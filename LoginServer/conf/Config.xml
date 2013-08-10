@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<comment>RSCD-LS Config</comment>
+	<comment>MoparClassic-LS Config</comment>
 	<entry key="mysqlhost">localhost</entry>
 	<entry key="mysqldb">moparclassic</entry>
 	<entry key="mysqluser">mc</entry>
@@ -10,7 +10,9 @@
 	<entry key="lsport">34526</entry>
 	<entry key="queryip">localhost</entry>
 	<entry key="queryport">8186</entry>
-	<entry key="storage-medium">org.moparscape.msc.ls.persistence.impl.SerializedStorageMedium</entry>
-	<entry key="auth-class">org.moparscape.msc.ls.auth.impl.DummyAuth</entry>
-	<entry key="auth-meta-data">http://localhost/auth.php</entry>
+	<entry key="storage-medium">org.moparscape.msc.ls.persistence.impl.JSONStorageMedium</entry>
+	<entry key="auth-class">org.moparscape.msc.ls.auth.impl.PersistenceAuth</entry>
+	<entry key="auth-meta-data"></entry>
+	<entry key="allow-multilogging">true</entry>
+	<entry key="cache-saves">false</entry>
 </properties>

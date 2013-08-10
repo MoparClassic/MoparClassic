@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Constants;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Constants;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
@@ -259,7 +259,7 @@ public class MiscPacketBuilder {
 		for (Entry<Long, Integer> friend : player.getFriendList()) {
 			int world = friend.getValue();
 			s.addLong(friend.getKey());
-			s.addByte((byte) (world == Config.SERVER_NUM ? 99 : world));
+			s.addByte((byte) (world == Config.WORLD_ID ? 99 : world));
 		}
 		packets.add(s.toPacket());
 	}
@@ -271,7 +271,7 @@ public class MiscPacketBuilder {
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(25);
 		s.addLong(usernameHash);
-		s.addByte((byte) (world == Config.SERVER_NUM ? 99 : world));
+		s.addByte((byte) (world == Config.WORLD_ID ? 99 : world));
 		packets.add(s.toPacket());
 	}
 
@@ -309,12 +309,6 @@ public class MiscPacketBuilder {
 	public void sendIncorrectSleepword() {
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(225);
-		packets.add(s.toPacket());
-	}
-
-	public void sendInfo2() {
-		RSCPacketBuilder s = new RSCPacketBuilder();
-		s.setID(211);
 		packets.add(s.toPacket());
 	}
 

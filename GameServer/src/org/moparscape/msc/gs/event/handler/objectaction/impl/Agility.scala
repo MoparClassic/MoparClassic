@@ -2,7 +2,7 @@ package org.moparscape.msc.gs.event.handler.objectaction.impl
 
 import scala.collection.JavaConversions.asScalaBuffer
 
-import org.moparscape.msc.config.Formulae
+import org.moparscape.msc.gs.config.Formulae
 import org.moparscape.msc.gs.event.handler.objectaction.ObjectEvent
 import org.moparscape.msc.gs.event.{ EventHandler, DelayedEvent }
 import org.moparscape.msc.gs.model.definition.skill.AgilityDef

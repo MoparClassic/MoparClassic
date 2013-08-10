@@ -2,8 +2,8 @@ package org.moparscape.msc.gs.event;
 
 import java.util.ArrayList;
 
-import org.moparscape.msc.config.CombatFormulae;
-import org.moparscape.msc.config.Formulae;
+import org.moparscape.msc.gs.config.CombatFormulae;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;

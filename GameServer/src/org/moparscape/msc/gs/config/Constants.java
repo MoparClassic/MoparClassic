@@ -1,4 +1,4 @@
-package org.moparscape.msc.config;
+package org.moparscape.msc.gs.config;
 
 /**
  * Holds all important, commonly tweaked variables.

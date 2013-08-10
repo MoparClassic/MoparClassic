@@ -5,8 +5,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Server;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.core.ClientUpdater;
 import org.moparscape.msc.gs.core.DelayedEventHandler;
 import org.moparscape.msc.gs.event.DelayedEvent;
