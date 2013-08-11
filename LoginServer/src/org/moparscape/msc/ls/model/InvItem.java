@@ -14,7 +14,6 @@ public class InvItem extends Item implements Serializable {
 		this.wielded = wielded;
 	}
 
-
 	public boolean isWielded() {
 		return wielded;
 	}

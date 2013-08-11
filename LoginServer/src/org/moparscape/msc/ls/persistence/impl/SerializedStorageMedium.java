@@ -100,7 +100,7 @@ public class SerializedStorageMedium implements StorageMedium {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@Override
 	public boolean playerExists(long user) {
 		// TODO Auto-generated method stub

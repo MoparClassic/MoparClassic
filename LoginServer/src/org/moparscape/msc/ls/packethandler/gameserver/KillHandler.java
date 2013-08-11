@@ -1,4 +1,4 @@
-package org.moparscape.msc.ls.packethandler.loginserver;
+package org.moparscape.msc.ls.packethandler.gameserver;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;

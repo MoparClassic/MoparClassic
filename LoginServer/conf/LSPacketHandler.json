@@ -1,50 +1,50 @@
 [
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.RegisterWorld",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.RegisterWorld",
     "ids":[
       1,
       2
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.KillHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.KillHandler",
     "ids":[
       3
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.BanHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.BanHandler",
     "ids":[
       4,
       5
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.PrivacySettingHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.PrivacySettingHandler",
     "ids":[
       6
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.GameSettingHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.GameSettingHandler",
     "ids":[
       7
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.PlayerInfoRequestHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.PlayerInfoRequestHandler",
     "ids":[
       8
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.SaveProfilesRequestHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.SaveProfilesRequestHandler",
     "ids":[
       9
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.FriendHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.FriendHandler",
     "ids":[
       10,
       11,
@@ -54,37 +54,37 @@
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.ReportHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.ReportHandler",
     "ids":[
       15
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.PlayerSaveHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.PlayerSaveHandler",
     "ids":[
       20
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.PlayerLogoutHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.PlayerLogoutHandler",
     "ids":[
       30
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.PlayerLoginHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.PlayerLoginHandler",
     "ids":[
       31
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.LogHandler",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.LogHandler",
     "ids":[
       32
     ]
   },
   {
-    "className":"org.moparscape.msc.ls.packethandler.loginserver.Tradelog",
+    "className":"org.moparscape.msc.ls.packethandler.gameserver.Tradelog",
     "ids":[
       33
     ]

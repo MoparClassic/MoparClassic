@@ -116,23 +116,11 @@ public class Server {
 	}
 
 	public PlayerSave findSave(long user, World world) {
-		PlayerSave save = null;
-		// for(World w : getWorlds()) {
-		// PlayerSave s = w.getSave(user);
-		// if(s != null) {
-		// w.unassosiateSave(s);
-		// save = s;
-		// Logging.debug("Found cached save for " +
-		// DataConversions.hashToUsername(user));
-		// break;
-		// }
-		// }
-		// if(save == null) {
-		// Logging.debug("No save found for " +
-		// DataConversions.hashToUsername(user) + ", loading fresh");
-		save = PlayerSave.loadPlayer(user);
-		// }
-		// world.assosiateSave(save);
+		PlayerSave save = world.getSave(user);
+		if (save == null) {
+			save = PlayerSave.loadPlayer(user);
+		}
+		world.assosiateSave(save);
 		return save;
 	}
 

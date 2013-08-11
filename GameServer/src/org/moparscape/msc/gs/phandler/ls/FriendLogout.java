@@ -15,20 +15,19 @@ public class FriendLogout implements PacketHandler {
 	public static final World world = Instance.getWorld();
 
 	public void handlePacket(Packet p, IoSession session) throws Exception {
-		long friend = p.readLong();
-
+		long userToLogout = p.readLong();
 		switch (((LSPacket) p).getID()) {
 		case 12:
 			for (Player player : world.getPlayers()) {
-				if (player.isFriendsWith(friend)) {
-					player.getActionSender().sendFriendUpdate(friend, 0);
+				if (player.isFriendsWith(userToLogout)) {
+					player.getActionSender().sendFriendUpdate(userToLogout, 0);
 				}
 			}
 			break;
 		case 13:
-			Player player = world.getPlayer(p.readLong());
-			if (player != null) {
-				player.getActionSender().sendFriendUpdate(friend, 0);
+			Player playerToInform = world.getPlayer(p.readLong());
+			if (playerToInform != null && playerToInform.isFriendsWith(userToLogout)) {
+				playerToInform.getActionSender().sendFriendUpdate(userToLogout, 0);
 			}
 			break;
 		}

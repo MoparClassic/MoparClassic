@@ -1,11 +1,11 @@
-package org.moparscape.msc.ls.packethandler.loginserver;
+package org.moparscape.msc.ls.packethandler.gameserver;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;
 import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.LSPacket;
 import org.moparscape.msc.ls.net.Packet;
-import org.moparscape.msc.ls.packetbuilder.loginserver.ReplyPacketBuilder;
+import org.moparscape.msc.ls.packetbuilder.gameserver.ReplyPacketBuilder;
 import org.moparscape.msc.ls.packethandler.PacketHandler;
 import org.moparscape.msc.ls.util.DataConversions;
 

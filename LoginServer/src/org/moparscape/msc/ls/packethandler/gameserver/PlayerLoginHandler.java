@@ -1,4 +1,4 @@
-package org.moparscape.msc.ls.packethandler.loginserver;
+package org.moparscape.msc.ls.packethandler.gameserver;
 
 import java.util.ArrayList;
 import java.util.Map.Entry;
@@ -11,7 +11,7 @@ import org.moparscape.msc.ls.model.PlayerSave;
 import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.LSPacket;
 import org.moparscape.msc.ls.net.Packet;
-import org.moparscape.msc.ls.packetbuilder.loginserver.PlayerLoginPacketBuilder;
+import org.moparscape.msc.ls.packetbuilder.gameserver.PlayerLoginPacketBuilder;
 import org.moparscape.msc.ls.packethandler.PacketHandler;
 import org.moparscape.msc.ls.service.UIDTracker;
 import org.moparscape.msc.ls.util.Config;
@@ -70,16 +70,16 @@ public class PlayerLoginHandler implements PacketHandler {
 		Server server = Server.getServer();
 		byte returnVal = 0;
 
-		if(UIDTracker.isActive(UID)) {
+		if (UIDTracker.isActive(UID)) {
 			return 8;
 		}
-		
-		if(!Server.storage.playerExists(user)) {
+
+		if (!Server.storage.playerExists(user)) {
 			PlayerSave p = Server.storage.loadPlayer(user);
 			p.pass = pass;
 			Server.storage.savePlayer(p);
 		}
-		
+
 		if (!auth.validate(user, pass, new StringBuilder())) {
 			return 2;
 		}

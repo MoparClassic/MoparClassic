@@ -1,4 +1,4 @@
-package org.moparscape.msc.ls.packethandler.loginserver;
+package org.moparscape.msc.ls.packethandler.gameserver;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;
@@ -20,9 +20,9 @@ public class PrivacySettingHandler implements PacketHandler {
 		case 0: // Chat block
 			break;
 		case 1: // Private block
-			if(world.getSave(user).blockPrivate() && !on) {
+			if (world.getSave(user).blockPrivate() && !on) {
 				FriendsListService.turnOffPrivate(user);
-			} else if(!world.getSave(user).blockPrivate() && on) {
+			} else if (!world.getSave(user).blockPrivate() && on) {
 				FriendsListService.turnOnPrivate(user);
 			}
 			break;

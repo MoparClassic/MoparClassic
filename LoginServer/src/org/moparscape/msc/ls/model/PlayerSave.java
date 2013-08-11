@@ -15,7 +15,7 @@ public class PlayerSave implements Serializable {
 	public static PlayerSave loadPlayer(long user) {
 		return Server.storage.loadPlayer(user);
 	}
-	
+
 	private long eventcd = 0;
 	private long muted;
 	private ArrayList<BankItem> bankItems = new ArrayList<BankItem>();
@@ -58,13 +58,15 @@ public class PlayerSave implements Serializable {
 	public void addFriend(long friend) {
 		friendList.add(friend);
 	}
-	
+
 	public void addFriends(List<Long> friends) {
 		friendList.addAll(friends);
 	}
+
 	public void addIgnore(long friend) {
 		ignoreList.add(friend);
 	}
+
 	public void addIgnore(List<Long> ignored) {
 		ignoreList.addAll(ignored);
 	}
@@ -120,7 +122,7 @@ public class PlayerSave implements Serializable {
 	public BankItem getBankItem(int i) {
 		return bankItems.get(i);
 	}
-	
+
 	public List<BankItem> getBankItems() {
 		return bankItems;
 	}
@@ -273,6 +275,7 @@ public class PlayerSave implements Serializable {
 		this.male = male;
 		this.skulled = skulled;
 	}
+
 	public void setCombatStyle(byte combatStyle) {
 		this.combatStyle = combatStyle;
 	}
@@ -280,7 +283,7 @@ public class PlayerSave implements Serializable {
 	public void setExp(int stat, int exp) {
 		this.exp[stat] = exp;
 	}
-	
+
 	public void setExp(int[] is) {
 		this.exp = is;
 	}
@@ -337,7 +340,7 @@ public class PlayerSave implements Serializable {
 	public void setLvl(int stat, int lvl) {
 		this.lvl[stat] = lvl;
 	}
-	
+
 	public void setCurStats(int[] stats) {
 		this.lvl = stats;
 	}
@@ -376,7 +379,7 @@ public class PlayerSave implements Serializable {
 			break;
 		}
 	}
-	
+
 	public void setQuestStage(int index, int stage) {
 		questStage.put(index, stage);
 	}

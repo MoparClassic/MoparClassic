@@ -1,4 +1,4 @@
-package org.moparscape.msc.ls.packethandler.loginserver;
+package org.moparscape.msc.ls.packethandler.gameserver;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;
@@ -18,28 +18,30 @@ public class FriendHandler implements PacketHandler {
 		long user = p.readLong();
 		long friend = p.readLong();
 
-		World w;
+		World userWorld = server.findWorld(user);
+		World friendWorld = server.findWorld(friend);
+
 		PlayerSave save = server.findSave(user, world);
 		switch (((LSPacket) p).getID()) {
 		case 10: // Send PM
 			boolean avoidBlock = p.readByte() == 1;
 			byte[] message = p.getRemainingData();
-			w = server.findWorld(friend);
-			if (w != null) {
-				w.getActionSender().sendPM(user, friend, avoidBlock, message);
+			if (friendWorld != null) {
+				friendWorld.getActionSender().sendPM(user, friend, avoidBlock,
+						message);
 			}
 			break;
 		case 11: // Add friend
 			save.addFriend(friend);
 			Server.storage.addFriend(user, friend);
-			if (FriendsListService.isVisible(user, friend)) {
-				w = server.findWorld(user);
-				w.getActionSender().friendLogin(user, friend, w.getID());
+			if (FriendsListService.canSee(user, friend)) {
+				friendWorld.getActionSender().friendLogin(user, friend,
+						userWorld.getID());
 			}
-			if (FriendsListService.isVisible(friend, user)) {
+			if (FriendsListService.canSee(friend, user)) {
 				try {
-					w = server.findWorld(friend);
-					w.getActionSender().friendLogin(friend, user, w.getID());
+					userWorld.getActionSender().friendLogin(friend, user,
+							friendWorld == null ? 0 : friendWorld.getID());
 				} catch (Exception e) {
 				}
 			}
@@ -47,18 +49,31 @@ public class FriendHandler implements PacketHandler {
 		case 12: // Remove friend
 			save.removeFriend(friend);
 			Server.storage.removeFriend(user, friend);
-			if (FriendsListService.isVisible(user, friend)) {
-				w = server.findWorld(friend);
-				w.getActionSender().friendLogout(friend, user);
+			if (!FriendsListService.canSee(friend, user)) {
+				friendWorld.getActionSender().friendLogout(user, friend);
 			}
 			break;
 		case 13: // Add ignore
 			save.addIgnore(friend);
 			Server.storage.addIgnore(user, friend);
+			try {
+				if (!FriendsListService.canSee(friend, user)) {
+					friendWorld.getActionSender().friendLogout(user, friend);
+				}
+			} catch (Exception e) {
+
+			}
 			break;
 		case 14: // Remove ignore
 			save.removeIgnore(friend);
 			Server.storage.removeIgnore(user, friend);
+			if (FriendsListService.canSee(user, friend)) {
+				try {
+					friendWorld.getActionSender().friendLogin(user, friend,
+							userWorld.getID());
+				} catch (Exception e) {
+				}
+			}
 			break;
 		}
 	}

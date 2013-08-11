@@ -1,4 +1,4 @@
-package org.moparscape.msc.gs.phandler;
+package org.moparscape.msc.gs.phandler.ls;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
@@ -13,6 +13,7 @@ import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.container.Bank;
 import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
+import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
 import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.tools.DataConversions;

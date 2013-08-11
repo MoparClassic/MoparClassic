@@ -15,7 +15,7 @@ import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.phandler.PacketHandler;
-import org.moparscape.msc.gs.phandler.PlayerLogin;
+import org.moparscape.msc.gs.phandler.ls.PlayerLogin;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.EntityList;
 import org.moparscape.msc.gs.util.Logger;

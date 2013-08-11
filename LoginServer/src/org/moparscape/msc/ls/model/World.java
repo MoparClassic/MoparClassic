@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;
-import org.moparscape.msc.ls.packetbuilder.loginserver.MiscPacketBuilder;
+import org.moparscape.msc.ls.packetbuilder.gameserver.MiscPacketBuilder;
 import org.moparscape.msc.ls.service.FriendsListService;
 import org.moparscape.msc.ls.service.UIDTracker;
 import org.moparscape.msc.ls.util.Config;
@@ -73,11 +73,11 @@ public class World {
 		try {
 			long owner = Server.storage.getOwner(user);
 			players.put(user, owner);
-			FriendsListService.logon(user);
 			getSave(user).UID = UID;
 			UIDTracker.activate(UID);
 			Server.storage.logLogin(user, ip);
 			Server.storage.logIn(ip, user);
+			FriendsListService.logon(user);
 			System.out.println("Added " + DataConversions.hashToUsername(user)
 					+ " to world " + id);
 		} catch (Exception e) {
