@@ -8,18 +8,19 @@ import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToPointEvent;
-import org.moparscape.msc.gs.external.DoorDef;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.model.ActiveTile;
+import org.moparscape.msc.gs.event.handler.objectaction.ObjectActionParam;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.extra.DoorDef;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
-import org.moparscape.msc.gs.plugins.extras.Thieving;
+import org.moparscape.msc.gs.skill.thieving.Door;
 import org.moparscape.msc.gs.states.Action;
 
 public class WallObjectAction implements PacketHandler {
@@ -50,10 +51,7 @@ public class WallObjectAction implements PacketHandler {
 					+ " used a door ("
 					+ object.getID()
 					+ ") at: " + player.getX() + "/" + player.getY()));
-
-			if (World.getQuestManager()
-					.handleObject(object, player, click == 1))
-				return;
+			
 			player.setStatus(Action.USING_DOOR);
 			Instance.getDelayedEventHandler()
 					.add(new WalkToPointEvent(player, object.getLocation(), 1,
@@ -116,12 +114,11 @@ public class WallObjectAction implements PacketHandler {
 														"This feature is only avaliable on a members server");
 										return;
 									}
-									if (owner.getSpam()) {
+									if (owner.isPacketSpam()) {
 										return;
 									}
-									Thieving thiev = new Thieving(owner, object);
 									owner.setSpam(true);
-									thiev.lockpick();
+									new Door(owner, object).pickLock();
 									return;
 								}
 
@@ -197,78 +194,54 @@ public class WallObjectAction implements PacketHandler {
 										owner.teleport(586, 524, false);
 									}
 									break;
-								case 55: // Mining Guild Door
-									// Hi jacking for champs etc guild doors.
-									if (object.getX() == 150
-											&& object.getY() == 554) { // Champs
-										if (owner.getY() >= 554) {
-											doDoor();
-											owner.teleport(150, 553, false);
-											return;
-										}
-										if (owner.getSkillTotal() < 600) {
-											owner.getActionSender()
-													.sendMessage(
-															"You need a skill total of 600 or more to enter");
-											return;
-										}
-										doDoor();
-										owner.teleport(150, 554, false);
-										return;
-									}
-									if (object.getX() == 372
-											&& object.getY() == 441) { // Heroes
-										if (owner.getY() <= 440) {
-											doDoor();
-											owner.teleport(372, 441, false);
-											return;
-										}
-										if (owner.getSkillTotal() < 850) {
-											owner.getActionSender()
-													.sendMessage(
-															"You need a skill total of 850 or more to enter");
-											return;
-										}
-										doDoor();
-										owner.teleport(372, 440, false);
-										return;
-									}
-									// Legends guild gate is done in
-									// ObjectAction
+								case 55:
 
-									if (object.getX() != 268
-											|| object.getY() != 3381) {
-										break;
+									if (true) {
+										owner.getActionSender()
+												.sendMessage(
+														"Currently closed off at the moment!");
+										return;
 									}
-									if (owner.getY() <= 3380) {
-										if (owner.getCurStat(14) < 60) {
-											owner.setBusy(true);
-											Npc dwarf = world.getNpc(191, 265,
-													270, 3379, 3380);
-											if (dwarf != null) {
-												owner.informOfNpcMessage(new ChatMessage(
-														dwarf,
-														"Hello only the top miners are allowed in here",
-														owner));
-											}
-											world.getDelayedEventHandler().add(
-													new ShortEvent(owner) {
-														public void action() {
-															owner.setBusy(false);
-															owner.getActionSender()
-																	.sendMessage(
-																			"You need a mining level of 60 to enter");
-														}
-													});
-										} else {
-											doDoor();
-											owner.teleport(268, 3381, false);
-										}
-									} else {
-										doDoor();
-										owner.teleport(268, 3380, false);
-									}
-									break;
+									// Hi jacking for champs etc guild doors.
+									/*
+									 * if (object.getX() == 150 && object.getY()
+									 * == 554) { // Champs if (owner.getY() >=
+									 * 554) { doDoor(); owner.teleport(150, 553,
+									 * false); return; }
+									 * 
+									 * doDoor(); owner.teleport(150, 554,
+									 * false); return; } if (object.getX() ==
+									 * 372 && object.getY() == 441) { // Heroes
+									 * if (owner.getY() <= 440) { doDoor();
+									 * owner.teleport(372, 441, false); return;
+									 * } if (owner.getSkillTotal() < 850) {
+									 * owner.getActionSender() .sendMessage(
+									 * "You need a skill total of 850 or more to enter"
+									 * ); return; } doDoor();
+									 * owner.teleport(372, 440, false); return;
+									 * } // Legends guild gate is done in //
+									 * ObjectAction
+									 * 
+									 * if (object.getX() != 268 || object.getY()
+									 * != 3381) { break; } if (owner.getY() <=
+									 * 3380) { if (owner.getCurStat(14) < 60) {
+									 * owner.setBusy(true); Npc dwarf =
+									 * world.getNpc(191, 265, 270, 3379, 3380);
+									 * if (dwarf != null) {
+									 * owner.informOfNpcMessage(new ChatMessage(
+									 * dwarf,
+									 * "Hello only the top miners are allowed in here"
+									 * , owner)); }
+									 * world.getDelayedEventHandler().add( new
+									 * ShortEvent(owner) { public void action()
+									 * { owner.setBusy(false);
+									 * owner.getActionSender() .sendMessage(
+									 * "You need a mining level of 60 to enter"
+									 * ); } }); } else { doDoor();
+									 * owner.teleport(268, 3381, false); } }
+									 * else { doDoor(); owner.teleport(268,
+									 * 3380, false); } break;
+									 */
 								case 68: // Crafting Guild Door
 									if (object.getX() != 347
 											|| object.getY() != 601) {
@@ -515,8 +488,10 @@ public class WallObjectAction implements PacketHandler {
 											"The door is locked shut");
 									break;
 								default:
-									owner.getActionSender().sendMessage(
-											"Nothing interesting happens.");
+									ObjectAction.oam().trigger(
+											object.getID(),
+											new ObjectActionParam(owner,
+													object, click));
 									break;
 								}
 							}

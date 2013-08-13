@@ -1,0 +1,33 @@
+)]}'
+{
+  "1066": {
+    "dartID": 1069,
+    "exp": 9.5,
+    "requiredLvl": 60
+  },
+  "1067": {
+    "dartID": 1070,
+    "exp": 12.0,
+    "requiredLvl": 75
+  },
+  "1064": {
+    "dartID": 1024,
+    "exp": 4.5,
+    "requiredLvl": 30
+  },
+  "1065": {
+    "dartID": 1068,
+    "exp": 7.0,
+    "requiredLvl": 45
+  },
+  "1062": {
+    "dartID": 1013,
+    "exp": 1.0,
+    "requiredLvl": 1
+  },
+  "1063": {
+    "dartID": 1015,
+    "exp": 2.0,
+    "requiredLvl": 15
+  }
+}

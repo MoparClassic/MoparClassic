@@ -64,7 +64,7 @@ public class Packet {
 		this.pData = pData;
 		this.pLength = pData.length;
 		this.bare = bare;
-		time = GameEngine.getTime();
+		time = GameEngine.getTimestamp();
 	}
 
 	/**

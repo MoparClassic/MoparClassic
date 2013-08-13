@@ -5,7 +5,7 @@ import org.moparscape.msc.ls.auth.Auth;
 class DummyAuth implements Auth {
 
 	@Override
-	public boolean validate(long hash, String pass, StringBuilder stringBuilder) {
+	public boolean validate(long hash, byte[] pass, StringBuilder stringBuilder) {
 		return true;
 	}
 

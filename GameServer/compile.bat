@@ -1,2 +1,2 @@
-ant 
+ant build
 pause

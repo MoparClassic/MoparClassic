@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -18,13 +17,41 @@ import java.util.zip.GZIPOutputStream;
 
 import net.jcip.annotations.NotThreadSafe;
 
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.gs.external.*;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Point;
-import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.TelePoint;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectDef;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
+import org.moparscape.msc.gs.model.definition.entity.ItemDef;
+import org.moparscape.msc.gs.model.definition.entity.ItemLoc;
+import org.moparscape.msc.gs.model.definition.entity.NPCDef;
+import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
+import org.moparscape.msc.gs.model.definition.extra.CerterDef;
+import org.moparscape.msc.gs.model.definition.extra.DoorDef;
+import org.moparscape.msc.gs.model.definition.extra.ShopDef;
+import org.moparscape.msc.gs.model.definition.extra.TileDef;
+import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
+import org.moparscape.msc.gs.model.definition.skill.AgilityDef;
+import org.moparscape.msc.gs.model.definition.skill.FiremakingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemArrowHeadDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemBowStringDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemCookingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemCraftingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemDartTipDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemGemDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemHerbSecondDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemLogCutDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmithingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemUnIdentHerbDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectFishingDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectMiningDef;
+import org.moparscape.msc.gs.model.definition.skill.ObjectWoodcuttingDef;
+import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
+import org.moparscape.msc.gs.model.definition.skill.SpellDef;
 import org.moparscape.msc.gs.persistence.DataStore;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
 import org.moparscape.msc.gs.util.Logger;
@@ -117,18 +144,13 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public NpcHandlerDef[] loadNpcHandlers() {
-		return (NpcHandlerDef[]) load("NpcHandlers.xml");
-	}
-
-	@Override
 	public Map<Point, TelePoint> loadTelePoints() {
 		return (Map<Point, TelePoint>) load("locs/extras/ObjectTelePoints.xml.gz");
 	}
 
 	@Override
-	public List<Shop> loadShops() {
-		return (List<Shop>) load("locs/Shops.xml.gz");
+	public List<ShopDef> loadShops() {
+		return (List<ShopDef>) load("locs/Shops.xml.gz");
 	}
 
 	@Override
@@ -192,8 +214,8 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public ItemHerbSecond[] loadItemHerbSeconds() {
-		return (ItemHerbSecond[]) load("defs/extras/ItemHerbSecond.xml.gz");
+	public ItemHerbSecondDef[] loadItemHerbSeconds() {
+		return (ItemHerbSecondDef[]) load("defs/extras/ItemHerbSecond.xml.gz");
 	}
 
 	@Override
@@ -300,12 +322,7 @@ public class XMLUsingXStream implements DataStore {
 	public List<InvItem>[] loadKeyChestLoots() {
 		return (List<InvItem>[]) load("defs/extras/KeyChestLoot.xml.gz");
 	}
-
-	@Override
-	public Map<Integer, ItemDartTipDef> loadDartTips() {
-		return (HashMap<Integer, ItemDartTipDef>) load("defs/extras/ItemDartTipDef.xml.gz");
-	}
-
+	
 	@Override
 	public void dispose() {
 
@@ -323,17 +340,12 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public void saveNpcHandlers(NpcHandlerDef[] defs) throws Exception {
-		write("NpcHandlers.xml", defs);
-	}
-
-	@Override
 	public void saveTelePoints(Map<Point, TelePoint> points) throws Exception {
 		write("locs/extras/ObjectTelePoints.xml.gz", points);
 	}
 
 	@Override
-	public void saveShops(List<Shop> shops) throws Exception {
+	public void saveShops(List<ShopDef> shops) throws Exception {
 		write("locs/Shops.xml.gz", shops);
 	}
 
@@ -399,7 +411,7 @@ public class XMLUsingXStream implements DataStore {
 	}
 
 	@Override
-	public void saveItemHerbSeconds(ItemHerbSecond[] seconds) throws Exception {
+	public void saveItemHerbSeconds(ItemHerbSecondDef[] seconds) throws Exception {
 		write("defs/extras/ItemHerbSecond.xml.gz", seconds);
 	}
 

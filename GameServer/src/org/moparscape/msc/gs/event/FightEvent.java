@@ -2,9 +2,9 @@ package org.moparscape.msc.gs.event;
 
 import java.util.ArrayList;
 
-import org.moparscape.msc.config.Constants;
-import org.moparscape.msc.config.Formulae;
-import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.CombatFormulae;
+import org.moparscape.msc.gs.config.Constants;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Path;
@@ -64,6 +64,7 @@ public class FightEvent extends DelayedEvent {
 						.loggedIn())) {
 			owner.resetCombat(CombatState.ERROR);
 			affectedMob.resetCombat(CombatState.ERROR);
+			this.stop();
 			return;
 		}
 
@@ -83,6 +84,7 @@ public class FightEvent extends DelayedEvent {
 				n.resetCombat(CombatState.ERROR);
 				owner.resetCombat(CombatState.ERROR);
 				this.stop();
+				return;
 			}
 		}
 		if (opponent instanceof Npc) {
@@ -91,6 +93,7 @@ public class FightEvent extends DelayedEvent {
 				n.resetCombat(CombatState.ERROR);
 				owner.resetCombat(CombatState.ERROR);
 				this.stop();
+				return;
 			}
 		}
 		if (opponent instanceof Player && attacker instanceof Player) {
@@ -107,10 +110,12 @@ public class FightEvent extends DelayedEvent {
 		if (attacker instanceof Npc && opponent.isPrayerActivated(12)) {
 			return;
 		}
-		int damage = (attacker instanceof Player && opponent instanceof Player ? Formulae
-				.calcFightHit(attacker, opponent) : Formulae
-				.calcFightHitWithNPC(attacker, opponent));
+		// int damage = (attacker instanceof Player && opponent instanceof
+		// Player ? Formulae
+		// .calcFightHit(attacker, opponent) : Formulae
+		// .calcFightHitWithNPC(attacker, opponent));
 
+		int damage = CombatFormulae.getNextHit(attacker, opponent);
 		if (attacker instanceof Player && opponent instanceof Npc) {
 			Npc npc = (Npc) opponent;
 
@@ -161,17 +166,6 @@ public class FightEvent extends DelayedEvent {
 		opponent.setLastDamage(damage);
 		int newHp = opponent.getHits() - damage;
 		opponent.setHits(newHp);
-		if (opponent instanceof Npc && newHp > 0) {
-			Npc n = (Npc) opponent;
-
-			double max = n.getDef().hits;
-			double cur = n.getHits();
-			int percent = (int) ((cur / max) * 100);
-			if (n.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(opponent.getID())
-						.onHealthPercentage(n, percent);
-			}
-		}
 
 		String combatSound = null;
 		combatSound = damage > 0 ? "combat1b" : "combat1a";

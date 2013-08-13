@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 
 public class ViewArea {
 	private static World world = Instance.getWorld();

@@ -15,8 +15,8 @@ public abstract class SingleEvent extends DelayedEvent {
 	public abstract void action();
 
 	public void run() {
-		action();
 		super.matchRunning = false;
+		action();
 	}
 
 }

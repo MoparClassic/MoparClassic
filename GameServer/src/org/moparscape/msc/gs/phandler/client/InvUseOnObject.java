@@ -3,36 +3,33 @@ package org.moparscape.msc.gs.phandler.client;
 import java.util.List;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
+import org.moparscape.msc.gs.config.Formulae;
+import org.moparscape.msc.gs.config.Constants.GameServer;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToObjectEvent;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.ItemCookingDef;
-import org.moparscape.msc.gs.external.ItemCraftingDef;
-import org.moparscape.msc.gs.external.ItemSmeltingDef;
-import org.moparscape.msc.gs.external.ItemSmithingDef;
-import org.moparscape.msc.gs.external.ItemWieldableDef;
-import org.moparscape.msc.gs.external.ReqOreDef;
-import org.moparscape.msc.gs.model.ActiveTile;
 import org.moparscape.msc.gs.model.Bubble;
-import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.MenuHandler;
-import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.skill.ItemCookingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemCraftingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmeltingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemSmithingDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
+import org.moparscape.msc.gs.model.definition.skill.ReqOreDef;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
-import org.moparscape.msc.gs.plugins.quests.Dorics;
-import org.moparscape.msc.gs.quest.Quest;
-import org.moparscape.msc.gs.quest.QuestAction;
+import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.Logger;
@@ -43,6 +40,7 @@ public class InvUseOnObject implements PacketHandler {
 	 */
 	public static final World world = Instance.getWorld();
 
+	// f2p
 	private void handleDoor(final Player player, final ActiveTile tile,
 			final GameObject object, final int dir, final InvItem item) {
 		player.setStatus(Action.USING_INVITEM_ON_DOOR);
@@ -52,7 +50,7 @@ public class InvUseOnObject implements PacketHandler {
 						owner.resetPath();
 						if (owner.isBusy()
 								|| owner.isRanging()
-								|| !owner.getInventory().contains(item)
+								|| !owner.getInventory().contains(item.id)
 								|| !tile.hasGameObject()
 								|| !tile.getGameObject().equals(object)
 								|| owner.getStatus() != Action.USING_INVITEM_ON_DOOR) {
@@ -61,13 +59,14 @@ public class InvUseOnObject implements PacketHandler {
 						owner.resetAll();
 						switch (object.getID()) {
 						case 24: // Web
-							ItemWieldableDef def = item.getWieldableDef();
+							ItemWieldableDef def = ItemAttributes
+									.getWieldable(item.id);
 							if ((def == null || def.getWieldPos() != 4)
-									&& item.getID() != 13) {
+									&& item.id != 13) {
 								owner.getActionSender().sendMessage(
 										"Nothing interesting happens.");
 								return;
-							}//case 177
+							}// case 177
 							owner.getActionSender().sendMessage(
 									"You try to destroy the web");
 							owner.setBusy(true);
@@ -135,7 +134,7 @@ public class InvUseOnObject implements PacketHandler {
 					}
 
 					private boolean itemId(int[] ids) {
-						return DataConversions.inArray(ids, item.getID());
+						return DataConversions.inArray(ids, item.id);
 					}
 				});
 	}
@@ -149,7 +148,7 @@ public class InvUseOnObject implements PacketHandler {
 						owner.resetPath();
 						if (owner.isBusy()
 								|| owner.isRanging()
-								|| !owner.getInventory().contains(item)
+								|| !owner.getInventory().contains(item.id)
 								|| !owner.nextTo(object)
 								|| !tile.hasGameObject()
 								|| !tile.getGameObject().equals(object)
@@ -158,55 +157,13 @@ public class InvUseOnObject implements PacketHandler {
 						}
 						owner.resetAll();
 						String[] options;
-						if ((object.getID() == Dorics.ANVIL1_ID
-								&& object.getX() == Dorics.ANVIL1_X && object
-								.getY() == Dorics.ANVIL1_Y)
-								|| (object.getID() == Dorics.ANVIL2_ID
-										&& object.getX() == Dorics.ANVIL2_X && object
-										.getY() == Dorics.ANVIL2_Y)) {
-							if (owner.getQuestStage(7) != Quest.COMPLETE) {
-								Npc npc = World.getWorld().getNpc(
-										Dorics.DORIC_ID, 323, 327, 487, 492);
-
-								if (npc == null) {
-									player.getActionSender()
-											.sendMessage(
-													"You need to complete Doric's quest to use his anvils");
-									player.setBusy(false);
-									return;
-								} else {
-									owner.informOfNpcMessage(new ChatMessage(
-											npc, "Oi! Get off my anvil!", owner));
-									Instance.getWorld()
-											.getDelayedEventHandler()
-											.add(new MiniEvent(owner) {
-												public void action() {
-													player.getActionSender()
-															.sendMessage(
-																	"You need to complete Doric's quest to use his anvils");
-													player.setBusy(false);
-													return;
-												}
-											});
-									return;
-
-								}
-
-							} else {
-								player.setBusy(false);
-							}
-
-						}
-						World.getQuestManager().handleAction(
-								QuestAction.ITEM_USED_ON_OBJECT,
-								new Object[] { item, object }, owner);
 
 						int[] range = { 317, 254, 255, 256, 339, 324 };
 
 						if (object.getGameObjectDef().name
 								.equalsIgnoreCase("fire")) {
 							for (Integer i : range) {
-								if (item.getID() == i) {
+								if (item.id == i) {
 									owner.getActionSender().sendMessage(
 											"You cannot cook this on a fire");
 									return;
@@ -214,25 +171,24 @@ public class InvUseOnObject implements PacketHandler {
 							}
 						}
 						int[] sinks = { 48, 26, 86, 2, 466 };
-						if (item.getID() == 341) {
+						if (item.id == 341) {
 							for (Integer i : sinks) {
 								if (i == object.getID()) {
-									if (owner.getInventory().remove(
-											new InvItem(item.getID())) > -1) {
+									if (owner.getInventory().remove(item.id,
+											item.amount, false)) {
 										owner.getActionSender().sendSound(
 												"filljug");
 										owner.getActionSender()
 												.sendMessage(
 														"You fill up the bowl with water");
-										owner.getInventory().add(
-												new InvItem(342));
+										owner.getInventory().add(342, 1, false);
 										owner.getActionSender().sendInventory();
 										return;
 									}
 								}
 							}
 						}
-						if (item.getID() == 132) {
+						if (item.id == 132) {
 							if (object.getID() == 97 || object.getID() == 11
 									|| object.getID() == 435) {
 								player.setBusy(true);
@@ -242,7 +198,7 @@ public class InvUseOnObject implements PacketHandler {
 														+ item.getDef().name
 														+ " on the "
 														+ object.getGameObjectDef().name);
-								player.getInventory().remove(132, 1);
+								player.getInventory().remove(132, 1, false);
 								player.getActionSender().sendInventory();
 								Instance.getDelayedEventHandler().add(
 										new MiniEvent(owner, 2000) {
@@ -251,8 +207,8 @@ public class InvUseOnObject implements PacketHandler {
 														.sendMessage(
 																"You burn the "
 																		+ item.getDef().name);
-												player.getInventory().add(
-														new InvItem(134));
+												player.getInventory().add(134,
+														1, false);
 												player.getActionSender()
 														.sendInventory();
 												player.setBusy(false);
@@ -265,9 +221,8 @@ public class InvUseOnObject implements PacketHandler {
 						}
 
 						if (object.getX() == 233 && object.getY() == 180) {
-							if (item.getID() == 414) {
-								if (owner.getInventory().remove(
-										new InvItem(414)) > -1) {
+							if (item.id == 414) {
+								if (owner.getInventory().remove(414, 1, false)) {
 									owner.setBusy(true);
 									owner.getActionSender().sendMessage(
 											"you open the secret chest..");
@@ -279,21 +234,19 @@ public class InvUseOnObject implements PacketHandler {
 															.sendMessage(
 																	"you find treasure!");
 													owner.getInventory().add(
-															new InvItem(158));
+															158, 1, false);
 													owner.getInventory().add(
-															new InvItem(173));
+															173, 1, false);
 													owner.getInventory().add(
-															new InvItem(64));
+															64, 1, false);
 													owner.getInventory().add(
-															new InvItem(42, 2));
+															42, 2, false);
 													owner.getInventory().add(
-															new InvItem(38, 2));
-													owner.getInventory()
-															.add(new InvItem(
-																	41, 10));
-													owner.getInventory()
-															.add(new InvItem(
-																	10, 50));
+															38, 2, false);
+													owner.getInventory().add(
+															41, 10, false);
+													owner.getInventory().add(
+															10, 50, false);
 													owner.getActionSender()
 															.sendInventory();
 													return;
@@ -306,7 +259,7 @@ public class InvUseOnObject implements PacketHandler {
 
 						switch (object.getID()) {
 						case 52: // hopper
-							if (item.getID() == 29) {
+							if (item.id == 29) {
 
 								if (object.containsItem() == 29) {
 									owner.getActionSender()
@@ -314,7 +267,8 @@ public class InvUseOnObject implements PacketHandler {
 													"There is already grain in the hopper");
 									return;
 								}
-								if (owner.getInventory().remove(item) > -1) {
+								if (owner.getInventory().remove(item.id,
+										item.amount, false)) {
 									Bubble bubble = new Bubble(player, 29);
 									for (Player p : player.getViewArea()
 											.getPlayersInView()) {
@@ -331,10 +285,10 @@ public class InvUseOnObject implements PacketHandler {
 						case 282: // Fountain of Heroes
 							if (!Server.isMembers()) {
 								owner.getActionSender().sendMessage(
-										"This feature is not avaliable in f2p");
+										GameServer.P2P_LIMIT_MESSAGE);
 								return;
 							}
-							if (item.getID() == 522) {
+							if (item.id == 522) {
 								owner.getActionSender()
 										.sendMessage(
 												"You dip the amulet in the fountain...");
@@ -351,13 +305,16 @@ public class InvUseOnObject implements PacketHandler {
 															public void action() {
 																if (owner
 																		.getInventory()
-																		.remove(item) > -1) {
+																		.remove(item.id,
+																				item.amount,
+																				false)) {
 																	owner.getActionSender()
 																			.sendMessage(
 																					"You can now rub it to teleport.");
 																	owner.getInventory()
-																			.add(new InvItem(
-																					597));
+																			.add(597,
+																					1,
+																					false);
 																	owner.getActionSender()
 																			.sendInventory();
 																}
@@ -387,7 +344,7 @@ public class InvUseOnObject implements PacketHandler {
 							break;
 						case 118:
 						case 813: // Furnace
-							if (item.getID() == 172) { // Gold Bar (Crafting)
+							if (item.id == 172) { // Gold Bar (Crafting)
 								world.getDelayedEventHandler().add(
 										new MiniEvent(owner) {
 											public void action() {
@@ -483,11 +440,14 @@ public class InvUseOnObject implements PacketHandler {
 																}
 																if (owner
 																		.getInventory()
-																		.remove(item) > -1
+																		.remove(item.id,
+																				item.amount,
+																				false)
 																		&& (option == 0 || owner
 																				.getInventory()
 																				.remove(gems[option],
-																						1) > -1)) {
+																						1,
+																						false))) {
 																	showBubble();
 																	InvItem result = new InvItem(
 																			def.getItemID(),
@@ -498,7 +458,9 @@ public class InvUseOnObject implements PacketHandler {
 																							+ result.getDef()
 																									.getName());
 																	owner.getInventory()
-																			.add(result);
+																			.add(result.id,
+																					result.amount,
+																					false);
 																	owner.incExp(
 																			12,
 																			def.getExp(),
@@ -522,7 +484,7 @@ public class InvUseOnObject implements PacketHandler {
 											}
 										});
 							}
-							if (item.getID() == 384) { // Silver Bar (Crafting)
+							if (item.id == 384) { // Silver Bar (Crafting)
 								world.getDelayedEventHandler().add(
 										new MiniEvent(owner) {
 											public void action() {
@@ -570,7 +532,9 @@ public class InvUseOnObject implements PacketHandler {
 														}
 														if (owner
 																.getInventory()
-																.remove(item) > -1) {
+																.remove(item.id,
+																		item.amount,
+																		false)) {
 															showBubble();
 															InvItem result = new InvItem(
 																	results[option]);
@@ -580,7 +544,9 @@ public class InvUseOnObject implements PacketHandler {
 																					+ result.getDef()
 																							.getName());
 															owner.getInventory()
-																	.add(result);
+																	.add(result.id,
+																			result.amount,
+																			false);
 															owner.incExp(12,
 																	50, true,
 																	true);
@@ -596,11 +562,10 @@ public class InvUseOnObject implements PacketHandler {
 														.sendMenu(options);
 											}
 										});
-							} else if (item.getID() == 625) { // Sand (Glass)
+							} else if (item.id == 625) { // Sand (Glass)
 								if (!Server.isMembers()) {
-									owner.getActionSender()
-											.sendMessage(
-													"This feature is not avaliable in f2p");
+									owner.getActionSender().sendMessage(
+											GameServer.P2P_LIMIT_MESSAGE);
 									return;
 								}
 								if (player.getInventory().countId(624) < 1) {
@@ -618,16 +583,17 @@ public class InvUseOnObject implements PacketHandler {
 										new ShortEvent(owner) {
 											public void action() {
 												if (player.getInventory()
-														.remove(624, 1) > -1
+														.remove(624, 1, false)
 														&& player
 																.getInventory()
-																.remove(item) > -1) {
+																.remove(item.id,
+																		item.amount,
+																		false)) {
 													owner.getActionSender()
 															.sendMessage(
 																	"It mixes to make some molten glass");
-													owner.getInventory()
-															.add(new InvItem(
-																	623, 1));
+													owner.getInventory().add(
+															623, 1, false);
 													owner.incExp(12, 20, true);
 													owner.getActionSender()
 															.sendStat(12);
@@ -643,227 +609,343 @@ public class InvUseOnObject implements PacketHandler {
 							break;
 						case 50:
 						case 177: // Anvil
-		      				int minSmithingLevel = Formulae.minSmithingLevel(item.getID());
-		      				if(minSmithingLevel < 0) {
-		      					owner.getActionSender().sendMessage("Nothing interesting happens.");
-		      					return;
-		      				}
-		      				if(owner.getInventory().countId(168) < 1) {
-		      					owner.getActionSender().sendMessage("You need a hammer to work the metal with.");
-		      					return;
-		      				}
-		      				if(owner.getCurStat(13) < minSmithingLevel) {
-  		      					owner.getActionSender().sendMessage("You need a smithing level of " + minSmithingLevel + " to use this type of bar");
-  		      					return;
-  		      				}
-      		      				options = new String[]{"Make Weapon", "Make Armour", "Make Missile Heads", "Cancel"};
-						owner.setMenuHandler(new MenuHandler(options) {
-							public void handleReply(int option, String reply) {
-								if(owner.isBusy()) {
-									return;
-								}
-								String[] options;
-								switch(option) {
+							int minSmithingLevel = Formulae
+									.minSmithingLevel(item.id);
+							if (minSmithingLevel < 0) {
+								owner.getActionSender().sendMessage(
+										"Nothing interesting happens.");
+								return;
+							}
+							if (owner.getInventory().countId(168) < 1) {
+								owner.getActionSender()
+										.sendMessage(
+												"You need a hammer to work the metal with.");
+								return;
+							}
+							if (owner.getCurStat(13) < minSmithingLevel) {
+								owner.getActionSender().sendMessage(
+										"You need a smithing level of "
+												+ minSmithingLevel
+												+ " to use this type of bar");
+								return;
+							}
+							options = new String[] { "Make Weapon",
+									"Make Armour", "Make Missile Heads",
+									"Cancel" };
+							owner.setMenuHandler(new MenuHandler(options) {
+								public void handleReply(int option, String reply) {
+									if (owner.isBusy()) {
+										return;
+									}
+									String[] options;
+									switch (option) {
 									case 0:
-										owner.getActionSender().sendMessage("Choose a type of weapon to make");
-										options = new String[]{"Dagger", "Throwing Knife", "Sword", "Axe", "Mace"};
-										owner.setMenuHandler(new MenuHandler(options) {
-											public void handleReply(int option, String reply) {
-												if(owner.isBusy()) {
+										owner.getActionSender()
+												.sendMessage(
+														"Choose a type of weapon to make");
+										options = new String[] { "Dagger",
+												"Throwing Knife", "Sword",
+												"Axe", "Mace" };
+										owner.setMenuHandler(new MenuHandler(
+												options) {
+											public void handleReply(int option,
+													String reply) {
+												if (owner.isBusy()) {
 													return;
 												}
 												String[] options;
-												switch(option) {
-													case 0:
-														handleSmithing(item.getID(), 0);
+												switch (option) {
+												case 0:
+													handleSmithing(item.id, 0);
+													break;
+												case 1:
+													if (Server.isMembers()) {
+														player.getActionSender()
+																.sendMessage(
+																		GameServer.P2P_LIMIT_MESSAGE);
 														break;
-													case 1:
-														handleSmithing(item.getID(), 1);
-														break;
-													case 2:
-														owner.getActionSender().sendMessage("What sort of sword do you want to make?");
-														options = new String[]{"Short Sword", "Long Sword (2 bars)", "Scimitar (2 bars)", "2-handed Sword (3 bars)"};
-														owner.setMenuHandler(new MenuHandler(options) {
-															public void handleReply(int option, String reply) {
-																if(owner.isBusy()) {
-																	return;
-																}
-																switch(option) {
-																	case 0:
-																		handleSmithing(item.getID(), 2);
-																		break;
-																	case 1:
-																		handleSmithing(item.getID(), 3);
-																		break;
-																	case 2:
-																		handleSmithing(item.getID(), 4);
-																		break;
-																	case 3:
-																		handleSmithing(item.getID(), 5);
-																		break;
-																	default:
-																		return;
-																}
+													}
+													handleSmithing(item.id, 1);
+													break;
+												case 2:
+													owner.getActionSender()
+															.sendMessage(
+																	"What sort of sword do you want to make?");
+													options = new String[] {
+															"Short Sword",
+															"Long Sword (2 bars)",
+															"Scimitar (2 bars)",
+															"2-handed Sword (3 bars)" };
+													owner.setMenuHandler(new MenuHandler(
+															options) {
+														public void handleReply(
+																int option,
+																String reply) {
+															if (owner.isBusy()) {
+																return;
 															}
-														});
-														owner.getActionSender().sendMenu(options);
-														break;
-													case 3:
-														owner.getActionSender().sendMessage("What sort of axe do you want to make?");
-														options = new String[]{"Hatchet", "Pickaxe", "Battle Axe (3 bars)"};
-														owner.setMenuHandler(new MenuHandler(options) {
-															public void handleReply(int option, String reply) {
-																if(owner.isBusy()) {
-																	return;
-																}
-																switch(option) {
-																	case 0:
-																		handleSmithing(item.getID(), 6);
-																		break;
-																	case 1:
-																		handleSmithing(item.getID(), 7);
-																		break;
-																	case 2:
-																		handleSmithing(item.getID(), 8);
-																		break;
-																	default:
-																		return;
-																}
+															switch (option) {
+															case 0:
+																handleSmithing(
+																		item.id,
+																		2);
+																break;
+															case 1:
+																handleSmithing(
+																		item.id,
+																		3);
+																break;
+															case 2:
+																handleSmithing(
+																		item.id,
+																		4);
+																break;
+															case 3:
+																handleSmithing(
+																		item.id,
+																		5);
+																break;
+															default:
+																return;
 															}
-														});
-														owner.getActionSender().sendMenu(options);
-														break;
-													case 4:
-														handleSmithing(item.getID(), 9);
-														break;
-													default:
-														return;
+														}
+													});
+													owner.getActionSender()
+															.sendMenu(options);
+													break;
+												case 3:
+													owner.getActionSender()
+															.sendMessage(
+																	"What sort of axe do you want to make?");
+													options = new String[] {
+															"Hatchet",
+															"Pickaxe",
+															"Battle Axe (3 bars)" };
+													owner.setMenuHandler(new MenuHandler(
+															options) {
+														public void handleReply(
+																int option,
+																String reply) {
+															if (owner.isBusy()) {
+																return;
+															}
+															switch (option) {
+															case 0:
+																handleSmithing(
+																		item.id,
+																		6);
+																break;
+															case 1:
+																handleSmithing(
+																		item.id,
+																		7);
+																break;
+															case 2:
+																handleSmithing(
+																		item.id,
+																		8);
+																break;
+															default:
+																return;
+															}
+														}
+													});
+													owner.getActionSender()
+															.sendMenu(options);
+													break;
+												case 4:
+													handleSmithing(item.id, 9);
+													break;
+												default:
+													return;
 												}
 											}
 										});
-										owner.getActionSender().sendMenu(options);
+										owner.getActionSender().sendMenu(
+												options);
 										break;
 									case 1:
-										owner.getActionSender().sendMessage("Choose a type of armour to make");
-										options = new String[]{"Helmet", "Shield", "Armour"};
-										owner.setMenuHandler(new MenuHandler(options) {
-											public void handleReply(int option, String reply) {
-												if(owner.isBusy()) {
+										owner.getActionSender()
+												.sendMessage(
+														"Choose a type of armour to make");
+										options = new String[] { "Helmet",
+												"Shield", "Armour" };
+										owner.setMenuHandler(new MenuHandler(
+												options) {
+											public void handleReply(int option,
+													String reply) {
+												if (owner.isBusy()) {
 													return;
 												}
-												switch(option) {
-													case 0:
-														owner.getActionSender().sendMessage("What sort of helmet do you want to make?");
-														options = new String[]{"Medium Helmet", "Large Helmet (2 bars)"};
-														owner.setMenuHandler(new MenuHandler(options) {
-															public void handleReply(int option, String reply) {
-																if(owner.isBusy()) {
-																	return;
-																}
-																switch(option) {
-																	case 0:
-																		handleSmithing(item.getID(), 10);
-																		break;
-																	case 1:
-																		handleSmithing(item.getID(), 11);
-																		break;
-      																	default:
-      																		return;
-      																}
-      															}
-      														});
-      														owner.getActionSender().sendMenu(options);
-      														break;
-      													case 1:
-      														owner.getActionSender().sendMessage("What sort of shield do you want to make?");
-      														options = new String[]{"Square Shield (2 bars)", "Kite Shield (3 bars)"};
-      														owner.setMenuHandler(new MenuHandler(options) {
-      															public void handleReply(int option, String reply) {
-      																if(owner.isBusy()) {
-      																	return;
-      																}
-      																switch(option) {
-      																	case 0:
-      																		handleSmithing(item.getID(), 12);
-      																		break;
-      																	case 1:
-      																		handleSmithing(item.getID(), 13);
-      																		break;
-      																	default:
-      																		return;
-      																}
-      															}
-      														});
-      														owner.getActionSender().sendMenu(options);
-      														break;
-      													case 2:
-      														owner.getActionSender().sendMessage("What sort of armour do you want to make?");
-      														options = new String[]{"Chain Mail Body (3 bars)", "Plate Mail Body (5 bars)", "Plate Mail Legs (3 bars)", "Plated Skirt (3 bars)"};
-      														owner.setMenuHandler(new MenuHandler(options) {
-      															public void handleReply(int option, String reply) {
-      																if(owner.isBusy()) {
-      																	return;
-      																}
-      																switch(option) {
-      																	case 0:
-      																		handleSmithing(item.getID(), 14);
-      																		break;
-      																	case 1:
-      																		handleSmithing(item.getID(), 15);
-      																		break;
-      																	case 2:
-      																		handleSmithing(item.getID(), 16);
-      																		break;
-      																	case 3:
-      																		handleSmithing(item.getID(), 17);
-      																		break;
-      																	default:
-      																		return;
-      																}
-      															}
-      														});
-      														owner.getActionSender().sendMenu(options);
-      														break;
-      													default:
-      														return;
-      												}
-      											}
-      										});
-      										owner.getActionSender().sendMenu(options);
-      										break;
-      									case 2:
-      										options = new String[]{"Make 10 Arrow Heads", "Make 50 Arrow Heads (5 bars)", "Forge Dart Tips", "Cancel"};
-      										owner.setMenuHandler(new MenuHandler(options) {
-      											public void handleReply(int option, String reply) {
-      												if(owner.isBusy()) {
-      													return;
-      												}
-      												switch(option) {
-      													case 0:
-      														handleSmithing(item.getID(), 18);
-      														break;
-      													case 1:
-      														handleSmithing(item.getID(), 19);
-      														break;
-      													case 2:
-      														handleSmithing(item.getID(), 20);
-      														break;
-      													default:
-      														return;
-      												}
-      											}
-      										});
-      										owner.getActionSender().sendMenu(options);
-      										break;
-      									default:
-      										return;
-      								}
-      							}
-      						});
-      						owner.getActionSender().sendMenu(options);
-		      				break;
+												switch (option) {
+												case 0:
+													owner.getActionSender()
+															.sendMessage(
+																	"What sort of helmet do you want to make?");
+													options = new String[] {
+															"Medium Helmet",
+															"Large Helmet (2 bars)" };
+													owner.setMenuHandler(new MenuHandler(
+															options) {
+														public void handleReply(
+																int option,
+																String reply) {
+															if (owner.isBusy()) {
+																return;
+															}
+															switch (option) {
+															case 0:
+																handleSmithing(
+																		item.id,
+																		10);
+																break;
+															case 1:
+																handleSmithing(
+																		item.id,
+																		11);
+																break;
+															default:
+																return;
+															}
+														}
+													});
+													owner.getActionSender()
+															.sendMenu(options);
+													break;
+												case 1:
+													owner.getActionSender()
+															.sendMessage(
+																	"What sort of shield do you want to make?");
+													options = new String[] {
+															"Square Shield (2 bars)",
+															"Kite Shield (3 bars)" };
+													owner.setMenuHandler(new MenuHandler(
+															options) {
+														public void handleReply(
+																int option,
+																String reply) {
+															if (owner.isBusy()) {
+																return;
+															}
+															switch (option) {
+															case 0:
+																handleSmithing(
+																		item.id,
+																		12);
+																break;
+															case 1:
+																handleSmithing(
+																		item.id,
+																		13);
+																break;
+															default:
+																return;
+															}
+														}
+													});
+													owner.getActionSender()
+															.sendMenu(options);
+													break;
+												case 2:
+													owner.getActionSender()
+															.sendMessage(
+																	"What sort of armour do you want to make?");
+													options = new String[] {
+															"Chain Mail Body (3 bars)",
+															"Plate Mail Body (5 bars)",
+															"Plate Mail Legs (3 bars)",
+															"Plated Skirt (3 bars)" };
+													owner.setMenuHandler(new MenuHandler(
+															options) {
+														public void handleReply(
+																int option,
+																String reply) {
+															if (owner.isBusy()) {
+																return;
+															}
+															switch (option) {
+															case 0:
+																handleSmithing(
+																		item.id,
+																		14);
+																break;
+															case 1:
+																handleSmithing(
+																		item.id,
+																		15);
+																break;
+															case 2:
+																handleSmithing(
+																		item.id,
+																		16);
+																break;
+															case 3:
+																handleSmithing(
+																		item.id,
+																		17);
+																break;
+															default:
+																return;
+															}
+														}
+													});
+													owner.getActionSender()
+															.sendMenu(options);
+													break;
+												default:
+													return;
+												}
+											}
+										});
+										owner.getActionSender().sendMenu(
+												options);
+										break;
+									case 2:
+
+										if (Server.isMembers()) {
+											player.getActionSender()
+													.sendMessage(
+															GameServer.P2P_LIMIT_MESSAGE);
+											break;
+										}
+										options = new String[] {
+												"Make 10 Arrow Heads",
+												"Make 50 Arrow Heads (5 bars)",
+												"Forge Dart Tips", "Cancel" };
+										owner.setMenuHandler(new MenuHandler(
+												options) {
+											public void handleReply(int option,
+													String reply) {
+												if (owner.isBusy()) {
+													return;
+												}
+												switch (option) {
+												case 0:
+													handleSmithing(item.id, 18);
+													break;
+												case 1:
+													handleSmithing(item.id, 19);
+													break;
+												case 2:
+													handleSmithing(item.id, 20);
+													break;
+												default:
+													return;
+												}
+											}
+										});
+										owner.getActionSender().sendMenu(
+												options);
+										break;
+									default:
+										return;
+									}
+								}
+							});
+							owner.getActionSender().sendMenu(options);
+							break;
 						case 121: // Spinning Wheel
-							switch (item.getID()) {
+							switch (item.id) {
 							case 145: // Wool
 								handleWoolSpinning();
 								break;
@@ -880,14 +962,14 @@ public class InvUseOnObject implements PacketHandler {
 							owner.getActionSender().sendSound("mechanical");
 							break;
 						case 248: // Crystal key chest
-							if (item.getID() != 525) {
+							if (item.id != 525) {
 								owner.getActionSender().sendMessage(
 										"Nothing interesting happens.");
 								return;
 							}
 							if (!Server.isMembers()) {
 								owner.getActionSender().sendMessage(
-										"This feature is not avaliable in f2p");
+										GameServer.P2P_LIMIT_MESSAGE);
 								return;
 							}
 							owner.getActionSender().sendMessage(
@@ -897,35 +979,32 @@ public class InvUseOnObject implements PacketHandler {
 							Instance.getDelayedEventHandler().add(
 									new ShortEvent(owner) {
 										public void action() {
-											if (owner.getInventory().remove(
-													item) > -1) {
-												owner.getInventory().add(
-														new InvItem(542, 1));
+											if (owner.getInventory()
+													.remove(item.id,
+															item.amount, false)) {
+												owner.getInventory().add(542,
+														1, false);
 												List<InvItem> loot = Formulae
 														.getKeyChestLoot();
 												for (InvItem i : loot) {
-													if (i.getAmount() > 1
+													if (i.amount > 1
 															&& !i.getDef()
 																	.isStackable()) {
-														for (int x = 0; x < i
-																.getAmount(); x++) {
-
-															owner.getInventory()
-																	.add(new InvItem(
-																			i.getID(),
-																			1));
-														}
+														owner.getInventory()
+																.add(i.id,
+																		i.amount,
+																		false);
 													} else {
-														if (i.getID() == 518
-																&& i.getAmount() > 20) {
+														if (i.id == 518
+																&& i.amount > 20) {
 															i = new InvItem(
 																	518,
 																	DataConversions
 																			.random(0,
 																					20) + 1);
 														}
-														if (i.getID() == 517
-																&& i.getAmount() > 20) {
+														if (i.id == 517
+																&& i.amount > 20) {
 															i = new InvItem(
 																	517,
 																	DataConversions
@@ -935,23 +1014,23 @@ public class InvUseOnObject implements PacketHandler {
 														Logger.println("Player: "
 																+ owner.getUsername()
 																+ " Got item: "
-																+ i.getID()
+																+ i.id
 																+ " From CHEST ("
-																+ i.getAmount()
+																+ i.amount
 																+ ") sys time ("
 																+ GameEngine
-																		.getTime()
+																		.getTimestamp()
 																+ ")");
-														if (i.getAmount() > 4000) {
+														if (i.amount > 4000) {
 															Logger.println("WARNING!!!! Player: "
 																	+ owner.getUsername()
 																	+ " was about to get "
-																	+ i.getAmount()
+																	+ i.amount
 																	+ " of "
-																	+ i.getID()
+																	+ i.id
 																	+ " from the CHEST sys time ("
 																	+ GameEngine
-																			.getTime()
+																			.getTimestamp()
 																	+ ")");
 															owner.setBusy(false);
 															owner.getActionSender()
@@ -959,7 +1038,9 @@ public class InvUseOnObject implements PacketHandler {
 															return;
 														}
 														owner.getInventory()
-																.add(i);
+																.add(i.id,
+																		i.amount,
+																		false);
 													}
 												}
 												owner.getActionSender()
@@ -970,7 +1051,7 @@ public class InvUseOnObject implements PacketHandler {
 									});
 							break;
 						case 302: // Sandpit
-							if (item.getID() != 21) {
+							if (item.id != 21) {
 								owner.getActionSender().sendMessage(
 										"Nothing interesting happens.");
 								return;
@@ -983,9 +1064,9 @@ public class InvUseOnObject implements PacketHandler {
 									new MiniEvent(owner) {
 										public void action() {
 											if (owner.getInventory().remove(
-													item) > -1) {
-												owner.getInventory().add(
-														new InvItem(625, 1));
+													item.id, 1, false)) {
+												owner.getInventory().add(625,
+														1, false);
 												owner.getActionSender()
 														.sendInventory();
 											}
@@ -994,7 +1075,7 @@ public class InvUseOnObject implements PacketHandler {
 									});
 							break;
 						case 179: // Potters Wheel
-							if (item.getID() != 243) {
+							if (item.id != 243) {
 								owner.getActionSender().sendMessage(
 										"Nothing interesting happens.");
 								return;
@@ -1038,13 +1119,15 @@ public class InvUseOnObject implements PacketHandler {
 														+ " to make this");
 										return;
 									}
-									if (owner.getInventory().remove(item) > -1) {
+									if (owner.getInventory().remove(item.id,
+											item.amount, false)) {
 										showBubble();
 										owner.getActionSender().sendMessage(
 												"You make a "
 														+ result.getDef()
 																.getName());
-										owner.getInventory().add(result);
+										owner.getInventory().add(result.id,
+												result.amount, false);
 										owner.incExp(12, exp, true);
 										owner.getActionSender().sendStat(12);
 										owner.getActionSender().sendInventory();
@@ -1057,7 +1140,7 @@ public class InvUseOnObject implements PacketHandler {
 							int reqLvl,
 							xp,
 							resultID;
-							switch (item.getID()) {
+							switch (item.id) {
 							case 279: // Pot
 								resultID = 135;
 								reqLvl = 1;
@@ -1096,8 +1179,9 @@ public class InvUseOnObject implements PacketHandler {
 							Instance.getDelayedEventHandler().add(
 									new ShortEvent(owner) {
 										public void action() {
-											if (owner.getInventory().remove(
-													item) > -1) {
+											if (owner.getInventory()
+													.remove(item.id,
+															item.amount, false)) {
 												if (fail) {
 													owner.getActionSender()
 															.sendMessage(
@@ -1112,7 +1196,9 @@ public class InvUseOnObject implements PacketHandler {
 																			+ result.getDef()
 																					.getName());
 													owner.getInventory().add(
-															result);
+															result.id,
+															result.amount,
+															false);
 													owner.incExp(12, exp, true);
 													owner.getActionSender()
 															.sendStat(12);
@@ -1143,9 +1229,10 @@ public class InvUseOnObject implements PacketHandler {
 						Instance.getDelayedEventHandler().add(
 								new MiniEvent(owner) {
 									public void action() {
-										if (owner.getInventory().remove(item) > -1) {
-											owner.getInventory().add(
-													new InvItem(207, 1));
+										if (owner.getInventory().remove(
+												item.id, item.amount, false)) {
+											owner.getInventory().add(207, 1,
+													false);
 											owner.incExp(12, 3, true);
 											owner.getActionSender()
 													.sendStat(12);
@@ -1169,7 +1256,7 @@ public class InvUseOnObject implements PacketHandler {
 						final int retries = --times;
 						if (!Server.isMembers()) {
 							owner.getActionSender().sendMessage(
-									"This feature is not avaliable in f2p");
+									GameServer.P2P_LIMIT_MESSAGE);
 							return;
 						}
 						if (owner.getCurStat(12) < 10) {
@@ -1183,9 +1270,10 @@ public class InvUseOnObject implements PacketHandler {
 						Instance.getDelayedEventHandler().add(
 								new MiniEvent(owner) {
 									public void action() {
-										if (owner.getInventory().remove(item) > -1) {
-											owner.getInventory().add(
-													new InvItem(676, 1));
+										if (owner.getInventory().remove(
+												item.id, item.amount, false)) {
+											owner.getInventory().add(676, 1,
+													false);
 											owner.incExp(12, 15, true);
 											owner.getActionSender()
 													.sendStat(12);
@@ -1208,7 +1296,8 @@ public class InvUseOnObject implements PacketHandler {
 
 					private void handleRegularSmelting(int times1) {
 						final int times = --times1;
-						ItemSmeltingDef smeltingDef = item.getSmeltingDef();
+						ItemSmeltingDef smeltingDef = ItemAttributes
+								.getSmeltingDef(item.id);
 						if (smeltingDef == null) {
 							owner.getActionSender().sendMessage(
 									"Nothing interesting happens.");
@@ -1217,7 +1306,7 @@ public class InvUseOnObject implements PacketHandler {
 						for (ReqOreDef reqOre : smeltingDef.getReqOres()) {
 							if (owner.getInventory().countId(reqOre.getId()) < reqOre
 									.getAmount()) {
-								if (item.getID() == 151) {
+								if (item.id == 151) {
 									smeltingDef = EntityHandler
 											.getItemSmeltingDef(9999);
 									break;
@@ -1245,7 +1334,7 @@ public class InvUseOnObject implements PacketHandler {
 											+ " to smelt this.");
 							return;
 						}
-						if (!owner.getInventory().contains(item)) {
+						if (!owner.getInventory().contains(item.id)) {
 							return;
 						}
 						owner.setBusy(true);
@@ -1260,17 +1349,15 @@ public class InvUseOnObject implements PacketHandler {
 									public void action() {
 										InvItem bar = new InvItem(def
 												.getBarId());
-										if (owner.getInventory().remove(item) > -1) {
+										if (owner.getInventory().remove(
+												item.id, item.amount, false)) {
 											for (ReqOreDef reqOre : def
 													.getReqOres()) {
-												for (int i = 0; i < reqOre
-														.getAmount(); i++) {
-													owner.getInventory()
-															.remove(new InvItem(
-																	reqOre.getId()));
-												}
+												owner.getInventory().remove(
+														reqOre.getId(),
+														reqOre.amount, false);
 											}
-											if (item.getID() == 151
+											if (item.id == 151
 													&& def.getReqOres().length == 0
 													&& DataConversions.random(
 															0, 1) == 1) {
@@ -1278,7 +1365,9 @@ public class InvUseOnObject implements PacketHandler {
 														.sendMessage(
 																"The ore is too impure and unable to be refined.");
 											} else {
-												owner.getInventory().add(bar);
+												owner.getInventory().add(
+														bar.id, bar.amount,
+														false);
 												owner.getActionSender()
 														.sendMessage(
 																"You retrieve a "
@@ -1314,18 +1403,19 @@ public class InvUseOnObject implements PacketHandler {
 									"Nothing interesting happens.");
 							return;
 						}
-						if (owner.getInventory().remove(item) > -1) {
+						if (owner.getInventory().remove(item.id, item.amount,
+								false)) {
 							showBubble();
 							owner.getActionSender().sendSound("filljug");
-							switch (item.getID()) {
+							switch (item.id) {
 							case 21:
-								owner.getInventory().add(new InvItem(50));
+								owner.getInventory().add(50, 1, false);
 								break;
 							case 140:
-								owner.getInventory().add(new InvItem(141));
+								owner.getInventory().add(141, 1, false);
 								break;
 							default:
-								owner.getInventory().add(new InvItem(464));
+								owner.getInventory().add(464, 1, false);
 								break;
 							}
 							owner.getActionSender().sendInventory();
@@ -1338,10 +1428,10 @@ public class InvUseOnObject implements PacketHandler {
 
 					private void handleCooking(int passedvalue) {
 						final int tries = --passedvalue;
-						if (item.getID() == 622) { // Seaweed (Glass)
+						if (item.id == 622) { // Seaweed (Glass)
 							if (!Server.isMembers()) {
 								owner.getActionSender().sendMessage(
-										"This feature is not avaliable in f2p");
+										GameServer.P2P_LIMIT_MESSAGE);
 								return;
 							}
 							owner.setBusy(true);
@@ -1354,13 +1444,14 @@ public class InvUseOnObject implements PacketHandler {
 							Instance.getDelayedEventHandler().add(
 									new ShortEvent(owner) {
 										public void action() {
-											if (owner.getInventory().remove(
-													item) > -1) {
+											if (owner.getInventory()
+													.remove(item.id,
+															item.amount, false)) {
 												owner.getActionSender()
 														.sendMessage(
 																"The seaweed burns to ashes");
-												owner.getInventory().add(
-														new InvItem(624, 1));
+												owner.getInventory().add(624,
+														1, false);
 												owner.getActionSender()
 														.sendInventory();
 											}
@@ -1371,8 +1462,8 @@ public class InvUseOnObject implements PacketHandler {
 										}
 									});
 						} else {
-							final ItemCookingDef cookingDef = item
-									.getCookingDef();
+							final ItemCookingDef cookingDef = ItemAttributes
+									.getCookingDef(item.id);
 							if (cookingDef == null) {
 								owner.getActionSender().sendMessage(
 										"Nothing interesting happens.");
@@ -1399,13 +1490,15 @@ public class InvUseOnObject implements PacketHandler {
 										public void action() {
 											InvItem cookedFood = new InvItem(
 													cookingDef.getCookedId());
-											if (owner.getInventory().remove(
-													item) > -1) {
-												if (!Formulae.burnFood(
-														item.getID(),
+											if (owner.getInventory()
+													.remove(item.id,
+															item.amount, false)) {
+												if (!Formulae.burnFood(item.id,
 														owner.getCurStat(7))) {
 													owner.getInventory().add(
-															cookedFood);
+															cookedFood.id,
+															cookedFood.amount,
+															false);
 													owner.getActionSender()
 															.sendMessage(
 																	"The "
@@ -1420,9 +1513,9 @@ public class InvUseOnObject implements PacketHandler {
 															.sendStat(7);
 												} else {
 													owner.getInventory()
-															.add(new InvItem(
-																	cookingDef
-																			.getBurnedId()));
+															.add(cookingDef
+																	.getBurnedId(),
+																	1, false);
 													owner.getActionSender()
 															.sendMessage(
 																	"You accidently burn the "
@@ -1436,7 +1529,7 @@ public class InvUseOnObject implements PacketHandler {
 											owner.setBusy(false);
 											if (tries > 0
 													&& owner.getInventory()
-															.contains(item)) {
+															.contains(item.id)) {
 												handleCooking(tries);
 											}
 										}
@@ -1445,51 +1538,68 @@ public class InvUseOnObject implements PacketHandler {
 
 					}
 
-					
 					private void handleSmithing(int barID, int toMake) {
-						ItemSmithingDef def = EntityHandler.getSmithingDef((Formulae.getBarType(barID) * 21) + toMake);
-						if(def == null) {
-							owner.getActionSender().sendMessage("Nothing interesting happens.");
+						ItemSmithingDef def = EntityHandler
+								.getSmithingDef((Formulae.getBarType(barID) * 21)
+										+ toMake);
+						if (def == null) {
+							owner.getActionSender().sendMessage(
+									"Nothing interesting happens.");
 							return;
 						}
-						if(owner.getCurStat(13) < def.getRequiredLevel()) {
-							owner.getActionSender().sendMessage("You need at smithing level of " + def.getRequiredLevel() + " to make this");
+						if (owner.getCurStat(13) < def.getRequiredLevel()) {
+							owner.getActionSender().sendMessage(
+									"You need at smithing level of "
+											+ def.getRequiredLevel()
+											+ " to make this");
 							return;
 						}
-						if(owner.getInventory().countId(barID) < def.getRequiredBars()) {
-							owner.getActionSender().sendMessage("You don't have enough bars to make this.");
+						if (owner.getInventory().countId(barID) < def
+								.getRequiredBars()) {
+							owner.getActionSender().sendMessage(
+									"You don't have enough bars to make this.");
 							return;
 						}
 						owner.getActionSender().sendSound("anvil");
-						for(int x = 0;x < def.getRequiredBars();x++) {
-							owner.getInventory().remove(new InvItem(barID, 1));
+						for (int x = 0; x < def.getRequiredBars(); x++) {
+							owner.getInventory().remove(barID, 1, false);
 						}
-			  		      	Bubble bubble = new Bubble(owner, item.getID());
-						for(Player p : owner.getViewArea().getPlayersInView()) {
+						Bubble bubble = new Bubble(owner, item.id);
+						for (Player p : owner.getViewArea().getPlayersInView()) {
 							p.informOfBubble(bubble);
 						}
-						if(EntityHandler.getItemDef(def.getItemID()).isStackable()) {
-							owner.getActionSender().sendMessage("You hammer the metal into some " + EntityHandler.getItemDef(def.getItemID()).getName());
-							owner.getInventory().add(new InvItem(def.getItemID(), def.getAmount()));
-						}
-						else {
-							owner.getActionSender().sendMessage("You hammer the metal into a " + EntityHandler.getItemDef(def.getItemID()).getName());
-							for(int x = 0;x < def.getAmount();x++) {
-								owner.getInventory().add(new InvItem(def.getItemID(), 1));
+						if (EntityHandler.getItemDef(def.getItemID())
+								.isStackable()) {
+							owner.getActionSender().sendMessage(
+									"You hammer the metal into some "
+											+ EntityHandler.getItemDef(
+													def.getItemID()).getName());
+							owner.getInventory().add(def.getItemID(),
+									def.getAmount(), false);
+						} else {
+							owner.getActionSender().sendMessage(
+									"You hammer the metal into a "
+											+ EntityHandler.getItemDef(
+													def.getItemID()).getName());
+							for (int x = 0; x < def.getAmount(); x++) {
+								owner.getInventory().add(def.getItemID(), 1,
+										false);
 							}
 						}
-						owner.incExp(13, Formulae.getSmithingExp(barID, def.getRequiredBars()), true, true);
+						owner.incExp(
+								13,
+								Formulae.getSmithingExp(barID,
+										def.getRequiredBars()), true, true);
 						owner.getActionSender().sendStat(13);
 						owner.getActionSender().sendInventory();
 					}
-					
 
 					private boolean itemId(int[] ids) {
-						return DataConversions.inArray(ids, item.getID());
+						return DataConversions.inArray(ids, item.id);
 					}
 
 					private void showBubble() {
-						Bubble bubble = new Bubble(owner, item.getID());
+						Bubble bubble = new Bubble(owner, item.id);
 						for (Player p : owner.getViewArea().getPlayersInView()) {
 							p.informOfBubble(bubble);
 						}
@@ -1516,7 +1626,7 @@ public class InvUseOnObject implements PacketHandler {
 		switch (pID) {
 		case 36: // Use Item on Door
 			int dir = p.readByte();
-			item = player.getInventory().get(p.readShort());
+			item = player.getInventory().getSlot(p.readShort());
 			if (object == null || object.getType() == 0 || item == null) { // This
 				// shoudln't
 				// happen
@@ -1528,7 +1638,7 @@ public class InvUseOnObject implements PacketHandler {
 					+ " used item on door"
 					+ item.getDef().getName()
 					+ "("
-					+ item.getID()
+					+ item.id
 					+ ")"
 					+ " [CMD: "
 					+ item.getDef().getCommand()
@@ -1542,7 +1652,7 @@ public class InvUseOnObject implements PacketHandler {
 			handleDoor(player, tile, object, dir, item);
 			break;
 		case 94: // Use Item on GameObject
-			item = player.getInventory().get(p.readShort());
+			item = player.getInventory().getSlot(p.readShort());
 			if (object == null || object.getType() == 1 || item == null) { // This
 				// shoudln't
 				// happen
@@ -1554,7 +1664,7 @@ public class InvUseOnObject implements PacketHandler {
 					+ " used item on GameObject"
 					+ item.getDef().getName()
 					+ "("
-					+ item.getID()
+					+ item.id
 					+ ")"
 					+ " [CMD: "
 					+ item.getDef().getCommand()

@@ -37,6 +37,7 @@ public class LSConnectionHandler implements IoHandler {
 	 *            The exception thrown
 	 */
 	public void exceptionCaught(IoSession session, Throwable cause) {
+		cause.printStackTrace();
 	}
 
 	/**
@@ -76,7 +77,8 @@ public class LSConnectionHandler implements IoHandler {
 	public void sessionClosed(IoSession session) {
 		Server server = Instance.getServer();
 		if (server != null && server.running()) {
-			Logger.error(new Exception("Lost connection the login server!"));
+			Server.getServer().setConnector(new LoginConnector());
+			Logger.error(new Exception("Lost connection the login server!"), false);			
 		}
 	}
 

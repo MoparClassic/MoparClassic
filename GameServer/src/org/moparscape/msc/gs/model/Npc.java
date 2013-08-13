@@ -1,31 +1,27 @@
 package org.moparscape.msc.gs.model;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
+import java.util.List;
 
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Constants;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Constants;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.FightEvent;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.ItemDropDef;
-import org.moparscape.msc.gs.external.NPCDef;
-import org.moparscape.msc.gs.external.NPCLoc;
-import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.entity.ItemDropDef;
+import org.moparscape.msc.gs.model.definition.entity.NPCDef;
+import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
+import org.moparscape.msc.gs.util.Logger;
 
 public class Npc extends Mob {
 
-	/**
-	 * Used for NPC AI scripts.
-	 */
 	private int stage = 0;
-	boolean scripted = false;
 
 	public int getStage() {
 		return stage;
@@ -80,10 +76,7 @@ public class Npc extends Mob {
 	}
 
 	private boolean ran = false;
-	/**
-	 * The identifier for the NPC block event
-	 */
-	private static final int BLOCKED_IDENTIFIER = 69;
+
 	/**
 	 * World instance
 	 */
@@ -181,14 +174,6 @@ public class Npc extends Mob {
 		this.shouldRespawn = shouldRespawn;
 	}
 
-	public DelayedEvent getTimeout() {
-		return timeout;
-	}
-
-	public void setTimeout(DelayedEvent timeout) {
-		this.timeout = timeout;
-	}
-
 	public boolean isWeakend() {
 		return weakend;
 	}
@@ -209,10 +194,7 @@ public class Npc extends Mob {
 	 * Should this npc respawn once it has been killed?
 	 **/
 	private boolean shouldRespawn = true;
-	/**
-	 * DelayedEvent used for unblocking an npc after set time
-	 */
-	private DelayedEvent timeout = null;
+
 	public boolean weakend = false;
 	public boolean special = false;
 	public int itemid = -1;
@@ -221,14 +203,6 @@ public class Npc extends Mob {
 	public Npc(int id, int startX, int startY, int minX, int maxX, int minY,
 			int maxY) {
 		this(new NPCLoc(id, startX, startY, minX, maxX, minY, maxY));
-	}
-
-	public boolean isScripted() {
-		return scripted;
-	}
-
-	public void setScripted(boolean scripted) {
-		this.scripted = scripted;
 	}
 
 	public Npc(NPCLoc loc) {
@@ -253,11 +227,6 @@ public class Npc extends Mob {
 		if (this.loc.getId() == 189 || this.loc.getId() == 53) {
 			this.def.aggressive = true;
 		}
-		for (NpcAI ai : Instance.getPluginHandler().getNpcAI()) {
-			if (getID() == ai.getID()) {
-				setScripted(true);
-			}
-		}
 	}
 
 	public Syndicate getSyndicate() {
@@ -272,46 +241,6 @@ public class Npc extends Mob {
 		blocker = player;
 		player.setNpc(this);
 		setBusy(true);
-		boolean eventExists = false;
-
-		if (timeout != null) {
-			ArrayList<DelayedEvent> events = Instance.getDelayedEventHandler()
-					.getEvents();
-
-			// Damn punk, gettin threading problems here without it synced.
-			try {
-				synchronized (events) {
-					for (DelayedEvent e : events) {
-						if (e.is(timeout)) {
-							e.updateLastRun(); // If the event still exists,
-							// reset its
-							// delay time.
-							eventExists = true;
-						}
-					}
-					notifyAll();
-				}
-			} catch (ConcurrentModificationException cme) {
-			}
-		}
-
-		if (eventExists) {
-			return;
-		}
-
-		timeout = new DelayedEvent(null, 15000) {
-
-			public Object getIdentifier() {
-				return new Integer(BLOCKED_IDENTIFIER);
-			}
-
-			public void run() {
-				unblock();
-				matchRunning = false;
-			}
-		};
-
-		Instance.getDelayedEventHandler().add(timeout);
 	}
 
 	private Player findVictim() {
@@ -347,7 +276,7 @@ public class Npc extends Mob {
 								|| now - p.getCombatTimer() < (p
 										.getCombatState() == CombatState.RUNNING
 										|| p.getCombatState() == CombatState.WAITING ? 3000
-										: 500)
+											: 500)
 								|| !p.nextTo(this)
 								|| !p.getLocation().inBounds(loc.minX - 4,
 										loc.minY - 4, loc.maxX + 4,
@@ -414,10 +343,6 @@ public class Npc extends Mob {
 		if (mob instanceof Player) {
 			Player player = (Player) mob;
 			player.getActionSender().sendSound("victory");
-			if (this.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(getID())
-						.onNpcDeath(this, player);
-			}
 		}
 
 		Mob opponent = super.getOpponent();
@@ -430,68 +355,55 @@ public class Npc extends Mob {
 		remove();
 
 		Player owner = mob instanceof Player ? (Player) mob : null;
-		if (!this.special) {
-			ItemDropDef[] drops = def.getDrops();
 
-			int total = 0;
-			for (ItemDropDef drop : drops) {
-				total += drop.getWeight();
+		drop(owner);
+	}
+
+	private boolean drop(Player owner) {
+		ItemDropDef[] drops = def.getDrops();
+
+		int total = 0;
+		List<ItemDropDef> possibleDrops = new ArrayList<ItemDropDef>();
+		for (ItemDropDef drop : drops) {
+			if (drop == null) {
+				continue;
 			}
-			//
-			int hit = DataConversions.random(0, total);
-			total = 0;
-			if (!this.getDef().name.equalsIgnoreCase("ghost")) {
-				if (this.getCombatLevel() >= 90 && Config.members) {
-					if (Formulae.Rand(0, 3000) == 500) {
-						if (Formulae.Rand(0, 1) == 1) {
-							world.registerItem(new Item(1276, getX(), getY(),
-									1, owner));
-						} else {
-							world.registerItem(new Item(1277, getX(), getY(),
-									1, owner));
-						}
-					}
+			try {
+				if (EntityHandler.getItemDef(drop.getID()).members
+						&& !World.isMembers()) {
+					continue;
 				}
-				for (ItemDropDef drop : drops) {
-					if (drop == null) {
-						continue;
-					}
-					if (drop.getWeight() == 0) {
+			} catch (NullPointerException e) {
+				// -1 is designated for only adding weight
+				if (drop.id != -1) {
+					Logger.println("Invalid drop id " + drop.id + " for NPC id " + this.id);
+				}
+			}
+			total += drop.getWeight();
+			possibleDrops.add(drop);
+		}
+		int hit = DataConversions.random(0, total);
+		total = 0;
+		if (!this.getDef().name.equalsIgnoreCase("ghost")) {
+
+			for (ItemDropDef drop : possibleDrops) {
+				if (drop.getWeight() == 0) {
+					world.registerItem(new Item(drop.getID(), getX(), getY(),
+							drop.getAmount(), owner));
+					continue;
+				}
+
+				if (hit >= total && hit < (total + drop.getWeight())) {
+					if (drop.getID() != -1) {
 						world.registerItem(new Item(drop.getID(), getX(),
 								getY(), drop.getAmount(), owner));
-						continue;
+						break;
 					}
-
-					if (hit >= total && hit < (total + drop.getWeight())) {
-						if (drop.getID() != -1) {
-							if (EntityHandler.getItemDef(drop.getID()).members
-									&& World.isMembers()) {
-								world.registerItem(new Item(drop.getID(),
-										getX(), getY(), drop.getAmount(), owner));
-								break;
-							}
-							if (!EntityHandler.getItemDef(drop.getID()).members) {
-								world.registerItem(new Item(drop.getID(),
-										getX(), getY(), drop.getAmount(), owner));
-								break;
-							}
-						}
-					}
-					total += drop.getWeight();
 				}
+				total += drop.getWeight();
 			}
-		} else {
-			if (itemid != -1) {
-				world.registerItem(new Item(itemid, getX(), getY(), 1, owner));
-				world.sendWorldMessage(owner.getUsername()
-						+ " has killed the correct " + getDef().name
-						+ " and found a "
-						+ EntityHandler.getItemDef(itemid).getName());
-				itemid = -1;
-			}
-			special = false;
 		}
-		World.getQuestManager().handleNpcKilled(this, owner);
+		return true;
 	}
 
 	public void remove() {
@@ -552,14 +464,8 @@ public class Npc extends Mob {
 			blocker = null;
 		}
 
-		if (timeout == null) {
-			return;
-		}
-
 		goingToAttack = false;
 		setBusy(false);
-		timeout.stop();
-		timeout = null;
 	}
 
 	public void updatePosition() {
@@ -570,10 +476,6 @@ public class Npc extends Mob {
 			resetPath();
 			victim.resetPath();
 			victim.resetAll();
-			if (this.isScripted()) {
-				Instance.getPluginHandler().getNpcAIHandler(getID())
-						.onNpcAttack(this, victim);
-			}
 			victim.setStatus(Action.FIGHTING_MOB);
 			/*
 			 * Do not want if (victim.isSleeping()) {
@@ -602,12 +504,17 @@ public class Npc extends Mob {
 		}
 
 		if (now - lastMovement > 2200) {
-			lastMovement = now;
-			int rand = DataConversions.random(0, 1);
-			if (!isBusy() && finishedPath() && rand == 1 && !this.isRemoved()) {
-				int newX = DataConversions.random(loc.minX(), loc.maxX());
-				int newY = DataConversions.random(loc.minY(), loc.maxY());
-				super.setPath(new Path(getX(), getY(), newX, newY));
+			if (now - getCombatTimer() < (getCombatState() == CombatState.WAITING ? 5000
+					: 500)) {
+			} else {
+				lastMovement = now;
+				int rand = DataConversions.random(0, 1);
+				if (!isBusy() && finishedPath() && rand == 1
+						&& !this.isRemoved()) {
+					int newX = DataConversions.random(loc.minX(), loc.maxX());
+					int newY = DataConversions.random(loc.minY(), loc.maxY());
+					super.setPath(new Path(getX(), getY(), newX, newY));
+				}
 			}
 		}
 

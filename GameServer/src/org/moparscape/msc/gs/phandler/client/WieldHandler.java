@@ -1,24 +1,27 @@
 package org.moparscape.msc.gs.phandler.client;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
-import org.moparscape.msc.gs.external.EntityHandler;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.Script;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.phandler.PacketHandler;
-import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.util.Logger;
 
 public class WieldHandler implements PacketHandler {
+
+	// TODO: Fix weapon requirements.
+
 	/**
 	 * World instance
 	 */
@@ -41,8 +44,8 @@ public class WieldHandler implements PacketHandler {
 			player.setSuspiciousPlayer(true);
 			return;
 		}// if(true)
-		InvItem item = player.getInventory().get(idx);
-		if (item == null || !item.isWieldable()) {
+		InvItem item = player.getInventory().getSlot(idx);
+		if (item == null || !ItemAttributes.isWieldable(item.id)) {
 			player.setSuspiciousPlayer(true);
 			return;
 		}
@@ -61,13 +64,17 @@ public class WieldHandler implements PacketHandler {
 
 		switch (pID) {
 		case 181:
-			if (!item.isWielded()) {
-				wieldItem(player, item);
+			if (!item.wielded) {
+				try {
+					wieldItem(player, item, idx);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			break;
 		case 92:
-			if (item.isWielded()) {
-				unWieldItem(player, item, true);
+			if (item.wielded) {
+				unWieldItem(player, item, true, idx);
 			}
 			break;
 		}
@@ -75,21 +82,24 @@ public class WieldHandler implements PacketHandler {
 		player.getActionSender().sendEquipmentStats();
 	}
 
-	public static void unWieldItem(Player player, InvItem item, boolean sound) {
-		item.setWield(false);
+	public static void unWieldItem(Player player, InvItem item, boolean sound,
+			int slot) {
+		player.getInventory().setWield(slot, false);
 		if (sound) {
 			player.getActionSender().sendSound("click");
 		}
-		player.updateWornItems(
-				item.getWieldableDef().getWieldPos(),
-				player.getPlayerAppearance().getSprite(
-						item.getWieldableDef().getWieldPos()));
+		ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+		player.updateWornItems(def.getWieldPos(), player.getPlayerAppearance()
+				.getSprite(def.getWieldPos()));
 	}
 
-	private void wieldItem(Player player, InvItem item) {
+	private void wieldItem(Player player, InvItem item, int slot) {
 		String youNeed = "";
-		for (Entry<Integer, Integer> e : item.getWieldableDef()
-				.getStatsRequired()) {
+		ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+		if (def == null) {
+			Logger.println("Def = null!!!!");
+		}
+		for (Entry<Integer, Integer> e : def.getStatsRequired()) {
 			if (player.getMaxStat(e.getKey()) < e.getValue()) {
 				youNeed += ((Integer) e.getValue()).intValue() + " "
 						+ Formulae.statArray[((Integer) e.getKey()).intValue()]
@@ -104,44 +114,34 @@ public class WieldHandler implements PacketHandler {
 			return;
 		}
 		if (Config.members) {
-			if (item.getID() == 594) {
-				int count = 0;
-				for (Quest q : World.getQuestManager().getQuests()) {
-					if (player.getQuestStage(q.getUniqueID()) == Quest.COMPLETE) {
-						count++;
-					} else if (q.getUniqueID() == 12) {
-						count++;
-					}
-				}
-				Logger.println(count + " - "
-						+ World.getQuestManager().getQuests().size());
-				if (count < World.getQuestManager().getQuests().size()
-						|| player.getCurStat(Script.MINING) < 50
-						|| player.getCurStat(Script.HERBLAW) < 25
-						|| player.getCurStat(Script.FISHING) < 53
-						|| player.getCurStat(Script.COOKING) < 53
-						|| player.getCurStat(Script.CRAFTING) < 31
-						|| player.getCurStat(Script.WOODCUT) < 36
-						|| player.getCurStat(Script.MAGIC) < 33) {
-					player.getActionSender().sendMessage(
-							"You must have completed at least "
-									+ (World.getQuestManager().getQuests()
-											.size())
-									+ " quests and have these stat reqs:");
-					player.getActionSender()
-							.sendMessage(
-									"50 Mining, 25 Herblaw, 53 Fishing, 53 Cooking, 31 Crafting, 36 Woodcutting and 33 Magic");
-					return;
-				}
-			} else if (item.getID() == 593) {
+			if (item.id == 594) {
 
-				if (player.getCurStat(Script.CRAFTING) < 31
-						|| player.getCurStat(Script.WOODCUT) < 36) {
-					player.getActionSender().sendMessage(
-							"You must have 31 Crafting and 36 Woodcutting");
-					return;
-				}
-			} else if (item.getID() == 1288) {
+				/*
+				 * if (count < World.getQuestManager().getQuests().size() ||
+				 * player.getCurStat(Script.MINING) < 50 ||
+				 * player.getCurStat(Script.HERBLAW) < 25 ||
+				 * player.getCurStat(Script.FISHING) < 53 ||
+				 * player.getCurStat(Script.COOKING) < 53 ||
+				 * player.getCurStat(Script.CRAFTING) < 31 ||
+				 * player.getCurStat(Script.WOODCUT) < 36 ||
+				 * player.getCurStat(Script.MAGIC) < 33) {
+				 * player.getActionSender().sendMessage(
+				 * "You must have completed at least " +
+				 * (World.getQuestManager().getQuests() .size()) +
+				 * " quests and have these stat reqs:");
+				 * player.getActionSender() .sendMessage(
+				 * "50 Mining, 25 Herblaw, 53 Fishing, 53 Cooking, 31 Crafting, 36 Woodcutting and 33 Magic"
+				 * ); return; }
+				 */
+			} else if (item.id == 593) {
+
+				/*
+				 * if (player.getCurStat(Script.CRAFTING) < 31 ||
+				 * player.getCurStat(Script.WOODCUT) < 36) {
+				 * player.getActionSender().sendMessage(
+				 * "You must have 31 Crafting and 36 Woodcutting"); return; }
+				 */
+			} else if (item.id == 1288) {
 				boolean found = false;
 				for (int i = 0; i < 18; i++) {
 					if (player.getMaxStat(i) == 99) {
@@ -161,41 +161,32 @@ public class WieldHandler implements PacketHandler {
 			}
 		}
 
-		if (item.getID() == 407 || item.getID() == 401) {
-			int count = 0;
-			for (Quest q : World.getQuestManager().getQuests()) {
-				if (player.getQuestStage(q.getUniqueID()) == Quest.COMPLETE) {
-					count++;
-				} else if (q.getUniqueID() == 12) {
-					count++;
-				}
-			}
+		if (item.id == 407 || item.id == 401) {
 
-			if (player.getCurStat(6) < 31
-					|| count < World.getQuestManager().getQuests().size()) {
+			if (player.getCurStat(6) < 31) {
 				player.getActionSender().sendMessage(
-						"You must have at least 31 magic & completed "
-								+ (World.getQuestManager().getQuests().size())
-								+ " quests");
+						"You must have at least 31 magic");
 				return;
 			}
 		}
-		if (EntityHandler.getItemWieldableDef(item.getID()).femaleOnly()
+		if (EntityHandler.getItemWieldableDef(item.id).femaleOnly()
 				&& player.isMale()) {
 			player.getActionSender().sendMessage(
 					"This piece of armor is for a female only.");
 			return;
 		}
-		ArrayList<InvItem> items = player.getInventory().getItems();
+		List<InvItem> items = player.getInventory().getItems();
+		int slot1 = 0;
 		for (InvItem i : items) {
-			if (item.wieldingAffectsItem(i) && i.isWielded()) {
-				unWieldItem(player, i, false);
+			if (ItemAttributes.wieldingAffectsItem(item.id, i.id) && i.wielded) {
+				unWieldItem(player, i, false, slot1);
 			}
+			slot1++;
 		}
-		item.setWield(true);
+		player.getInventory().setWield(slot, true);
 		player.getActionSender().sendSound("click");
-		player.updateWornItems(item.getWieldableDef().getWieldPos(), item
-				.getWieldableDef().getSprite());
+		def = ItemAttributes.getWieldable(item.id);
+		player.updateWornItems(def.getWieldPos(), def.getSprite());
 	}
 
 }

@@ -3,6 +3,7 @@ package org.moparscape.msc.gs;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 
 import org.apache.mina.common.IoAcceptor;
@@ -11,14 +12,17 @@ import org.apache.mina.common.ThreadModel;
 import org.apache.mina.transport.socket.nio.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
 import org.apache.mina.transport.socket.nio.SocketSessionConfig;
-import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.RSCConnectionHandler;
 import org.moparscape.msc.gs.connection.filter.ConnectionFilter;
+import org.moparscape.msc.gs.connection.filter.PacketThrottler;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.core.LoginConnector;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.phandler.local.Command;
+import org.moparscape.msc.gs.phandler.local.CommandHandler;
 import org.moparscape.msc.gs.util.Logger;
 
 /**
@@ -33,36 +37,37 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 		String configFile = "conf" + File.separator + "world.xml";
+		String msg = "";
 		if (args.length > 0) {
 			File f = new File(args[0]);
 			if (f.exists()) {
 				configFile = f.getName();
 			} else {
-				System.out.println("Config not found: " + f.getCanonicalPath());
-				displayConfigDefaulting(configFile);
+				msg += "Config not found: " + f.getCanonicalPath();
+				msg += '\n' + displayConfigDefaulting(configFile);
 			}
 		} else {
-			System.out.println("No config file specified.");
-			displayConfigDefaulting(configFile);
+			msg += "No config file specified.";
+			msg += '\n' + displayConfigDefaulting(configFile);
 		}
-
 
 		Config.initConfig(configFile);
+		Logger.println(msg);
 		world = Instance.getWorld();
-		try {
-			world.wl.loadObjects();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-
-		World.initilizeDB();
 
 		Logger.println(Config.SERVER_NAME + " ["
 				+ (Config.members ? "P2P" : "F2P") + "] "
 				+ "Server starting up...");
 
 		server = new Server();
+		Instance.dataStore().dispose();
+		try (Scanner scan = new Scanner(System.in)) {
+			CommandHandler handler = new CommandHandler();
+			String command;
+			while ((command = scan.nextLine()) != null) {
+				handler.handle(new Command(command));
+			}
+		}
 	}
 
 	private static Server server;
@@ -141,11 +146,7 @@ public class Server {
 	public Server() {
 		running = true;
 		world.setServer(this);
-		try {
-			Instance.getPluginHandler().initPlugins();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 		try {
 			connector = new LoginConnector();
 			engine = new GameEngine();
@@ -156,6 +157,8 @@ public class Server {
 
 			acceptor = new SocketAcceptor(Runtime.getRuntime()
 					.availableProcessors() + 1, Executors.newCachedThreadPool());
+			acceptor.getFilterChain().addFirst("packetthrottler",
+					PacketThrottler.getInstance());
 			acceptor.getFilterChain().addFirst("connectionfilter",
 					new ConnectionFilter());
 			IoAcceptorConfig config = new SocketAcceptorConfig();
@@ -252,8 +255,8 @@ public class Server {
 	public static Server getServer() {
 		return server;
 	}
-	
-	private static void displayConfigDefaulting(String file) {
-		System.out.println("Defaulting to use " + file);
+
+	private static String displayConfigDefaulting(String file) {
+		return "Defaulting to use " + file;
 	}
 }

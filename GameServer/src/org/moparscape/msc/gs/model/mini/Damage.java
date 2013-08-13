@@ -64,14 +64,23 @@ public class Damage {
 	}
 
 	public double getRangePortion() {
+		if (getTotalDamage() == 0) {
+			return 0;
+		}
 		return getRangeDamage() / getTotalDamage();
 	}
 
 	public double getMagicPortion() {
+		if (getTotalDamage() == 0) {
+			return 0;
+		}
 		return getMagicDamage() / getTotalDamage();
 	}
 
 	public double getCombatPortion() {
+		if (getTotalDamage() == 0) {
+			return 0;
+		}
 		return getCombatDamage() / getTotalDamage();
 	}
 }

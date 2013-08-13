@@ -1,0 +1,59 @@
+)]}'
+{
+  "0": {
+    "exp": 25,
+    "fell": 100,
+    "logId": 14,
+    "requiredLvl": 1,
+    "respawnTime": 30
+  },
+  "1": {
+    "exp": 25,
+    "fell": 100,
+    "logId": 14,
+    "requiredLvl": 1,
+    "respawnTime": 30
+  },
+  "307": {
+    "exp": 62,
+    "fell": 10,
+    "logId": 633,
+    "requiredLvl": 30,
+    "respawnTime": 60
+  },
+  "70": {
+    "exp": 25,
+    "fell": 100,
+    "logId": 14,
+    "requiredLvl": 1,
+    "respawnTime": 30
+  },
+  "306": {
+    "exp": 37,
+    "fell": 10,
+    "logId": 632,
+    "requiredLvl": 15,
+    "respawnTime": 60
+  },
+  "309": {
+    "exp": 175,
+    "fell": 20,
+    "logId": 635,
+    "requiredLvl": 60,
+    "respawnTime": 120
+  },
+  "308": {
+    "exp": 100,
+    "fell": 15,
+    "logId": 634,
+    "requiredLvl": 45,
+    "respawnTime": 120
+  },
+  "310": {
+    "exp": 300,
+    "fell": 20,
+    "logId": 636,
+    "requiredLvl": 75,
+    "respawnTime": 180
+  }
+}

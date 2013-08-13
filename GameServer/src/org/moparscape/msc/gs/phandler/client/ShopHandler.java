@@ -1,15 +1,17 @@
 package org.moparscape.msc.gs.phandler.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.container.Shop;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.util.Logger;
@@ -68,37 +70,36 @@ public class ShopHandler implements PacketHandler {
 						+ value);
 				return;
 			}
-			if (shop.countId(item.getID()) < 1)
+			if (shop.countId(item.id) < 1)
 				return;
 			if (player.getInventory().countId(10) < value) {
 				player.getActionSender().sendMessage(
 						"You don't have enough money to buy that!");
 				return;
 			}
-			if ((Inventory.MAX_SIZE - player.getInventory().size())
-					+ player.getInventory().getFreedSlots(
-							new InvItem(10, value)) < player.getInventory()
-					.getRequiredSlots(item)) {
+			List<InvItem> rec = new ArrayList<InvItem>();
+			rec.add(item);
+			List<InvItem> give = new ArrayList<InvItem>();
+			give.add(new InvItem(10, value));
+			if (!player.getInventory().canHold(rec, give)) {
 				player.getActionSender().sendMessage(
 						"You don't have room for that in your inventory");
 				return;
 			}
 			int itemprice = Formulae.getPrice(
-					shop.getItems()
-							.get(Formulae.getItemPos(shop, item.getID())),
+					shop.getItems().get(Formulae.getItemPos(shop, item.id)),
 					shop, true);
 			int sellprice = Formulae.getPrice(
-					shop.getItems()
-							.get(Formulae.getItemPos(shop, item.getID())),
+					shop.getItems().get(Formulae.getItemPos(shop, item.id)),
 					shop, false);
 			if (itemprice == 0)
 				return;
 
 			if (sellprice >= itemprice)
 				return;
-			if (player.getInventory().remove(10, itemprice) > -1) {
-				shop.remove(item);
-				player.getInventory().add(item);
+			if (player.getInventory().remove(10, itemprice, false)) {
+				shop.remove(item.id, item.amount, true);
+				player.getInventory().add(item.id, item.amount, false);
 				player.getActionSender().sendSound("coins");
 				player.getActionSender().sendInventory();
 				shop.updatePlayers();
@@ -125,32 +126,32 @@ public class ShopHandler implements PacketHandler {
 						"This feature is only avaliable on a members server");
 				return;
 			}
-			if (player.getInventory().countId(item.getID()) < 1) {
+			if (player.getInventory().countId(item.id) < 1) {
 				return;
 			}
-			if (!shop.shouldStock(item.getID())) {
+			if (!shop.shouldStock(item.id)) {
 				return;
 			}
-			if (!shop.canHold(item)) {
+			if (!shop.canHold(item.id, item.amount)) {
 				player.getActionSender().sendMessage(
 						"The shop is currently full!");
 				return;
 			}
 			int itempricez;
-			if (Formulae.getItemPos(shop, item.getID()) == -1) {
-				itempricez = Formulae.getPrice(new InvItem(item.getID(), 0),
-						shop, false);
-			} else {
-				itempricez = Formulae.getPrice(
-						shop.getItems().get(
-								Formulae.getItemPos(shop, item.getID())), shop,
+			if (Formulae.getItemPos(shop, item.id) == -1) {
+				itempricez = Formulae.getPrice(new InvItem(item.id, 0), shop,
 						false);
+			} else {
+				itempricez = Formulae
+						.getPrice(
+								shop.getItems().get(
+										Formulae.getItemPos(shop, item.id)),
+								shop, false);
 			}
-			if (itempricez > 300000)
-				return;
-			if (player.getInventory().remove(item) > -1) {
-				player.getInventory().add(new InvItem(10, itempricez));
-				shop.add(item);
+
+			if (player.getInventory().remove(item.id, item.amount, false)) {
+				player.getInventory().add(10, itempricez, false);
+				shop.add(item.id, item.amount, false);
 				player.getActionSender().sendSound("coins");
 				player.getActionSender().sendInventory();
 				shop.updatePlayers();

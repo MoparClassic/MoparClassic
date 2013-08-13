@@ -7,11 +7,11 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.model.ActiveTile;
-import org.moparscape.msc.gs.model.TileValue;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
+import org.moparscape.msc.gs.model.landscape.TileValue;
 
 public class MapGenerator {
 	private static final int BLACK = new Color(0, 0, 0).getRGB();
@@ -30,7 +30,7 @@ public class MapGenerator {
 			Logger.println("Invalid args");
 			return;
 		}
-		String configFile = "conf/server/Conf.xml";
+		String configFile = "conf/world.xml";
 		if (args.length > 1) {
 			File f = new File(args[1]);
 			if (f.exists()) {

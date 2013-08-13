@@ -1,15 +1,12 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.event.WalkToPointEvent;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.FiremakingDef;
-import org.moparscape.msc.gs.model.ActiveTile;
 import org.moparscape.msc.gs.model.Bubble;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.InvItem;
@@ -17,6 +14,9 @@ import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.skill.FiremakingDef;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.states.Action;
@@ -51,10 +51,10 @@ public class InvUseOnGroundItem implements PacketHandler {
 			final ActiveTile tile = world.getTile(location);
 			if (tile == null)
 				return;
-			final InvItem myItem = player.getInventory().get(p.readShort());
+			final InvItem myItem = player.getInventory().getSlot(p.readShort());
 			if (myItem == null)
 				return;
-			if (tile.hasGameObject() && myItem.getID() != 135) {
+			if (tile.hasGameObject() && myItem.id != 135) {
 				player.getActionSender().sendMessage(
 						"You cannot do that here, please move to a new area.");
 				return;
@@ -71,14 +71,14 @@ public class InvUseOnGroundItem implements PacketHandler {
 					+ " used item "
 					+ myItem.getDef().getName()
 					+ "("
-					+ myItem.getID()
+					+ myItem.id
 					+ ")"
 					+ " [CMD: "
 					+ myItem.getDef().getCommand()
 					+ "] ON A GROUND ITEM "
 					+ myItem.getDef().getName()
 					+ "("
-					+ myItem.getID()
+					+ myItem.id
 					+ ")"
 					+ " [CMD: "
 					+ myItem.getDef().getCommand()
@@ -100,8 +100,9 @@ public class InvUseOnGroundItem implements PacketHandler {
 								return;
 							switch (item.getID()) {
 							case 23:
-								if (myItem.getID() == 135) {
-									if (owner.getInventory().remove(myItem) < 0)
+								if (myItem.id == 135) {
+									if (owner.getInventory().remove(myItem.id,
+											myItem.amount, false))
 										return;
 									owner.getActionSender().sendMessage(
 											"You put the flour in the pot.");
@@ -111,7 +112,7 @@ public class InvUseOnGroundItem implements PacketHandler {
 										p.informOfBubble(bubble);
 									}
 									world.unregisterItem(item);
-									owner.getInventory().add(new InvItem(136));
+									owner.getInventory().add(136, 1, false);
 									owner.getActionSender().sendInventory();
 									return;
 								}
@@ -217,7 +218,7 @@ public class InvUseOnGroundItem implements PacketHandler {
 						}
 
 						private boolean itemId(int[] ids) {
-							return DataConversions.inArray(ids, myItem.getID());
+							return DataConversions.inArray(ids, myItem.id);
 						}
 					});
 		} catch (Exception e) {

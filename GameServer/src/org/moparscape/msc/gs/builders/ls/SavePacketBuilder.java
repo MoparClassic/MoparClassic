@@ -2,11 +2,12 @@ package org.moparscape.msc.gs.builders.ls;
 
 import org.moparscape.msc.gs.builders.LSPacketBuilder;
 import org.moparscape.msc.gs.connection.LSPacket;
-import org.moparscape.msc.gs.model.Bank;
 import org.moparscape.msc.gs.model.InvItem;
-import org.moparscape.msc.gs.model.Inventory;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.PlayerAppearance;
+import org.moparscape.msc.gs.model.container.Bank;
+import org.moparscape.msc.gs.model.container.Inventory;
+import org.moparscape.msc.gs.quest.Quest;
 import org.moparscape.msc.gs.tools.DataConversions;
 
 public class SavePacketBuilder {
@@ -51,31 +52,25 @@ public class SavePacketBuilder {
 		Inventory inv = player.getInventory();
 		packet.addShort(inv.size());
 		for (InvItem i : inv.getItems()) {
-			packet.addShort(i.getID());
-			packet.addInt(i.getAmount());
-			packet.addByte((byte) (i.isWielded() ? 1 : 0));
+			packet.addShort(i.id);
+			packet.addInt(i.amount);
+			packet.addByte((byte) (i.wielded ? 1 : 0));
 		}
 
 		Bank bnk = player.getBank();
 		packet.addShort(bnk.size());
 		for (InvItem i : bnk.getItems()) {
-			packet.addShort(i.getID());
-			packet.addInt(i.getAmount());
+			packet.addShort(i.id);
+			packet.addInt(i.amount);
 		}
 
-		packet.addShort(player.getQuestPoints());
-		@SuppressWarnings("unchecked")
-		java.util.HashMap<Integer, Integer> questStage = (java.util.HashMap<Integer, Integer>) player
-				.getQuestStages().clone();
-
-		packet.addShort(questStage.size());
-		java.util.Set<Integer> set = questStage.keySet();
-
-		for (int i : set) {
-			packet.addShort(i);
-			packet.addShort(questStage.get(i));
+		packet.addShort(player.quests.quests().size());
+		for (Quest q : player.quests.quests()) {
+			packet.addShort(q.id());
+			packet.addShort(q.stage());
 		}
 		packet.addLong(player.getEventCD());
+
 		return packet.toPacket();
 	}
 

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.zip.GZIPInputStream;
 
-import org.moparscape.msc.config.Config;
+import org.moparscape.msc.gs.config.Config;
 
 public class ObjectLoader {
 	public static Object loadObject(String file) {

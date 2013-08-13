@@ -1,38 +1,30 @@
 package org.moparscape.msc.gs.model;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
 
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.core.ClientUpdater;
 import org.moparscape.msc.gs.core.DelayedEventHandler;
-import org.moparscape.msc.gs.db.DBConnection;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
-import org.moparscape.msc.gs.external.GameObjectLoc;
-import org.moparscape.msc.gs.external.NPCLoc;
 import org.moparscape.msc.gs.io.WorldLoader;
+import org.moparscape.msc.gs.model.container.Shop;
+import org.moparscape.msc.gs.model.definition.entity.GameObjectLoc;
+import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
+import org.moparscape.msc.gs.model.landscape.MutableTileValue;
+import org.moparscape.msc.gs.model.landscape.TileValue;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
-import org.moparscape.msc.gs.npchandler.NpcHandler;
-import org.moparscape.msc.gs.npchandler.NpcHandlerDef;
-import org.moparscape.msc.gs.quest.QuestManager;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.util.EntityList;
 import org.moparscape.msc.gs.util.Logger;
 
 public final class World {
 
-	/**
-	 * NpcScripts are stored in here
-	 */
-	public HashMap<Integer, String> npcScripts = new HashMap<Integer, String>();
 	/**
 	 * Double ended queue to store snapshots into
 	 */
@@ -50,25 +42,6 @@ public final class World {
 	 */
 	public synchronized void addEntryToSnapshots(Snapshot snapshot) {
 		snapshots.offerFirst(snapshot);
-	}
-
-	public void loadScripts() {
-		int npccount = 0;
-		int error = 0;
-		for (File files : new File("scripts/").listFiles()) {
-			try {
-				int id = Integer.parseInt(files.getName().substring(0, 3)
-						.trim());
-				npcScripts.put(id, files.getAbsolutePath());
-			} catch (Exception e) {
-				error++;
-				continue;
-			} finally {
-				npccount++;
-			}
-		}
-		Logger.println(npccount + " NPC Scripts loaded! "
-				+ (error > 1 ? ((error - 1) + " Error scripts") : ""));
 	}
 
 	public void sendWorldMessage(String msg) {
@@ -104,10 +77,6 @@ public final class World {
 	/* End of Places */
 
 	/**
-	 * Allow Dueling?
-	 */
-	public static boolean DUEL = false;
-	/**
 	 * The maximum height of the map (944 squares per level)
 	 */
 	public static final int MAX_HEIGHT = 3776;
@@ -116,44 +85,20 @@ public final class World {
 	 */
 	public static final int MAX_WIDTH = 944;
 	/**
-	 * Manages quests
-	 */
-	private static QuestManager questManager = null;
-	/**
 	 * World instance
 	 */
 	public static boolean SERVER_MUTED = false;
 	private static World worldInstance;
-
-	/**
-	 * @return this world's quest manager
-	 */
-	public static QuestManager getQuestManager() {
-		return questManager;
-	}
 
 	public static boolean isMembers() {
 		return Config.members;
 	}
 
 	public WorldLoader wl;
+
 	/**
 	 * Database connection
 	 */
-	private static DBConnection db;
-
-	public DBConnection getDB() {
-		return db;
-	}
-
-	public boolean dbKeepAlive() {
-		return db.isConnected();
-	}
-
-	public static void initilizeDB() {
-		db = new DBConnection();
-		db.initilizePreparedStatements(db);
-	}
 
 	/**
 	 * returns the only instance of this world, if there is not already one,
@@ -164,16 +109,13 @@ public final class World {
 			worldInstance = new World();
 			try {
 				worldInstance.wl = new WorldLoader();
-				worldInstance.wl.loadWorld(worldInstance);
-				worldInstance.loadNpcHandlers();
-				worldInstance.loadScripts();
-				if (questManager == null) {
-					questManager = new QuestManager();
-					questManager.loadQuests();
-				}
-
+				List<Point3D> sections = worldInstance.wl
+						.loadWorld(worldInstance);
+				Logger.println("Loading world objects.");
+				worldInstance.wl.loadObjects(sections);
 			} catch (Exception e) {
 				Logger.error(e);
+				System.exit(0);
 			}
 		}
 		return worldInstance;
@@ -193,15 +135,8 @@ public final class World {
 	 */
 	public int eventx = 0;
 	public int eventy = 0;
-	/**
-	 * Grim reaper pickpocketable
-	 */
-	public boolean grimpock = false;
+
 	public String lastAnswer = null;
-	/**
-	 * The mapping of npc IDs to their handler
-	 */
-	private TreeMap<Integer, NpcHandler> npcHandlers = new TreeMap<Integer, NpcHandler>();
 	/**
 	 * A list of all npcs on the server
 	 */
@@ -210,8 +145,7 @@ public final class World {
 	 * A list of all players on the server
 	 */
 	private EntityList<Player> players = new EntityList<Player>(2000);
-	public boolean Quiz = false;
-	public boolean QuizSignup = true;
+
 	/**
 	 * The server instance
 	 */
@@ -334,13 +268,6 @@ public final class World {
 	}
 
 	/**
-	 * returns the assosiated npc handler
-	 */
-	public NpcHandler getNpcHandler(int npcID) {
-		return npcHandlers.get(npcID);
-	}
-
-	/**
 	 * Gets the list of npcs on the server
 	 */
 	public EntityList<Npc> getNpcs() {
@@ -386,6 +313,9 @@ public final class World {
 	public Shop getShop(Point location) {
 		for (Shop shop : shops) {
 			if (shop.withinShop(location)) {
+				if (!shop.inited()) {
+					shop.init();
+				}
 				return shop;
 			}
 		}
@@ -427,18 +357,10 @@ public final class World {
 		}
 		TileValue t = tileType[x][y];
 		if (t == null) {
-			t = new TileValue();
+			t = TileValue.create(0, new byte[6]);
 			tileType[x][y] = t;
 		}
 		return t;
-	}
-
-	public boolean GrimPK() {
-		return grimpock;
-	}
-
-	public void GrimPK(boolean arg) {
-		grimpock = arg;
 	}
 
 	/**
@@ -467,29 +389,6 @@ public final class World {
 	}
 
 	/**
-	 * Loads the npc handling classes
-	 * @throws Exception 
-	 */
-	private void loadNpcHandlers() throws Exception {
-
-		NpcHandlerDef[] handlerDefs = Instance.getDataStore().loadNpcHandlers();
-		for (NpcHandlerDef handlerDef : handlerDefs) {
-			try {
-				String className = handlerDef.getClassName();
-				Class<?> c = Class.forName(className);
-				if (c != null) {
-					NpcHandler handler = (NpcHandler) c.newInstance();
-					for (int npcID : handlerDef.getAssociatedNpcs()) {
-						npcHandlers.put(npcID, handler);
-					}
-				}
-			} catch (Exception e) {
-				Logger.error(e);
-			}
-		}
-	}
-
-	/**
 	 * Updates the map to include a new door
 	 */
 	public void registerDoor(GameObject o) {
@@ -498,17 +397,23 @@ public final class World {
 		}
 		int dir = o.getDirection();
 		int x = o.getX(), y = o.getY();
+		MutableTileValue t = new MutableTileValue(getTileValue(x, y));
 		if (dir == 0) {
-			getTileValue(x, y).objectValue |= 1;
-			getTileValue(x, y - 1).objectValue |= 4;
+			t.objectValue |= 1;
+			MutableTileValue t1 = new MutableTileValue(getTileValue(x, y - 1));
+			t1.objectValue |= 4;
+			setTileValue(x, y - 1, t1.toTileValue());
 		} else if (dir == 1) {
-			getTileValue(x, y).objectValue |= 2;
-			getTileValue(x - 1, y).objectValue |= 8;
+			t.objectValue |= 2;
+			MutableTileValue t1 = new MutableTileValue(getTileValue(x - 1, y));
+			t1.objectValue |= 8;
+			setTileValue(x - 1, y, t1.toTileValue());
 		} else if (dir == 2) {
-			getTileValue(x, y).objectValue |= 0x10;
+			t.objectValue |= 0x10;
 		} else if (dir == 3) {
-			getTileValue(x, y).objectValue |= 0x20;
+			t.objectValue |= 0x20;
 		}
+		setTileValue(x, y, t.toTileValue());
 	}
 
 	/**
@@ -582,21 +487,35 @@ public final class World {
 		}
 		for (int x = o.getX(); x < o.getX() + width; x++) {
 			for (int y = o.getY(); y < o.getY() + height; y++) {
+				MutableTileValue t = new MutableTileValue(getTileValue(x, y));
 				if (o.getGameObjectDef().getType() == 1) {
-					getTileValue(x, y).objectValue |= 0x40;
+					t.objectValue |= 0x40;
 				} else if (dir == 0) {
-					getTileValue(x, y).objectValue |= 2;
-					getTileValue(x - 1, y).objectValue |= 8;
+					t.objectValue |= 2;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(
+							x - 1, y));
+					t1.objectValue |= 8;
+					setTileValue(x - 1, y, t1.toTileValue());
 				} else if (dir == 2) {
-					getTileValue(x, y).objectValue |= 4;
-					getTileValue(x, y + 1).objectValue |= 1;
+					t.objectValue |= 4;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x,
+							y + 1));
+					t1.objectValue |= 1;
+					setTileValue(x, y + 1, t1.toTileValue());
 				} else if (dir == 4) {
-					getTileValue(x, y).objectValue |= 8;
-					getTileValue(x + 1, y).objectValue |= 2;
+					t.objectValue |= 8;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(
+							x + 1, y));
+					t1.objectValue |= 2;
+					setTileValue(x + 1, y, t1.toTileValue());
 				} else if (dir == 6) {
-					getTileValue(x, y).objectValue |= 1;
-					getTileValue(x, y - 1).objectValue |= 4;
+					t.objectValue |= 1;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x,
+							y - 1));
+					t1.objectValue |= 4;
+					setTileValue(x, y - 1, t1.toTileValue());
 				}
+				setTileValue(x, y, t.toTileValue());
 			}
 		}
 
@@ -619,7 +538,6 @@ public final class World {
 	 * Inserts a new shop into the world
 	 */
 	public void registerShop(final Shop shop) {
-		shop.setEquilibrium();
 		shops.add(shop);
 	}
 
@@ -702,17 +620,24 @@ public final class World {
 		}
 		int dir = o.getDirection();
 		int x = o.getX(), y = o.getY();
+		MutableTileValue t = new MutableTileValue(getTileValue(x, y));
+
 		if (dir == 0) {
-			getTileValue(x, y).objectValue &= 0xfffe;
-			getTileValue(x, y - 1).objectValue &= 65535 - 4;
+			t.objectValue &= 0xfffe;
+			MutableTileValue t1 = new MutableTileValue(getTileValue(x, y - 1));
+			t1.objectValue &= 65535 - 4;
+			setTileValue(x, y - 1, t1.toTileValue());
 		} else if (dir == 1) {
-			getTileValue(x, y).objectValue &= 0xfffd;
-			getTileValue(x - 1, y).objectValue &= 65535 - 8;
+			t.objectValue &= 0xfffd;
+			MutableTileValue t1 = new MutableTileValue(getTileValue(x - 1, y));
+			t1.objectValue &= 65535 - 8;
+			setTileValue(x - 1, y, t1.toTileValue());
 		} else if (dir == 2) {
-			getTileValue(x, y).objectValue &= 0xffef;
+			t.objectValue &= 0xffef;
 		} else if (dir == 3) {
-			getTileValue(x, y).objectValue &= 0xffdf;
+			t.objectValue &= 0xffdf;
 		}
+		setTileValue(x, y, t.toTileValue());
 	}
 
 	/**
@@ -768,21 +693,36 @@ public final class World {
 		}
 		for (int x = o.getX(); x < o.getX() + width; x++) {
 			for (int y = o.getY(); y < o.getY() + height; y++) {
+				MutableTileValue t = new MutableTileValue(getTileValue(x, y));
+
 				if (o.getGameObjectDef().getType() == 1) {
-					getTileValue(x, y).objectValue &= 0xffbf;
+					t.objectValue &= 0xffbf;
 				} else if (dir == 0) {
-					getTileValue(x, y).objectValue &= 0xfffd;
-					getTileValue(x - 1, y).objectValue &= 65535 - 8;
+					t.objectValue &= 0xfffd;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(
+							x - 1, y));
+					t1.objectValue &= 65535 - 8;
+					setTileValue(x - 1, y, t1.toTileValue());
 				} else if (dir == 2) {
-					getTileValue(x, y).objectValue &= 0xfffb;
-					getTileValue(x, y + 1).objectValue &= 65535 - 1;
+					t.objectValue &= 0xfffb;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x,
+							y + 1));
+					t1.objectValue &= 65535 - 1;
+					setTileValue(x, y + 1, t1.toTileValue());
 				} else if (dir == 4) {
-					getTileValue(x, y).objectValue &= 0xfff7;
-					getTileValue(x + 1, y).objectValue &= 65535 - 2;
+					t.objectValue &= 0xfff7;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(
+							x + 1, y));
+					t1.objectValue &= 65535 - 2;
+					setTileValue(x + 1, y, t1.toTileValue());
 				} else if (dir == 6) {
-					getTileValue(x, y).objectValue &= 0xfffe;
-					getTileValue(x, y - 1).objectValue &= 65535 - 4;
+					t.objectValue &= 0xfffe;
+					MutableTileValue t1 = new MutableTileValue(getTileValue(x,
+							y - 1));
+					t1.objectValue &= 65535 - 4;
+					setTileValue(x, y - 1, t1.toTileValue());
 				}
+				setTileValue(x, y, t.toTileValue());
 			}
 		}
 	}
@@ -811,5 +751,9 @@ public final class World {
 	 */
 	public boolean withinWorld(int x, int y) {
 		return x >= 0 && x < MAX_WIDTH && y >= 0 && y < MAX_HEIGHT;
+	}
+
+	public void setTileValue(int x, int y, TileValue tileValue) {
+		tileType[x][y] = tileValue;
 	}
 }

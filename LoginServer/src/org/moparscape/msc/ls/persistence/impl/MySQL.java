@@ -93,8 +93,7 @@ class MySQL implements StorageMedium {
 			statement.setInt(12, s.isMale() ? 1 : 0);
 			statement.setLong(13, s.getSkullTime());
 			statement.setInt(14, s.getCombatStyle());
-			statement.setInt(15, s.getQuestPoints());
-			statement.setLong(16, s.getUser());
+			statement.setLong(15, s.getUser());
 			statement.executeUpdate();
 			close(statement);
 
@@ -115,6 +114,8 @@ class MySQL implements StorageMedium {
 					+ " WHERE `user`=" + s.getUser());
 			updateLongs(Statements.save_SetEventCD, s.getEventCD() / 1000,
 					s.getUser());
+
+			close(statement);
 
 			return true;
 		} catch (Exception e) {
@@ -211,48 +212,13 @@ class MySQL implements StorageMedium {
 	}
 
 	@Override
-	public void resetOnlineFlag(int world) {
-		PreparedStatement resetOnlineFlag = null;
-		try {
-			resetOnlineFlag = conn.prepareStatement(Statements.resetOnlineFlag);
-
-			resetOnlineFlag.setInt(1, world);
-
-			resetOnlineFlag.executeUpdate();
-		} catch (SQLException e) {
-			if (resetOnlineFlag != null)
-				e.printStackTrace();
-			else
-				System.out.println("Failed to create prepared statement: "
-						+ Statements.resetOnlineFlag);
-
-		}
-		close(resetOnlineFlag);
-	}
-
-	@Override
 	public void addFriend(long user, long friend) {
 		updateLongs(Statements.addFriend, user, friend);
 	}
 
 	@Override
-	public boolean addFriend_isOnline0(long user, long friend) {
-		return hasNextFromLongs(Statements.addFriend_isOnline0, user, friend);
-	}
-
-	@Override
-	public boolean addFriend_isOnline1(long friend, long user) {
-		return hasNextFromLongs(Statements.addFriend_isOnline1, friend, user);
-	}
-
-	@Override
 	public void removeFriend(long user, long friend) {
 		updateLongs(Statements.removeFriend, user, friend);
-	}
-
-	@Override
-	public boolean removeFriend_isOnline(long user) {
-		return hasNextFromLongs(Statements.removeFriend_isOnline, user);
 	}
 
 	@Override
@@ -263,55 +229,6 @@ class MySQL implements StorageMedium {
 	@Override
 	public void removeIgnore(long user, long friend) {
 		updateLongs(Statements.removeIgnore, user, friend);
-	}
-
-	@Override
-	public List<Long> getFriendsOnline(long user) {
-		try {
-			List<Long> list = longListFromResultSet(
-					resultSetFromLongs(Statements.friendsList0, user), "user");
-			list.addAll(longListFromResultSet(
-					resultSetFromLongs(Statements.friendsList1, user), "user"));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public void chatBlock(int on, long user) {
-		updateIntsLongs(Statements.chatBlock, new int[] { on },
-				new long[] { user });
-	}
-
-	@Override
-	public void privateBlock(int on, long user) {
-		updateIntsLongs(Statements.privateBlock, new int[] { on },
-				new long[] { user });
-	}
-
-	@Override
-	public List<Long> getPrivateBlockFriendsOnline(long user) {
-		try {
-			return longListFromResultSet(
-					resultSetFromLongs(Statements.privateBlock_online, user,
-							user), "user");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public void tradeBlock(int on, long user) {
-		updateIntsLongs(Statements.tradeBlock, new int[] { on },
-				new long[] { user });
-	}
-
-	@Override
-	public void duelBlock(int on, long user) {
-		updateIntsLongs(Statements.duelBlock, new int[] { on },
-				new long[] { user });
 	}
 
 	@Override
@@ -366,12 +283,6 @@ class MySQL implements StorageMedium {
 	}
 
 	@Override
-	public void setOnlineFlag(int id, long user) {
-		updateIntsLongs(Statements.setOnlineFlag, new int[] { id },
-				new long[] { user });
-	}
-
-	@Override
 	public void logBan(long user, long modhash) {
 		updateLongs(Statements.logBan, user, modhash,
 				(System.currentTimeMillis() / 1000));
@@ -381,21 +292,6 @@ class MySQL implements StorageMedium {
 	public boolean ban(boolean setBanned, long user) {
 		updateLongs(Statements.setBanned, (setBanned ? 1 : 0), user);
 		return isBanned(user);
-	}
-
-	private static final String[] gameSettings = { "cameraauto", "",
-			"onemouse", "soundoff", "showroof", "autoscreenshot",
-			"combatwindow" };
-
-	@Override
-	public void setGameSettings(int idx, boolean on, long user) {
-		try {
-			conn.updateQuery("UPDATE `" + Statements.PREFIX + "players` SET "
-					+ gameSettings[idx] + "=" + (on ? 1 : 0) + " WHERE user='"
-					+ user + "'");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -438,16 +334,14 @@ class MySQL implements StorageMedium {
 					(byte) result.getInt("bodysprite"),
 					result.getInt("male") == 1, result.getInt("skulled"));
 
-			save.setQuestPoints(result.getInt("quest_points"));
-
 			save.setExp(intArrayFromStringArray(Statements.playerExp, "exp_",
 					Config.statArray, user));
 			save.setCurStats(intArrayFromStringArray(Statements.playerCurExp,
 					"cur_", Config.statArray, user));
-			
+
 			close(result);
 			result = resultSetFromLongs(Statements.playerInvItems, user);
-			
+
 			while (result.next()) {
 				save.addInvItem(result.getInt("id"), result.getInt("amount"),
 						result.getInt("wielded") == 1);
@@ -455,11 +349,11 @@ class MySQL implements StorageMedium {
 
 			close(result);
 			result = resultSetFromLongs(Statements.playerBankItems, user);
-			
+
 			while (result.next()) {
 				save.addBankItem(result.getInt("id"), result.getInt("amount"));
 			}
-			
+
 			close(result);
 
 			save.addFriends(longListFromResultSet(
@@ -474,6 +368,7 @@ class MySQL implements StorageMedium {
 				save.setQuestStage(result.getInt("id"), result.getInt("stage"));
 			}
 			close(result);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -487,30 +382,6 @@ class MySQL implements StorageMedium {
 
 			for (int i = 1; i <= longA.length; i++) {
 				prepared.setLong(i, longA[i - 1]);
-			}
-
-			prepared.executeUpdate();
-		} catch (SQLException e) {
-			if (prepared != null)
-				e.printStackTrace();
-			else
-				System.out.println("Failed to create prepared statement: "
-						+ statement);
-		}
-		close(prepared);
-	}
-
-	private void updateIntsLongs(String statement, int[] intA, long[] longA) {
-		PreparedStatement prepared = null;
-		try {
-			prepared = conn.prepareStatement(statement);
-
-			for (int i = 1; i <= intA.length; i++) {
-				prepared.setInt(i, intA[i - 1]);
-			}
-			int offset = intA.length + 1;
-			for (int i = 0; i < longA.length; i++) {
-				prepared.setLong(i + offset, longA[i]);
 			}
 
 			prepared.executeUpdate();
@@ -610,10 +481,10 @@ class MySQL implements StorageMedium {
 	}
 
 	private void close(ResultSet res) {
-		if(res == null) {
+		if (res == null) {
 			return;
 		}
-		
+
 		try {
 			close(res.getStatement());
 		} catch (SQLException e) {
@@ -622,10 +493,10 @@ class MySQL implements StorageMedium {
 	}
 
 	private void close(Statement s) {
-		if(s == null) {
+		if (s == null) {
 			return;
 		}
-		
+
 		try {
 			s.close();
 		} catch (SQLException e) {
@@ -640,52 +511,18 @@ class MySQL implements StorageMedium {
 		private static final String logReport = "INSERT INTO `"
 				+ PREFIX
 				+ "reports`(`from`, `about`, `time`, `reason`, `x`, `y`, `status`) VALUES(?, ?, ?, ?, ?, ?, ?)";
-		private static final String resetOnlineFlag = "UPDATE `" + PREFIX
-				+ "players` SET online=0, world=-1 WHERE world=?";
 		private static final String logKill = "INSERT INTO `" + PREFIX
 				+ "kills`(`user`, `killed`, `time`, `type`) VALUES(?, ?, ?, ?)";
 		private static final String addFriend = "INSERT INTO `" + PREFIX
 				+ "friends`(`user`, `friend`) VALUES(?, ?)";
-		private static final String addFriend_isOnline0 = "SELECT 1 FROM `"
-				+ PREFIX
-				+ "players` AS p LEFT JOIN `"
-				+ PREFIX
-				+ "friends` AS f ON f.user=p.user WHERE (p.block_private=0 OR f.friend=?) AND p.user=?";
-		private static final String addFriend_isOnline1 = "SELECT 1 FROM `"
-				+ PREFIX
-				+ "players` AS p LEFT JOIN `"
-				+ PREFIX
-				+ "friends` AS f ON f.friend=p.user WHERE p.block_private=1 AND f.user=? AND p.user=?";
 		private static final String removeFriend = "DELETE FROM `" + PREFIX
 				+ "friends` WHERE `user` LIKE ? AND `friend` LIKE ?";
-		private static final String removeFriend_isOnline = "SELECT 1 FROM `"
-				+ PREFIX + "players` WHERE block_private=1 AND user=?";
 		private static final String addIgnore = "INSERT INTO `" + PREFIX
 				+ "ignores`(`user`, `ignore`) VALUES(?, ?)";
 		private static final String removeIgnore = "DELETE FROM `" + PREFIX
 				+ "ignores` WHERE `user` LIKE ? AND `ignore` LIKE ?";
-		private static final String friendsList0 = "SELECT p.user FROM `"
-				+ PREFIX
-				+ "friends` AS f INNER JOIN `"
-				+ PREFIX
-				+ "players` AS p ON p.user=f.friend WHERE p.block_private=0 AND f.user=?";
-		private static final String friendsList1 = "SELECT user FROM `"
-				+ PREFIX + "friends` WHERE friend=?";
-		private static final String chatBlock = "UPDATE `" + PREFIX
-				+ "players` SET block_chat=? WHERE user=?";
-		private static final String privateBlock = "UPDATE `" + PREFIX
-				+ "players` SET block_private=? WHERE user=?";
-		private static final String privateBlock_online = "SELECT user FROM `"
-				+ PREFIX
-				+ "friends` WHERE friend=? AND user NOT IN (SELECT friend FROM `"
-				+ PREFIX + "friends` WHERE user=?)";
-		private static final String tradeBlock = "UPDATE `" + PREFIX
-				+ "players` SET block_trade=? WHERE user=?";
-		private static final String duelBlock = "UPDATE `pk_players` SET block_duel=? WHERE user=?";
 		private static final String basicInfo = "SELECT banned, owner, group_id FROM `"
 				+ PREFIX + "players` WHERE `user` = ?";
-		private static final String setOnlineFlag = "UPDATE `" + PREFIX
-				+ "players` SET online=1, world=? WHERE user=?";
 		private static final String setBanned = "UPDATE `" + PREFIX
 				+ "players` SET `banned`=? WHERE `user` = ?";
 		private static final String logBan = "INSERT `" + PREFIX
@@ -717,15 +554,17 @@ class MySQL implements StorageMedium {
 				+ "invitems`(`user`, `id`, `amount`, `wielded`, `slot`) VALUES(?, ?, ?, ?, ?)";
 		private static final String save_UpdateBasicInfo = "UPDATE `"
 				+ PREFIX
-				+ "players` SET `combat`=?, skill_total=?, `x`=?, `y`=?, `fatigue`=?, `haircolour`=?, `topcolour`=?, `trousercolour`=?, `skincolour`=?, `headsprite`=?, `bodysprite`=?, `male`=?, `skulled`=?, `combatstyle`=?, `quest_points`=? WHERE `user`=?";
+				+ "players` SET `combat`=?, skill_total=?, `x`=?, `y`=?, `fatigue`=?, `haircolour`=?, `topcolour`=?, `trousercolour`=?, `skincolour`=?, `headsprite`=?, `bodysprite`=?, `male`=?, `skulled`=?, `combatstyle`=? WHERE `user`=?";
 		private static final String save_DeleteQuests = "DELETE FROM `"
 				+ PREFIX + "quests` WHERE `user`=?";
 		private static final String save_AddQuest = "INSERT INTO `" + PREFIX
 				+ "quests` (`user`, `id`, `stage`) VALUES(?, ?, ?)";
 		private static final String save_SetEventCD = "UPDATE `" + PREFIX
 				+ "players` SET eventcd=? WHERE user=?";
-		private static final String logLogin = "INSERT INTO `pk_logins`(`user`, `time`, `ip`) VALUES(?, ?, ?)";
-		private static final String logIn = "UPDATE `pk_players` SET login_date=?, login_ip=? WHERE user=?";
+		private static final String logLogin = "INSERT INTO `" + PREFIX
+				+ "logins`(`user`, `time`, `ip`) VALUES(?, ?, ?)";
+		private static final String logIn = "UPDATE `" + PREFIX
+				+ "players` SET login_date=?, login_ip=? WHERE user=?";
 	}
 
 	@Override
@@ -773,13 +612,13 @@ class MySQL implements StorageMedium {
 	}
 
 	@Override
-	public String getPass(long user) {
+	public byte[] getPass(long user) {
 		ResultSet result = resultSetFromLongs(Statements.playerData, user);
 		try {
 			if (!result.next()) {
 				return null;
 			}
-			return result.getString("pass");
+			return result.getBytes(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

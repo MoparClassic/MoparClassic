@@ -21,6 +21,10 @@ public class Config {
 
 	public static String AUTH_CLASS;
 
+	public static boolean ALLOW_MULTILOGGING;
+
+	public static boolean CACHE_PROFILES;
+
 	static {
 		loadEnv();
 	}
@@ -49,11 +53,15 @@ public class Config {
 		QUERY_IP = props.getProperty("queryip");
 		QUERY_PORT = Integer.parseInt(props.getProperty("queryport"));
 		STORAGE_MEDIUM = props.getProperty("storage-medium",
-				"org.moparscape.msc.ls.persistence.impl.MySQL");
-		AUTH_CLASS = props.getProperty("auth-class", "org.moparscape.msc.ls.auth.impl.WebsiteAuth");
+				"org.moparscape.msc.ls.persistence.impl.JSONStorageMedium");
+		AUTH_CLASS = props.getProperty("auth-class",
+				"org.moparscape.msc.ls.auth.impl.PersistenceAuth");
 		AUTH_META_DATA = props.getProperty("auth-meta-data",
 				"https://www.moparscape.org/auth.php?field=");
-
+		ALLOW_MULTILOGGING = Boolean.parseBoolean(props.getProperty(
+				"allow-multilogging", "true"));
+		CACHE_PROFILES = Boolean.parseBoolean(props.getProperty("cache-saves",
+				"true"));
 		props.clear();
 	}
 

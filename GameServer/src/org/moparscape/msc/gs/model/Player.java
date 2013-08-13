@@ -9,29 +9,33 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.MiscPacketBuilder;
 import org.moparscape.msc.gs.builders.ls.SavePacketBuilder;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.LSPacket;
-import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.RangeEvent;
 import org.moparscape.msc.gs.event.ShortEvent;
-import org.moparscape.msc.gs.external.AgilityCourseDef;
-import org.moparscape.msc.gs.external.EntityHandler;
-import org.moparscape.msc.gs.external.PrayerDef;
+import org.moparscape.msc.gs.model.container.Bank;
+import org.moparscape.msc.gs.model.container.Inventory;
+import org.moparscape.msc.gs.model.container.Shop;
+import org.moparscape.msc.gs.model.definition.EntityHandler;
+import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
+import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
+import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
+import org.moparscape.msc.gs.model.player.attribute.Quests;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
-import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -39,12 +43,14 @@ import org.moparscape.msc.gs.util.DuelLog;
 import org.moparscape.msc.gs.util.Logger;
 import org.moparscape.msc.gs.util.StatefulEntityCollection;
 
-import bsh.Interpreter;
-
 /**
  * A single player.
  */
 public final class Player extends Mob {
+
+	public Quests quests = new Quests();
+
+	public int dropTickCount = 0;
 
 	/**
 	 * Methods to send packets related to actions
@@ -84,7 +90,7 @@ public final class Player extends Mob {
 	/**
 	 * Chat messages needing displayed
 	 */
-	private ArrayList<ChatMessage> chatMessagesNeedingDisplayed = new ArrayList<ChatMessage>();
+	private List<ChatMessage> chatMessagesNeedingDisplayed = new CopyOnWriteArrayList<ChatMessage>();
 
 	/**
 	 * List of chat messages to send
@@ -177,8 +183,6 @@ public final class Player extends Mob {
 	 */
 	private boolean firstMajorUpdateSent = false;
 
-	private boolean flagCarrier = false;
-
 	/**
 	 * Event to handle following
 	 */
@@ -216,26 +220,15 @@ public final class Player extends Mob {
 	 */
 	private boolean inBank = false;
 
-	private boolean infected = false;
-
-	/**
-	 * Quests
-	 */
 	/**
 	 * Has the player been registered into the world?
 	 */
 	private boolean initialized = false;
 
-	private boolean inQuiz = false;
-
 	/**
 	 * The npc we are currently interacting with
 	 */
 	private Npc interactingNpc = null;
-
-	private Interpreter interpreter = new Interpreter();
-
-	private Thread interpreterThread = null;
 
 	private LinkedList<Long> intervals = new LinkedList<Long>();
 
@@ -265,14 +258,10 @@ public final class Player extends Mob {
 	 */
 	private boolean isTrading = false;
 
-	private int killStreak = 0;
-
 	/**
 	 * List of players this player 'knows' (recieved from the client) about
 	 */
 	private HashMap<Integer, Integer> knownPlayersAppearanceIDs = new HashMap<Integer, Integer>();
-
-	private String lastAnswer = null;
 
 	/**
 	 * Last arrow fired
@@ -281,10 +270,6 @@ public final class Player extends Mob {
 
 	private long lastbanktime = 0;
 
-	/**
-	 * The last menu reply this player gave in a quest
-	 */
-	//
 	private long lastCast = GameEngine.getTime();
 
 	/**
@@ -294,16 +279,10 @@ public final class Player extends Mob {
 
 	private long lastCommandUsed = GameEngine.getTime();
 
-	/**
-	 * Last packet count time
-	 */
-	private long lastCount = 0;
-
 	private long lastDeath = GameEngine.getTime();
 
 	private int lastdepositedamount = 0;
 	private int lastdepositeditem = 0;
-	private long lastInfected = GameEngine.getTime();
 	private long lastInterval = 0;
 	private long lastinvtime = 0;
 	/**
@@ -321,19 +300,11 @@ public final class Player extends Mob {
 	private long lastNPCChat = GameEngine.getTime();
 	private int lastOption = -2;
 	private String[] lastOptions = null;
-	private long lastPacketRecTime = GameEngine.getTime() / 1000;
-	/**
-	 * Queue of last 100 packets, used for auto detection purposes
-	 */
-	private LinkedList<RSCPacket> lastPackets = new LinkedList<RSCPacket>();
-	private long lastPacketTime = -1;
 	/**
 	 * Last time a 'ping' was received
 	 */
 	private long lastPing = GameEngine.getTime();
 	private String lastPlayerInfo2 = null;
-	private int lastQuestMenuReply = -1;
-	// don't remove this. -xEnt
 	private int lastRandom = 0;
 	private long lastRange = GameEngine.getTime();
 	/**
@@ -377,7 +348,6 @@ public final class Player extends Mob {
 	 * How long is this player muted?
 	 */
 	private long muted = 0;
-	// Player
 	/**
 	 * Added by Konijn
 	 */
@@ -407,15 +377,11 @@ public final class Player extends Mob {
 	 */
 	private int owner = 1;
 
-	/**
-	 * Amount of packets since last count
-	 */
-	private int packetCount = 0;
 	private boolean packetSpam = false;
 	/**
 	 * The player's password
 	 */
-	private String password;
+	private byte[] password;
 	/**
 	 * List of players who have been hit
 	 */
@@ -428,15 +394,7 @@ public final class Player extends Mob {
 	 * List of all projectiles needing displayed
 	 */
 	private ArrayList<Projectile> projectilesNeedingDisplayed = new ArrayList<Projectile>();
-	/**
-	 * This player's quest points
-	 */
-	private int questPoints = 0;
-	/**
-	 * This player's quest stage array
-	 */
-	private HashMap<Integer, Integer> questStage = new HashMap<Integer, Integer>();
-	private int quizPoints = 0;
+
 	/**
 	 * Ranging event
 	 */
@@ -601,9 +559,6 @@ public final class Player extends Mob {
 		actionSender = new MiscPacketBuilder(this);
 		setBusy(true);
 		Instance.getWorld();
-		for (int i : World.getQuestManager().getQuestIds()) {
-			questStage.put(i, -1);
-		}
 	}
 
 	public boolean accessingBank() {
@@ -644,30 +599,6 @@ public final class Player extends Mob {
 		}
 	}
 
-	/**
-	 * This method acts as a throttle for packets, and adds them to a list.<br>
-	 * If the player sends more than 20 packets per second they're disconnected
-	 * (60 packets per 3000ms)
-	 * 
-	 * @param p
-	 *            - the packet to add...
-	 */
-	public void addPacket(RSCPacket p) {
-		long now = GameEngine.getTime();
-		if (now - lastCount > 3000) {
-			lastCount = now;
-			packetCount = 0;
-		}
-		if (!DataConversions.inArray(Formulae.safePacketIDs, p.getID())
-				&& ++packetCount >= 60) {
-			destroy(false);
-		}
-		if (lastPackets.size() >= 60) {
-			lastPackets.remove();
-		}
-		lastPackets.addLast(p);
-	}
-
 	public void addPlayersAppearanceIDs(int[] indicies, int[] appearanceIDs) {
 		for (int x = 0; x < indicies.length; x++) {
 			knownPlayersAppearanceIDs.put(indicies[x], appearanceIDs[x]);
@@ -680,12 +611,11 @@ public final class Player extends Mob {
 		for (int x = 0; x <= 13; x++) {
 			prayer = EntityHandler.getPrayerDef(x);
 			if (super.isPrayerActivated(x)) {
-				drainRate += prayer.getDrainRate() / 2;
+				drainRate += prayer.getDrainRate();
 			}
 		}
-		drainRate = drainRate - getPrayerPoints();
 		if (drainRate > 0) {
-			drainer.setDelay((int) (240000 / drainRate));
+			drainer.setDelay((int) (180000.0 / drainRate * (1 + getPrayerBonus() / 30.0)));
 		} else if (drainRate <= 0) {
 			drainRate = 0;
 			drainer.setDelay(Integer.MAX_VALUE);
@@ -704,7 +634,7 @@ public final class Player extends Mob {
 			Instance.getDelayedEventHandler().add(skullEvent);
 			super.setAppearnceChanged(true);
 		}
-		skullEvent.setLastRun(GameEngine.getTime() - (1200000 - timeLeft));
+		skullEvent.setLastRun(GameEngine.getTimestamp() - (1200000 - timeLeft));
 	}
 
 	public void addToDuelOffer(InvItem item) {
@@ -940,12 +870,10 @@ public final class Player extends Mob {
 	public int getArmourPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getArmourPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getArmourPoints();
 			}
-		}
-		if (this.isFlagCarrier()) {
-			points = (int) (points * 0.25);
 		}
 		return points < 1 ? 1 : points;
 	}
@@ -958,10 +886,6 @@ public final class Player extends Mob {
 		return attackedBy;
 	}
 
-	/*
-	 * Used for the Infected Blood world event
-	 */
-
 	public Bank getBank() {
 		return bank;
 	}
@@ -970,36 +894,17 @@ public final class Player extends Mob {
 		return bubblesNeedingDisplayed;
 	}
 
-	/*
-	 * Informs the server that the player has just used Infected Blood and
-	 * activate the cooldown.
-	 */
-
 	public long getCastTimer() {
 		return lastSpellCast;
 	}
-
-	/*
-	 * Returns the last time a player used Infected Blood.
-	 */
 
 	public List<ChatMessage> getChatMessagesNeedingDisplayed() {
 		return chatMessagesNeedingDisplayed;
 	}
 
-	/*
-	 * Is this player infected?
-	 */
-
 	public LinkedList<ChatMessage> getChatQueue() {
 		return chatQueue;
 	}
-
-	/*
-	 * This method is used for the Infected Blood world event
-	 * 
-	 * @author Ollie
-	 */
 
 	public String getClassName() {
 		return className;
@@ -1054,7 +959,7 @@ public final class Player extends Mob {
 	 * @return day
 	 */
 	public int getDaysMuted() {
-		return (int) ((muted - GameEngine.getTime()) / 1000 / 3600 / 24);
+		return (int) ((muted - GameEngine.getTimestamp()) / 1000 / 3600 / 24);
 	}
 
 	// piru.sytes.net
@@ -1064,7 +969,7 @@ public final class Player extends Mob {
 	}
 
 	public int getDaysSubscriptionLeft() {
-		long now = (GameEngine.getTime() / 1000);
+		long now = (GameEngine.getTimestamp() / 1000);
 		if (subscriptionExpires == 0 || now >= subscriptionExpires) {
 			return 0;
 		}
@@ -1098,13 +1003,13 @@ public final class Player extends Mob {
 	public boolean getDuelSetting(int i) {
 		try {
 			for (InvItem item : duelOffer) {
-				if (DataConversions.inArray(Formulae.runeIDs, item.getID())) {
+				if (DataConversions.inArray(Formulae.runeIDs, item.id)) {
 					setDuelSetting(1, true);
 					break;
 				}
 			}
 			for (InvItem item : wishToDuel.getDuelOffer()) {
-				if (DataConversions.inArray(Formulae.runeIDs, item.getID())) {
+				if (DataConversions.inArray(Formulae.runeIDs, item.id)) {
 					setDuelSetting(1, true);
 					break;
 				}
@@ -1170,14 +1075,6 @@ public final class Player extends Mob {
 		return interactingNpc;
 	}
 
-	public Interpreter getInterpreter() {
-		return interpreter;
-	}
-
-	public Thread getInterpreterThread() {
-		return interpreterThread;
-	}
-
 	public LinkedList<Long> getIntervals() {
 		return intervals;
 	}
@@ -1190,16 +1087,8 @@ public final class Player extends Mob {
 		return ioSession;
 	}
 
-	public int getKillStreak() {
-		return killStreak;
-	}
-
 	public HashMap<Integer, Integer> getKnownPlayersAppearanceIDs() {
 		return knownPlayersAppearanceIDs;
-	}
-
-	public String getLastAnswer() {
-		return lastAnswer;
 	}
 
 	public long getLastArrow() {
@@ -1216,10 +1105,6 @@ public final class Player extends Mob {
 
 	public long getLastCommandUsed() {
 		return lastCommandUsed;
-	}
-
-	public long getLastCount() {
-		return lastCount;
 	}
 
 	public long getLastDeath() {
@@ -1258,31 +1143,12 @@ public final class Player extends Mob {
 		return lastOptions;
 	}
 
-	public long getLastPacketRecTime() {
-		return lastPacketRecTime;
-	}
-
-	public LinkedList<RSCPacket> getLastPackets() {
-		return lastPackets;
-	}
-
-	public long getLastPacketTime() {
-		return lastPacketTime;
-	}
-
 	public long getLastPing() {
 		return lastPing;
 	}
 
 	public String getLastPlayerInfo2() {
 		return lastPlayerInfo2;
-	}
-
-	/**
-	 * @return this player's last quest menu reply
-	 */
-	public int getLastQuestMenuReply() {
-		return lastQuestMenuReply;
 	}
 
 	public int getLastRandom() {
@@ -1328,8 +1194,9 @@ public final class Player extends Mob {
 	public int getMagicPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getMagicPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getMagicPoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1379,15 +1246,7 @@ public final class Player extends Mob {
 		return owner;
 	}
 
-	public int getPacketCount() {
-		return packetCount;
-	}
-
-	public List<RSCPacket> getPackets() {
-		return lastPackets;
-	}
-
-	public String getPassword() {
+	public byte[] getPassword() {
 		return password;
 	}
 
@@ -1417,11 +1276,12 @@ public final class Player extends Mob {
 		return playersNeedingHitsUpdate;
 	}
 
-	public int getPrayerPoints() {
+	public int getPrayerBonus() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getPrayerPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getPrayerPoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1439,36 +1299,12 @@ public final class Player extends Mob {
 		return projectilesNeedingDisplayed;
 	}
 
-	public int getQuestPoints() {
-		return questPoints;
-	}
-
-	public HashMap<Integer, Integer> getQuestStage() {
-		return questStage;
-	}
-
-	public int getQuestStage(int questId) {
-		return questStage.get(questId);
-	}
-
-	public int getQuestStage(Quest quest) {
-		return getQuestStage(quest.getUniqueID());
-	}
-
-	public HashMap<Integer, Integer> getQuestStages() {
-		return questStage;
-	}
-
-	public int getQuizPoints() {
-		return quizPoints;
-	}
-
 	public int getRangeEquip() {
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()
-					&& (DataConversions.inArray(Formulae.bowIDs, item.getID()) || DataConversions
-							.inArray(Formulae.xbowIDs, item.getID()))) {
-				return item.getID();
+			if (item.wielded
+					&& (DataConversions.inArray(Formulae.bowIDs, item.id) || DataConversions
+							.inArray(Formulae.xbowIDs, item.id))) {
+				return item.id;
 			}
 		}
 		return -1;
@@ -1481,8 +1317,9 @@ public final class Player extends Mob {
 	public int getRangePoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getRangePoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getRangePoints();
 			}
 		}
 		return points < 1 ? 1 : points;
@@ -1535,7 +1372,7 @@ public final class Player extends Mob {
 		return sleepword;
 	}
 
-	public boolean getSpam() {
+	public boolean isPacketSpam() {
 		return packetSpam;
 	}
 
@@ -1595,8 +1432,9 @@ public final class Player extends Mob {
 	public int getWeaponAimPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getWeaponAimPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getWeaponAimPoints();
 			}
 		}
 		points -= 1;
@@ -1606,8 +1444,9 @@ public final class Player extends Mob {
 	public int getWeaponPowerPoints() {
 		int points = 1;
 		for (InvItem item : inventory.getItems()) {
-			if (item.isWielded()) {
-				points += item.getWieldableDef().getWeaponPowerPoints();
+			ItemWieldableDef def = ItemAttributes.getWieldable(item.id);
+			if (item.wielded && def != null) {
+				points += def.getWeaponPowerPoints();
 			}
 		}
 		points -= 1;
@@ -1654,17 +1493,17 @@ public final class Player extends Mob {
 		if (isPMod())
 			return;
 		if (useFatigue) {
-			if (fatigue >= 100) {
+			if (fatigue >= 7500) { // 100%
 				actionSender
 						.sendMessage("@gre@You are too tired to gain experience, get some rest!");
 				return;
 			}
-			if (fatigue >= 96) {
+			if (fatigue >= 7200) { // 96%
 				actionSender
 						.sendMessage("@gre@You start to feel tired, maybe you should rest soon.");
 			}
 			if (i >= 3 && useFatigue) {
-				fatigue++;
+				fatigue += 4 * amount / 5;
 				actionSender.sendFatigue();
 			}
 		}
@@ -1739,23 +1578,6 @@ public final class Player extends Mob {
 		if (maxStat[i] < 0) {
 			maxStat[i] = 0;
 		}
-	}
-
-	public void incQuestPoints(int amount) {
-		setQuestPoints(getQuestPoints() + amount, true);
-	}
-
-	public List<Player> infectedBlood() {
-		List<Player> playersInView = viewArea.getPlayersInView();
-		List<Player> radiusPlayers = new ArrayList<Player>();
-		for (Player p : playersInView) {
-			if ((p.getX() - getX() <= 2 || p.getX() - getY() >= -2)
-					&& (p.getY() - getY() <= 2 || p.getY() - getY() >= -2)
-					&& !p.isInfected()) {
-				radiusPlayers.add(p);
-			}
-		}
-		return radiusPlayers;
 	}
 
 	public void informOfBubble(Bubble b) {
@@ -1844,10 +1666,6 @@ public final class Player extends Mob {
 		return firstMajorUpdateSent;
 	}
 
-	public boolean isFlagCarrier() {
-		return flagCarrier;
-	}
-
 	public boolean isFollowing() {
 		return followEvent != null && following != null;
 	}
@@ -1868,16 +1686,8 @@ public final class Player extends Mob {
 		return inBank;
 	}
 
-	public boolean isInfected() {
-		return infected;
-	}
-
 	public boolean isInitialized() {
 		return initialized;
-	}
-
-	public boolean isInQuiz() {
-		return inQuiz;
 	}
 
 	public boolean isInvis() {
@@ -1914,7 +1724,7 @@ public final class Player extends Mob {
 	 * @return
 	 */
 	public boolean isMuted() {
-		return (muted - GameEngine.getTime() > 0);
+		return (muted - GameEngine.getTimestamp() > 0);
 	}
 
 	public boolean isNoclip() {
@@ -1931,10 +1741,6 @@ public final class Player extends Mob {
 
 	public boolean isNoPK() {
 		return nopk;
-	}
-
-	public boolean isPacketSpam() {
-		return packetSpam;
 	}
 
 	public boolean isPMod() {
@@ -2022,58 +1828,58 @@ public final class Player extends Mob {
 						+ this.getUsername());
 			}
 			for (InvItem item : duelOffer) {
-				InvItem affectedItem = getInventory().get(item);
-				if (affectedItem == null) {
+				if (!inventory.remove(item.id, item.amount, false)) {
 					setSuspiciousPlayer(true);
-					Logger.error("Missing staked item [" + item.getID() + ", "
-							+ item.getAmount() + "] from = " + usernameHash
+					Logger.error("Missing staked item [" + item.id + ", "
+							+ item.amount + "] from = " + usernameHash
 							+ "; to = " + player.getUsernameHash() + ";");
 					continue;
 				}
-				if (affectedItem.isWielded()) {
-					affectedItem.setWield(false);
-					updateWornItems(
-							affectedItem.getWieldableDef().getWieldPos(),
-							getPlayerAppearance().getSprite(
-									affectedItem.getWieldableDef()
-											.getWieldPos()));
-				}
-				getInventory().remove(item);
+
 				final long playerhash = DataConversions.usernameToHash(player
 						.getUsername());
-				DuelLog.sendlog(playerhash, usernameHash, item.getID(),
-						item.getAmount(), getX(), getY(), 2);
-				// newItem.setdroppedby(getUsernameHash());
-				world.registerItem(new Item(item.getID(), getX(), getY(), item
-						.getAmount(), player));
+				DuelLog.sendlog(playerhash, usernameHash, item.id, item.amount,
+						getX(), getY(), 2);
+				world.registerItem(new Item(item.id, getX(), getY(),
+						item.amount, player));
 			}
 		} else {
-			inventory.sort();
-			ListIterator<InvItem> iterator = inventory.iterator();
-			if (!isSkulled()) {
-				for (int i = 0; i < 3 && iterator.hasNext(); i++) {
-					if ((iterator.next()).getDef().isStackable()) {
-						iterator.previous();
-						break;
+			inventory.sortByValue();
+			List<InvItem> items = inventory.getItems();
+			List<InvItem> onGround = new ArrayList<InvItem>();
+
+			List<InvItem> keep = new ArrayList<InvItem>();
+			try {
+				int canKeep = (isSkulled() ? 0 : 3)
+						+ (activatedPrayers[8] ? 1 : 0);
+				for (InvItem item : items) {
+					if (keep.size() < canKeep
+							&& !ItemAttributes.isStackable(item.id)) {
+						keep.add(item);
+					} else {
+						onGround.add(item);
 					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			if (activatedPrayers[8] && iterator.hasNext()) {
-				if (((InvItem) iterator.next()).getDef().isStackable()) {
-					iterator.previous();
+
+			inventory.clear();
+
+			int slot = 0;
+			for (InvItem k : keep) {
+				inventory.add(k.id, k.amount, false);
+				if (k.wielded) {
+					ItemWieldableDef def = ItemAttributes.getWieldable(k.id);
+					inventory.setWield(slot, true);
+					this.updateWornItems(def.getWieldPos(), def.getSprite());
 				}
+				slot++;
 			}
-			for (int slot = 0; iterator.hasNext(); slot++) {
-				InvItem item = (InvItem) iterator.next();
-				if (item.isWielded()) {
-					item.setWield(false);
-					updateWornItems(item.getWieldableDef().getWieldPos(),
-							appearance.getSprite(item.getWieldableDef()
-									.getWieldPos()));
-				}
-				iterator.remove();
-				world.registerItem(new Item(item.getID(), getX(), getY(), item
-						.getAmount(), player));
+
+			for (InvItem i : onGround) {
+				world.registerItem(new Item(i.id, getX(), getY(), i.amount,
+						player));
 			}
 			removeSkull();
 		}
@@ -2108,15 +1914,11 @@ public final class Player extends Mob {
 		return 0;
 	}
 
-	public long lastInfected() {
-		return lastInfected;
-	}
-
-	public void load(String username, String password, int uid,
+	public void load(String username, byte[] password2, int uid,
 			boolean reconnecting) {
 		try {
 			setID(uid);
-			this.password = password;
+			this.password = password2;
 			this.reconnecting = reconnecting;
 			usernameHash = DataConversions.usernameToHash(username);
 			this.username = DataConversions.hashToUsername(usernameHash);
@@ -2140,7 +1942,7 @@ public final class Player extends Mob {
 						}
 
 						public void run() {
-							if(p == null || p.isDestroy()) {
+							if (p == null || p.isDestroy()) {
 								this.stop();
 							}
 							for (int statIndex = 0; statIndex < 18; statIndex++) {
@@ -2165,7 +1967,7 @@ public final class Player extends Mob {
 			drainer = new DelayedEvent(this, Integer.MAX_VALUE) {
 
 				public void run() {
-					if(p == null || p.isDestroy()) {
+					if (p == null || p.isDestroy()) {
 						this.stop();
 					}
 					int curPrayer = getCurStat(5);
@@ -2185,7 +1987,7 @@ public final class Player extends Mob {
 						}
 					}
 					if (drainRate != 0) {
-						setDelay((int) (240000 / drainRate));
+						setDelay((int) ((int) (180000.0 / drainRate * (1 + getPrayerBonus() / 30.0))));
 					}
 				}
 			};
@@ -2220,9 +2022,10 @@ public final class Player extends Mob {
 		if (Config.f2pWildy) {
 
 			boolean found = false;
+			int slot = 0;
 			for (InvItem i : getInventory().getItems()) {
-				if (i.isWielded() && i.getDef().isMembers()) {
-					WieldHandler.unWieldItem(this, i, true);
+				if (i.wielded && i.getDef().isMembers()) {
+					WieldHandler.unWieldItem(this, i, true, slot);
 					getActionSender()
 							.sendMessage(
 									"Your "
@@ -2230,6 +2033,7 @@ public final class Player extends Mob {
 											+ " has been un-equipped. (P2P Item not allowed in wilderness)");
 					found = true;
 				}
+				slot++;
 			}
 			if (found) {
 				getActionSender().sendInventory();
@@ -2382,6 +2186,7 @@ public final class Player extends Mob {
 	}
 
 	public void resetMenuHandler() {
+		menuHandler.abort();
 		menuHandler = null;
 		actionSender.hideMenu();
 	}
@@ -2666,11 +2471,6 @@ public final class Player extends Mob {
 		this.firstMajorUpdateSent = firstMajorUpdateSent;
 	}
 
-	public void setFlagCarrier(boolean flagCarrier) {
-		this.flagCarrier = flagCarrier;
-		getActionSender().sendEquipmentStats();
-	}
-
 	public void setFollowEvent(DelayedEvent followEvent) {
 		this.followEvent = followEvent;
 	}
@@ -2736,11 +2536,6 @@ public final class Player extends Mob {
 		this.inBank = inBank;
 	}
 
-	public void setInfected() {
-		infected = true;
-		getActionSender().sendMessage("You have been afflicted by the plague.");
-	}
-
 	public void setInitialized() {
 		initialized = true;
 	}
@@ -2749,20 +2544,8 @@ public final class Player extends Mob {
 		this.initialized = initialized;
 	}
 
-	public void setInQuiz(boolean inQuiz) {
-		this.inQuiz = inQuiz;
-	}
-
 	public void setInteractingNpc(Npc interactingNpc) {
 		this.interactingNpc = interactingNpc;
-	}
-
-	public void setInterpreter(Interpreter interpreter) {
-		this.interpreter = interpreter;
-	}
-
-	public void setInterpreterThread(Thread interpreterThread) {
-		this.interpreterThread = interpreterThread;
 	}
 
 	public void setIntervals(LinkedList<Long> intervals) {
@@ -2781,17 +2564,9 @@ public final class Player extends Mob {
 		this.ioSession = ioSession;
 	}
 
-	public void setKillStreak(int killStreak) {
-		this.killStreak = killStreak;
-	}
-
 	public void setKnownPlayersAppearanceIDs(
 			HashMap<Integer, Integer> knownPlayersAppearanceIDs) {
 		this.knownPlayersAppearanceIDs = knownPlayersAppearanceIDs;
-	}
-
-	public void setLastAnswer(String lastAnswer) {
-		this.lastAnswer = lastAnswer;
 	}
 
 	public void setLastArrow(long lastArrow) {
@@ -2810,10 +2585,6 @@ public final class Player extends Mob {
 		this.lastCommandUsed = lastCommandUsed;
 	}
 
-	public void setLastCount(long lastCount) {
-		this.lastCount = lastCount;
-	}
-
 	public void setLastDeath(long lastDeath) {
 		this.lastDeath = lastDeath;
 	}
@@ -2823,10 +2594,6 @@ public final class Player extends Mob {
 
 		lastdepositeditem = itemid;
 		lastdepositedamount = amount;
-	}
-
-	public void setLastInfected() {
-		lastInfected = GameEngine.getTime();
 	}
 
 	public void setLastInterval(long lastInterval) {
@@ -2866,30 +2633,12 @@ public final class Player extends Mob {
 		this.lastOptions = lastOptions;
 	}
 
-	public void setLastPacketRecTime(long lastPacketRecTime) {
-		this.lastPacketRecTime = lastPacketRecTime;
-	}
-
-	public void setLastPacketTime(long lastPacketTime) {
-		this.lastPacketTime = lastPacketTime;
-	}
-
 	public void setLastPing(long lastPing) {
 		this.lastPing = lastPing;
 	}
 
 	public void setLastPlayerInfo2(String lastPlayerInfo2) {
 		this.lastPlayerInfo2 = lastPlayerInfo2;
-	}
-
-	// Players Online
-	// sendPlayers
-	// killedby
-	/**
-	 * Sets this player's last quest menu reply
-	 */
-	public void setLastQuestMenuReply(int i) {
-		lastQuestMenuReply = i;
 	}
 
 	public void setLastRandom(int lastRandom) {
@@ -2974,10 +2723,6 @@ public final class Player extends Mob {
 		this.menuHandler = menuHandler;
 	}
 
-	public void setMining(boolean isMining) {
-		this.isMining = isMining;
-	}
-
 	/**
 	 * Sets the mute time.
 	 * 
@@ -3032,15 +2777,11 @@ public final class Player extends Mob {
 		this.owner = owner;
 	}
 
-	public void setPacketCount(int packetCount) {
-		this.packetCount = packetCount;
-	}
-
 	public void setPacketSpam(boolean packetSpam) {
 		this.packetSpam = packetSpam;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(byte[] password) {
 		this.password = password;
 	}
 
@@ -3060,78 +2801,6 @@ public final class Player extends Mob {
 	public void setProjectilesNeedingDisplayed(
 			ArrayList<Projectile> projectilesNeedingDisplayed) {
 		this.projectilesNeedingDisplayed = projectilesNeedingDisplayed;
-	}
-
-	public void setQuestMenuHandler(MenuHandler menuHandler) {
-		this.menuHandler = menuHandler;
-		menuHandler.setOwner(this);
-		actionSender.sendMenu(menuHandler.getOptions());
-	}
-
-	public void setQuestPoints(int questPoints) {
-		this.questPoints = questPoints;
-	}
-
-	public void setQuestPoints(int newquestPoints, boolean save) {
-		int old = questPoints;
-		questPoints = newquestPoints;
-		int gained = questPoints - old;
-
-		if (save) {
-			// save();
-			setLastSaveTime(GameEngine.getTime());
-			getActionSender().sendQuestInfo();
-			getActionSender().sendMessage(
-					"@gre@You just gained " + gained + " quest point"
-							+ (gained > 1 ? "s" : "") + "!");
-		}
-	}
-
-	public void setQuestStage(HashMap<Integer, Integer> questStage) {
-		this.questStage = questStage;
-	}
-
-	public void setQuestStage(int qid, int stage) {
-		setQuestStage(qid, stage, true);
-	}
-
-	public void setQuestStage(int questId, int stage, boolean save) {
-		setQuestStage(questId, stage, save, true);
-	}
-
-	public void setQuestStage(int questId, int stage, boolean save,
-			boolean verbose) {
-		Instance.getWorld();
-		Quest q = World.getQuestManager().getQuestById(questId);
-
-		if (q == null) {
-			return;
-		}
-
-		questStage.put(questId, stage);
-
-		if (save) {
-			// save();
-			getActionSender().sendQuestInfo();
-		}
-
-		if (verbose) {
-			if (stage == 1) {
-				getActionSender().sendMessage(
-						"You have started the " + q.getName() + " quest!");
-			} else if (stage == Quest.COMPLETE) {
-				getActionSender().sendMessage(
-						"You have completed the " + q.getName() + " quest!");
-			}
-		}
-	}
-
-	public void setQuestStage(Quest quest, int stage) {
-		setQuestStage(quest.getUniqueID(), stage, true);
-	}
-
-	public void setQuizPoints(int quizPoints) {
-		this.quizPoints = quizPoints;
 	}
 
 	// 335000
@@ -3187,7 +2856,7 @@ public final class Player extends Mob {
 
 	public void setSkulledOn(Player player) {
 		player.addAttackedBy(this);
-		if (GameEngine.getTime() - lastAttackedBy(player) > 1200000) {
+		if (GameEngine.getTimestamp() - lastAttackedBy(player) > 1200000) {
 			addSkull(1200000);
 		}
 	}
@@ -3218,7 +2887,7 @@ public final class Player extends Mob {
 
 	public void setSubscriptionExpires(long expires) {
 		subscriptionExpires = expires;
-	}// 240000 / drainRate
+	}
 
 	public void setSuspicious(boolean suspicious) {
 		this.suspicious = suspicious;
@@ -3274,10 +2943,6 @@ public final class Player extends Mob {
 
 	public void setUsernameHash(long usernameHash) {
 		this.usernameHash = usernameHash;
-	}
-
-	public void setWatchedItems(StatefulEntityCollection<Item> watchedItems) {
-		this.watchedItems = watchedItems;
 	}
 
 	public void setWatchedNpcs(StatefulEntityCollection<Npc> watchedNpcs) {
@@ -3357,17 +3022,9 @@ public final class Player extends Mob {
 		if (inCombat()) {
 			resetCombat(CombatState.ERROR);
 		}
-		int count = getInventory().countId(318);
-		if (count > 0) {
-			for (int i = 0; i < count; i++) {
-				getActionSender().sendMessage(
-						"a mysterious force steals your Karamaja rum");
-				if (getInventory().remove(new InvItem(318)) > -1) {
-					continue;
-				} else {
-					break;
-				}
-			}
+		if (inventory.removeAll(318) > 0) {
+			getActionSender().sendMessage(
+					"a mysterious force steals your Karamaja rum");
 			getActionSender().sendInventory();
 		}
 		if (opponent != null) {
@@ -3415,19 +3072,10 @@ public final class Player extends Mob {
 	public void updateViewedNpcs() {
 		List<Npc> npcsInView = viewArea.getNpcsInView();
 		for (Npc n : npcsInView) {
-			if (watchedNpcs.contains(n)) {
-				if (!World.getQuestManager().isNpcVisible(n, this)
-						&& !n.inCombat()) {
-					watchedNpcs.remove(n);
-				}
-			}
 
 			if ((!watchedNpcs.contains(n) || watchedNpcs.isRemoving(n))
 					&& withinRange(n)) {
-				if (World.getQuestManager().isNpcVisible(n, this)
-						|| n.inCombat()) {
-					watchedNpcs.add(n);
-				}
+				watchedNpcs.add(n);
 			}
 		}
 	}

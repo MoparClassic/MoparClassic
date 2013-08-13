@@ -1,6 +1,16 @@
 <command>
 	<!-- Dev Mode 11 - Admin 10 - Mod 7 - PMod 5 - Sub 2 - Norm 1 -->
 
+
+
+	<!-- Teleports the player to a target players location - ALPHA ONLY-->
+	<permission name="goto">1</permission>
+	<!-- Spawns an item - ALPHA ONLY -->
+	<permission name="item">1</permission>
+	<!-- Global chat - ALPHA ONLY -->
+	<permission name="say">1</permission>
+
+
 	<!-- Displays "A list of commands is shown on the forums." -->
 	<permission name="help">11</permission>
 	<!-- Displays the time at UTC -->
@@ -10,7 +20,7 @@
 	<!-- Sets fatigue to 100% -->
 	<permission name="fatigue">11</permission>
 	<!-- Displays the online players -->
-	<permission name="online">5</permission>
+	<permission name="online">1</permission>
 	<!-- Displays number of players and NPCs in view -->
 	<permission name="nearby">5</permission>
 	<!-- Displays number of players and NPCs in view -->
@@ -20,12 +30,10 @@
 	<!-- Requests the following: Location, Login data/time, Last moved, Chat 
 		block status, fatigue, state -->
 	<permission name="info">7</permission>
-	<!-- Requests process info from client (scar, Autominer, methoxy, WPE) -->
-	<permission name="info2">7</permission>
 	<!-- Displays last 75 cast intervals -->
-	<permission name="info3">7</permission>
+	<permission name="info2">7</permission>
 	<!-- Teleports the player to the specified town -->
-	<permission name="town">11</permission>
+	<permission name="town">1</permission>
 	<!-- Bans a player -->
 	<permission name="ban">7</permission>
 	<!-- Unbans a player -->
@@ -50,6 +58,8 @@
 	<permission name="unipban">10</permission>
 	<!-- Reloads IP bans from database -->
 	<permission name="reloadipbans">10</permission>
+	<!-- Teleports the user to the specified coordinates -->
+	<permission name="tele">1</permission>
 
 	<setting>
 		<!-- Minimum delay between commands -->

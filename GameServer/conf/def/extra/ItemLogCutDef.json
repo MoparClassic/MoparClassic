@@ -1,0 +1,63 @@
+)]}'
+{
+  "635": {
+    "longbowExp": 75,
+    "longbowID": 664,
+    "longbowLvl": 70,
+    "shaftAmount": 40,
+    "shaftLvl": 60,
+    "shortbowExp": 67,
+    "shortbowID": 665,
+    "shortbowLvl": 65
+  },
+  "634": {
+    "longbowExp": 58,
+    "longbowID": 662,
+    "longbowLvl": 55,
+    "shaftAmount": 30,
+    "shaftLvl": 45,
+    "shortbowExp": 50,
+    "shortbowID": 663,
+    "shortbowLvl": 50
+  },
+  "633": {
+    "longbowExp": 42,
+    "longbowID": 660,
+    "longbowLvl": 40,
+    "shaftAmount": 20,
+    "shaftLvl": 30,
+    "shortbowExp": 33,
+    "shortbowID": 661,
+    "shortbowLvl": 35
+  },
+  "632": {
+    "longbowExp": 25,
+    "longbowID": 658,
+    "longbowLvl": 25,
+    "shaftAmount": 15,
+    "shaftLvl": 15,
+    "shortbowExp": 17,
+    "shortbowID": 659,
+    "shortbowLvl": 20
+  },
+  "14": {
+    "longbowExp": 10,
+    "longbowID": 276,
+    "longbowLvl": 10,
+    "shaftAmount": 10,
+    "shaftLvl": 1,
+    "shortbowExp": 5,
+    "shortbowID": 277,
+    "shortbowLvl": 5
+  },
+  "636": {
+    "longbowExp": 92,
+    "longbowID": 666,
+    "longbowLvl": 85,
+    "shaftAmount": 50,
+    "shaftLvl": 75,
+    "shortbowExp": 83,
+    "shortbowID": 667,
+    "shortbowLvl": 80
+  }
+}

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="MoparClassic" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="MoparClassic" default="build" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
 	<property name="src" location="src" />
 	<property name="bin" location="bin" />
 	<property name="lib_managed" location="lib_managed" />
 	<property name="lib" location="lib" />
-	<property name="module" location="module" />
 	<property name="doc" location="doc" />
 	<property name="jar" value="moparclassic.jar" />
 	<property name="main-class" value="org.moparscape.msc.gs.Server" />
-	<property name="scala-version" value="2.9.1" />
+	<property name="scala-version" value="2.10.2" />
 	<property name="ivy.lib.dir" value="lib_managed" />
 
 	<fileset id="libraries" dir="${lib}">
@@ -16,10 +15,6 @@
 	</fileset>
 
 	<fileset id="libraries_managed" dir="${lib_managed}">
-		<include name="*.jar" />
-	</fileset>
-
-	<fileset id="modules" dir="${module}">
 		<include name="*.jar" />
 	</fileset>
 
@@ -31,10 +26,13 @@
 		<pathelement path="${bin}" />
 	</path>
 
+	<path id="library-managed-path">
+		<fileset refid="libraries_managed" />
+	</path>
+
 	<path id="library-path">
 		<fileset refid="libraries" />
 		<fileset refid="libraries_managed" />
-		<fileset refid="modules" />
 	</path>
 
 	<path id="master-path">
@@ -51,6 +49,20 @@
 
 	<target name="resolve" depends="init">
 		<ivy:retrieve sync="true" />
+
+		<pathconvert property="manifest-classpath" pathsep=" ">
+			<path refid="library-managed-path" />
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<globmapper from="*.jar" to="${lib_managed}/*.jar" />
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
+
+		<manifestclasspath property="jar-classpath" jarfile="${jar}">
+			<classpath refid="library-managed-path" />
+		</manifestclasspath>
 	</target>
 
 	<target name="build" depends="resolve">
@@ -60,7 +72,7 @@
 				<pathelement location="${lib}/scala-library-${scala-version}.jar" />
 			</classpath>
 		</taskdef>
-		<scalac destdir="${bin}" classpathref="library-path">
+		<scalac destdir="${bin}" classpathref="library-path" deprecation="yes">
 			<src path="${src}" />
 		</scalac>
 		<javac destdir="${bin}" includeantruntime="false">
@@ -75,7 +87,7 @@
 		<delete file="${jar}" />
 	</target>
 
-	<target name="run">
+	<target name="run" depends="build">
 		<java classpathref="master-path" fork="true" classname="${main-class}" />
 	</target>
 
@@ -85,12 +97,17 @@
 		</scaladoc>
 	</target>
 
+	<target name="run-jar" depends="jar">
+		<java fork="true" jar="${jar}" />
+	</target>
+
 	<target name="jar" depends="build">
 		<jar destfile="${jar}">
 			<zipgroupfileset refid="libraries" />
 			<fileset refid="production-classes" />
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}" />
+				<attribute name="Class-Path" value=". ${jar-classpath}" />
 			</manifest>
 		</jar>
 	</target>

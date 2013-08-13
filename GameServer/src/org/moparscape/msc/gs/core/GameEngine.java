@@ -9,22 +9,18 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.PacketQueue;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.connection.filter.IPBanManager;
 import org.moparscape.msc.gs.event.DelayedEvent;
-import org.moparscape.msc.gs.model.ActiveTile;
-import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.Shop;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Snapshot;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.phandler.PacketHandlerDef;
-import org.moparscape.msc.gs.plugins.dependencies.NpcAI;
-import org.moparscape.msc.gs.tools.Captcha;
 import org.moparscape.msc.gs.util.Logger;
 
 /**
@@ -33,15 +29,10 @@ import org.moparscape.msc.gs.util.Logger;
  */
 public final class GameEngine extends Thread {
 
-	private static Captcha captcha;
 	/**
 	 * World instance
 	 */
 	private static final World world = Instance.getWorld();
-
-	public static Captcha getCaptcha() {
-		return captcha;
-	}
 
 	/**
 	 * Responsible for updating all connected clients
@@ -73,8 +64,15 @@ public final class GameEngine extends Thread {
 	private static volatile long time = 0;
 
 	/**
-	 * Use this instead of System.currentTimeIllis, as each call does a system
-	 * call, and potentially a hardware poll...<br>
+	 * Only use this method when you need the actual time.
+	 */
+	public static long getTimestamp() {
+		return System.currentTimeMillis();
+	}
+
+	/**
+	 * Use this instead of System.currentTimeIllis when getting elapsed time, as
+	 * each call does a system call, and potentially a hardware poll...<br>
 	 * Also, you don't generally need the time to be updated more often than
 	 * each part in the main loop.
 	 * 
@@ -88,17 +86,12 @@ public final class GameEngine extends Thread {
 	 * Constructs a new game engine with an empty packet queue.
 	 */
 	public GameEngine() {
-		captcha = new Captcha();
-		captcha.init();
 		packetQueue = new PacketQueue<RSCPacket>();
 		try {
 			loadPacketHandlers();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
-		}
-		for (Shop shop : world.getShops()) {
-			shop.initRestock();
 		}
 		redirectSystemStreams();
 	}
@@ -151,10 +144,11 @@ public final class GameEngine extends Thread {
 
 	/**
 	 * Loads the packet handling classes from the persistence manager.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	protected void loadPacketHandlers() throws Exception {
-		PacketHandlerDef[] handlerDefs = Instance.getDataStore()
+		PacketHandlerDef[] handlerDefs = Instance.dataStore()
 				.loadPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
 			try {
@@ -184,8 +178,9 @@ public final class GameEngine extends Thread {
 			clientUpdater.doMinor();
 		}
 	}
-	
+
 	private long lastEventTick;
+
 	private void processEvents() {
 		if (getTime() - lastEventTick >= 100) {
 			eventHandler.doEvents();
@@ -286,15 +281,7 @@ public final class GameEngine extends Thread {
 	 */
 	public void run() {
 		Logger.println("GameEngine now running");
-		// Captcha.loadCharacters();
-		for (Npc n : Instance.getWorld().getNpcs()) {
-			for (NpcAI ai : Instance.getPluginHandler().getNpcAI()) {
-				if (n.getID() == ai.getID()) {
-					n.setScripted(true);
-				}
-			}
-		}
-		time = System.currentTimeMillis();
+		time = System.nanoTime() / 1000000000;
 
 		eventHandler
 				.add(new DelayedEvent(null, Config.GARBAGE_COLLECT_INTERVAL) { // Ran
@@ -310,20 +297,19 @@ public final class GameEngine extends Thread {
 						}).start();
 					}
 				});
-		eventHandler.add(new DelayedEvent(null, Config.SAVE_INTERVAL) { // 5 min
-					public void run() {
-						world.dbKeepAlive();
-						long now = GameEngine.getTime();
-						for (Player p : world.getPlayers()) {
-							if (now - p.getLastSaveTime() >= Config.SAVE_INTERVAL) {
-								p.save();
-								p.setLastSaveTime(now);
-							}
-						}
-						Instance.getServer().getLoginConnector()
-								.getActionSender().saveProfiles();
+		eventHandler.add(new DelayedEvent(null, Config.SAVE_INTERVAL) {
+			public void run() {
+				long now = GameEngine.getTime();
+				for (Player p : world.getPlayers()) {
+					if (now - p.getLastSaveTime() >= Config.SAVE_INTERVAL) {
+						p.save();
+						p.setLastSaveTime(now);
 					}
-				});
+				}
+				Instance.getServer().getLoginConnector().getActionSender()
+						.saveProfiles();
+			}
+		});
 		while (running) {
 			try {
 				Thread.sleep(50);
@@ -359,15 +345,16 @@ public final class GameEngine extends Thread {
 	}
 
 	public long updateTime() {
-		return time = System.currentTimeMillis();
+		return time = System.nanoTime() / 1000000;
 	}
 
 	/**
 	 * Cleans snapshots of entries over 60 seconds old (executed every second)
 	 */
 	public void cleanSnapshotDeque() {
-		long curTime = GameEngine.getTime();
-		if (curTime - lastCleanedChatlogs > 1000) {
+		long curTime = GameEngine.getTimestamp(); // We need to compare
+													// timestamps
+		if (curTime - lastCleanedChatlogs > 1000) { // Every second
 			lastCleanedChatlogs = curTime;
 			lastCleanedChatlogsOutput++;
 			if (lastCleanedChatlogsOutput > 60 * 5) {
@@ -399,20 +386,16 @@ public final class GameEngine extends Thread {
 	 * Cleans garbage (Tilecleanup)
 	 */
 	public synchronized void garbageCollect() {
-		long startTime = System.currentTimeMillis();
+		long startTime = getTime();
 		int curMemory = (int) (Runtime.getRuntime().totalMemory() - Runtime
 				.getRuntime().freeMemory()) / 1000;
-		int tileObjs = 0;
-		int cleaned = 0;
 		for (int i = 0; i < Instance.getWorld().tiles.length; i++) {
 			for (int in = 0; in < Instance.getWorld().tiles[i].length; in++) {
 				ActiveTile tile = Instance.getWorld().tiles[i][in];
 				if (tile != null) {
-					tileObjs++;
 					if (!tile.hasGameObject() && !tile.hasItems()
 							&& !tile.hasNpcs() && !tile.hasPlayers()) {
 						Instance.getWorld().tiles[i][in] = null;
-						cleaned++;
 					}
 				}
 			}
@@ -425,6 +408,6 @@ public final class GameEngine extends Thread {
 				+ " Memory after: " + newMemory + " (Freed: "
 				+ (curMemory - newMemory) + "kb)");
 		Logger.println("GARBAGE COLLECT | Cleanup took "
-				+ (System.currentTimeMillis() - startTime) + "ms");
+				+ (updateTime() - startTime) + "ms");
 	}
 }

@@ -1,6 +1,7 @@
 .classpath
 .project
 rscd.jar
+moparclassic.jar
 ls.jar
 *.ipr
 *.iws
@@ -15,4 +16,6 @@ build
 !.gitattributes
 lib_managed
 doc
-
+LoginServer/players
+LoginServer/logs
+GameServer/logs

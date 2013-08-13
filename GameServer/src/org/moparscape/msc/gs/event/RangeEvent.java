@@ -2,17 +2,17 @@ package org.moparscape.msc.gs.event;
 
 import java.util.ArrayList;
 
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
-import org.moparscape.msc.gs.model.PathGenerator;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Projectile;
+import org.moparscape.msc.gs.model.landscape.ProjectilePath;
 import org.moparscape.msc.gs.model.mini.Damage;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -82,22 +82,24 @@ public class RangeEvent extends DelayedEvent {
 			owner.setFollowing(affectedMob);
 			return;
 		}
-		if (!new PathGenerator(owner.getX(), owner.getY(), affectedMob.getX(),
-				affectedMob.getY()).isValid()) {
+		ProjectilePath path = new ProjectilePath(owner.getX(), owner.getY(),
+				affectedMob.getX(), affectedMob.getY());
+		if (!path.isValid()) {
 			owner.getActionSender().sendMessage(
 					"I can't get a clear shot from here");
 			owner.resetPath();
+			owner.resetRange();
 			this.stop();
 			return;
 		}
 		boolean xbow = DataConversions.inArray(Formulae.xbowIDs, bowID);
 		int arrowID = -1;
 		for (int aID : (xbow ? Formulae.boltIDs : Formulae.arrowIDs)) {
-			int slot = owner.getInventory().getLastIndexById(aID);
+			int slot = owner.getInventory().getLastItemSlot(aID);
 			if (slot < 0) {
 				continue;
 			}
-			InvItem arrow = owner.getInventory().get(slot);
+			InvItem arrow = owner.getInventory().getSlot(slot);
 			if (arrow == null) { // This shouldn't happen
 				continue;
 			}
@@ -112,7 +114,6 @@ public class RangeEvent extends DelayedEvent {
 					return;
 				}
 			}
-			int newAmount = arrow.getAmount() - 1;
 			if (!xbow && arrowID > 0) {
 				int temp = -1;
 
@@ -134,13 +135,8 @@ public class RangeEvent extends DelayedEvent {
 				}
 			}
 
-			if (newAmount <= 0) {
-				owner.getInventory().remove(slot);
-				owner.getActionSender().sendInventory();
-			} else {
-				arrow.setAmount(newAmount);
-				owner.getActionSender().sendUpdateItem(slot);
-			}
+			owner.getInventory().remove(arrow.id, 1, false);
+			owner.getActionSender().sendInventory();
 			break;
 		}
 		if (arrowID < 0) {
@@ -186,10 +182,6 @@ public class RangeEvent extends DelayedEvent {
 						owner.getUsername() + " is shooting at you!");
 			}
 		}
-		if (affectedMob instanceof Npc && ((Npc) affectedMob).isScripted()) {
-			Instance.getPluginHandler().getNpcAIHandler(affectedMob.getID())
-					.onRangedAttack(owner, (Npc) affectedMob);
-		}
 		if (affectedMob instanceof Npc) {
 			Npc npc = (Npc) affectedMob;
 			npc.getSyndicate().addDamage(owner, damage, Damage.RANGE_DAMAGE);
@@ -208,15 +200,7 @@ public class RangeEvent extends DelayedEvent {
 			affectedMob.setLastDamage(damage);
 			int newHp = affectedMob.getHits() - damage;
 			affectedMob.setHits(newHp);
-			if (affectedMob instanceof Npc && newHp > 0) {
-				Npc n = (Npc) affectedMob;
-				double max = n.getDef().hits;
-				double cur = n.getHits();
-				int percent = (int) ((cur / max) * 100);
-				if (n.isScripted())
-					Instance.getPluginHandler().getNpcAIHandler(n.getID())
-							.onHealthPercentage(n, percent);
-			}
+
 			for (Player p : playersToInform) {
 				p.informOfModifiedHits(affectedMob);
 			}
@@ -273,10 +257,7 @@ public class RangeEvent extends DelayedEvent {
 									player.setBusy(true);
 									player.resetPath();
 									player.resetAll();
-									if (npc.isScripted())
-										Instance.getPluginHandler()
-												.getNpcAIHandler(npc.getID())
-												.onNpcAttack(npc, player);
+
 									player.setStatus(Action.FIGHTING_MOB);
 									player.getActionSender().sendSound(
 											"underattack");
@@ -312,6 +293,10 @@ public class RangeEvent extends DelayedEvent {
 									npc.setChasing(null);
 								}
 							});
+					// target is still alive? is still around?
+					if (!npc.isRemoved() || owner.withinRange(npc)) {
+						return;
+					}
 					this.stop();
 				}
 			}

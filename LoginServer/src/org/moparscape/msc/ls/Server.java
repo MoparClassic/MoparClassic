@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Collection;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 import org.apache.mina.common.IoAcceptor;
@@ -16,6 +17,8 @@ import org.moparscape.msc.ls.model.PlayerSave;
 import org.moparscape.msc.ls.model.World;
 import org.moparscape.msc.ls.net.FConnectionHandler;
 import org.moparscape.msc.ls.net.LSConnectionHandler;
+import org.moparscape.msc.ls.packethandler.local.Command;
+import org.moparscape.msc.ls.packethandler.local.CommandHandler;
 import org.moparscape.msc.ls.persistence.StorageMedium;
 import org.moparscape.msc.ls.persistence.impl.StorageMediumFactory;
 import org.moparscape.msc.ls.util.Config;
@@ -66,6 +69,13 @@ public class Server {
 		System.out.println("Storage Medium: "
 				+ storage.getClass().getSimpleName());
 		Server.getServer();
+		try (Scanner scan = new Scanner(System.in)) {
+			CommandHandler handler = new CommandHandler();
+			String command;
+			while ((command = scan.nextLine()) != null) {
+				handler.handle(new Command(command));
+			}
+		}
 	}
 
 	/**
@@ -116,23 +126,11 @@ public class Server {
 	}
 
 	public PlayerSave findSave(long user, World world) {
-		PlayerSave save = null;
-		// for(World w : getWorlds()) {
-		// PlayerSave s = w.getSave(user);
-		// if(s != null) {
-		// w.unassosiateSave(s);
-		// save = s;
-		// Logging.debug("Found cached save for " +
-		// DataConversions.hashToUsername(user));
-		// break;
-		// }
-		// }
-		// if(save == null) {
-		// Logging.debug("No save found for " +
-		// DataConversions.hashToUsername(user) + ", loading fresh");
-		save = PlayerSave.loadPlayer(user);
-		// }
-		// world.assosiateSave(save);
+		PlayerSave save = world.getSave(user);
+		if (save == null) {
+			save = PlayerSave.loadPlayer(user);
+		}
+		world.assosiateSave(save);
 		return save;
 	}
 

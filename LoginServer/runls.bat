@@ -1,3 +1,3 @@
 title LoginServer
-ant runls
+ant run
 pause

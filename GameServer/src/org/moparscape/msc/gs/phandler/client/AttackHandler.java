@@ -1,9 +1,9 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
@@ -14,9 +14,9 @@ import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Mob;
 import org.moparscape.msc.gs.model.Npc;
-import org.moparscape.msc.gs.model.PathGenerator;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.ProjectilePath;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.states.Action;
@@ -44,20 +44,7 @@ public class AttackHandler implements PacketHandler {
 		}
 		if (player.isPMod() && !player.isMod())
 			return;
-		if (affectedMob == null
-				|| affectedMob.equals(player)
-				|| (affectedMob instanceof Npc && !World.getQuestManager()
-						.isNpcVisible((Npc) affectedMob, player))) {
-			player.resetPath();
-			return;
-		}
-		if (affectedMob instanceof Npc && player.getRangeEquip() > 0
-				&& affectedMob.inCombat()
-				&& World.getQuestManager().isNpcAssociated(affectedMob, player)) {
-			player.getActionSender().sendMessage(
-					"You can't range the "
-							+ ((Npc) affectedMob).getDef().getName()
-							+ " while it's in combat!");
+		if (affectedMob == null || affectedMob.equals(player)) {
 			player.resetPath();
 			return;
 		}
@@ -188,7 +175,7 @@ public class AttackHandler implements PacketHandler {
 						}
 					});
 		} else {
-			if (!new PathGenerator(player.getX(), player.getY(),
+			if (!new ProjectilePath(player.getX(), player.getY(),
 					affectedMob.getX(), affectedMob.getY()).isValid()) {
 				player.getActionSender().sendMessage(
 						"I can't get a clear shot from here");
@@ -198,9 +185,8 @@ public class AttackHandler implements PacketHandler {
 			if (Config.f2pWildy && player.getLocation().inWilderness()) {
 
 				for (InvItem i : player.getInventory().getItems()) {
-					if (i.getID() == 638 || i.getID() == 640
-							|| i.getID() == 642 || i.getID() == 644
-							|| i.getID() == 646) {
+					if (i.id == 638 || i.id == 640 || i.id == 642
+							|| i.id == 644 || i.id == 646) {
 						player.getActionSender()
 								.sendMessage(
 										"You can not have any P2P arrows in your inventory in a F2P wilderness");
@@ -224,7 +210,7 @@ public class AttackHandler implements PacketHandler {
 								return;
 							}
 
-							if (!new PathGenerator(owner.getX(), owner.getY(),
+							if (!new ProjectilePath(owner.getX(), owner.getY(),
 									affectedMob.getX(), affectedMob.getY())
 									.isValid()) {
 								owner.getActionSender().sendMessage(

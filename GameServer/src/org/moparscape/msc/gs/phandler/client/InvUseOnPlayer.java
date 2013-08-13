@@ -29,7 +29,7 @@ public class InvUseOnPlayer implements PacketHandler {
 		}
 		player.resetAll();
 		final Player affectedPlayer = world.getPlayer(p.readShort());
-		final InvItem item = player.getInventory().get(p.readShort());
+		final InvItem item = player.getInventory().getSlot(p.readShort());
 		if (affectedPlayer == null || item == null) { // This shouldn't happen
 			return;
 		}
@@ -42,7 +42,7 @@ public class InvUseOnPlayer implements PacketHandler {
 				+ " used item on player "
 				+ item.getDef().getName()
 				+ "("
-				+ item.getID()
+				+ item.id
 				+ ")"
 				+ " [CMD: "
 				+ item.getDef().getCommand()
@@ -64,7 +64,7 @@ public class InvUseOnPlayer implements PacketHandler {
 					public void arrived() {
 						owner.resetPath();
 						owner.resetFollowing();
-						if (!owner.getInventory().contains(item)
+						if (!owner.getInventory().contains(item.id)
 								|| !owner.nextTo(affectedPlayer)
 								|| owner.isBusy()
 								|| owner.isRanging()
@@ -72,7 +72,7 @@ public class InvUseOnPlayer implements PacketHandler {
 							return;
 						}
 						owner.resetAll();
-						switch (item.getID()) {
+						switch (item.id) {
 						case 575: // Christmas cracker
 							owner.setBusy(true);
 							affectedPlayer.setBusy(true);
@@ -110,7 +110,8 @@ public class InvUseOnPlayer implements PacketHandler {
 														.sendMessage(
 																owner.getUsername()
 																		+ " got the contents!");
-												owner.getInventory().add(phat);
+												owner.getInventory().add(
+														phat.id, 1, false);
 											} else {
 												owner.getActionSender()
 														.sendMessage(
@@ -125,9 +126,11 @@ public class InvUseOnPlayer implements PacketHandler {
 																				.getName()
 																		+ "!");
 												affectedPlayer.getInventory()
-														.add(phat);
+														.add(phat.id, 1, false);
 											}
-											owner.getInventory().remove(item);
+											owner.getInventory()
+													.remove(item.id,
+															item.amount, false);
 											owner.setBusy(false);
 											affectedPlayer.setBusy(false);
 											owner.getActionSender()

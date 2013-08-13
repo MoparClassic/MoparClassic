@@ -36,7 +36,7 @@ public class InvUseOnNpc implements PacketHandler {
 		}
 
 		final Npc affectedNpc = world.getNpc(sh);
-		final InvItem item = player.getInventory().get(p.readShort());
+		final InvItem item = player.getInventory().getSlot(p.readShort());
 		if (affectedNpc == null || item == null) { // This shouldn't happen
 			return;
 		}
@@ -45,7 +45,7 @@ public class InvUseOnNpc implements PacketHandler {
 				+ " used item "
 				+ item.getDef().getName()
 				+ "("
-				+ item.getID()
+				+ item.id
 				+ ")"
 				+ " [CMD: "
 				+ item.getDef().getCommand()
@@ -66,7 +66,7 @@ public class InvUseOnNpc implements PacketHandler {
 					public void arrived() {
 						owner.resetPath();
 						owner.resetFollowing();
-						if (!owner.getInventory().contains(item)
+						if (!owner.getInventory().contains(item.id)
 								|| owner.isBusy()
 								|| owner.isRanging()
 								|| !owner.nextTo(affectedNpc)
@@ -95,8 +95,8 @@ public class InvUseOnNpc implements PacketHandler {
 												owner.getActionSender()
 														.sendMessage(
 																"You get some wool");
-												owner.getInventory().add(
-														new InvItem(145, 1));
+												owner.getInventory().add(145,
+														1, false);
 												owner.getActionSender()
 														.sendInventory();
 											} else {
@@ -111,7 +111,7 @@ public class InvUseOnNpc implements PacketHandler {
 							break;
 						case 217:// Cow
 						case 6:
-							if (item.getID() != 21) {
+							if (item.id != 21) {
 								owner.getActionSender().sendMessage(
 										"Nothing interesting happens.");
 								return;
@@ -130,14 +130,16 @@ public class InvUseOnNpc implements PacketHandler {
 									new ShortEvent(owner) {
 										public void action() {
 											if (DataConversions.random(0, 4) != 0) {
-												if (owner.getInventory()
-														.remove(item) < 0)
+												if (!owner.getInventory()
+														.remove(item.id,
+																item.amount,
+																false))
 													return;
 												owner.getActionSender()
 														.sendMessage(
 																"You get some milk");
-												owner.getInventory().add(
-														new InvItem(22, 1));
+												owner.getInventory().add(22, 1,
+														false);
 												owner.getActionSender()
 														.sendInventory();
 											} else {
@@ -152,7 +154,7 @@ public class InvUseOnNpc implements PacketHandler {
 							break;
 						case 160:// Thrander
 							int newID;
-							switch (item.getID()) {
+							switch (item.id) {
 							case 308: // Bronze top
 								newID = 117;
 								break;
@@ -248,10 +250,12 @@ public class InvUseOnNpc implements PacketHandler {
 							Instance.getDelayedEventHandler().add(
 									new ShortEvent(owner) {
 										public void action() {
-											if (owner.getInventory().remove(
-													item) > -1) {
+											if (owner.getInventory()
+													.remove(item.id,
+															item.amount, false)) {
 												owner.getInventory().add(
-														newPlate);
+														newPlate.id,
+														newPlate.amount, false);
 												owner.getActionSender()
 														.sendInventory();
 											}
@@ -268,11 +272,11 @@ public class InvUseOnNpc implements PacketHandler {
 					}
 
 					private boolean itemId(int[] ids) {
-						return DataConversions.inArray(ids, item.getID());
+						return DataConversions.inArray(ids, item.id);
 					}
 
 					private void showBubble() {
-						Bubble bubble = new Bubble(owner, item.getID());
+						Bubble bubble = new Bubble(owner, item.id);
 						for (Player p : owner.getViewArea().getPlayersInView()) {
 							p.informOfBubble(bubble);
 						}

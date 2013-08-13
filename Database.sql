@@ -13,90 +13,82 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
 --
--- Create schema moparclassic
---
-
-CREATE DATABASE IF NOT EXISTS moparclassic;
-USE moparclassic;
-
---
--- Definition of table `moparclassic`.`drops`
+-- Definition of table `drops`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`drops`;
-CREATE TABLE  `moparclassic`.`drops` (
+DROP TABLE IF EXISTS `drops`;
+CREATE TABLE  `drops` (
   `id` int(11) DEFAULT NULL,
   `item` varchar(255) DEFAULT NULL,
   `amount` int(11) DEFAULT NULL,
   `weight` int(11) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`dupe_data`
+-- Definition of table `dupe_data`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`dupe_data`;
-CREATE TABLE  `moparclassic`.`dupe_data` (
+DROP TABLE IF EXISTS `dupe_data`;
+CREATE TABLE  `dupe_data` (
   `user` varchar(255) NOT NULL,
   `userhash` varchar(255) NOT NULL,
   `string` text NOT NULL,
   `time` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`error_reports`
+-- Definition of table `error_reports`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`error_reports`;
-CREATE TABLE  `moparclassic`.`error_reports` (
+DROP TABLE IF EXISTS `error_reports`;
+CREATE TABLE  `error_reports` (
   `data` text,
   `email` varchar(255) DEFAULT NULL,
   `ip` varchar(255) DEFAULT NULL,
   `unix` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`gp_count`
+-- Definition of table `gp_count`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`gp_count`;
-CREATE TABLE  `moparclassic`.`gp_count` (
+DROP TABLE IF EXISTS `gp_count`;
+CREATE TABLE  `gp_count` (
   `unixtime` varchar(255) DEFAULT NULL,
   `amount` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`items`
+-- Definition of table `items`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`items`;
-CREATE TABLE  `moparclassic`.`items` (
+DROP TABLE IF EXISTS `items`;
+CREATE TABLE  `items` (
   `id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `stackable` varchar(255) DEFAULT NULL,
   `wieldable` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`online_count`
+-- Definition of table `online_count`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`online_count`;
-CREATE TABLE  `moparclassic`.`online_count` (
+DROP TABLE IF EXISTS `online_count`;
+CREATE TABLE  `online_count` (
   `unixtime` varchar(255) DEFAULT NULL,
   `online` int(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_bank`
+-- Definition of table `pk_bank`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_bank`;
-CREATE TABLE  `moparclassic`.`pk_bank` (
+DROP TABLE IF EXISTS `pk_bank`;
+CREATE TABLE  `pk_bank` (
   `user` varchar(255) DEFAULT NULL,
   `id` int(10) unsigned NOT NULL,
   `amount` int(10) unsigned NOT NULL DEFAULT '1',
@@ -104,28 +96,28 @@ CREATE TABLE  `moparclassic`.`pk_bank` (
   KEY `user` (`user`),
   KEY `id` (`id`),
   KEY `amount` (`amount`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_banlog`
+-- Definition of table `pk_banlog`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_banlog`;
-CREATE TABLE  `moparclassic`.`pk_banlog` (
+DROP TABLE IF EXISTS `pk_banlog`;
+CREATE TABLE  `pk_banlog` (
   `user` varchar(255) DEFAULT NULL,
   `staff` varchar(255) DEFAULT NULL,
   `time` int(10) DEFAULT NULL,
   KEY `staff` (`staff`),
   KEY `time` (`time`),
   KEY `user` (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_curstats`
+-- Definition of table `pk_curstats`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_curstats`;
-CREATE TABLE  `moparclassic`.`pk_curstats` (
+DROP TABLE IF EXISTS `pk_curstats`;
+CREATE TABLE  `pk_curstats` (
   `user` varchar(255) NOT NULL,
   `cur_attack` int(5) unsigned NOT NULL DEFAULT '1',
   `cur_defense` int(5) unsigned NOT NULL DEFAULT '1',
@@ -148,14 +140,14 @@ CREATE TABLE  `moparclassic`.`pk_curstats` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
   KEY `user` (`user`)
-) ENGINE=MyISAM AUTO_INCREMENT=350943 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_experience`
+-- Definition of table `pk_experience`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_experience`;
-CREATE TABLE  `moparclassic`.`pk_experience` (
+DROP TABLE IF EXISTS `pk_experience`;
+CREATE TABLE  `pk_experience` (
   `user` varchar(255) NOT NULL,
   `exp_attack` int(10) unsigned NOT NULL DEFAULT '0',
   `exp_defense` int(10) unsigned NOT NULL DEFAULT '0',
@@ -196,115 +188,115 @@ CREATE TABLE  `moparclassic`.`pk_experience` (
   `oo_hits` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user` (`user`)
-) ENGINE=MyISAM AUTO_INCREMENT=350943 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_friends`
+-- Definition of table `pk_friends`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_friends`;
-CREATE TABLE  `moparclassic`.`pk_friends` (
+DROP TABLE IF EXISTS `pk_friends`;
+CREATE TABLE  `pk_friends` (
   `user` varchar(255) NOT NULL,
   `friend` varchar(255) NOT NULL,
   KEY `user` (`user`),
   KEY `friend` (`friend`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_ignores`
+-- Definition of table `pk_ignores`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_ignores`;
-CREATE TABLE  `moparclassic`.`pk_ignores` (
+DROP TABLE IF EXISTS `pk_ignores`;
+CREATE TABLE  `pk_ignores` (
   `user` varchar(255) NOT NULL,
   `ignore` varchar(255) NOT NULL,
   KEY `ignore` (`ignore`),
   KEY `user` (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_invitems`
+-- Definition of table `pk_invitems`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_invitems`;
-CREATE TABLE  `moparclassic`.`pk_invitems` (
+DROP TABLE IF EXISTS `pk_invitems`;
+CREATE TABLE  `pk_invitems` (
   `user` varchar(255) NOT NULL,
   `id` int(10) unsigned NOT NULL,
   `amount` int(10) unsigned NOT NULL DEFAULT '1',
   `wielded` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `slot` int(5) unsigned NOT NULL,
   KEY `user` (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_ipbans`
+-- Definition of table `pk_ipbans`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_ipbans`;
-CREATE TABLE  `moparclassic`.`pk_ipbans` (
+DROP TABLE IF EXISTS `pk_ipbans`;
+CREATE TABLE  `pk_ipbans` (
   `ip` varchar(15) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_kills`
+-- Definition of table `pk_kills`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_kills`;
-CREATE TABLE  `moparclassic`.`pk_kills` (
+DROP TABLE IF EXISTS `pk_kills`;
+CREATE TABLE  `pk_kills` (
   `user` varchar(255) NOT NULL,
   `type` tinyint(1) NOT NULL DEFAULT '0',
   `killed` varchar(45) NOT NULL,
   `time` int(10) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_logins`
+-- Definition of table `pk_logins`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_logins`;
-CREATE TABLE  `moparclassic`.`pk_logins` (
+DROP TABLE IF EXISTS `pk_logins`;
+CREATE TABLE  `pk_logins` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user` varchar(45) NOT NULL,
   `time` int(5) unsigned NOT NULL,
   `ip` varchar(15) NOT NULL DEFAULT '0.0.0.0',
   PRIMARY KEY (`id`),
   KEY `ip` (`ip`)
-) ENGINE=MyISAM AUTO_INCREMENT=4254616 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
--- Definition of table `moparclassic`.`pk_market`
+-- Definition of table `pk_market`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_market`;
-CREATE TABLE  `moparclassic`.`pk_market` (
+DROP TABLE IF EXISTS `pk_market`;
+CREATE TABLE  `pk_market` (
   `owner` int(10) NOT NULL,
   `item_id` int(10) NOT NULL,
   `amount` int(10) NOT NULL,
   `selling_price` int(10) NOT NULL,
   PRIMARY KEY (`owner`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_mutelog`
+-- Definition of table `pk_mutelog`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_mutelog`;
-CREATE TABLE  `moparclassic`.`pk_mutelog` (
+DROP TABLE IF EXISTS `pk_mutelog`;
+CREATE TABLE  `pk_mutelog` (
   `user` varchar(255) NOT NULL,
   `staff` varchar(255) NOT NULL,
   `time` int(11) NOT NULL,
   `report_id` int(11) NOT NULL,
   `duration` int(10) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_online`
+-- Definition of table `pk_online`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_online`;
-CREATE TABLE  `moparclassic`.`pk_online` (
+DROP TABLE IF EXISTS `pk_online`;
+CREATE TABLE  `pk_online` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user` varchar(45) NOT NULL,
   `username` varchar(45) NOT NULL,
@@ -312,14 +304,14 @@ CREATE TABLE  `moparclassic`.`pk_online` (
   `y` varchar(45) NOT NULL,
   `world` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='InnoDB free: 9216 kB';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
--- Definition of table `moparclassic`.`pk_players`
+-- Definition of table `pk_players`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_players`;
-CREATE TABLE  `moparclassic`.`pk_players` (
+DROP TABLE IF EXISTS `pk_players`;
+CREATE TABLE  `pk_players` (
   `user` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL DEFAULT '',
   `pending_deletion` int(11) DEFAULT '0',
@@ -368,26 +360,26 @@ CREATE TABLE  `moparclassic`.`pk_players` (
   `eventcd` int(10) unsigned DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user` (`user`)
-) ENGINE=MyISAM AUTO_INCREMENT=350944 DEFAULT CHARSET=latin1 COMMENT='InnoDB free: 9216 kB';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_quests`
+-- Definition of table `pk_quests`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_quests`;
-CREATE TABLE  `moparclassic`.`pk_quests` (
+DROP TABLE IF EXISTS `pk_quests`;
+CREATE TABLE  `pk_quests` (
   `id` int(11) DEFAULT NULL,
   `stage` int(11) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
   KEY `user` (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_reports`
+-- Definition of table `pk_reports`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_reports`;
-CREATE TABLE  `moparclassic`.`pk_reports` (
+DROP TABLE IF EXISTS `pk_reports`;
+CREATE TABLE  `pk_reports` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `from` varchar(255) NOT NULL,
   `about` varchar(255) NOT NULL,
@@ -404,42 +396,42 @@ CREATE TABLE  `moparclassic`.`pk_reports` (
   `zapped_by` varchar(255) DEFAULT NULL,
   `sendToMod` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4340 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_reports_comments`
+-- Definition of table `pk_reports_comments`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_reports_comments`;
-CREATE TABLE  `moparclassic`.`pk_reports_comments` (
+DROP TABLE IF EXISTS `pk_reports_comments`;
+CREATE TABLE  `pk_reports_comments` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `report_id` int(10) NOT NULL,
   `poster` int(10) NOT NULL,
   `time` int(10) NOT NULL,
   `text` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4222 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_stat_reduction`
+-- Definition of table `pk_stat_reduction`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_stat_reduction`;
-CREATE TABLE  `moparclassic`.`pk_stat_reduction` (
+DROP TABLE IF EXISTS `pk_stat_reduction`;
+CREATE TABLE  `pk_stat_reduction` (
   `user` int(10) NOT NULL,
   `account` varchar(255) NOT NULL,
   `account_hash` varchar(255) NOT NULL,
   `skill` int(10) NOT NULL,
   `voucher` varchar(255) DEFAULT NULL,
   `time` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_tradelog`
+-- Definition of table `pk_tradelog`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_tradelog`;
-CREATE TABLE  `moparclassic`.`pk_tradelog` (
+DROP TABLE IF EXISTS `pk_tradelog`;
+CREATE TABLE  `pk_tradelog` (
   `from` varchar(255) DEFAULT NULL,
   `to` varchar(255) DEFAULT NULL,
   `time` int(10) DEFAULT NULL,
@@ -451,20 +443,20 @@ CREATE TABLE  `moparclassic`.`pk_tradelog` (
   KEY `trade_from` (`from`),
   KEY `trade_to` (`to`),
   KEY `tradelog_time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Definition of table `moparclassic`.`pk_worlds`
+-- Definition of table `pk_worlds`
 --
 
-DROP TABLE IF EXISTS `moparclassic`.`pk_worlds`;
-CREATE TABLE  `moparclassic`.`pk_worlds` (
+DROP TABLE IF EXISTS `pk_worlds`;
+CREATE TABLE  `pk_worlds` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `location` varchar(45) NOT NULL,
   `ip` varchar(45) NOT NULL,
   `port` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

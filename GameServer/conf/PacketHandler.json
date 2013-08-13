@@ -1,0 +1,280 @@
+)]}'
+[
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.DummyPacket",
+    "ids": [
+      0
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.PlayerLogin",
+    "ids": [
+      77
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.SessionRequest",
+    "ids": [
+      32
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.PlayerLogoutRequest",
+    "ids": [
+      129
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.PlayerLogout",
+    "ids": [
+      39
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.Ping",
+    "ids": [
+      5
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.Trap",
+    "ids": [
+      3
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.WalkRequest",
+    "ids": [
+      246,
+      132
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.ChatHandler",
+    "ids": [
+      145
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.PrivacySettingHandler",
+    "ids": [
+      176
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.GameSettingHandler",
+    "ids": [
+      157
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.DropHandler",
+    "ids": [
+      147
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.PrayerHandler",
+    "ids": [
+      56,
+      248
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.CommandHandler",
+    "ids": [
+      90
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.WieldHandler",
+    "ids": [
+      181,
+      92
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.PlayerAppearanceIDHandler",
+    "ids": [
+      83
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.SpellHandler",
+    "ids": [
+      206,
+      55,
+      71,
+      49,
+      67,
+      17,
+      104,
+      232
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.PlayerAppearanceUpdater",
+    "ids": [
+      218
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.TradeHandler",
+    "ids": [
+      166,
+      211,
+      216,
+      70,
+      53
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.FriendHandler",
+    "ids": [
+      168,
+      52,
+      25,
+      108,
+      254
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.InvActionHandler",
+    "ids": [
+      89
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.InvUseOnPlayer",
+    "ids": [
+      16
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.PickupItem",
+    "ids": [
+      245
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.ObjectAction",
+    "ids": [
+      40,
+      51
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.WallObjectAction",
+    "ids": [
+      235,
+      126
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.ReportHandler",
+    "ids": [
+      7
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.InvUseOnObject",
+    "ids": [
+      36,
+      94
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.AttackHandler",
+    "ids": [
+      57,
+      73
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.StyleHandler",
+    "ids": [
+      42
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.TalkToNpcHandler",
+    "ids": [
+      177
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.BankHandler",
+    "ids": [
+      48,
+      183,
+      198
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.MenuReplyHandler",
+    "ids": [
+      154
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.ExceptionHandler",
+    "ids": [
+      156
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.InvUseOnGroundItem",
+    "ids": [
+      34
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.InvUseOnItem",
+    "ids": [
+      27
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.ShopHandler",
+    "ids": [
+      253,
+      128,
+      255
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.InvUseOnNpc",
+    "ids": [
+      142
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.FollowRequest",
+    "ids": [
+      68
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.DuelHandler",
+    "ids": [
+      35,
+      123,
+      87,
+      222,
+      225,
+      252
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.NpcCommand",
+    "ids": [
+      74
+    ]
+  },
+  {
+    "className": "org.moparscape.msc.gs.phandler.client.Sleepword",
+    "ids": [
+      200
+    ]
+  }
+]

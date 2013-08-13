@@ -48,4 +48,8 @@ public class Chatlog extends Snapshot {
 	public String getMessage() {
 		return message;
 	}
+
+	public String toString() {
+		return this.owner + " said " + message;
+	}
 }

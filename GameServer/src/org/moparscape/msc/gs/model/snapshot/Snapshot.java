@@ -15,7 +15,7 @@ public abstract class Snapshot {
 
 	public Snapshot(String owner) {
 		this.owner = owner;
-		this.eventTime = GameEngine.getTime();
+		this.eventTime = GameEngine.getTimestamp();
 
 	}
 

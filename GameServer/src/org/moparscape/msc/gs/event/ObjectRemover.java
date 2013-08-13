@@ -1,9 +1,9 @@
 package org.moparscape.msc.gs.event;
 
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.model.ActiveTile;
 import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 
 public class ObjectRemover extends DelayedEvent {
 	public static final World world = Instance.getWorld();

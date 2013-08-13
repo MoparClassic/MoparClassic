@@ -3,25 +3,23 @@ package org.moparscape.msc.gs.builders;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Constants;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Constants;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.RSCPacket;
-import org.moparscape.msc.gs.core.GameEngine;
-import org.moparscape.msc.gs.model.Bank;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.Shop;
-import org.moparscape.msc.gs.model.World;
-import org.moparscape.msc.gs.quest.Quest;
+import org.moparscape.msc.gs.model.container.Shop;
+import org.moparscape.msc.gs.tools.Captcha;
 
 public class MiscPacketBuilder {
 	/**
 	 * List of packets waiting to be sent to the user
 	 */
-	private java.util.List<RSCPacket> packets = new java.util.ArrayList<RSCPacket>();
+	private List<RSCPacket> packets = new CopyOnWriteArrayList<RSCPacket>();
 	/**
 	 * The player we are creating packets for
 	 */
@@ -130,13 +128,13 @@ public class MiscPacketBuilder {
 		s.addLong(with.getUsernameHash());
 		s.addByte((byte) with.getDuelOffer().size());
 		for (InvItem item : with.getDuelOffer()) {
-			s.addShort(item.getID());
-			s.addInt(item.getAmount());
+			s.addShort(item.id);
+			s.addInt(item.amount);
 		}
 		s.addByte((byte) player.getDuelOffer().size());
 		for (InvItem item : player.getDuelOffer()) {
-			s.addShort(item.getID());
-			s.addInt(item.getAmount());
+			s.addShort(item.id);
+			s.addInt(item.amount);
 		}
 
 		s.addByte((byte) (player.getDuelSetting(0) ? 1 : 0)); // duelCantRetreat
@@ -181,8 +179,8 @@ public class MiscPacketBuilder {
 		s.setID(63);
 		s.addByte((byte) items.size());
 		for (InvItem item : items) {
-			s.addShort(item.getID());
-			s.addInt(item.getAmount());
+			s.addShort(item.id);
+			s.addInt(item.amount);
 		}
 		packets.add(s.toPacket());
 	}
@@ -219,7 +217,7 @@ public class MiscPacketBuilder {
 	 */
 	public void sendEnterSleep() {
 		player.setSleeping(true);
-		byte[] image = GameEngine.getCaptcha().generateCaptcha(player);
+		byte[] image = Captcha.generateCaptcha(player);
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(206);
 		s.addBytes(image, 0, image.length);
@@ -236,7 +234,7 @@ public class MiscPacketBuilder {
 		s.addShort(player.getWeaponAimPoints());
 		s.addShort(player.getWeaponPowerPoints());
 		s.addShort(player.getMagicPoints());
-		s.addShort(player.getPrayerPoints());
+		s.addShort(player.getPrayerBonus());
 		s.addShort(player.getRangePoints());
 		packets.add(s.toPacket());
 	}
@@ -247,7 +245,7 @@ public class MiscPacketBuilder {
 	public void sendFatigue() {
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(126);
-		s.addShort(player.getFatigue());
+		s.addShort(player.getFatigue() / 10);
 		packets.add(s.toPacket());
 	}
 
@@ -261,7 +259,7 @@ public class MiscPacketBuilder {
 		for (Entry<Long, Integer> friend : player.getFriendList()) {
 			int world = friend.getValue();
 			s.addLong(friend.getKey());
-			s.addByte((byte) (world == Config.SERVER_NUM ? 99 : world));
+			s.addByte((byte) (world == Config.WORLD_ID ? 99 : world));
 		}
 		packets.add(s.toPacket());
 	}
@@ -273,7 +271,7 @@ public class MiscPacketBuilder {
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(25);
 		s.addLong(usernameHash);
-		s.addByte((byte) (world == Config.SERVER_NUM ? 99 : world));
+		s.addByte((byte) (world == Config.WORLD_ID ? 99 : world));
 		packets.add(s.toPacket());
 	}
 
@@ -314,20 +312,15 @@ public class MiscPacketBuilder {
 		packets.add(s.toPacket());
 	}
 
-	public void sendInfo2() {
-		RSCPacketBuilder s = new RSCPacketBuilder();
-		s.setID(211);
-		packets.add(s.toPacket());
-	}
-
 	public void sendInventory() {
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(114);
 		s.addByte((byte) player.getInventory().size());
-		for (InvItem item : player.getInventory().getItems()) {
-			s.addShort(item.getID() + (item.isWielded() ? 32768 : 0));
+		List<InvItem> items = player.getInventory().getItems();
+		for (InvItem item : items) {
+			s.addShort(item.id + (item.wielded ? 32768 : 0));
 			if (item.getDef().isStackable()) {
-				s.addInt(item.getAmount());
+				s.addInt(item.amount);
 			}
 		}
 		packets.add(s.toPacket());
@@ -445,25 +438,23 @@ public class MiscPacketBuilder {
 	 * Sends this player's quest info
 	 */
 	public void sendQuestInfo() {
-		RSCPacketBuilder s = new RSCPacketBuilder();
-		s.setID(233);
-		s.addByte((byte) player.getQuestPoints());
-		int size = World.getQuestManager().getQuests().size();
-		s.addByte((byte) size);
-		for (int i = 0; i < size; i++) {
-			Quest quest = World.getQuestManager().getQuests().get(i);
-			s.addByte((byte) quest.getUniqueID());
-			Integer objectInteger = player.getQuestStages().get(
-					quest.getUniqueID());
-			if (objectInteger.intValue() == Quest.COMPLETE)
-				s.addByte((byte) 2);
-			else if (objectInteger.intValue() >= 1)
-				s.addByte((byte) 1);
-			else
-				s.addByte((byte) 0);
-		}
+		/*
+		 * RSCPacketBuilder s = new RSCPacketBuilder(); s.setID(233);
+		 * s.addByte((byte) player.getQuestPoints()); // TODO: Send quest info
+		 * int size = 17; s.addByte((byte) size); for (int i = 0; i < size; i++)
+		 * { s.addByte((byte) i); s.addByte((byte) 0); }
+		 */
+		/*
+		 * for (int i = 0; i < size; i++) { //Quest quest =
+		 * World.getQuestManager().getQuests().get(i); s.addByte((byte)
+		 * quest.getUniqueID()); Integer objectInteger =
+		 * player.getQuestStages().get( quest.getUniqueID()); if
+		 * (objectInteger.intValue() == Quest.COMPLETE) s.addByte((byte) 2);
+		 * else if (objectInteger.intValue() >= 1) s.addByte((byte) 1); else
+		 * s.addByte((byte) 0); }
+		 */
 
-		packets.add(s.toPacket());
+		// packets.add(s.toPacket());
 		/*
 		 * RSCPacketBuilder s = new RSCPacketBuilder(); // setID(183)
 		 * s.setID(233); s.addByte((byte)player.getQuestPoints()); HashMap qs =
@@ -561,13 +552,13 @@ public class MiscPacketBuilder {
 		s.addLong(with.getUsernameHash());
 		s.addByte((byte) with.getTradeOffer().size());
 		for (InvItem item : with.getTradeOffer()) {
-			s.addShort(item.getID());
-			s.addInt(item.getAmount());
+			s.addShort(item.id);
+			s.addInt(item.amount);
 		}
 		s.addByte((byte) player.getTradeOffer().size());
 		for (InvItem item : player.getTradeOffer()) {
-			s.addShort(item.getID());
-			s.addInt(item.getAmount());
+			s.addShort(item.id);
+			s.addInt(item.amount);
 		}
 		packets.add(s.toPacket());
 	}
@@ -598,8 +589,8 @@ public class MiscPacketBuilder {
 		s.setID(250);
 		s.addByte((byte) items.size());
 		for (InvItem item : items) {
-			s.addShort(item.getID());
-			s.addInt(item.getAmount());
+			s.addShort(item.id);
+			s.addInt(item.amount);
 		}
 		packets.add(s.toPacket());
 	}
@@ -622,13 +613,13 @@ public class MiscPacketBuilder {
 	}
 
 	public void sendUpdateItem(int slot) {
-		InvItem item = player.getInventory().get(slot);
+		InvItem item = player.getInventory().getSlot(slot);
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(228);
 		s.addByte((byte) slot);
-		s.addShort(item.getID() + (item.isWielded() ? 32768 : 0));
+		s.addShort(item.id + (item.wielded ? 32768 : 0));
 		if (item.getDef().isStackable()) {
-			s.addInt(item.getAmount());
+			s.addInt(item.amount);
 		}
 		packets.add(s.toPacket());
 	}
@@ -675,10 +666,10 @@ public class MiscPacketBuilder {
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(93);
 		s.addByte((byte) player.getBank().size());
-		s.addByte((byte) Bank.MAX_SIZE);
+		s.addByte((byte) player.getBank().maxSize());
 		for (InvItem i : player.getBank().getItems()) {
-			s.addShort(i.getID());
-			s.addInt(i.getAmount());
+			s.addShort(i.id);
+			s.addInt(i.amount);
 		}
 		packets.add(s.toPacket());
 	}
@@ -690,18 +681,18 @@ public class MiscPacketBuilder {
 		RSCPacketBuilder s = new RSCPacketBuilder();
 		s.setID(253);
 		s.addByte((byte) shop.size());
-		s.addByte((byte) (shop.isGeneral() ? 1 : 0));
-		s.addByte((byte) shop.getSellModifier());
-		s.addByte((byte) shop.getBuyModifier());
+		s.addByte((byte) (shop.general() ? 1 : 0));
+		s.addByte((byte) shop.sellModifier());
+		s.addByte((byte) shop.buyModifier());
 		for (InvItem i : shop.getItems()) {
-			s.addShort(i.getID());
-			s.addShort(i.getAmount());
+			s.addShort(i.id);
+			s.addShort(i.amount);
 			s.addInt(Formulae.getPrice(
-					shop.getItems().get(Formulae.getItemPos(shop, i.getID())),
-					shop, true));
+					shop.getItems().get(Formulae.getItemPos(shop, i.id)), shop,
+					true));
 			s.addInt(Formulae.getPrice(
-					shop.getItems().get(Formulae.getItemPos(shop, i.getID())),
-					shop, false));
+					shop.getItems().get(Formulae.getItemPos(shop, i.id)), shop,
+					false));
 		}
 		packets.add(s.toPacket());
 	}

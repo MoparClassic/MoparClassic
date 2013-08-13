@@ -36,6 +36,9 @@ public abstract class MenuHandler {
 	 */
 	public abstract void handleReply(int option, String reply);
 
+	public void abort() {
+	}
+
 	/**
 	 * Set the Player this MenuHandler is responsible for
 	 */

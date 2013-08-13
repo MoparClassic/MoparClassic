@@ -14,13 +14,13 @@ public class FriendLogin implements PacketHandler {
 	public static final World world = Instance.getWorld();
 
 	public void handlePacket(Packet p, IoSession session) throws Exception {
-		Player player = world.getPlayer(p.readLong());
-		if (player == null) {
+		long loggingIn = p.readLong();
+		Player userToInform = world.getPlayer(p.readLong());
+		if (userToInform == null) {
 			return;
 		}
-		long friend = p.readLong();
-		if (player.isFriendsWith(friend)) {
-			player.getActionSender().sendFriendUpdate(friend, p.readShort());
+		if (userToInform.isFriendsWith(loggingIn)) {
+			userToInform.getActionSender().sendFriendUpdate(loggingIn, p.readShort());
 		}
 	}
 

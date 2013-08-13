@@ -6,7 +6,8 @@ import org.apache.mina.common.IdleStatus;
 import org.apache.mina.common.IoHandler;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
-import org.moparscape.msc.config.Constants;
+import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Constants;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.util.Logger;
@@ -42,13 +43,13 @@ public class RSCConnectionHandler implements IoHandler {
 	 */
 	public void exceptionCaught(IoSession session, Throwable cause) {
 		Player p = (Player) session.getAttachment();
-		
+
 		if (p != null)
 			p.getActionSender().sendLogout();
 		session.close();
-		cause.printStackTrace();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void messageReceived(IoSession session, Object message) {
 		Player player = (Player) session.getAttachment();
 		if (session.isClosing() || player.destroyed()) {
@@ -59,7 +60,8 @@ public class RSCConnectionHandler implements IoHandler {
 		if (p.getID() == 55)
 			player.addInterval();
 
-		player.addPacket(p);
+		Instance.loggingService().tell(p);
+
 		packets.add(p);
 	}
 
@@ -91,7 +93,7 @@ public class RSCConnectionHandler implements IoHandler {
 	public void sessionCreated(IoSession session) {
 		session.getFilterChain().addFirst("protocolFilter",
 				new ProtocolCodecFilter(new RSCCodecFactory()));
-		
+
 		Logger.println("Connection from: "
 				+ ((InetSocketAddress) session.getRemoteAddress()).getAddress()
 						.getHostAddress());

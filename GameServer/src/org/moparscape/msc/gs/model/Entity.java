@@ -1,8 +1,8 @@
 package org.moparscape.msc.gs.model;
 
-import org.moparscape.msc.config.Config;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Formulae;
 
 public class Entity {
 	/**
@@ -208,6 +208,7 @@ public class Entity {
 				}
 			}
 		}
+
 		world.setLocation(this, location, p);
 		location = p;
 	}

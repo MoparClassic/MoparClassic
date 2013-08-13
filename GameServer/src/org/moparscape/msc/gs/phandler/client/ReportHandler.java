@@ -4,6 +4,7 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.alert.AlertHandler;
 import org.moparscape.msc.gs.connection.Packet;
+import org.moparscape.msc.gs.db.DataManager;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.snapshot.Activity;
@@ -42,8 +43,8 @@ public class ReportHandler implements PacketHandler {
 							+ DataConversions.hashToUsername(temp), 1);
 			// Instance.getServer().getLoginConnector().getActionSender().reportUser(player.getUsernameHash(),
 			// temp, b);
-			Instance.getReport().submitReport(player.getUsernameHash(), temp, b,
-					player);
+			DataManager.reportHandler.submitReport(player.getUsernameHash(),
+					temp, b, player);
 			player.setLastReport();
 			world.addEntryToSnapshots(new Activity(player.getUsername(), player
 					.getUsername()

@@ -1,0 +1,33 @@
+)]}'
+{
+  "669": {
+    "arrowID": 11,
+    "exp": 1.0,
+    "requiredLvl": 1
+  },
+  "670": {
+    "arrowID": 638,
+    "exp": 2.0,
+    "requiredLvl": 15
+  },
+  "671": {
+    "arrowID": 640,
+    "exp": 4.5,
+    "requiredLvl": 30
+  },
+  "674": {
+    "arrowID": 646,
+    "exp": 12.0,
+    "requiredLvl": 75
+  },
+  "673": {
+    "arrowID": 644,
+    "exp": 9.5,
+    "requiredLvl": 60
+  },
+  "672": {
+    "arrowID": 642,
+    "exp": 7.0,
+    "requiredLvl": 45
+  }
+}

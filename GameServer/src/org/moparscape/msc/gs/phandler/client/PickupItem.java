@@ -1,14 +1,13 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.config.Formulae;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.ls.MiscPacketBuilder;
+import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.Packet;
-import org.moparscape.msc.gs.db.DBConnection;
+import org.moparscape.msc.gs.db.DataManager;
 import org.moparscape.msc.gs.event.FightEvent;
 import org.moparscape.msc.gs.event.WalkToPointEvent;
-import org.moparscape.msc.gs.model.ActiveTile;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;
@@ -16,6 +15,7 @@ import org.moparscape.msc.gs.model.Npc;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.states.Action;
@@ -108,7 +108,8 @@ public class PickupItem implements PacketHandler {
 						owner.resetAll();
 						InvItem invItem = new InvItem(item.getID(), item
 								.getAmount());
-						if (!owner.getInventory().canHold(invItem)) {
+						if (!owner.getInventory().canHold(invItem.id,
+								invItem.amount)) {
 							owner.getActionSender()
 									.sendMessage(
 											"You cannot pickup this item, your inventory is full!");
@@ -169,13 +170,14 @@ public class PickupItem implements PacketHandler {
 								+ item.getX() + "/" + item.getY()));
 						if (item.getAmount() > 10000000
 								|| Formulae.isRareItem(item.getID()))
-							DBConnection.getReport().submitDupeData(
+							DataManager.reportHandler.submitDupeData(
 									owner.getUsername(),
 									owner.getUsernameHash());
 
 						world.unregisterItem(item);
 						owner.getActionSender().sendSound("takeobject");
-						owner.getInventory().add(invItem);
+						owner.getInventory().add(invItem.id, invItem.amount,
+								false);
 						owner.getActionSender().sendInventory();
 					}
 				});

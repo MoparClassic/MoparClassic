@@ -1,13 +1,15 @@
 package org.moparscape.msc.ls.model;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.ls.Server;
-import org.moparscape.msc.ls.packetbuilder.loginserver.MiscPacketBuilder;
+import org.moparscape.msc.ls.packetbuilder.gameserver.MiscPacketBuilder;
+import org.moparscape.msc.ls.service.FriendsListService;
+import org.moparscape.msc.ls.service.UIDTracker;
+import org.moparscape.msc.ls.util.Config;
 import org.moparscape.msc.ls.util.DataConversions;
 
 public class World {
@@ -67,22 +69,15 @@ public class World {
 		return players.containsKey(user);
 	}
 
-	public void registerPlayer(long user, String ip) {
-		Server server = Server.getServer();
+	public void registerPlayer(long user, String ip, String UID) {
 		try {
 			long owner = Server.storage.getOwner(user);
-
-			List<Long> friends = Server.storage.getFriendsOnline(user);
-			if (friends != null)
-				for (long friend : friends) {
-					World w = server.findWorld(friend);
-					if (w != null) {
-						w.getActionSender().friendLogin(friend, user, id);
-					}
-				}
+			players.put(user, owner);
+			getSave(user).UID = UID;
+			UIDTracker.activate(UID);
 			Server.storage.logLogin(user, ip);
 			Server.storage.logIn(ip, user);
-			players.put(user, owner);
+			FriendsListService.logon(user);
 			System.out.println("Added " + DataConversions.hashToUsername(user)
 					+ " to world " + id);
 		} catch (Exception e) {
@@ -99,13 +94,14 @@ public class World {
 	}
 
 	public void unregisterPlayer(long user) {
-		for (World w : Server.getServer().getWorlds()) {
-			w.getActionSender().friendLogout(user);
-		}
+		FriendsListService.logoff(user);
+		UIDTracker.deactivate(getSave(user).UID);
 		players.remove(user);
+		if (!Config.CACHE_PROFILES) {
+			unassosiateSave(getSave(user));
+		}
 		System.out.println("Removed " + DataConversions.hashToUsername(user)
 				+ " from world " + id);
-		Server.storage.setOnlineFlag(id, user);
 	}
 
 }

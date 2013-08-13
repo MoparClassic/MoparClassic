@@ -34,4 +34,9 @@ public class Activity extends Snapshot {
 	public String getActivity() {
 		return activity;
 	}
+
+	@Override
+	public String toString() {
+		return activity;
+	}
 }

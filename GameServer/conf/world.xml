@@ -2,19 +2,15 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<comment>MoparClassic Config</comment>
-	<entry key="version">39</entry>
+	<entry key="version">40</entry>
 	<entry key="ip">localhost</entry>
 	<entry key="port">43595</entry>
 	<entry key="name">Moparscape Classic</entry>
 	<entry key="location">USA</entry>
 	<entry key="maxplayers">800</entry>
-	<entry key="servernum">1</entry>
+	<entry key="world-id">1</entry>
 	<entry key="lsip">localhost</entry>
 	<entry key="lsport">34526</entry>
-	<entry key="mysqluser">mc</entry>
-	<entry key="mysqlpass"></entry>
-	<entry key="mysqlhost">localhost</entry>
-	<entry key="mysqldb">moparclassic</entry>
 
 	<entry key="members">false</entry>
 	<entry key="f2pwildy">true</entry>
@@ -33,7 +29,7 @@
 	<!-- The amount of time (in ms) that a player must stand still in the wild 
 		(without being in combat) before they can log out. The message will say they 
 		must wait x seconds. -->
-	<entry key="wild-stand-still-time">10000</entry>
+	<entry key="wild-stand-still-time">0</entry>
 
 	<!-- If true, a message will be sent to all online players when someone 
 		reaches the max level for a skill -->
@@ -44,16 +40,13 @@
 	<entry key="mods">None</entry>
 	<entry key="admins">None</entry>
 
-	<entry key="ip-ban-removal-delay">1800000</entry>
+	<entry key="ip-ban-removal-delay">60000</entry>
 	<entry key="os-level-blocking">false</entry>
 	<entry key="os-level-block-command">sudo route add -host ${ip} reject</entry>
 	<entry key="os-level-unblock-command">sudo route del -host ${ip} reject</entry>
-	<entry key="application-level-blocking">true</entry>
 
-	<!-- Alert when someone is throttled at the application-level -->
-	<entry key="application-level-blocking-throttle-alert">false</entry>
-	<!-- Alert when someone is throttled at the os-level -->
-	<entry key="os-level-blocking-throttle-alert">true</entry>
+	<!-- Alert when someone's connections are throttled -->
+	<entry key="throttle-alert">false</entry>
 	<!-- Alert when unblocking at the os-level fails -->
 	<entry key="os-level-blocking-unblock-failed-alert">true</entry>
 
@@ -64,7 +57,7 @@
 	<entry key="connection-throttle">5</entry>
 	<!-- The amount of time (in ms) after a connection is closed that the count 
 		is kept. This is used to throttle spam logging. -->
-	<entry key="connection-throttle-remove-delay">180000</entry>
+	<entry key="connection-throttle-remove-delay">10000</entry>
 
 	<!-- Every 100 minutes -->
 	<entry key="garbage-collect-interval">6000000</entry>
@@ -78,7 +71,33 @@
 	<entry key="alert-config">conf/alert-config.xml</entry>
 	<!-- Location of configuration file for commands -->
 	<entry key="command-config">conf/command-config.xml</entry>
-	
+
 	<!-- The class that should be used for the DataStore -->
-	<entry key="data-store">org.moparscape.msc.gs.persistence.impl.XMLUsingXStream</entry>
+	<entry key="data-store">org.moparscape.msc.gs.persistence.impl.JsonDataStore</entry>
+
+	<!-- The amount of packets per second before the user is disconnected. -->
+	<entry key="packet-per-second-threshold">30</entry>
+	<!-- Alert when someone has broken the threshold? -->
+	<entry key="packet-per-second-alert">false</entry>
+
+	<!-- The afk timeout in minutes -->
+	<entry key="afk-timeout">5</entry>
+
+	<!-- The DataService implementation that should be used. -->
+	<entry key="data-service">org.moparscape.msc.gs.db.impl.NIODataService</entry>
+	<!-- The ReportHandler implementation that should be used. -->
+	<entry key="report-handler">org.moparscape.msc.gs.db.impl.DropReportHandler</entry>
+
+	<!-- This is displayed on login. Each line will be sent as a new message. Make sure you're using XML entities for things like <, new lines, etc. -->
+	<entry key="MOTD">@yel@Welcome to MoparClassic Beta!&#10;@red@Report all bugs on GitHub.&#10;@cya@Commands: ::town &lt;townname>, ::item &lt;id>, ::say &lt;msg>, ::goto &lt;name></entry>
+
+	<!-- This is the location of the captcha dictionary -->
+	<entry key="captcha-dictionary">conf/data/dictionary.txt</entry>
+	<!-- This is the directory that contains the fonts -->
+	<entry key="font-dir">conf/fonts</entry>
+	
+	<!-- The directory to save logs in. -->
+	<entry key="log-dir">logs</entry>
+	<!-- The interval in which to save logs, in minutes. -->
+	<entry key="batch-log-interval">1</entry>
 </properties>
