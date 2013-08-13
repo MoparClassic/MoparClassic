@@ -16,4 +16,6 @@ build
 !.gitattributes
 lib_managed
 doc
-
+LoginServer/players
+LoginServer/logs
+GameServer/logs
