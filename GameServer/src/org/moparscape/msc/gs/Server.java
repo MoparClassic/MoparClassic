@@ -21,6 +21,8 @@ import org.moparscape.msc.gs.core.LoginConnector;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.SingleEvent;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.phandler.local.Command;
+import org.moparscape.msc.gs.phandler.local.CommandHandler;
 import org.moparscape.msc.gs.util.Logger;
 
 /**
@@ -60,11 +62,10 @@ public class Server {
 		server = new Server();
 		Instance.dataStore().dispose();
 		try (Scanner scan = new Scanner(System.in)) {
+			CommandHandler handler = new CommandHandler();
 			String command;
 			while ((command = scan.nextLine()) != null) {
-				if (command.equalsIgnoreCase("exit")) {
-					System.exit(0);
-				}
+				handler.handle(new Command(command));
 			}
 		}
 	}
