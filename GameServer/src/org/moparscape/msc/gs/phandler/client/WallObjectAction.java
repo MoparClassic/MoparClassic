@@ -51,11 +51,7 @@ public class WallObjectAction implements PacketHandler {
 					+ " used a door ("
 					+ object.getID()
 					+ ") at: " + player.getX() + "/" + player.getY()));
-			System.out.println("id = " + object.getID() + " type = "
-					+ object.getType());
-			System.out.println("dir = " + object.getDirection() + " type = "
-					+ object.getType());
-
+			
 			player.setStatus(Action.USING_DOOR);
 			Instance.getDelayedEventHandler()
 					.add(new WalkToPointEvent(player, object.getLocation(), 1,

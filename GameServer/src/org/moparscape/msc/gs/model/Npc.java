@@ -17,6 +17,7 @@ import org.moparscape.msc.gs.model.landscape.ActiveTile;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
+import org.moparscape.msc.gs.util.Logger;
 
 public class Npc extends Mob {
 
@@ -375,7 +376,7 @@ public class Npc extends Mob {
 			} catch (NullPointerException e) {
 				// -1 is designated for only adding weight
 				if (drop.id != -1) {
-					System.out.println("Invalid drop id " + drop.id);
+					Logger.println("Invalid drop id " + drop.id + " for NPC id " + this.id);
 				}
 			}
 			total += drop.getWeight();

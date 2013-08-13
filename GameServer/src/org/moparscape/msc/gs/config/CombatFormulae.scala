@@ -18,10 +18,6 @@ object CombatFormulae {
 	}
 
 	private def maxHit(a : Mob) = {
-		if (a.isInstanceOf[Player]) {
-			println(a.getCombatStyle)
-			println("Max hit = " + (strength(a) * ((a.getWeaponPowerPoints * 0.00175) + 0.1) + 1.05))
-		}
 		(strength(a) * ((a.getWeaponPowerPoints * 0.00175) + 0.1) + 1.05).toInt
 	}
 

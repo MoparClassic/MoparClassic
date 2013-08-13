@@ -74,13 +74,6 @@ class ProjectilePath(xi : Int, yi : Int, xf : Int, yf : Int) {
 		val b = t.mapValue
 
 		if ((face & b) != 0) {
-			println(t.horizontalWallVal & 0xFF)
-			println(t.verticalWallVal & 0xFF)
-			println(x -> y)
-			println(b)
-			println(face & b)
-			println(t.overlay)
-			println("===")
 			if ((dir == 1 || dir == 3) && !allowedWallTypes(0).contains(t.horizontalWallVal & 0xFF)) return false
 			if ((dir == 2 || dir == 3) && !allowedWallTypes(0).contains(t.verticalWallVal & 0xFF)) return false
 		}

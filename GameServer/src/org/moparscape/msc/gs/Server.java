@@ -3,6 +3,7 @@ package org.moparscape.msc.gs;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 
 import org.apache.mina.common.IoAcceptor;
@@ -58,6 +59,14 @@ public class Server {
 
 		server = new Server();
 		Instance.dataStore().dispose();
+		try (Scanner scan = new Scanner(System.in)) {
+			String command;
+			while ((command = scan.nextLine()) != null) {
+				if (command.equalsIgnoreCase("exit")) {
+					System.exit(0);
+				}
+			}
+		}
 	}
 
 	private static Server server;
