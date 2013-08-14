@@ -145,6 +145,7 @@ public class AttackHandler implements PacketHandler {
 										"underattack");
 								affectedPlayer.getActionSender().sendMessage(
 										"You are under attack!");
+								owner.setSkulledOn(affectedPlayer);
 							}
 							affectedMob.resetPath();
 
@@ -255,6 +256,7 @@ public class AttackHandler implements PacketHandler {
 									affectedPlayer.getNpc().unblock();
 									affectedPlayer.setNpc(null);
 								}
+								owner.setSkulledOn(affectedPlayer);
 							}
 							if (Formulae.getRangeDirection(owner, affectedMob) != -1)
 								owner.setSprite(Formulae.getRangeDirection(
