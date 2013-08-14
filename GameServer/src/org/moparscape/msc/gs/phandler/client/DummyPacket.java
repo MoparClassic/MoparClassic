@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs.phandler.client;
 
 import org.apache.mina.common.IoSession;
-import org.moparscape.msc.gs.builders.RSCPacketBuilder;
+import org.moparscape.msc.gs.builders.client.RSCPacketBuilder;
 import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.model.Player;

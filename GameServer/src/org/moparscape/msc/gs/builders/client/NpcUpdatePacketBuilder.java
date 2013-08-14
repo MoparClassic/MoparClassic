@@ -1,4 +1,4 @@
-package org.moparscape.msc.gs.builders;
+package org.moparscape.msc.gs.builders.client;
 
 import java.util.ConcurrentModificationException;
 import java.util.List;

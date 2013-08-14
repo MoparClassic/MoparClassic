@@ -1,4 +1,4 @@
-package org.moparscape.msc.gs.builders;
+package org.moparscape.msc.gs.builders.client;
 
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.core.LoginConnector;

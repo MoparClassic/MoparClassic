@@ -1,4 +1,4 @@
-package org.moparscape.msc.gs.builders;
+package org.moparscape.msc.gs.builders.client;
 
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.util.Logger;
