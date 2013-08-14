@@ -15,7 +15,7 @@ import java.util.Random
 
 class JSONStorageMedium extends StorageMedium {
 
-  private val gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
+  private val gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
     .generateNonExecutableJson.create
 
   private val playerDir = new File("players")

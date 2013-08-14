@@ -12,6 +12,8 @@ import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.util.Logger;
 
+import akka.actor.ActorRef;
+
 /**
  * Handles the protocol events fired from MINA.
  */
@@ -49,7 +51,6 @@ public class RSCConnectionHandler implements IoHandler {
 		session.close();
 	}
 
-	@SuppressWarnings("deprecation")
 	public void messageReceived(IoSession session, Object message) {
 		Player player = (Player) session.getAttachment();
 		if (session.isClosing() || player.destroyed()) {
@@ -60,7 +61,7 @@ public class RSCConnectionHandler implements IoHandler {
 		if (p.getID() == 55)
 			player.addInterval();
 
-		Instance.loggingService().tell(p);
+		Instance.loggingService().tell(p, ActorRef.noSender());
 
 		packets.add(p);
 	}
