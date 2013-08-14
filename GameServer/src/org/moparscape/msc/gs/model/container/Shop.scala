@@ -83,6 +83,13 @@ class Shop(val name : String, val greeting : String,
 		}
 	}
 
+	def equilibriumCount(id : Int) = {
+		equilibrium.find(_._1 == id) match {
+			case Some(x) => x._2
+			case None => -1
+		}
+	}
+
 	def withinShop(p : Point) = {
 		p.getX >= min.getX && p.getX <= max.getX &&
 			p.getY >= min.getY && p.getY <= max.getY
