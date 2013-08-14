@@ -4,14 +4,23 @@ import java.util.Properties
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
+/**
+ * Helps new users generate custom config files for their server.
+ *
+ * @author Joe Pritzel
+ */
 object ConfigGenerator extends App {
+
+	// Find directories
 	val projectRoot = new File(".").getAbsoluteFile.getParentFile
 	val gsConfig = new File(projectRoot, "GameServer" + File.separator + "conf" + File.separator + "world.xml")
 	val lsConfig = new File(projectRoot, "LoginServer" + File.separator + "conf" + File.separator + "Config.xml")
 
+	// Confirm directories exist
 	if (!gsConfig.exists) throw new FileNotFoundException("Can't find the GS config at " + gsConfig.getAbsoluteFile)
 	if (!lsConfig.exists) throw new FileNotFoundException("Can't find the LS config at " + lsConfig.getAbsoluteFile)
 
+	// Instructions
 	println("Respond to statements with true or false.")
 	println("When asked to enter a message, use XML friendly characters")
 	println("&#10; is a new line, &lt; is the less than sign, etc.")
@@ -31,12 +40,18 @@ object ConfigGenerator extends App {
 		new Entry("How long is the afk timeout, in minutes?", "afk-timeout"),
 		new Entry("What is the MOTD?", "MOTD")
 	)).generate
+
 	new ConfigGenerator(lsConfig, Array(
 		new Entry("You allow multi-logging.", "allow-multilogging"),
 		new Entry("You want the LS to cache saves.", "cache-saves"))
 	).generate
 }
 
+/**
+ * Generates a config file based on the entries provided.
+ *
+ * @author Joe Pritzel
+ */
 private class ConfigGenerator(config : File, entries : Array[Entry]) {
 
 	def generate {
@@ -62,4 +77,9 @@ private class ConfigGenerator(config : File, entries : Array[Entry]) {
 	}
 }
 
+/**
+ * Represents an entry in the XML file.
+ *
+ * @author Joe Pritzel
+ */
 private class Entry(val question : String, val id : String, var value : String = "")
