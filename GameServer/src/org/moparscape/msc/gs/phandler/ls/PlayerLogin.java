@@ -2,7 +2,7 @@ package org.moparscape.msc.gs.phandler.ls;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.builders.client.RSCPacketBuilder;
+import org.moparscape.msc.gs.builders.RSCPacketBuilder;
 import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.model.InvItem;

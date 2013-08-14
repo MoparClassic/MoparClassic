@@ -1,4 +1,4 @@
-package org.moparscape.msc.gs.builders.client;
+package org.moparscape.msc.gs.builders;
 
 import org.moparscape.msc.gs.connection.RSCPacket;
 

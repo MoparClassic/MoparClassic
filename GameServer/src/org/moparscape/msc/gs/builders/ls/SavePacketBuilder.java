@@ -1,6 +1,5 @@
 package org.moparscape.msc.gs.builders.ls;
 
-import org.moparscape.msc.gs.builders.client.LSPacketBuilder;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
