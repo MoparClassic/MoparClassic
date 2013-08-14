@@ -13,7 +13,7 @@ object DialogService {
 	addMapping(33, new Apothecary)
 	addMapping(164, new BananaExchange)
 
-	addMapping(Array(95, 224, 268, 485, 540, 617, 792), new Banker(null, null))
+	addMapping(Array(95, 224, 268, 485, 540, 617, 792), new Banker)
 
 	addMapping(142, new Barmaid)
 	addMapping(176, new BrotherJered)
