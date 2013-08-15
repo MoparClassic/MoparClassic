@@ -168,7 +168,7 @@ public class PlayerLogin implements PacketHandler {
 			player.updateViewedPlayers();
 			player.updateViewedObjects();
 
-			org.moparscape.msc.gs.builders.MiscPacketBuilder sender = player
+			org.moparscape.msc.gs.builders.client.MiscPacketBuilder sender = player
 					.getActionSender();
 			sender.sendServerInfo();
 			sender.sendFatigue();

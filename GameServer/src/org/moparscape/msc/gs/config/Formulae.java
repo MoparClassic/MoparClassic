@@ -945,73 +945,115 @@ public class Formulae {
 	 * @return the item's calculated price of value
 	 */
 	public static int getPrice(InvItem i, Shop shop, boolean buy) {
-		if (buy)
-			return i.getDef().getBasePrice();
-		else
-			return i.getDef().getBasePrice() / 2;
-		/*
-		 * final double GENERAL_STORE_BUY_MODIFIER = 0.685;
-		 * 
-		 * int newPrice = -1; // the newly given price. boolean playerSoldItem =
-		 * false; // If true, there is no base quantity (a // player has sold
-		 * this item to general // store) int curAmount = i.getAmount(); //
-		 * current quantity the selected item has int maxStockAmount =
-		 * shop.getEquilibrium(i.getID()); // the base // quantity of // the
-		 * selected // shop item (if // has one)
-		 * 
-		 * if (maxStockAmount == 0 && shop.isGeneral()) playerSoldItem = true;
-		 * // This item is an item that has no base // quantity, was sold by a
-		 * player in general // store
-		 * 
-		 * if (buy) { // Decide if this item is being brought if (maxStockAmount
-		 * == 0 && !shop.isGeneral()) // this should not // happen return
-		 * 999999999; // rofl error price if (playerSoldItem) { // General
-		 * store, no maximum quantity for a // player sold item. (requires
-		 * different // calculations) // cost 15% more buying a 3rd party item
-		 * from a general store int basePrice = shop.isGeneral() ?
-		 * i.getDef().basePrice + (int) (i.getDef().basePrice * 0.15) :
-		 * i.getDef().basePrice; if (basePrice > 10000) // forget any items that
-		 * are worth past // 10k return basePrice; if (curAmount > 28) // after
-		 * 28 quantity from a player sold // item, stick to a static price
-		 * newPrice = basePrice - (int) (basePrice *
-		 * GENERAL_STORE_BUY_MODIFIER); else { // do calculations to decide a
-		 * price depending on the // quantity newPrice = basePrice - (int)
-		 * (curAmount * 5); if (newPrice < basePrice - (int) (basePrice *
-		 * GENERAL_STORE_BUY_MODIFIER)) newPrice = basePrice - (int) (basePrice
-		 * * GENERAL_STORE_BUY_MODIFIER); } } else { // Has a base quantity if
-		 * (curAmount >= maxStockAmount) // leave base price is full // stock is
-		 * avaliable newPrice = i.getDef().basePrice; else // 75-100% quantity
-		 * is in stock if (curAmount > maxStockAmount * 0.75 && curAmount <
-		 * maxStockAmount) newPrice = i.getDef().basePrice + (int)
-		 * (i.getDef().basePrice * getShopPercentage( i, 0, true)); else //
-		 * 50-75% quantity is in stock if (curAmount > maxStockAmount * 0.50 &&
-		 * curAmount <= maxStockAmount * 0.75) newPrice = i.getDef().basePrice +
-		 * (int) (i.getDef().basePrice * getShopPercentage( i, 1, true)); else
-		 * // 25-50% quantity is in stock if (curAmount > maxStockAmount * 0.25
-		 * && curAmount <= maxStockAmount * 0.50) newPrice =
-		 * i.getDef().basePrice + (int) (i.getDef().basePrice *
-		 * getShopPercentage( i, 2, true)); else // 0-25% quantity is in stock
-		 * if (curAmount > maxStockAmount * 0.0 && curAmount <= maxStockAmount *
-		 * 0.25) newPrice = i.getDef().basePrice + (int) (i.getDef().basePrice *
-		 * getShopPercentage( i, 3, true)); } if (newPrice == -1) return
-		 * 99999999; // error? return newPrice; } else { // Sell if (i.getID()
-		 * == 117) Logging.debug("Current stock: " + curAmount); int base =
-		 * i.getDef().basePrice - (int) (i.getDef().basePrice / 2.5); // Sell
-		 * price is 125% // lower than base // price to begin // with if
-		 * (shop.isGeneral()) // 3rd party item (player sold) base = base -
-		 * (int) (base * 0.10); // 10% less value, if general // store.
-		 * 
-		 * if (curAmount < 1) return base;
-		 * 
-		 * int price; // new price if (curAmount > 12) { price = base - (int)
-		 * (base * 0.75); // 75% loss (believe it or // not, thats how it was) }
-		 * else { price = base;
-		 * 
-		 * if (curAmount > 1) price = base - (int) (curAmount * (base * 0.045));
-		 * if (price < base - (int) (base * 0.75)) base = base - (int) (base *
-		 * 0.75); } if (price < 1) // should not happen return 0; // error price
-		 * else return price; }
-		 */
+		final double GENERAL_STORE_BUY_MODIFIER = 0.685;
+
+		int newPrice = -1; // the newly given price.
+		boolean playerSoldItem = false; // If true, there is no base quantity (a
+										// // player has sold this item to
+										// general // store)
+		int curAmount = i.amount; // current quantity the selected item has
+		int maxStockAmount = shop.equilibriumCount(i.id);// the base // quantity
+															// of // the
+															// selected // shop
+															// item (if // has
+															// one)
+
+		if (maxStockAmount == 0 && shop.general())
+			playerSoldItem = true;
+		// This item is an item that has no base // quantity, was sold by a
+		// player in general // store
+
+		if (buy) { // Decide if this item is being brought
+			if (maxStockAmount == 0 && !shop.general()) // this should not //
+														// happen
+				return 999999999; // rofl error price
+			if (playerSoldItem) { // General store, no maximum quantity for a //
+									// player sold item. (requires different //
+									// calculations) // cost 15% more buying a
+									// 3rd party item
+				// from a general store
+				int basePrice = shop.general() ? i.getDef().basePrice
+						+ (int) (i.getDef().basePrice * 0.15)
+						: i.getDef().basePrice;
+				if (basePrice > 10000) // forget any items that are worth past
+										// // 10k
+					return basePrice;
+				if (curAmount > 28) // after 28 quantity from a player sold //
+									// item, stick to a static price
+					newPrice = basePrice
+							- (int) (basePrice * GENERAL_STORE_BUY_MODIFIER);
+				else { // do calculations to decide a price depending on the //
+						// quantity
+					newPrice = basePrice - (int) (curAmount * 5);
+					if (newPrice < basePrice
+							- (int) (basePrice * GENERAL_STORE_BUY_MODIFIER))
+						newPrice = basePrice
+								- (int) (basePrice * GENERAL_STORE_BUY_MODIFIER);
+				}
+			} else { // Has a base quantity
+				if (curAmount >= maxStockAmount) // leave base price is full //
+													// stock isavaliable
+					newPrice = i.getDef().basePrice;
+				else // 75-100% quantity is in stock
+				if (curAmount > maxStockAmount * 0.75
+						&& curAmount < maxStockAmount)
+					newPrice = i.getDef().basePrice
+							+ (int) (i.getDef().basePrice * getShopPercentage(
+									i, 0, true));
+				else // 50-75% quantity is in stock
+				if (curAmount > maxStockAmount * 0.50
+						&& curAmount <= maxStockAmount * 0.75)
+					newPrice = i.getDef().basePrice
+							+ (int) (i.getDef().basePrice * getShopPercentage(
+									i, 1, true));
+				else
+				// 25-50% quantity is in stock
+				if (curAmount > maxStockAmount * 0.25
+						&& curAmount <= maxStockAmount * 0.50)
+					newPrice = i.getDef().basePrice
+							+ (int) (i.getDef().basePrice * getShopPercentage(
+									i, 2, true));
+				else // 0-25% quantity is in stock
+				if (curAmount > maxStockAmount * 0.0
+						&& curAmount <= maxStockAmount * 0.25)
+					newPrice = i.getDef().basePrice
+							+ (int) (i.getDef().basePrice * getShopPercentage(
+									i, 3, true));
+			}
+			if (newPrice == -1)
+				return 99999999; // error?
+			return newPrice;
+		} else { // Sell
+			int base = i.getDef().basePrice
+					- (int) (i.getDef().basePrice / 2.5); // Sell price is 125%
+															// // lower than
+															// base // price to
+															// begin // with
+			if (shop.general()) // 3rd party item (player sold)
+				base = base - (int) (base * 0.10); // 10% less value, if general
+													// // store.
+
+			if (curAmount < 1)
+				return base;
+
+			int price; // new price
+			if (curAmount > 12) {
+				price = base - (int) (base * 0.75); // 75% loss (believe it or
+													// // not, thats how it was)
+			} else {
+				price = base;
+
+				if (curAmount > 1)
+					price = base - (int) (curAmount * (base * 0.045));
+				if (price < base - (int) (base * 0.75))
+					base = base - (int) (base * 0.75);
+			}
+			if (price < 1) // should not happen
+				return 0; // error price
+			else
+				return price;
+		}
+
 	}
 
 	public static int getRangeDirection(Mob you, Mob them) {

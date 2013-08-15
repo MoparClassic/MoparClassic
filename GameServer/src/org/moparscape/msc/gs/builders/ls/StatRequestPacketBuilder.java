@@ -1,7 +1,6 @@
 package org.moparscape.msc.gs.builders.ls;
 
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.builders.LSPacketBuilder;
 import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.model.World;

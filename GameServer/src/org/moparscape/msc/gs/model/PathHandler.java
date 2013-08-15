@@ -154,7 +154,7 @@ public class PathHandler {
 	}
 
 	private boolean isBlocking(byte val, byte bit) {
-		if (path.isNoClip())
+		if (path != null && path.isNoClip())
 			return false;
 
 		if ((val & bit) != 0) { // There is a wall in the way
@@ -172,8 +172,8 @@ public class PathHandler {
 		return false;
 	}
 
-	private boolean isBlocking(int x, int y, int bit) {
-		if (path.isNoClip())
+	public boolean isBlocking(int x, int y, int bit) {
+		if (path != null && path.isNoClip())
 			return false;
 		if (mob instanceof Player) {
 			Player p = (Player) mob;

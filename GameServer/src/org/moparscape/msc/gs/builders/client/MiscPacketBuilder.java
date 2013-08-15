@@ -1,4 +1,4 @@
-package org.moparscape.msc.gs.builders;
+package org.moparscape.msc.gs.builders.client;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.builders.RSCPacketBuilder;
 import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.config.Constants;
 import org.moparscape.msc.gs.config.Formulae;

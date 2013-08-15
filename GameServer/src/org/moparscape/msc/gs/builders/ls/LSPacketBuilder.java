@@ -1,5 +1,6 @@
-package org.moparscape.msc.gs.builders;
+package org.moparscape.msc.gs.builders.ls;
 
+import org.moparscape.msc.gs.builders.StaticPacketBuilder;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.core.LoginConnector;
 import org.moparscape.msc.gs.phandler.PacketHandler;

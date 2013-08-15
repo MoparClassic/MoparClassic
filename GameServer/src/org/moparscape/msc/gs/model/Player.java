@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
-import org.moparscape.msc.gs.builders.MiscPacketBuilder;
+import org.moparscape.msc.gs.builders.client.MiscPacketBuilder;
 import org.moparscape.msc.gs.builders.ls.SavePacketBuilder;
 import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.config.Formulae;

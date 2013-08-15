@@ -12,6 +12,7 @@ import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Npc;
+import org.moparscape.msc.gs.model.PathHandler;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.Point;
 import org.moparscape.msc.gs.model.World;
@@ -75,7 +76,18 @@ public class PickupItem implements PacketHandler {
 		}
 
 		player.setStatus(Action.TAKING_GITEM);
-		int distance = tile.hasGameObject() ? 1 : 0;
+		boolean blocked = false;
+		try {
+			PathHandler pa = new PathHandler(player);
+			for (int i : new int[] { 1, 2, 4, 8 }) {
+				if (pa.isBlocking(location.getX(), location.getY(), i)) {
+					blocked = true;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		int distance = blocked ? 1 : 0;
 		Instance.getDelayedEventHandler().add(
 				new WalkToPointEvent(player, location, distance, true) {
 					public void arrived() {

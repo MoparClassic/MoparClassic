@@ -1,8 +1,9 @@
-package org.moparscape.msc.gs.builders;
+package org.moparscape.msc.gs.builders.client;
 
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
+import org.moparscape.msc.gs.builders.RSCPacketBuilder;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.model.ChatMessage;
 import org.moparscape.msc.gs.model.Npc;
