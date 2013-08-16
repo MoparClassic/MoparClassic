@@ -19,3 +19,4 @@ doc
 LoginServer/players
 LoginServer/logs
 GameServer/logs
+LoginServer/conf/reddit.xml
