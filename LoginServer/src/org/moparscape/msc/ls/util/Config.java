@@ -25,6 +25,8 @@ public class Config {
 
 	public static boolean CACHE_PROFILES;
 
+	public static boolean USE_REDDIT;
+
 	static {
 		loadEnv();
 	}
@@ -63,6 +65,8 @@ public class Config {
 		CACHE_PROFILES = Boolean.parseBoolean(props.getProperty("cache-saves",
 				"true"));
 		props.clear();
+		USE_REDDIT = Boolean.parseBoolean(props.getProperty("use-reddit",
+				"false"));
 	}
 
 	/**

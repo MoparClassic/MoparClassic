@@ -15,4 +15,5 @@
 	<entry key="auth-meta-data"></entry>
 	<entry key="allow-multilogging">true</entry>
 	<entry key="cache-saves">false</entry>
+	<entry key="use-reddit">false</entry>
 </properties>
