@@ -23,29 +23,32 @@ object RedditTasks {
 	val queue = Queue[Request]()
 
 	val timer = new Timer
-	timer.schedule(new TimerTask {
+	def getTask : TimerTask = new TimerTask {
 		override def run {
-			if (queue.size > 0) {
+			try {
 				val r = queue.dequeue
 				r.run
-				timer.schedule(this, 2000 * r.requests)
-			} else {
-				timer.schedule(this, 2000)
+				timer.schedule(getTask, 2000 * r.requests)
+			} catch {
+				case e : Exception =>
+					timer.schedule(getTask, 2000)
 			}
 
 		}
-	}, 2000)
+	}
+
+	timer.schedule(getTask, 2000)
 
 	val creds = RedditCredentials.credentials
-	val api = "http://www.reddit.com/api/"
+	val reddit = "http://www.reddit.com/"
+	val client = new DefaultHttpClient
 
 	def start {
-		val client = new DefaultHttpClient()
 		client.getParams.setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY)
 		HttpProtocolParams.setUserAgent(client.getParams, creds.agent)
 
 		queue += new Request(() => {
-			val post = new HttpPost(api + "login")
+			val post = new HttpPost(reddit + "api/login")
 			post.setEntity(new UrlEncodedFormEntity(List(
 				new BasicNameValuePair("api_type", "json"),
 				new BasicNameValuePair("rem", "True"),
@@ -55,8 +58,17 @@ object RedditTasks {
 			EntityUtils.consume(client.execute(post).getEntity)
 		})
 
-		new ThreadChecker(client).run
-		new MessageResponder(client).run
+		val threadChecker = new ThreadChecker
+
+		val responder = new MessageResponder
+
+		timer.scheduleAtFixedRate(new TimerTask {
+			override def run = threadChecker.run
+		}, 0, 60000)
+
+		timer.scheduleAtFixedRate(new TimerTask {
+			override def run = responder.run
+		}, 0, 30000)
 
 	}
 
@@ -66,14 +78,29 @@ class Request(r : () => Unit, val requests : Int = 1) {
 	def run = r()
 }
 
-private abstract class Task(client : HttpClient) {
+class PrivateMessage(modHash : String, name : String, msg : String) extends Task(RedditTasks.client) {
+	override def run {
+		RedditTasks.queue += new Request(() => {
+			var post = new HttpPost(RedditTasks.reddit + "api/comment")
+			post.setEntity(new UrlEncodedFormEntity(List(
+				new BasicNameValuePair("api_type", "json"),
+				new BasicNameValuePair("text", msg),
+				new BasicNameValuePair("thing_id", name),
+				new BasicNameValuePair("uh", modHash)
+			), Consts.UTF_8))
+			EntityUtils.consume(client.execute(post).getEntity)
+		})
+	}
+}
+
+abstract class Task(val client : HttpClient) {
 	def run
 }
 
-private class ThreadChecker(client : HttpClient) extends Task(client) {
+private class ThreadChecker extends Task(RedditTasks.client) {
 	override def run {
 		RedditTasks.queue += new Request(() => {
-			val get = new HttpGet("http://www.reddit.com/r/moparclassic/comments/1kdp1q/get_ready_for_action/.json")
+			val get = new HttpGet(RedditTasks.reddit + "r/moparclassic/comments/1kdp1q/get_ready_for_action/.json")
 			val resp = client.execute(get)
 			val p = new Page(Source.fromInputStream(resp.getEntity.getContent).getLines.mkString)
 
@@ -81,34 +108,25 @@ private class ThreadChecker(client : HttpClient) extends Task(client) {
 				a =>
 					println(a.getTag("author") + " - " + (a.getTag("ups").toInt - a.getTag("downs").toInt))
 			}
+
 		})
 
 	}
 }
 
-private class MessageResponder(client : HttpClient) extends Task(client) {
+private class MessageResponder extends Task(RedditTasks.client) {
 	override def run {
 		RedditTasks.queue += new Request(() => {
-			var get = new HttpGet("http://www.reddit.com/message/unread/.json")
+			var get = new HttpGet(RedditTasks.reddit + "message/unread/.json")
 			val p = new Page(Source.fromInputStream(client.execute(get).getEntity.getContent).getLines.mkString)
+			get = new HttpGet(RedditTasks.reddit + "message/inbox/")
+			EntityUtils.consume(client.execute(get).getEntity)
 			val modHash = p.getModHash
 
 			p.getTopLevelComment("t4").foreach {
 				a =>
-					RedditTasks.queue += new Request(() => {
-						var post = new HttpPost(RedditTasks.api + "comment")
-						post.setEntity(new UrlEncodedFormEntity(List(
-							new BasicNameValuePair("api_type", "json"),
-							new BasicNameValuePair("text", "Here is a unique code: " + CodeService.newCode),
-							new BasicNameValuePair("thing_id", a.getTag("name")),
-							new BasicNameValuePair("uh", modHash)
-						), Consts.UTF_8))
-						EntityUtils.consume(client.execute(post).getEntity)
-					})
+					RedditMessageProcessor.process(modHash, a.getTag("name"), a.getTag("body"), a.getTag("author"))
 			}
-
-			get = new HttpGet("http://www.reddit.com/message/inbox/")
-			EntityUtils.consume(client.execute(get).getEntity)
 		}, 2)
 	}
 }

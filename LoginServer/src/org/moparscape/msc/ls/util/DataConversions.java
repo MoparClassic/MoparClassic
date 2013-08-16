@@ -78,4 +78,24 @@ public class DataConversions {
 		}
 		return l;
 	}
+
+	public static String formatString(String arg0, int arg1) {
+		String s = "";
+		for (int i = 0; i < arg1; i++)
+			if (i >= arg0.length()) {
+				s = s + " ";
+			} else {
+				char c = arg0.charAt(i);
+				if (c >= 'a' && c <= 'z')
+					s = s + c;
+				else if (c >= 'A' && c <= 'Z')
+					s = s + c;
+				else if (c >= '0' && c <= '9')
+					s = s + c;
+				else
+					s = s + '_';
+			}
+
+		return s;
+	}
 }
