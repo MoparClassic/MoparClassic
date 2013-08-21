@@ -10,11 +10,20 @@
 	<entry key="lsport">34526</entry>
 	<entry key="queryip">localhost</entry>
 	<entry key="queryport">8186</entry>
+	<!-- The storage medium that should be used for saving/loading players and 
+		such. -->
 	<entry key="storage-medium">org.moparscape.msc.ls.persistence.impl.JSONStorageMedium</entry>
+	<!-- The type of auth that should be used for authenticating players. -->
 	<entry key="auth-class">org.moparscape.msc.ls.auth.impl.PersistenceAuth</entry>
+	<!-- Any metadata needed for the auth. -->
 	<entry key="auth-meta-data"></entry>
+	<!-- Allow players to multilog. -->
 	<entry key="allow-multilogging">true</entry>
+	<!-- If player saves should be cached. Warning, if you modify the save while 
+		this is enabled, without using the LS, you may run into issues. -->
 	<entry key="cache-saves">false</entry>
+	<!-- If the Reddit module should be used. -->
 	<entry key="use-reddit">true</entry>
+	<!-- If a player should automatically be registered upon login. -->
 	<entry key="auto-register">false</entry>
 </properties>
