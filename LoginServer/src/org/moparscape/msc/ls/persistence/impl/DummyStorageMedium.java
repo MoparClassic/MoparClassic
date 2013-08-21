@@ -123,4 +123,24 @@ class DummyStorageMedium implements StorageMedium {
 
 	}
 
+	@Override
+	public PlayerSave registerPlayer(long user, byte[] pass, String identifier) {
+		PlayerSave save = new PlayerSave(user);
+		save.setLocation(213, 452);
+		save.setAppearance((byte) 2, (byte) 8, (byte) 14, (byte) 0, (byte) 1,
+				(byte) 2, true, 0l);
+		save.pass = pass;
+		save.identifier = identifier;
+
+		int[] exp = new int[Config.statArray.length];
+		Arrays.fill(exp, 1);
+		int[] stats = exp.clone();
+
+		exp[3] = 1200;
+		save.setExp(exp);
+		stats[3] = 10;
+		save.setCurStats(stats);
+		return save;
+	}
+
 }

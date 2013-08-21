@@ -21,6 +21,7 @@ import org.moparscape.msc.ls.packethandler.local.Command;
 import org.moparscape.msc.ls.packethandler.local.CommandHandler;
 import org.moparscape.msc.ls.persistence.StorageMedium;
 import org.moparscape.msc.ls.persistence.impl.StorageMediumFactory;
+import org.moparscape.msc.ls.reddit.RedditTasks;
 import org.moparscape.msc.ls.util.Config;
 
 public class Server {
@@ -69,6 +70,9 @@ public class Server {
 		System.out.println("Storage Medium: "
 				+ storage.getClass().getSimpleName());
 		Server.getServer();
+		if (Config.USE_REDDIT) {
+			RedditTasks.start();
+		}
 		try (Scanner scan = new Scanner(System.in)) {
 			CommandHandler handler = new CommandHandler();
 			String command;

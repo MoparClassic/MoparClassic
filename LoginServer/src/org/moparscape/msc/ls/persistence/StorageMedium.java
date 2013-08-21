@@ -42,4 +42,6 @@ public interface StorageMedium {
 	public void logIn(String ip, long user);
 
 	public byte[] getPass(long user);
+	
+	public PlayerSave registerPlayer(long user, byte[] pass, String identifier);
 }

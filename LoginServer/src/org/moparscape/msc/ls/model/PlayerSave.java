@@ -46,6 +46,7 @@ public class PlayerSave implements Serializable {
 	public String UID;
 
 	private int x, y;
+	public String identifier;
 
 	public PlayerSave(long user) {
 		this.user = user;
