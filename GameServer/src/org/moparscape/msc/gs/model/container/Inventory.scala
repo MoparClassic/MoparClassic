@@ -9,6 +9,18 @@ class Inventory(player : Player) extends Container(30) {
 		case Some(x) => true
 		case None => false
 	}
+	
+	override def add(id : Int, amount : Int = 1, ignoreMaxSize : Boolean = false) : Boolean = {
+		items.synchronized {
+			var itm = items.get
+			if (itm.size == maxSize && !canHold(id, amount)) {
+				player.getActionSender.sendMessage("The item drops to the ground!");
+				Instance.getWorld.registerItem(new Item(id, player.getX,
+						player.getY, amount, player));
+			}
+			super.add(id, amount, ignoreMaxSize)
+		}
+	}
 
 	override def remove(id : Int, amount : Int = 1, ignoreAmount : Boolean = false) : Boolean = {
 		items.synchronized {
