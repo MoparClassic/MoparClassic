@@ -14,17 +14,27 @@ object DialogService {
 	addMapping(164, new BananaExchange)
 
 	addMapping(Array(95, 224, 268, 485, 540, 617, 792), new Banker)
-
+	
+	addMapping(26, new Baraek)
 	addMapping(142, new Barmaid)
 	addMapping(176, new BrotherJered)
 
 	addMapping(Array(225, 226, 227, 466, 467, 299, 778,
 		341, 369, 370, 794, 348, 267, 795, 347), new Certer)
-
+		
+	addMapping(39, new Curator)
+	addMapping(198, new Duke)
 	addMapping(212, new EntranaMonk)
 	addMapping(163, new FromKaramjaToPortSarim)
+	addMapping(78, new Guntor)
+	addMapping(5, new Hans)
 	addMapping(90, new KebabSeller)
 	addMapping(339, new MakeOverMage)
+	
+	addMapping(Array(11, 24, 63, 64, 65, 72, 76, 86, 94,
+		100, 102, 159, 191, 200, 307, 318, 319, 320, 321,
+		322, 323, 324, 342, 351), new Man(null, null))
+	
 	addMapping(93, new MonkHealer(null, null))
 	addMapping(194, new Ned)
 
