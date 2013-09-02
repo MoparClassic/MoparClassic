@@ -47,7 +47,7 @@ public class PacketThrottler extends IoFilterAdapter {
 	/**
 	 * The map of username hashes to packet per second.
 	 */
-	private Map<Long, Integer> playerToPacketCount = new HashMap<Long, Integer>();//new ConcurrentHashMap<Long, Integer>();
+	private Map<Long, Integer> playerToPacketCount = new HashMap<Long, Integer>();
     private final Lock lock = new ReentrantLock();
 
 	private PacketThrottler() {
@@ -74,29 +74,31 @@ public class PacketThrottler extends IoFilterAdapter {
 	public void messageReceived(NextFilter nextFilter, IoSession session,
 			Object message) {
 
-		Player player = (Player) session.getAttachment();
-		if (session.isClosing() || player.destroyed()) {
-			return;
-		}
+        // TODO: FIX ME.
 
-		int count = incrementAndGet(player.getUsernameHash());
-
-		if (count > Config.PACKET_PER_SECOND_THRESHOLD) {
-
-			if (Config.PACKET_PER_SECOND_ALERT) {
-				// If the player is initialized, then use the username,
-				// otherwise use the IP.
-				String s = (player.isInitialized() ? player.getUsername()
-						: player.getCurrentIP())
-						+ " has exceeded the packet per second threshold";
-				// Sends an alert with a priority of 2.
-				AlertHandler.sendAlert(s, 2);
-			}
-
-			// Destroys the user and discards the packet.
-			player.destroy(true);
-			return;
-		}
+//		Player player = (Player) session.getAttachment();
+//		if (session.isClosing() || player.destroyed()) {
+//			return;
+//		}
+//
+//		int count = incrementAndGet(player.getUsernameHash());
+//
+//		if (count > Config.PACKET_PER_SECOND_THRESHOLD) {
+//
+//			if (Config.PACKET_PER_SECOND_ALERT) {
+//				// If the player is initialized, then use the username,
+//				// otherwise use the IP.
+//				String s = (player.isInitialized() ? player.getUsername()
+//						: player.getCurrentIP())
+//						+ " has exceeded the packet per second threshold";
+//				// Sends an alert with a priority of 2.
+//				AlertHandler.sendAlert(s, 2);
+//			}
+//
+//			// Destroys the user and discards the packet.
+//			player.destroy(true);
+//			return;
+//		}
 
 		nextFilter.messageReceived(session, message);
 	}
