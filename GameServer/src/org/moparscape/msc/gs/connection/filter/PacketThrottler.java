@@ -47,7 +47,7 @@ public class PacketThrottler extends IoFilterAdapter {
 	/**
 	 * The map of username hashes to packet per second.
 	 */
-	private Map<Long, Integer> playerToPacketCount = Collections.synchronizedMap(new HashMap<Long, Integer>());//new ConcurrentHashMap<Long, Integer>();
+	private Map<Long, Integer> playerToPacketCount = new HashMap<Long, Integer>();//new ConcurrentHashMap<Long, Integer>();
     private final Lock lock = new ReentrantLock();
 
 	private PacketThrottler() {
