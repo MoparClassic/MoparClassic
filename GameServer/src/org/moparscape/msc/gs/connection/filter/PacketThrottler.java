@@ -1,7 +1,11 @@
 package org.moparscape.msc.gs.connection.filter;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import net.jcip.annotations.ThreadSafe;
 
@@ -43,7 +47,8 @@ public class PacketThrottler extends IoFilterAdapter {
 	/**
 	 * The map of username hashes to packet per second.
 	 */
-	private Map<Long, Integer> playerToPacketCount = new ConcurrentHashMap<Long, Integer>();
+	private Map<Long, Integer> playerToPacketCount = Collections.synchronizedMap(new HashMap<Long, Integer>());//new ConcurrentHashMap<Long, Integer>();
+    private final Lock lock = new ReentrantLock();
 
 	private PacketThrottler() {
 		// Clears the count every second, so we can check the packets per
@@ -52,7 +57,14 @@ public class PacketThrottler extends IoFilterAdapter {
 
 			@Override
 			public void run() {
-				playerToPacketCount.clear();
+//				playerToPacketCount.clear();
+                try {
+                    lock.lock();
+                    playerToPacketCount.clear();
+                }
+                finally {
+                    lock.unlock();
+                }
 			}
 
 		});
@@ -100,9 +112,10 @@ public class PacketThrottler extends IoFilterAdapter {
 
 		// Even though operations are atomic, there are multiple, therefore it
 		// needs to be synchronized.
-		synchronized (playerToPacketCount) {
+        try {
+            lock.lock();
 
-			// If it is null, default to 0
+            // If it is null, default to 0
 			Integer i = playerToPacketCount.get(hash);
 			if (i == null) {
 				count = 1;
@@ -112,7 +125,10 @@ public class PacketThrottler extends IoFilterAdapter {
 
 			// Update/Create entry
 			playerToPacketCount.put(hash, count);
-		}
+        }
+        finally {
+            lock.unlock();
+        }
 
 		return count;
 	}
