@@ -1,7 +1,8 @@
-package org.moparscape.msc.gs.builders;
+package org.moparscape.msc.gs.builders.client;
 
 import java.util.Collection;
 
+import org.moparscape.msc.gs.builders.RSCPacketBuilder;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Player;

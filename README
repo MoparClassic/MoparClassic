@@ -15,6 +15,8 @@ ant run
 
 You're now ready to start accept connections.
 
+You may want to run the ConfigGenerator if you're not familiar with XMl. It will ask you a series of questions to help customize the config files for you. It will then replace the current config files with the one's you've generated.
+
 Modules
 ========
 To compile modules go in the module's directory and run the following command--

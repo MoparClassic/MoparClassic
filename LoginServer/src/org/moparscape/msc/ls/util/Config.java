@@ -25,6 +25,10 @@ public class Config {
 
 	public static boolean CACHE_PROFILES;
 
+	public static boolean USE_REDDIT;
+
+	public static boolean AUTO_REGISTER;
+
 	static {
 		loadEnv();
 	}
@@ -62,6 +66,10 @@ public class Config {
 				"allow-multilogging", "true"));
 		CACHE_PROFILES = Boolean.parseBoolean(props.getProperty("cache-saves",
 				"true"));
+		USE_REDDIT = Boolean.parseBoolean(props.getProperty("use-reddit",
+				"false"));
+		AUTO_REGISTER = Boolean.parseBoolean(props.getProperty("auto-register",
+				"false"));
 		props.clear();
 	}
 

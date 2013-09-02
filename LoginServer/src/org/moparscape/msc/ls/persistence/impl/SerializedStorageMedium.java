@@ -147,44 +147,6 @@ public class SerializedStorageMedium implements StorageMedium {
 	public PlayerSave loadPlayer(long user) {
 
 		PlayerSave ps = getPlayerData(user);
-
-		if (ps == null) // new char
-		{
-			PlayerSave save = new PlayerSave(user);
-
-			save.setLocation(213, 452);
-			save.setAppearance((byte) 2, (byte) 8, (byte) 14, (byte) 0,
-					(byte) 1, (byte) 2, true, 01);
-
-			int[] exp = new int[Config.statArray.length];
-			int[] stats = new int[Config.statArray.length];
-			Arrays.fill(exp, 0);
-			Arrays.fill(stats, 1);
-
-			exp[3] = 1154;
-			save.setExp(exp);
-			stats[3] = 10;
-			save.setCurStats(stats);
-
-			// //////////////////////////////////
-			// //////// For Alpha Only //////////
-			// //////////////////////////////////
-			save.setOwner((int) ownerId, 11, 0L);
-			// //////////////////////////////////
-			// ////// End For Alpha Only ////////
-			// //////////////////////////////////
-
-			return save;
-		}
-
-		// //////////////////////////////////
-		// //////// For Alpha Only //////////
-		// //////////////////////////////////
-		ps.setOwner((int) ownerId, 11, 0L);
-		// //////////////////////////////////
-		// ////// End For Alpha Only ////////
-		// //////////////////////////////////
-
 		return ps;
 	}
 
@@ -222,6 +184,45 @@ public class SerializedStorageMedium implements StorageMedium {
 		}
 
 		return null;
+	}
+
+	@Override
+	public PlayerSave registerPlayer(long user, byte[] pass, String identifier) {
+
+		PlayerSave save = new PlayerSave(user);
+
+		save.setLocation(213, 452);
+		save.setAppearance((byte) 2, (byte) 8, (byte) 14, (byte) 0, (byte) 1,
+				(byte) 2, true, 01);
+		save.pass = pass;
+		save.identifier = identifier;
+
+		int[] exp = new int[Config.statArray.length];
+		int[] stats = new int[Config.statArray.length];
+		Arrays.fill(exp, 0);
+		Arrays.fill(stats, 1);
+
+		exp[3] = 1154;
+		save.setExp(exp);
+		stats[3] = 10;
+		save.setCurStats(stats);
+
+		// //////////////////////////////////
+		// //////// For Alpha Only //////////
+		// //////////////////////////////////
+		save.setOwner((int) ownerId, 11, 0L);
+		// //////////////////////////////////
+		// ////// End For Alpha Only ////////
+		// //////////////////////////////////
+
+		// //////////////////////////////////
+		// //////// For Alpha Only //////////
+		// //////////////////////////////////
+		save.setOwner((int) ownerId, 11, 0L);
+		// //////////////////////////////////
+		// ////// End For Alpha Only ////////
+		// //////////////////////////////////
+		return save;
 	}
 
 }

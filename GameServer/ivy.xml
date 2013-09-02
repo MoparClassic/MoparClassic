@@ -16,5 +16,13 @@
 		
 		<dependency org="net.jcip" name="jcip-annotations" rev="1.0"/>
 		
+		<dependency org="com.typesafe.akka" name="akka-actor_2.10" rev="2.2.0"/>
+		
+		<dependency org="com.typesafe.akka" name="akka-remote_2.10" rev="2.2.0"/>
+		
+		<dependency org="com.google.code.gson" name="gson" rev="2.2.2"/>            
+		
+		<dependency org="com.google.guava" name="guava" rev="13.0.1"/> 
+		
 	</dependencies>
 </ivy-module>

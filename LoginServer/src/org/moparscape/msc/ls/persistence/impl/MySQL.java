@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -371,6 +372,7 @@ class MySQL implements StorageMedium {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
 		return save;
 	}
@@ -625,6 +627,27 @@ class MySQL implements StorageMedium {
 			close(result);
 		}
 		return null;
+	}
+
+	@Override
+	public PlayerSave registerPlayer(long user, byte[] pass, String identifier) {
+		PlayerSave save = new PlayerSave(user);
+		save.setLocation(213, 452);
+		save.setAppearance((byte) 2, (byte) 8, (byte) 14, (byte) 0, (byte) 1,
+				(byte) 2, true, 01);
+		save.pass = pass;
+		save.identifier = identifier;
+
+		int[] exp = new int[Config.statArray.length];
+		int[] stats = new int[Config.statArray.length];
+		Arrays.fill(exp, 0);
+		Arrays.fill(stats, 1);
+
+		exp[3] = 1154;
+		save.setExp(exp);
+		stats[3] = 10;
+		save.setCurStats(stats);
+		return save;
 	}
 
 }

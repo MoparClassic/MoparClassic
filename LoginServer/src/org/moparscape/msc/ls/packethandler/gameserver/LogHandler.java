@@ -1,6 +1,7 @@
 package org.moparscape.msc.ls.packethandler.gameserver;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 
@@ -20,10 +21,22 @@ public class LogHandler implements PacketHandler {
 	private static PrintWriter exception;
 	static {
 		try {
-			event = new PrintWriter(new File(Config.LOG_DIR, "event.log"));
-			error = new PrintWriter(new File(Config.LOG_DIR, "error.log"));
-			mod = new PrintWriter(new File(Config.LOG_DIR, "mod.log"));
-			exception = new PrintWriter(new File(Config.LOG_DIR, "err.log"));
+			File parent = new File(Config.LOG_DIR);
+			File fevent = new File(Config.LOG_DIR, "event.log");
+			File fmod = new File(Config.LOG_DIR, "mod.log");
+			File ferr = new File(Config.LOG_DIR, "err.log");
+			File ferror = new File(Config.LOG_DIR, "error.log");
+			if (!parent.exists()) {
+				parent.mkdirs();
+			}
+			createIfAbsent(fevent);
+			createIfAbsent(fmod);
+			createIfAbsent(ferr);
+			createIfAbsent(ferror);
+			event = new PrintWriter(fevent);
+			error = new PrintWriter(ferror);
+			mod = new PrintWriter(fmod);
+			exception = new PrintWriter(ferr);
 		} catch (Exception e) {
 			Server.error(e);
 		}
@@ -31,6 +44,12 @@ public class LogHandler implements PacketHandler {
 
 	private static String getDate() {
 		return formatter.format(System.currentTimeMillis());
+	}
+
+	private static void createIfAbsent(File f) throws IOException {
+		if (!f.exists()) {
+			f.createNewFile();
+		}
 	}
 
 	public void handlePacket(Packet p, IoSession session) throws Exception {
