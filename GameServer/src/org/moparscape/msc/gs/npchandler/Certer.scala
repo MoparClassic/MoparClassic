@@ -94,7 +94,7 @@ class Certer extends NpcDialog {
 			if (enough && certing) {
 				for (i <- (0 until amount))
 					if (player.getInventory.remove(itemId, 1)) {
-						player.getInventory.add(certId, 5)
+						player.getInventory.add(certId, 1)
 					}
 
 				breath
