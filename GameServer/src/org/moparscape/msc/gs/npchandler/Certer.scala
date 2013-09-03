@@ -92,7 +92,7 @@ class Certer extends NpcDialog {
 		override def begin {
 			// Creating certificates
 			if (enough && certing) {
-				for (i <- (0 until amount))
+				for (i <- (0 until (amount / 5)) )
 					if (player.getInventory.remove(itemId, 1)) {
 						player.getInventory.add(certId, 1)
 					}
