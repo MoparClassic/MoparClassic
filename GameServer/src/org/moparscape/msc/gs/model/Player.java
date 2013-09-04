@@ -1900,8 +1900,10 @@ public final class Player extends Mob {
 		 */
 		if(location.inWilderness() && Config.VARROCKSPAWN) {
 			setLocation(Point.location(122, 509), true);
+		} else {
+			//lumbridge
+			setLocation(Point.location(122, 647), true);
 		}
-		setLocation(Point.location(122, 647), true);
 		Collection<Player> allWatched = watchedPlayers.getAllEntities();
 		for (Player p : allWatched) {
 			p.removeWatchedPlayer(this);
