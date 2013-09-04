@@ -100,4 +100,5 @@
 	<entry key="log-dir">logs</entry>
 	<!-- The interval in which to save logs, in minutes. -->
 	<entry key="batch-log-interval">1</entry>
+	<entry key="varrock-spawn">false</entry>
 </properties>
