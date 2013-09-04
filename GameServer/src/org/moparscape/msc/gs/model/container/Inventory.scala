@@ -1,7 +1,8 @@
 package org.moparscape.msc.gs.model.container
-import org.moparscape.msc.gs.model.{ InvItem, Player }
+import org.moparscape.msc.gs.model.{ InvItem, Player, Item }
 import org.moparscape.msc.gs.phandler.client.WieldHandler
 import org.moparscape.msc.gs.service.ItemAttributes
+import org.moparscape.msc.gs.Instance
 
 class Inventory(player : Player) extends Container(30) {
 
