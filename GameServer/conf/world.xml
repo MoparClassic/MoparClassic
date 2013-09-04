@@ -89,7 +89,7 @@
 	<entry key="report-handler">org.moparscape.msc.gs.db.impl.DropReportHandler</entry>
 
 	<!-- This is displayed on login. Each line will be sent as a new message. Make sure you're using XML entities for things like <, new lines, etc. -->
-	<entry key="MOTD">@yel@Welcome to MoparClassic Beta!&#10;@red@Report all bugs on GitHub.&#10;@cya@Commands: ::town &lt;townname>, ::item &lt;id>, ::say &lt;msg>, ::goto &lt;name></entry>
+	<entry key="MOTD">Welcome to Runescape!</entry>
 
 	<!-- This is the location of the captcha dictionary -->
 	<entry key="captcha-dictionary">conf/data/dictionary.txt</entry>
@@ -100,4 +100,5 @@
 	<entry key="log-dir">logs</entry>
 	<!-- The interval in which to save logs, in minutes. -->
 	<entry key="batch-log-interval">1</entry>
+	<entry key="varrock-spawn">false</entry>
 </properties>

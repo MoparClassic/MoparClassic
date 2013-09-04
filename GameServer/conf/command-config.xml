@@ -4,11 +4,11 @@
 
 
 	<!-- Teleports the player to a target players location - ALPHA ONLY-->
-	<permission name="goto">1</permission>
+	<permission name="goto">11</permission>
 	<!-- Spawns an item - ALPHA ONLY -->
-	<permission name="item">1</permission>
+	<permission name="item">11</permission>
 	<!-- Global chat - ALPHA ONLY -->
-	<permission name="say">1</permission>
+	<permission name="say">11</permission>
 
 
 	<!-- Displays "A list of commands is shown on the forums." -->
@@ -22,18 +22,18 @@
 	<!-- Displays the online players -->
 	<permission name="online">1</permission>
 	<!-- Displays number of players and NPCs in view -->
-	<permission name="nearby">5</permission>
+	<permission name="nearby">11</permission>
 	<!-- Displays number of players and NPCs in view -->
-	<permission name="inview">5</permission>
+	<permission name="inview">11</permission>
 	<!-- Teleports the player to the stuck location -->
-	<permission name="stuck">11</permission>
+	<permission name="stuck">1</permission>
 	<!-- Requests the following: Location, Login data/time, Last moved, Chat 
 		block status, fatigue, state -->
 	<permission name="info">7</permission>
 	<!-- Displays last 75 cast intervals -->
 	<permission name="info2">7</permission>
 	<!-- Teleports the player to the specified town -->
-	<permission name="town">1</permission>
+	<permission name="town">11</permission>
 	<!-- Bans a player -->
 	<permission name="ban">7</permission>
 	<!-- Unbans a player -->
@@ -53,13 +53,13 @@
 	<!-- Uses threaded client update (messed up) -->
 	<permission name="thread">11</permission>
 	<!-- IP bans a user -->
-	<permission name="ipban">7</permission>
+	<permission name="ipban">10</permission>
 	<!-- Removes IP ban -->
 	<permission name="unipban">10</permission>
 	<!-- Reloads IP bans from database -->
 	<permission name="reloadipbans">10</permission>
 	<!-- Teleports the user to the specified coordinates -->
-	<permission name="tele">1</permission>
+	<permission name="tele">11</permission>
 
 	<setting>
 		<!-- Minimum delay between commands -->
@@ -69,7 +69,7 @@
 		<!-- Time between login and using stuck -->
 		<stuck-login-wait-period>30000</stuck-login-wait-period>
 		<!-- Time between movement/combat that must be waited before using -->
-		<stuck-stand-still-time>300000</stuck-stand-still-time>
+		<stuck-stand-still-time>30000</stuck-stand-still-time>
 		<!-- The x Coordinate the player is teleported to -->
 		<stuck-x>122</stuck-x>
 		<!-- The y Coordinate the player is teleported to -->
