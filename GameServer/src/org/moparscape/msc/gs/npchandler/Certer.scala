@@ -93,16 +93,16 @@ class Certer extends NpcDialog {
 			// Creating certificates
 			if (enough && certing) {
 				for (i <- (0 until (amount / 5)) )
-					if (player.getInventory.remove(itemId, 1)) {
-						player.getInventory.add(certId, 1)
+					if (player.getInventory.remove(itemId, amount)) {
+						player.getInventory.add(certId, amount / 5)
 					}
 
 				breath
 				this > ("You exchange the " + EntityHandler.getItemDef(itemId).getName + "s")
 			} else if (enough) {
 				if (player.getInventory.remove(certId, amount)) {
-					for (i <- (0 until amount * 5))
-						player.getInventory.add(itemId, 1)
+					for (i <- (0 until amount))
+						player.getInventory.add(itemId, 5)
 					breath
 					this > "You exchange the certificates."
 				}
