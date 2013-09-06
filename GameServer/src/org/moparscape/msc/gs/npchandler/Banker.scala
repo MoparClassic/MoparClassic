@@ -10,6 +10,7 @@ class Banker extends NpcDialog {
 				this > ("Certainly " + (if (player.isMale()) "sir" else "miss")); breath
 				player.setAccessingBank(true)
 				player.getActionSender.showBank
+				end
 				super.begin
 			}
 		}
