@@ -49,27 +49,29 @@ class Fishing extends ObjectEvent {
 
 		player.getActionSender.sendMessage("You attempt to catch some fish")
 
-		EventHandler.addShort {
-			try {
-				val fishDef = Formulae.getFish(o.getID, player.getCurStat(10), click)
-				if (fishDef == null) {
-					player.getActionSender.sendMessage("You fail to catch anything.")
-				} else {
+		Instance.getDelayedEventHandler.add(new ShortEvent(player) {
+			def action {
+				try {
+					val fishDef = Formulae.getFish(o.getID, player.getCurStat(10), click)
+							if (fishDef == null) {
+								player.getActionSender.sendMessage("You fail to catch anything.")
+							} else {
 
-					player.getActionSender.sendMessage("You catch a " + ItemAttributes.getItemName(fishDef.getId) + ".")
+								player.getActionSender.sendMessage("You catch a " + ItemAttributes.getItemName(fishDef.getId) + ".")
 
-					val i = player.getInventory
-					i.doThenSend {
-						i.remove(baitId)
-						i.add(fishDef.getId)
-					}
+								val i = player.getInventory
+								i.doThenSend {
+									i.remove(baitId)
+									i.add(fishDef.getId)
+								}
 
-					player.incExp(FISHING, fishDef.getExp, true)
-					player.getActionSender.sendStat(FISHING)
+								player.incExp(FISHING, fishDef.getExp, true)
+								player.getActionSender.sendStat(FISHING)
+							}
+				} finally {
+					player.setBusy(false)
 				}
-			} finally {
-				player.setBusy(false)
 			}
-		}
+		})
 	}
 }
