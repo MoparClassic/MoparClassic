@@ -120,6 +120,9 @@ class Certer extends NpcDialog {
 			} else if (!certing && player.getInventory.countId(certId) < amount) {
 				this >> "You don't have enough certificates"; breath
 				false
+			} else if (!certing && !player.getInventory.canHold(itemId, amount * 5)) {
+				this >> "You don't have enough space in your inventory!"; breath
+				false
 			} else {
 				true
 			}
