@@ -460,6 +460,10 @@ public final class Player extends Mob {
 	 */
 	private long usernameHash;
 	/**
+	 * Chat messages needing displayed
+	 */
+	private ArrayList<Item> watchedItemsToRemove = new ArrayList<Item>();
+	/**
 	 * Nearby items that we should be aware of
 	 */
 	private StatefulEntityCollection<Item> watchedItems = new StatefulEntityCollection<Item>();
@@ -2237,6 +2241,7 @@ public final class Player extends Mob {
 		for (Item i : watchedItems.getKnownEntities()) {
 			if (!withinRange(i) || i.isRemoved() || !i.visibleTo(this)) {
 				watchedItems.remove(i);
+				watchedItemsToRemove.add(i);
 			}
 		}
 	}
