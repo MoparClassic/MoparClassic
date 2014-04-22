@@ -1,13 +1,26 @@
 package org.moparscape.msc.gs.model.container
-import org.moparscape.msc.gs.model.{ InvItem, Player }
+import org.moparscape.msc.gs.model.{ InvItem, Player, Item }
 import org.moparscape.msc.gs.phandler.client.WieldHandler
 import org.moparscape.msc.gs.service.ItemAttributes
+import org.moparscape.msc.gs.Instance
 
 class Inventory(player : Player) extends Container(30) {
 
 	def wielding(id : Int) = items.get.find(i => i.id == id && i.wielded) match {
 		case Some(x) => true
 		case None => false
+	}
+	
+	override def add(id : Int, amount : Int = 1, ignoreMaxSize : Boolean = false) : Boolean = {
+		items.synchronized {
+			var itm = items.get
+			if (itm.size == maxSize && !canHold(id, amount)) {
+				player.getActionSender.sendMessage("The item drops to the ground!");
+				Instance.getWorld.registerItem(new Item(id, player.getX,
+						player.getY, amount, player));
+			}
+			super.add(id, amount, ignoreMaxSize)
+		}
 	}
 
 	override def remove(id : Int, amount : Int = 1, ignoreAmount : Boolean = false) : Boolean = {
