@@ -93,16 +93,16 @@ class Certer extends NpcDialog {
 			// Creating certificates
 			if (enough && certing) {
 				for (i <- (0 until (amount / 5)) )
-					if (player.getInventory.remove(itemId, 1)) {
-						player.getInventory.add(certId, 1)
+					if (player.getInventory.remove(itemId, amount)) {
+						player.getInventory.add(certId, amount / 5)
 					}
 
 				breath
 				this > ("You exchange the " + EntityHandler.getItemDef(itemId).getName + "s")
 			} else if (enough) {
 				if (player.getInventory.remove(certId, amount)) {
-					for (i <- (0 until amount * 5))
-						player.getInventory.add(itemId, 1)
+					for (i <- (0 until amount))
+						player.getInventory.add(itemId, 5)
 					breath
 					this > "You exchange the certificates."
 				}
@@ -117,8 +117,11 @@ class Certer extends NpcDialog {
 				this >> ("You don't have enough "
 					+ EntityHandler.getItemDef(itemId).getName + "s"); breath
 				false
-			} else if (!certing && player.getInventory.countId(certId) < amount * 5) {
+			} else if (!certing && player.getInventory.countId(certId) < amount) {
 				this >> "You don't have enough certificates"; breath
+				false
+			} else if (!certing && !player.getInventory.canHold(itemId, amount * 5)) {
+				this >> "You don't have enough space in your inventory!"; breath
 				false
 			} else {
 				true

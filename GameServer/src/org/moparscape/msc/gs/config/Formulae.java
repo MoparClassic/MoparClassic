@@ -945,7 +945,12 @@ public class Formulae {
 	 * @return the item's calculated price of value
 	 */
 	public static int getPrice(InvItem i, Shop shop, boolean buy) {
-		final double GENERAL_STORE_BUY_MODIFIER = 0.685;
+		if (buy)
+			return i.getDef().getBasePrice();
+		else
+			return i.getDef().getBasePrice() / 2;
+	}
+/*		final double GENERAL_STORE_BUY_MODIFIER = 0.685;
 
 		int newPrice = -1; // the newly given price.
 		boolean playerSoldItem = false; // If true, there is no base quantity (a
@@ -1053,8 +1058,8 @@ public class Formulae {
 			else
 				return price;
 		}
-
-	}
+*/
+	//}
 
 	public static int getRangeDirection(Mob you, Mob them) {
 		if (you.getX() > them.getX() && you.getY() == them.getY()) // face right

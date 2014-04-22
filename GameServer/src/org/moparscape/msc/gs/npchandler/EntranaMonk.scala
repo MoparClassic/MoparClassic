@@ -11,7 +11,8 @@ class EntranaMonk extends NpcDialog {
 
 	override def begin {
 		if (Server.isMembers) {
-			this >> GameServer.P2P_LIMIT_MESSAGE
+			this > GameServer.P2P_LIMIT_MESSAGE
+			end
 		}
 
 		val toEntrana = !player.getLocation.inBounds(390, 530, 440, 580)

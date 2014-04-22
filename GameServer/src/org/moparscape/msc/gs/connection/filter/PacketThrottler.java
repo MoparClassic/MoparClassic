@@ -10,7 +10,10 @@ import net.jcip.annotations.ThreadSafe;
 import org.apache.mina.common.IoFilterAdapter;
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.alert.AlertHandler;
+import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.event.DelayedEvent;
+import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.util.annotation.Singleton;
 
 /**
@@ -71,14 +74,13 @@ public class PacketThrottler extends IoFilterAdapter {
 
         // TODO: FIX ME.
 
-		/*
 		Player player = (Player) session.getAttachment();
 		if (session.isClosing() || player.destroyed()) {
 			return;
 		}
 
 		int count = incrementAndGet(player.getUsernameHash());
-
+		System.out.println(count);
 		if (count > Config.PACKET_PER_SECOND_THRESHOLD) {
 
 			if (Config.PACKET_PER_SECOND_ALERT) {
@@ -95,7 +97,7 @@ public class PacketThrottler extends IoFilterAdapter {
 			player.destroy(true);
 			return;
 		}
-		*/
+
 		nextFilter.messageReceived(session, message);
 	}
 
@@ -105,7 +107,6 @@ public class PacketThrottler extends IoFilterAdapter {
 	 * @param hash
 	 *            - The hash of the player.
 	 */
-	/*
 	private int incrementAndGet(long hash) {
 		final int count;
 
@@ -131,5 +132,4 @@ public class PacketThrottler extends IoFilterAdapter {
 
 		return count;
 	}
-	*/
 }

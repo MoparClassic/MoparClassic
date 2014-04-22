@@ -50,34 +50,37 @@ class Ore(p : Player, o : GameObject) {
 
 		Instance.getDelayedEventHandler.add(new ShortEvent(p) {
 			def action {
-				if (Formulae.getOre(oreDef(), miningLvl, axe._1)) {
-					if (DataConversions.random(0, 200) == 0) {
-						p.incExp(14, 100, true)
-						p.getInventory.add(Formulae.getGem)
-						Ore.this > "You found a gem!"
+				try {
+					if (Formulae.getOre(oreDef(), miningLvl, axe._1)) {
+						if (DataConversions.random(0, 200) == 0) {
+							p.incExp(14, 100, true)
+							p.getInventory.add(Formulae.getGem)
+							Ore.this > "You found a gem!"
+						} else {
+							p.getInventory.add(oreDef().getOreId)
+							Ore.this > "You manage to obtain some " + new InvItem(oreDef(ore).getOreId).getDef.name + "."
+							p.incExp(14, oreDef().getExp, true)
+							p.getActionSender.sendStat(14)
+							val w = Instance.getWorld
+							w.delayedSpawnObject(ore.getLoc, oreDef().getRespawnTime * 1000)
+							w.registerObject(new GameObject(o.getLocation, 98, o.getDirection, o.getType))
+						}
+						p.getActionSender.sendInventory
 					} else {
-						p.getInventory.add(oreDef().getOreId)
-						Ore.this > "You manage to obtain some " + new InvItem(oreDef(ore).getOreId).getDef.name + "."
-						p.incExp(14, oreDef().getExp, true)
-						p.getActionSender.sendStat(14)
-						val w = Instance.getWorld
-						w.delayedSpawnObject(ore.getLoc, oreDef().getRespawnTime * 1000)
-						w.registerObject(new GameObject(o.getLocation, 98, o.getDirection, o.getType))
+						Ore.this > "You only succeed in scratching the rock."
+						if (axe._3 - p.getSkillLoops > 0) {
+							Instance.getDelayedEventHandler.add(new SingleEvent(p, 500) {
+								def action {
+									if (!p.isMining || p.inCombat) return
+											p.setSkillLoops(p.getSkillLoops + 1)
+											_mine
+								}
+							})
+						}
 					}
-					p.getActionSender.sendInventory
-				} else {
-					Ore.this > "You only succeed in scratching the rock."
-					if (axe._3 - p.getSkillLoops > 0) {
-						Instance.getDelayedEventHandler.add(new SingleEvent(p, 500) {
-							def action {
-								if (!p.isMining || p.inCombat) return
-								p.setSkillLoops(p.getSkillLoops + 1)
-								_mine
-							}
-						})
-					}
+				} finally {
+					p.setBusy(false)
 				}
-				p.setBusy(false)
 			}
 		})
 	}
