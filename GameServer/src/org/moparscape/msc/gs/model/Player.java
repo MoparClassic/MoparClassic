@@ -46,7 +46,7 @@ import org.moparscape.msc.gs.util.StatefulEntityCollection;
 /**
  * A single player.
  */
-public final class Player extends Mob {
+public class Player extends Mob {
 
 	public Quests quests = new Quests();
 

@@ -2,6 +2,7 @@ package org.moparscape.msc.ls.reddit
 
 import scala.xml.XML
 import java.io.File
+import scala.language._
 
 object RedditCredentials {
 

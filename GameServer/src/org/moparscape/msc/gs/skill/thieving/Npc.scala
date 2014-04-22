@@ -179,7 +179,7 @@ class Npc(p : Player, n : org.moparscape.msc.gs.model.Npc) extends Thieving(p, n
 
 	override protected def release {
 		try super.release
-		try {
+		finally {
 			n.setBusy(false)
 			n.unblock
 		}
