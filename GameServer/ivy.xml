@@ -18,9 +18,9 @@
 		
 		<dependency org="net.jcip" name="jcip-annotations" rev="1.0"/>
 		
-		<dependency org="com.typesafe.akka" name="akka-actor_2.11.0-M3" rev="2.2.0"/>
+		<dependency org="com.typesafe.akka" name="akka-actor_2.11" rev="2.3.2"/>
 		
-		<dependency org="com.typesafe.akka" name="akka-remote_2.11.0-M3" rev="2.2.0"/>
+		<dependency org="com.typesafe.akka" name="akka-remote_2.11" rev="2.3.2"/>
 		
 		<dependency org="com.google.code.gson" name="gson" rev="2.2.2"/>            
 		

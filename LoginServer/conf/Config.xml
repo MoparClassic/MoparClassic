@@ -23,7 +23,7 @@
 		this is enabled, without using the LS, you may run into issues. -->
 	<entry key="cache-saves">false</entry>
 	<!-- If the Reddit module should be used. -->
-	<entry key="use-reddit">true</entry>
+	<entry key="use-reddit">false</entry>
 	<!-- If a player should automatically be registered upon login. -->
 	<entry key="auto-register">false</entry>
 </properties>
