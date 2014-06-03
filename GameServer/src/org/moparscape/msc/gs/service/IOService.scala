@@ -9,7 +9,7 @@ class IOService extends Actor {
 
 	private type F = () => Unit
 
-	override def receive = {
+	override def receive: PartialFunction[Any,Unit] = {
 		case f : F => f()
 	}
 }

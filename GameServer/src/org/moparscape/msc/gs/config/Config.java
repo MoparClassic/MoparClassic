@@ -19,7 +19,7 @@ public class Config {
 
 	public static long START_TIME;
 
-	public static boolean members, f2pWildy, APPLICATION_LEVEL_BLOCKING;
+	public static boolean members, f2pWildy, APPLICATION_LEVEL_BLOCKING, VARROCKSPAWN;
 
 	public static double expRate, subExpRate, WILD_NON_COMBAT_BONUS,
 			WILD_COMBAT_BONUS;
@@ -140,7 +140,8 @@ public class Config {
 	 	FONT_DIR = props.getProperty("font-dir");
 	 	LOG_DIR = props.getProperty("log-dir");
 	 	BATCH_LOG_INTERVAL = Integer.parseInt(props.getProperty("batch-log-interval"));
-
+		VARROCKSPAWN = Boolean.parseBoolean(props
+				.getProperty("varrock-spawn"));
 		props.clear();
 	}
 

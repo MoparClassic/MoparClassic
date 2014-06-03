@@ -12,11 +12,16 @@
 	<entry key="lsip">localhost</entry>
 	<entry key="lsport">34526</entry>
 
+	<!-- If the world should be P2P. -->
 	<entry key="members">false</entry>
+	<!-- If the wilderness should be F2P. -->
 	<entry key="f2pwildy">true</entry>
 
 
+	<!-- The experience rate for normal players. -->
 	<entry key="expRate">4.0</entry>
+	<!-- The subscriber experience rate. Does not stack in any way with the 
+		normal experience rate. -->
 	<entry key="subExpRate">4.0</entry>
 	<!-- The minimum level required for the player to get the non-combat bonus 
 		XP for being in the wilderness -->
@@ -24,6 +29,7 @@
 
 	<!-- The following two are rates that are added to the player's XP rate -->
 	<entry key="wild-non-combat-bonus">0</entry>
+	<!-- See above. -->
 	<entry key="wild-combat-bonus">0</entry>
 
 	<!-- The amount of time (in ms) that a player must stand still in the wild 
@@ -35,14 +41,18 @@
 		reaches the max level for a skill -->
 	<entry key="max-level-congrats">false</entry>
 
-	<!-- Separate names by commas -->
+	<!-- Used for a staff list. Separate names by commas -->
 	<entry key="pmods">None</entry>
 	<entry key="mods">None</entry>
 	<entry key="admins">None</entry>
 
+	<!-- How long IP bans last. -->
 	<entry key="ip-ban-removal-delay">60000</entry>
+	<!-- If OS level blocking should be enabled. -->
 	<entry key="os-level-blocking">false</entry>
+	<!-- The command to issue, to block someone, if OS level blocking is enabled. -->
 	<entry key="os-level-block-command">sudo route add -host ${ip} reject</entry>
+	<!-- The command to issue, to unblock someone, if OS level blocking is enabled. -->
 	<entry key="os-level-unblock-command">sudo route del -host ${ip} reject</entry>
 
 	<!-- Alert when someone's connections are throttled -->
@@ -89,15 +99,16 @@
 	<entry key="report-handler">org.moparscape.msc.gs.db.impl.DropReportHandler</entry>
 
 	<!-- This is displayed on login. Each line will be sent as a new message. Make sure you're using XML entities for things like <, new lines, etc. -->
-	<entry key="MOTD">@yel@Welcome to MoparClassic Beta!&#10;@red@Report all bugs on GitHub.&#10;@cya@Commands: ::town &lt;townname>, ::item &lt;id>, ::say &lt;msg>, ::goto &lt;name></entry>
+	<entry key="MOTD">Welcome to Runescape!</entry>
 
 	<!-- This is the location of the captcha dictionary -->
 	<entry key="captcha-dictionary">conf/data/dictionary.txt</entry>
 	<!-- This is the directory that contains the fonts -->
 	<entry key="font-dir">conf/fonts</entry>
-	
+
 	<!-- The directory to save logs in. -->
 	<entry key="log-dir">logs</entry>
 	<!-- The interval in which to save logs, in minutes. -->
 	<entry key="batch-log-interval">1</entry>
+	<entry key="varrock-spawn">false</entry>
 </properties>

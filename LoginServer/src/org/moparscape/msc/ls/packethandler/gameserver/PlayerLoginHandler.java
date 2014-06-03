@@ -76,7 +76,7 @@ public class PlayerLoginHandler implements PacketHandler {
 
 		if (!Server.storage.playerExists(user)) {
 			if (Config.AUTO_REGISTER) {
-				PlayerSave p = Server.storage.registerPlayer(user, pass, "");
+				PlayerSave p = Server.storage.registerPlayer(user, pass, DataConversions.hashToUsername(user));
 				Server.storage.savePlayer(p);
 			} else {
 				return 10;

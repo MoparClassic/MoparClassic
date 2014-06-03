@@ -66,7 +66,7 @@ class Shop(val name : String, val greeting : String,
 
 	private var players = List[Player]()
 	def addPlayer(player : Player) = players.synchronized(players = player :: players)
-	def removePlayer(player : Player) = players.synchronized()
+	def removePlayer(player : Player) = players.synchronized(players = players.filterNot(_ == player))
 
 	def updatePlayers {
 		players.synchronized {

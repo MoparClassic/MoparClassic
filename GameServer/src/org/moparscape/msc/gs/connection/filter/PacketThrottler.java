@@ -1,9 +1,7 @@
 package org.moparscape.msc.gs.connection.filter;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -76,29 +74,29 @@ public class PacketThrottler extends IoFilterAdapter {
 
         // TODO: FIX ME.
 
-//		Player player = (Player) session.getAttachment();
-//		if (session.isClosing() || player.destroyed()) {
-//			return;
-//		}
-//
-//		int count = incrementAndGet(player.getUsernameHash());
-//
-//		if (count > Config.PACKET_PER_SECOND_THRESHOLD) {
-//
-//			if (Config.PACKET_PER_SECOND_ALERT) {
-//				// If the player is initialized, then use the username,
-//				// otherwise use the IP.
-//				String s = (player.isInitialized() ? player.getUsername()
-//						: player.getCurrentIP())
-//						+ " has exceeded the packet per second threshold";
-//				// Sends an alert with a priority of 2.
-//				AlertHandler.sendAlert(s, 2);
-//			}
-//
-//			// Destroys the user and discards the packet.
-//			player.destroy(true);
-//			return;
-//		}
+		Player player = (Player) session.getAttachment();
+		if (session.isClosing() || player.destroyed()) {
+			return;
+		}
+
+		int count = incrementAndGet(player.getUsernameHash());
+		System.out.println(count);
+		if (count > Config.PACKET_PER_SECOND_THRESHOLD) {
+
+			if (Config.PACKET_PER_SECOND_ALERT) {
+				// If the player is initialized, then use the username,
+				// otherwise use the IP.
+				String s = (player.isInitialized() ? player.getUsername()
+						: player.getCurrentIP())
+						+ " has exceeded the packet per second threshold";
+				// Sends an alert with a priority of 2.
+				AlertHandler.sendAlert(s, 2);
+			}
+
+			// Destroys the user and discards the packet.
+			player.destroy(true);
+			return;
+		}
 
 		nextFilter.messageReceived(session, message);
 	}

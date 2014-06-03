@@ -56,7 +56,7 @@ object DialogService {
 		Array(166, 170, 171), new ToKaramja
 	)
 
-	addMapping(28, new Tramp(null, null))
+	addMapping(28, new Tramp)
 	addMapping(116, new Wyson)
 
 	def addMapping(id : Int, dialog : NpcDialog) {

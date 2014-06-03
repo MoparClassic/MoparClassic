@@ -46,7 +46,7 @@ import org.moparscape.msc.gs.util.StatefulEntityCollection;
 /**
  * A single player.
  */
-public final class Player extends Mob {
+public class Player extends Mob {
 
 	public Quests quests = new Quests();
 
@@ -1893,7 +1893,17 @@ public final class Player extends Mob {
 		}
 		actionSender.sendPrayers();
 
-		setLocation(Point.location(122, 647), true);
+		/**
+		 * If a player dies in wild they will be sent to varrock. This is
+		 * because nobody can be fucked to walk all the way back and is in attempt
+		 * to bring back varrock wild pking (which no server has ever done)
+		 */
+		if(location.inWilderness() && Config.VARROCKSPAWN) {
+			setLocation(Point.location(122, 509), true);
+		} else {
+			//lumbridge
+			setLocation(Point.location(122, 647), true);
+		}
 		Collection<Player> allWatched = watchedPlayers.getAllEntities();
 		for (Player p : allWatched) {
 			p.removeWatchedPlayer(this);
