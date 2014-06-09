@@ -38,7 +38,7 @@ class Container(val maxSize : Int, allStackable : Boolean = false, allowZeros : 
 		}
 	}
 
-	def removeAll(id : Int) = {
+	def removeAll(id : Int, allowZeros : Boolean = this.allowZeros) = {
 		items.synchronized {
 			var itm = items.get
 			val size = itm.size

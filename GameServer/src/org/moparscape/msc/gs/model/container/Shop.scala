@@ -47,7 +47,7 @@ class Shop(val name : String, val greeting : String,
 								if (iterations % 4 == 0 && i.amount > eq) {
 									shop.remove(i.id, 1, true)
 									if (!contains && i.amount <= 1) {
-										shop.remove(i.id)
+										shop.removeAll(i.id, false)
 									}
 									changed = true
 								} else if (contains && i.amount < eq) {
@@ -58,6 +58,7 @@ class Shop(val name : String, val greeting : String,
 								if (changed) shop.updatePlayers
 						}
 					}
+					iterations += 1
 				}
 			})
 			inited = true

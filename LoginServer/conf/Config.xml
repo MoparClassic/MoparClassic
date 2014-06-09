@@ -25,5 +25,5 @@
 	<!-- If the Reddit module should be used. -->
 	<entry key="use-reddit">false</entry>
 	<!-- If a player should automatically be registered upon login. -->
-	<entry key="auto-register">false</entry>
+	<entry key="auto-register">true</entry>
 </properties>
