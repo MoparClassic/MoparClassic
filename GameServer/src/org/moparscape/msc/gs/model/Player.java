@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -49,6 +50,8 @@ import org.moparscape.msc.gs.util.StatefulEntityCollection;
 public class Player extends Mob {
 
 	public Quests quests = new Quests();
+
+	private Map<String, Property<?>> properties = new HashMap<>();
 
 	public int dropTickCount = 0;
 
@@ -491,6 +494,23 @@ public class Player extends Mob {
 
 	private int poisonPower = 0;
 	private DelayedEvent poisonEvent;
+
+	@SuppressWarnings("unchecked")
+	public <T> T getProperty(String name) {
+		try {
+			return (T) properties.get(name).value;
+		} catch (ClassCastException | NullPointerException e) {
+			return null;
+		}
+	}
+
+	public <T> void setProperty(String name, T o) {
+		properties.put(name, new Property<T>(o));
+	}
+
+	public Map<String, Property<?>> getProperties() {
+		return properties;
+	}
 
 	public boolean isPoisoned() {
 		return poisonPower > 0;
@@ -1895,13 +1915,14 @@ public class Player extends Mob {
 
 		/**
 		 * If a player dies in wild they will be sent to varrock. This is
-		 * because nobody can be fucked to walk all the way back and is in attempt
-		 * to bring back varrock wild pking (which no server has ever done)
+		 * because nobody can be fucked to walk all the way back and is in
+		 * attempt to bring back varrock wild pking (which no server has ever
+		 * done)
 		 */
-		if(location.inWilderness() && Config.VARROCKSPAWN) {
+		if (location.inWilderness() && Config.VARROCKSPAWN) {
 			setLocation(Point.location(122, 509), true);
 		} else {
-			//lumbridge
+			// lumbridge
 			setLocation(Point.location(122, 647), true);
 		}
 		Collection<Player> allWatched = watchedPlayers.getAllEntities();
@@ -3032,7 +3053,7 @@ public class Player extends Mob {
 		if (inCombat()) {
 			resetCombat(CombatState.ERROR);
 		}
-		if (inventory.removeAll(318) > 0) {
+		if (inventory.removeAll(318, false) > 0) {
 			getActionSender().sendMessage(
 					"a mysterious force steals your Karamaja rum");
 			getActionSender().sendInventory();

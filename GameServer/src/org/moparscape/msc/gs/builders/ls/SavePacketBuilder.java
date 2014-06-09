@@ -1,15 +1,27 @@
 package org.moparscape.msc.gs.builders.ls;
 
+import java.lang.reflect.Modifier;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.PlayerAppearance;
+import org.moparscape.msc.gs.model.Property;
 import org.moparscape.msc.gs.model.container.Bank;
 import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.quest.Quest;
 import org.moparscape.msc.gs.tools.DataConversions;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class SavePacketBuilder {
+
+	private static final Gson gson = new GsonBuilder().setPrettyPrinting()
+			.excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
+			.generateNonExecutableJson().create();
 	/**
 	 * Player to save
 	 */
@@ -68,6 +80,18 @@ public class SavePacketBuilder {
 			packet.addShort(q.id());
 			packet.addShort(q.stage());
 		}
+
+		Map<String, Property<?>> properties = player.getProperties();
+		packet.addShort(properties.size());
+		for(Entry<String, Property<?>> e : properties.entrySet()) {
+			packet.addInt(e.getKey().length());
+			packet.addBytes(e.getKey().getBytes());
+			
+			String s = gson.toJson(e.getValue());
+			packet.addInt(s.length());
+			packet.addBytes(s.getBytes());
+		}
+
 		packet.addLong(player.getEventCD());
 
 		return packet.toPacket();

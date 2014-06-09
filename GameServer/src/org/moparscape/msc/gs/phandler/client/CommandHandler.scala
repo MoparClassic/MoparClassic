@@ -214,169 +214,169 @@ class CommandHandler extends PacketHandler {
 		if (args.length != 1) {
 			message(p, "Invalid args. Syntax: unban name")
 			return ;
-		}
-		ls.banPlayer(p, DataConversions.usernameToHash(args(0)), false)
-	}
+    }
+    ls.banPlayer(p, DataConversions.usernameToHash(args(0)), false)
+  }
 
-	def dumpData(p : Player, args : Array[String]) {
-		import org.moparscape.msc.gs.db.DataManager
+  def dumpData(p: Player, args: Array[String]) {
+    import org.moparscape.msc.gs.db.DataManager
 
-		if (args.length != 1) {
-			message(p, "Invalid args. Syntax: ::dumpdata name")
-			return ;
-		}
-		val usernameHash = DataConversions.usernameToHash(args(0))
-		val username = DataConversions.hashToUsername(usernameHash)
-		DataManager.reportHandler.submitDupeData(username, usernameHash)
-	}
+    if (args.length != 1) {
+      message(p, "Invalid args. Syntax: ::dumpdata name")
+      return ;
+    }
+    val usernameHash = DataConversions.usernameToHash(args(0))
+    val username = DataConversions.hashToUsername(usernameHash)
+    DataManager.reportHandler.submitDupeData(username, usernameHash)
+  }
 
-	def shutdown(p : Player) {
-		Logger.mod(p.getUsername + " shut down the server!");
-		Instance.getServer.kill
-	}
+  def shutdown(p: Player) {
+    Logger.mod(p.getUsername + " shut down the server!");
+    Instance.getServer.kill
+  }
 
-	def update(p : Player, args : Array[String], world : World) {
-		var reason = ""
-		if (args.length > 0) {
-			args foreach { s =>
-				reason += (s + " ")
-			}
-			reason = reason.substring(0, reason.length - 1)
-		}
-		if (Instance.getServer.shutdownForUpdate) {
-			Logger.mod(p.getUsername + " updated the server: " + reason)
-			val itr = world.getPlayers.iterator
-			while (itr.hasNext) {
-				val p1 = itr.next
-				alert(p1, "The server will be shutting down in 60 seconds: " + reason, false)
-				p1.getActionSender.startShutdown(60)
-			}
+  def update(p: Player, args: Array[String], world: World) {
+    var reason = ""
+    if (args.length > 0) {
+      args foreach { s =>
+        reason += (s + " ")
+      }
+      reason = reason.substring(0, reason.length - 1)
+    }
+    if (Instance.getServer.shutdownForUpdate) {
+      Logger.mod(p.getUsername + " updated the server: " + reason)
+      val itr = world.getPlayers.iterator
+      while (itr.hasNext) {
+        val p1 = itr.next
+        alert(p1, "The server will be shutting down in 60 seconds: " + reason, false)
+        p1.getActionSender.startShutdown(60)
+      }
 
-		}
-	}
+    }
+  }
 
-	def clearInv(p : Player) {
-		p.getInventory.clear
-		p.getActionSender.sendInventory
-	}
+  def clearInv(p: Player) {
+    p.getInventory.clear
+    p.getActionSender.sendInventory
+  }
 
-	def enableMultiThreading(p : Player) {
-		import org.moparscape.msc.gs.core.ClientUpdater
+  def enableMultiThreading(p: Player) {
+    import org.moparscape.msc.gs.core.ClientUpdater
 
-		ClientUpdater.threaded = !ClientUpdater.threaded
-		message(p, "Threaded client updater: " + ClientUpdater.threaded)
-	}
+    ClientUpdater.threaded = !ClientUpdater.threaded
+    message(p, "Threaded client updater: " + ClientUpdater.threaded)
+  }
 
-	def ipban(p : Player, args : Array[String], world : World) {
-		val hash = DataConversions.usernameToHash(args(0))
+  def ipban(p: Player, args: Array[String], world: World) {
+    val hash = DataConversions.usernameToHash(args(0))
 
-		val itr = world.getPlayers.iterator
-		while (itr.hasNext) {
-			val p1 = itr.next
-			if (p1.getUsernameHash == hash) {
-				IPBanManager.block(p1.getIoSession().getRemoteAddress.asInstanceOf[InetSocketAddress].getAddress.getHostAddress)
-				p1.destroy(true)
-				message(p, "IP banned " + args(0) + '.')
-				return
-			}
-		}
-		message(p, "No user found with the name " + args(0))
-	}
+    val itr = world.getPlayers.iterator
+    while (itr.hasNext) {
+      val p1 = itr.next
+      if (p1.getUsernameHash == hash) {
+        IPBanManager.block(p1.getIoSession().getRemoteAddress.asInstanceOf[InetSocketAddress].getAddress.getHostAddress)
+        p1.destroy(true)
+        message(p, "IP banned " + args(0) + '.')
+        return
+      }
+    }
+    message(p, "No user found with the name " + args(0))
+  }
 
-	def unipban(p : Player, args : Array[String]) {
-		IPBanManager.unblock(args(0))
-		message(p, "Ban on " + args(0) + " removed.")
-	}
+  def unipban(p: Player, args: Array[String]) {
+    IPBanManager.unblock(args(0))
+    message(p, "Ban on " + args(0) + " removed.")
+  }
 
-	def reloadIPBans(p : Player) {
-		IPBanManager.reloadIPBans
-		message(p, "IP bans reloaded")
-	}
+  def reloadIPBans(p: Player) {
+    IPBanManager.reloadIPBans
+    message(p, "IP bans reloaded")
+  }
 
-	def say(p : Player, args : Array[String]) {
-		val it = Instance.getWorld.getPlayers.iterator
-		while (it.hasNext) {
-			message(it.next, "[Global]" + p.getUsername + ": " + args.mkString(" "))
-		}
-	}
+  def say(p: Player, args: Array[String]) {
+    val it = Instance.getWorld.getPlayers.iterator
+    while (it.hasNext) {
+      message(it.next, "[Global]" + p.getUsername + ": " + args.mkString(" "))
+    }
+  }
 
-	def goto(p : Player, args : Array[String]) {
-		if (args.length < 1) {
-			message(p, "Please specify who to go to.")
-		} else {
-			val pl = Instance.getWorld.getPlayer(DataConversions.usernameToHash(args(0)))
-			if (pl == null) {
-				message(p, "Could not find player \"" + args(0) + "\".")
-			} else {
-				p.teleport(pl.getX, pl.getY, false)
-				message(p, "You teleport to " + args(0) + ".")
-			}
-		}
-	}
+  def goto(p: Player, args: Array[String]) {
+    if (args.length < 1) {
+      message(p, "Please specify who to go to.")
+    } else {
+      val pl = Instance.getWorld.getPlayer(DataConversions.usernameToHash(args(0)))
+      if (pl == null) {
+        message(p, "Could not find player \"" + args(0) + "\".")
+      } else {
+        p.teleport(pl.getX, pl.getY, false)
+        message(p, "You teleport to " + args(0) + ".")
+      }
+    }
+  }
 
-	def item(p : Player, args : Array[String]) {
-		import org.moparscape.msc.gs.model.InvItem
-		import org.moparscape.msc.gs.model.definition.EntityHandler
-		if (args.length < 1 || args.length > 2) {
-			message(p, "Invalid args. Syntax: ITEM id [amount]")
-			return ;
-		}
-		val id = args(0).toInt
-		if (EntityHandler.getItemDef(id) != null) {
-			var amount = 1
-			if (args.length == 2) amount = args(1).toInt
-			p.getInventory.add(id, amount)
-			p.getActionSender.sendInventory
-			Logger.mod(p.getUsername + " spawned themself " + amount + " " + new InvItem(id).getDef.getName + "(s)")
-		} else {
-			message(p, "Invalid id")
-		}
-	}
+  def item(p: Player, args: Array[String]) {
+    import org.moparscape.msc.gs.model.InvItem
+    import org.moparscape.msc.gs.model.definition.EntityHandler
+    if (args.length < 1 || args.length > 2) {
+      message(p, "Invalid args. Syntax: ITEM id [amount]")
+      return ;
+    }
+    val id = args(0).toInt
+    if (EntityHandler.getItemDef(id) != null) {
+      var amount = 1
+      if (args.length == 2) amount = args(1).toInt
+      p.getInventory.add(id, amount)
+      p.getActionSender.sendInventory
+      Logger.mod(p.getUsername + " spawned themself " + amount + " " + new InvItem(id).getDef.getName + "(s)")
+    } else {
+      message(p, "Invalid id")
+    }
+  }
 
-	def tele(p : Player, args : Array[String]) {
-		try {
-			p.teleport(args(0).toInt, args(1).toInt, false)
-		} catch {
-			case _ : Throwable => message(p, "Invalid args.")
-		}
-	}
+  def tele(p: Player, args: Array[String]) {
+    try {
+      p.teleport(args(0).toInt, args(1).toInt, false)
+    } catch {
+      case _: Throwable => message(p, "Invalid args.")
+    }
+  }
 
-	// Helper methods
+  // Helper methods
 
-	def message(p : Player, msg : String) {
-		p.getActionSender.sendMessage(msg)
-	}
+  def message(p: Player, msg: String) {
+    p.getActionSender.sendMessage(msg)
+  }
 
-	def alert(p : Player, msg : String) {
-		p.getActionSender.sendAlert(msg, true)
-	}
+  def alert(p: Player, msg: String) {
+    p.getActionSender.sendAlert(msg, true)
+  }
 
-	def alert(p : Player, msg : String, big : Boolean) {
-		p.getActionSender.sendAlert(msg, big)
-	}
+  def alert(p: Player, msg: String, big: Boolean) {
+    p.getActionSender.sendAlert(msg, big)
+  }
 
-	// Overriden methods
+  // Overriden methods
 
-	@throws(classOf[Exception])
-	override def handlePacket(p : Packet, session : IoSession) {
-		val player = session.getAttachment.asInstanceOf[Player]
-		if (player.isBusy) {
-			player.resetPath
-			return ;
-		}
-		player.resetAll
-		val s = new String(p.getData).trim
-		val firstSpace = s.indexOf(" ")
-		var cmd = s
-		var args = new Array[String](0)
-		if (firstSpace != -1) {
-			cmd = s.substring(0, firstSpace).trim;
-			args = s.substring(firstSpace + 1).trim.split(" ")
-		}
-		try {
-			handleCommand(cmd.toLowerCase, args, player)
-		} catch {
-			case e : Exception => e.printStackTrace
-		}
-	}
+  @throws(classOf[Exception])
+  override def handlePacket(p: Packet, session: IoSession) {
+    val player = session.getAttachment.asInstanceOf[Player]
+    if (player.isBusy) {
+      player.resetPath
+      return ;
+    }
+    player.resetAll
+    val s = new String(p.getData).trim
+    val firstSpace = s.indexOf(" ")
+    var cmd = s
+    var args = new Array[String](0)
+    if (firstSpace != -1) {
+      cmd = s.substring(0, firstSpace).trim;
+      args = s.substring(firstSpace + 1).trim.split(" ")
+    }
+    try {
+      handleCommand(cmd.toLowerCase, args, player)
+    } catch {
+      case e: Exception => e.printStackTrace
+    }
+  }
 }

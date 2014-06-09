@@ -1,5 +1,8 @@
 package org.moparscape.msc.gs.phandler.ls;
 
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
+
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.RSCPacketBuilder;
@@ -9,6 +12,7 @@ import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.PlayerAppearance;
 import org.moparscape.msc.gs.model.Point;
+import org.moparscape.msc.gs.model.Property;
 import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.container.Bank;
 import org.moparscape.msc.gs.model.container.Inventory;
@@ -18,7 +22,41 @@ import org.moparscape.msc.gs.phandler.client.WieldHandler;
 import org.moparscape.msc.gs.service.ItemAttributes;
 import org.moparscape.msc.gs.tools.DataConversions;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+
 public class PlayerLogin implements PacketHandler {
+
+	private static final Gson gson = new GsonBuilder()
+			.setPrettyPrinting()
+			.excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
+			.generateNonExecutableJson()
+			.registerTypeAdapter(Property.class,
+					new JsonDeserializer<Property<?>>() {
+
+						@Override
+						public Property<?> deserialize(JsonElement json,
+								Type typeOfT, JsonDeserializationContext context)
+								throws JsonParseException {
+							try {
+								Class<?> clazz = Class.forName(json
+										.getAsJsonObject()
+										.getAsJsonPrimitive("className")
+										.getAsString());
+								Object o = gson.fromJson(json.getAsJsonObject()
+										.getAsJsonObject("value"), clazz);
+								return new Property<Object>(o);
+							} catch (ClassNotFoundException e) {
+								e.printStackTrace();
+								return null;
+							}
+						}
+
+					}).create();
 	/**
 	 * World instance
 	 */
@@ -148,6 +186,22 @@ public class PlayerLogin implements PacketHandler {
 			for (int i = 0; i < questCount; i++) {
 				player.quests.set(p.readShort(), p.readShort());
 			}
+
+			int propertyCount = p.readShort();
+			for (int i = 0; i < propertyCount; i++) {
+				int len = p.readInt();
+				String name = new String(p.readBytes(len));
+				len = p.readInt();
+				String value = new String(p.readBytes(len));
+				try {
+					Property<?> prop = gson.fromJson(value, Property.class);
+					player.setProperty(name, prop.value);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+
 			/* Muted */
 
 			player.setMuted(p.readLong());
