@@ -10,6 +10,6 @@
 
 		<dependency org="org.apache.httpcomponents" name="httpclient"
 			rev="4.2.5" />
-
+			
 	</dependencies>
 </ivy-module>
