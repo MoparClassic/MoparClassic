@@ -11,6 +11,12 @@ import com.db4o.EmbeddedObjectContainer
 
 class DB4OStorageMedium extends StorageMedium {
 
+  class TradeLog(from: Long, to: Long, item: Int, amount: Long, x: Int, y: Int, t: Int, date: Long = System.currentTimeMillis / 1000)
+  class ReportLog(user: Long, reported: Long, reason: Byte, x: Int, y: Int, status: String, date: Long = System.currentTimeMillis / 1000)
+  class KillLog(user: Long, killed: Long, t: Byte, date: Long = System.currentTimeMillis / 1000)
+  class BanLog(user: Long, mod: Long, date: Long = System.currentTimeMillis / 1000)
+  class LoginLog(user: Long, ip: String, date: Long = System.currentTimeMillis / 1000)
+
   implicit def toPredicate[T](a: (T) => Boolean): Predicate[T] = new Predicate[T]() {
     override def `match`(t: T) = a(t)
   }
@@ -29,11 +35,21 @@ class DB4OStorageMedium extends StorageMedium {
     db.close
   }
 
-  override def logTrade(from: Long, to: Long, item: Int, amount: Long, x: Int, y: Int, t: Int, date: Long) {}
-  override def logReport(user: Long, reported: Long, reason: Byte, x: Int, y: Int, status: String) {}
-  override def logKill(user: Long, killed: Long, t: Byte) {}
-  override def logBan(user: Long, mod: Long) {}
-  override def logLogin(user: Long, ip: String) {}
+  override def logTrade(from: Long, to: Long, item: Int, amount: Long, x: Int, y: Int, t: Int, date: Long) {
+    db.store(new TradeLog(from, to, item, amount, x, y, t, date))
+  }
+  override def logReport(user: Long, reported: Long, reason: Byte, x: Int, y: Int, status: String) {
+    db.store(new ReportLog(user, reported, reason, x, y, status))
+  }
+  override def logKill(user: Long, killed: Long, t: Byte) {
+    db.store(new KillLog(user, killed, t))
+  }
+  override def logBan(user: Long, mod: Long) {
+    db.store(new BanLog(user, mod))
+  }
+  override def logLogin(user: Long, ip: String) {
+    db.store(new LoginLog(user, ip))
+  }
 
   override def addFriend(user: Long, friend: Long) {}
   override def removeFriend(user: Long, friend: Long) {}
