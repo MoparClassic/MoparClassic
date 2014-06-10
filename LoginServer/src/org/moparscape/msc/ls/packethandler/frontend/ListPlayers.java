@@ -15,7 +15,6 @@ public class ListPlayers implements PacketHandler {
 
 	public void handlePacket(Packet p, final IoSession session)
 			throws Exception {
-		System.out.println("Listing...");
 		String[] params = ((FPacket) p).getParameters();
 		try {
 			final int worldID = Integer.parseInt(params[0]);
