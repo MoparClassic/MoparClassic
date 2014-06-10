@@ -33,6 +33,7 @@ import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
 import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
+import org.moparscape.msc.gs.model.extra.elo.Elo;
 import org.moparscape.msc.gs.model.player.attribute.Quests;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
@@ -579,6 +580,10 @@ public class Player extends Mob {
 		actionSender = new MiscPacketBuilder(this);
 		setBusy(true);
 		Instance.getWorld();
+		
+		if(Config.elo) {
+			this.setProperty("elo", new Elo(1200, 0));
+		}
 	}
 
 	public boolean accessingBank() {
@@ -1826,6 +1831,12 @@ public class Player extends Mob {
 					owner.getActionSender().sendScreenshot();
 				}
 			});
+			if(Config.elo) {
+				Elo winner = player.getProperty("elo");
+				Elo loser = this.getProperty("elo");
+				
+				winner.recalculateForWin(loser);
+			}
 			Instance.getServer().getLoginConnector().getActionSender()
 					.logKill(player.getUsernameHash(), usernameHash, stake);
 		}

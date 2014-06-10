@@ -111,4 +111,9 @@
 	<!-- The interval in which to save logs, in minutes. -->
 	<entry key="batch-log-interval">1</entry>
 	<entry key="varrock-spawn">false</entry>
+	
+	<!-- Extras -->
+	
+	<!-- Should you use the elo system? -->
+	<entry key="elo">false</entry>
 </properties>

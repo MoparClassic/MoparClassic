@@ -19,7 +19,7 @@ public class Config {
 
 	public static long START_TIME;
 
-	public static boolean members, f2pWildy, APPLICATION_LEVEL_BLOCKING, VARROCKSPAWN;
+	public static boolean members, f2pWildy, APPLICATION_LEVEL_BLOCKING, VARROCKSPAWN, elo;
 
 	public static double expRate, subExpRate, WILD_NON_COMBAT_BONUS,
 			WILD_COMBAT_BONUS;
@@ -84,6 +84,8 @@ public class Config {
 		pmods = props.getProperty("pmods").replaceAll(", +", ",").split(",");
 		mods = props.getProperty("mods").replaceAll(", +", ",").split(",");
 		admins = props.getProperty("admins").replaceAll(", +", ",").split(",");
+		
+		elo = Boolean.parseBoolean(props.getProperty("elo", "false"));
 
 		IP_BAN_REMOVAL_DELAY = Integer.parseInt(props
 				.getProperty("ip-ban-removal-delay"));
