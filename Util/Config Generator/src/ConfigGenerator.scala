@@ -3,12 +3,13 @@ import java.io.FileNotFoundException
 import java.util.Properties
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import scala.io.ReadStdin
 
 /**
- * Helps new users generate custom config files for their server.
- *
- * @author Joe Pritzel
- */
+  * Helps new users generate custom config files for their server.
+  *
+  * @author Joe Pritzel
+  */
 object ConfigGenerator extends App {
 
 	// Find directories
@@ -38,27 +39,30 @@ object ConfigGenerator extends App {
 		new Entry("How long should a player have to stand still in the wild to log out for?", "wild-stand-still-time"),
 		new Entry("There is a global message for players reaching the max level of a skill.", "max-level-congrats"),
 		new Entry("How long is the afk timeout, in minutes?", "afk-timeout"),
-		new Entry("What is the MOTD?", "MOTD")
+		new Entry("What is the MOTD?", "MOTD"),
+		new Entry("The elo system is enabled.", "elo")
 	)).generate
 
 	new ConfigGenerator(lsConfig, Array(
 		new Entry("You allow multi-logging.", "allow-multilogging"),
-		new Entry("You want the LS to cache saves.", "cache-saves"))
-	).generate
+		new Entry("You want the LS to cache saves.", "cache-saves"),
+		new Entry("You want the login server to use Reddit.", "use-reddit"),
+		new Entry("You want to enable automatic registration.", "auto-register")
+	)).generate
 }
 
 /**
- * Generates a config file based on the entries provided.
- *
- * @author Joe Pritzel
- */
+  * Generates a config file based on the entries provided.
+  *
+  * @author Joe Pritzel
+  */
 private class ConfigGenerator(config : File, entries : Array[Entry]) {
 
 	def generate {
 		entries.foreach {
 			e =>
 				println(e.question)
-				e.value = readLine
+				e.value = ReadStdin.readLine
 		}
 
 		val props = new Properties
@@ -78,8 +82,8 @@ private class ConfigGenerator(config : File, entries : Array[Entry]) {
 }
 
 /**
- * Represents an entry in the XML file.
- *
- * @author Joe Pritzel
- */
+  * Represents an entry in the XML file.
+  *
+  * @author Joe Pritzel
+  */
 private class Entry(val question : String, val id : String, var value : String = "")
