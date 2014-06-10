@@ -3,27 +3,32 @@ package org.moparscape.msc.ls.persistence.impl
 import org.moparscape.msc.ls.persistence.StorageMedium
 import org.moparscape.msc.ls.model.PlayerSave
 import org.moparscape.msc.ls.util.Config
+import org.moparscape.msc.ls.util.{ TradeLog, ReportLog, KillLog, BanLog, LoginLog }
 import java.util.Random
 import com.db4o.Db4oEmbedded
 import com.db4o.query.Predicate
 import scala.language.implicitConversions
-import com.db4o.EmbeddedObjectContainer
+import com.db4o.cs.Db4oClientServer
+import com.db4o.ObjectContainer
+
+object DB40StorageMedium {
+  val db = Db4oClientServer.openServer(Db4oClientServer
+    .newServerConfiguration(), "MoparClassicDB.db4o", 0)
+  Runtime.getRuntime.addShutdownHook(new Thread() {
+    override def run {
+      db.close
+    }
+  })
+}
 
 class DB4OStorageMedium extends StorageMedium {
-
-  class TradeLog(from: Long, to: Long, item: Int, amount: Long, x: Int, y: Int, t: Int, date: Long = System.currentTimeMillis / 1000)
-  class ReportLog(user: Long, reported: Long, reason: Byte, x: Int, y: Int, status: String, date: Long = System.currentTimeMillis / 1000)
-  class KillLog(user: Long, killed: Long, t: Byte, date: Long = System.currentTimeMillis / 1000)
-  class BanLog(user: Long, mod: Long, date: Long = System.currentTimeMillis / 1000)
-  class LoginLog(user: Long, ip: String, date: Long = System.currentTimeMillis / 1000)
-
   implicit def toPredicate[T](a: (T) => Boolean): Predicate[T] = new Predicate[T]() {
     override def `match`(t: T) = a(t)
   }
 
-  implicit def toPlayer(db: (EmbeddedObjectContainer, Long)): PlayerSave = db._1.query[PlayerSave]((p: PlayerSave) => p.getUser == db._2).next
+  implicit def toPlayer(db: (ObjectContainer, Long)): PlayerSave = db._1.query[PlayerSave]((p: PlayerSave) => p.getUser == db._2).next
 
-  private val db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "MoparClassicDB.db4o")
+  val db = DB40StorageMedium.db.openClient
 
   override def savePlayer(s: PlayerSave) = {
     db.store(s)

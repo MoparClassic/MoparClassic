@@ -15,6 +15,7 @@ public class ListPlayers implements PacketHandler {
 
 	public void handlePacket(Packet p, final IoSession session)
 			throws Exception {
+		System.out.println("Listing...");
 		String[] params = ((FPacket) p).getParameters();
 		try {
 			final int worldID = Integer.parseInt(params[0]);
@@ -27,7 +28,7 @@ public class ListPlayers implements PacketHandler {
 			world.getActionSender().playerListRequest(new PacketHandler() {
 				public void handlePacket(Packet p, IoSession s)
 						throws Exception {
-					builder.setID(1);
+					builder.setID(2);
 
 					ArrayList<String> params = new ArrayList<String>();
 					int count = p.readInt();
@@ -42,7 +43,9 @@ public class ListPlayers implements PacketHandler {
 				}
 			});
 		} catch (Exception e) {
+			e.printStackTrace();
 			builder.setID(0);
+			builder.addBytes(e.getMessage().getBytes());
 			session.write(builder.toPacket());
 		}
 	}
