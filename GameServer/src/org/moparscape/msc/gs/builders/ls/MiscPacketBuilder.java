@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
+import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.connection.Packet;
@@ -17,6 +18,7 @@ import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.phandler.ls.PlayerLogin;
 import org.moparscape.msc.gs.tools.DataConversions;
 import org.moparscape.msc.gs.util.EntityList;
+import org.moparscape.msc.gs.util.Hash;
 import org.moparscape.msc.gs.util.Logger;
 
 public class MiscPacketBuilder {
@@ -137,6 +139,13 @@ public class MiscPacketBuilder {
 			}
 		});
 		s.addShort(Config.WORLD_ID);
+		if (!Server.devMode) {
+			byte[] b = new Hash(Config.LS_PASS.getBytes()).value();
+			s.addInt(b.length);
+			s.addBytes(b);
+		} else {
+			s.addInt(0);
+		}
 		EntityList<Player> players = world.getPlayers();
 		s.addShort(players.size());
 		for (Player player : players) {

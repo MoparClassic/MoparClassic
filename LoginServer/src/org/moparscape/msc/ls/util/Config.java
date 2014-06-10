@@ -15,7 +15,7 @@ public class Config {
 	public static int LS_PORT, QUERY_PORT;
 
 	public static String RSCDLS_HOME, CONF_DIR, LOG_DIR, MYSQL_HOST, MYSQL_DB,
-			MYSQL_USER, MYSQL_PASS, LS_IP, QUERY_IP, AUTH_META_DATA;
+			MYSQL_USER, MYSQL_PASS, LS_IP, QUERY_IP, AUTH_META_DATA, LS_CONNECT_PASS;
 
 	public static long START_TIME;
 
@@ -54,6 +54,7 @@ public class Config {
 
 		LS_IP = props.getProperty("lsip");
 		LS_PORT = Integer.parseInt(props.getProperty("lsport"));
+		LS_CONNECT_PASS = props.getProperty("ls-connect-pass");
 		QUERY_IP = props.getProperty("queryip");
 		QUERY_PORT = Integer.parseInt(props.getProperty("queryport"));
 		STORAGE_MEDIUM = props.getProperty("storage-medium",
@@ -69,7 +70,7 @@ public class Config {
 		USE_REDDIT = Boolean.parseBoolean(props.getProperty("use-reddit",
 				"false"));
 		AUTO_REGISTER = Boolean.parseBoolean(props.getProperty("auto-register",
-				"false"));
+				"false"));		
 		props.clear();
 	}
 

@@ -11,6 +11,7 @@
 	<entry key="world-id">1</entry>
 	<entry key="lsip">localhost</entry>
 	<entry key="lsport">34526</entry>
+	<entry key="ls-pass"></entry>
 
 	<!-- If the world should be P2P. -->
 	<entry key="members">false</entry>

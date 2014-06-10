@@ -8,6 +8,7 @@
 	<entry key="mysqlpass"></entry>
 	<entry key="lsip">localhost</entry>
 	<entry key="lsport">34526</entry>
+	<entry key="ls-connect-pass"></entry>
 	<entry key="queryip">localhost</entry>
 	<entry key="queryport">8186</entry>
 	<!-- The storage medium that should be used for saving/loading players and 

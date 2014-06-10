@@ -53,6 +53,17 @@ public class Server {
 
 		Config.initConfig(configFile);
 		Logger.println(msg);
+		
+		if (Config.LS_PASS == null || Config.LS_PASS.equals("")) {
+			if (new File("conf", "DEVMODE").exists()) {
+				devMode = true;
+			} else {
+				System.out
+						.println("You must specify a ls-pass in the config, or make a file called DEVMODE in the config folder.");
+				System.exit(0);
+			}
+		}
+		
 		world = Instance.getWorld();
 
 		Logger.println(Config.SERVER_NAME + " ["
@@ -71,6 +82,7 @@ public class Server {
 	}
 
 	private static Server server;
+	public static boolean devMode = false;
 
 	public static boolean isMembers() {
 		return Config.members;
