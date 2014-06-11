@@ -7,6 +7,8 @@ Install Apache Ant and Apache Ivy
 
 Ensure all the paths are set correctly.
 
+In each config file (world.xml for GS and Config.xml for LS), you need to specify the login server password, which is used to help secure the login server.
+
 Go to LoginServer in the terminal/command prompt and type--
 ant run
 
