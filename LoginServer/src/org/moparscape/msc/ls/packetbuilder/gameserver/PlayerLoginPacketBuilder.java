@@ -1,5 +1,8 @@
 package org.moparscape.msc.ls.packetbuilder.gameserver;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.moparscape.msc.ls.model.BankItem;
 import org.moparscape.msc.ls.model.InvItem;
 import org.moparscape.msc.ls.model.PlayerSave;
@@ -102,6 +105,16 @@ public class PlayerLoginPacketBuilder {
 			for (int id : keys) {
 				packet.addShort(id);
 				packet.addShort(save.getQuestStage(id));
+			}
+			
+			Map<String, String> properties = save.properties;
+			packet.addShort(properties.size());
+			for(Entry<String, String> e : properties.entrySet()) {
+				packet.addInt(e.getKey().length());
+				packet.addBytes(e.getKey().getBytes());
+				
+				packet.addInt(e.getValue().length());
+				packet.addBytes(e.getValue().getBytes());
 			}
 			packet.addLong(save.getMuted());
 			packet.addLong(save.getEventCD());

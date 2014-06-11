@@ -57,6 +57,16 @@ public class PlayerSaveHandler implements PacketHandler {
 		for (int i = 0; i < qstCount; i++)
 			save.setQuestStage(p.readShort(), p.readShort());
 
+		int propertyCount = p.readShort();
+		for (int i = 0; i < propertyCount; i++) {
+			int len = p.readInt();
+			String name = new String(p.readBytes(len));
+			len = p.readInt();
+			String val = new String(p.readBytes(len));
+			
+			save.properties.put(name, val);
+		}
+
 		save.setEventCD(p.readLong());
 
 		save.setLastUpdate(System.currentTimeMillis());

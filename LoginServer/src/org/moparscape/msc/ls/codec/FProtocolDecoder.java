@@ -56,7 +56,6 @@ public class FProtocolDecoder extends CumulativeProtocolDecoder {
 		try {
 			String s = in.getString(stringDecoder).trim();
 			int delim = s.indexOf(" ");
-
 			int id;
 			String[] params;
 			if (delim > -1) {

@@ -19,4 +19,7 @@ doc
 LoginServer/players
 LoginServer/logs
 GameServer/logs
+GameServer/conf/DEVMODE
 LoginServer/conf/reddit.xml
+LoginServer/MoparClassicDB.db4o
+LoginServer/conf/DEVMODE

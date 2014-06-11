@@ -2,11 +2,9 @@ package org.moparscape.msc.gs.phandler.client
 
 import java.net.InetSocketAddress
 import java.util.{ Calendar, GregorianCalendar, TimeZone }
-
 import scala.collection.immutable.HashMap
 import scala.language.postfixOps
 import scala.xml.{ NodeSeq, XML }
-
 import org.apache.mina.common.IoSession
 import org.moparscape.msc.gs.config.Config
 import org.moparscape.msc.gs.Instance
@@ -20,6 +18,7 @@ import org.moparscape.msc.gs.model.definition.EntityHandler
 import org.moparscape.msc.gs.phandler.PacketHandler
 import org.moparscape.msc.gs.tools.DataConversions
 import org.moparscape.msc.gs.util.Logger
+import org.moparscape.msc.gs.model.extra.elo.Elo
 
 object CommandHandler {
 	import scala.xml.XML
@@ -57,9 +56,9 @@ object CommandHandler {
 		STUCK_STAND_STILL_TIME = p(s \ "stuck-stand-still-time")
 		STUCK_X = p(s \ "stuck-x")
 		STUCK_Y = p(s \ "stuck-y")
-		def p(n : NodeSeq) = {
-			Integer.parseInt(n.text)
-		}
+			def p(n : NodeSeq) = {
+				Integer.parseInt(n.text)
+			}
 	}
 
 	load
@@ -117,6 +116,9 @@ class CommandHandler extends PacketHandler {
 			case "reloadipbans" => reloadIPBans(p)
 			case "tele" => tele(p, args)
 			case "coords" => message(p, p.getX + ", " + p.getY)
+
+			// Extras
+			case "checkelo" => checkElo(p, args)
 			case _ => none = true
 		}
 		if (!none)
@@ -338,6 +340,25 @@ class CommandHandler extends PacketHandler {
 			p.teleport(args(0).toInt, args(1).toInt, false)
 		} catch {
 			case _ : Throwable => message(p, "Invalid args.")
+		}
+	}
+
+	// Extras
+	def checkElo(p : Player, args : Array[String]) {
+		if (!Config.elo) {
+			return
+		}
+		if (args.isEmpty) {
+			val e = p.getProperty[Elo]("elo")
+			message(p, s"Your elo is ${e.rating} and you have competed ${e.games} times.")
+		} else {
+			val pl = Instance.getWorld.getPlayer(DataConversions.usernameToHash(args(0)))
+			if (pl == null) {
+				message(p, "Could not find player \"" + args(0) + "\".")
+			} else {
+				val e = pl.getProperty[Elo]("elo")
+				message(p, s"${pl.getUsername} has an elo of ${e.rating} and has competed ${e.games} times.")
+			}
 		}
 	}
 

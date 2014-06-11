@@ -60,6 +60,11 @@
 	<permission name="reloadipbans">10</permission>
 	<!-- Teleports the user to the specified coordinates -->
 	<permission name="tele">11</permission>
+	
+	<!-- Extra -->
+	
+	<!-- Only enabled if elo is enabled on the server. -->
+	<permission name="checkelo">1</permission>
 
 	<setting>
 		<!-- Minimum delay between commands -->

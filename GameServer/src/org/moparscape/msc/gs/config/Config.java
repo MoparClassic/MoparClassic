@@ -19,7 +19,8 @@ public class Config {
 
 	public static long START_TIME;
 
-	public static boolean members, f2pWildy, APPLICATION_LEVEL_BLOCKING, VARROCKSPAWN;
+	public static boolean members, f2pWildy, APPLICATION_LEVEL_BLOCKING,
+			VARROCKSPAWN, elo;
 
 	public static double expRate, subExpRate, WILD_NON_COMBAT_BONUS,
 			WILD_COMBAT_BONUS;
@@ -28,12 +29,12 @@ public class Config {
 	public static int IP_BAN_REMOVAL_DELAY, GARBAGE_COLLECT_INTERVAL,
 			SAVE_INTERVAL;
 	public static String DATE_FORMAT, BLOCK_COMMAND, UNBLOCK_COMMAND,
-			ALERT_CONFIG, COMMAND_CONFIG;
+			ALERT_CONFIG, COMMAND_CONFIG, LS_PASS;
 	public static int CONNECTION_THROTTLE_SIZE,
 			WILD_LEVEL_FOR_NON_COMBAT_BONUS, WILD_STAND_STILL_TIME,
 			DELAY_REMOVAL;
-	public static boolean OS_LEVEL_BLOCKING, THROTTLE_ALERT, OS_LEVEL_UNBLOCK_FAILED_ALERT,
-			CONGRATS_FOR_MAX_LEVEL;
+	public static boolean OS_LEVEL_BLOCKING, THROTTLE_ALERT,
+			OS_LEVEL_UNBLOCK_FAILED_ALERT, CONGRATS_FOR_MAX_LEVEL;
 	public static String DATA_STORE;
 	public static int PACKET_PER_SECOND_THRESHOLD;
 	public static boolean PACKET_PER_SECOND_ALERT;
@@ -74,6 +75,7 @@ public class Config {
 
 		LS_IP = props.getProperty("lsip");
 		LS_PORT = Integer.parseInt(props.getProperty("lsport"));
+		LS_PASS = props.getProperty("ls-pass");
 		WORLD_ID = Integer.parseInt(props.getProperty("world-id"));
 
 		members = Boolean.parseBoolean(props.getProperty("members", "false"));
@@ -84,6 +86,8 @@ public class Config {
 		pmods = props.getProperty("pmods").replaceAll(", +", ",").split(",");
 		mods = props.getProperty("mods").replaceAll(", +", ",").split(",");
 		admins = props.getProperty("admins").replaceAll(", +", ",").split(",");
+
+		elo = Boolean.parseBoolean(props.getProperty("elo", "false"));
 
 		IP_BAN_REMOVAL_DELAY = Integer.parseInt(props
 				.getProperty("ip-ban-removal-delay"));
@@ -133,15 +137,15 @@ public class Config {
 
 		DATA_SERVICE = props.getProperty("data-service");
 		REPORT_HANDLER = props.getProperty("report-handler");
-		
+
 		MOTD = props.getProperty("MOTD");
-		
+
 		CAPTCHA_DICTIONARY = props.getProperty("captcha-dictionary");
-	 	FONT_DIR = props.getProperty("font-dir");
-	 	LOG_DIR = props.getProperty("log-dir");
-	 	BATCH_LOG_INTERVAL = Integer.parseInt(props.getProperty("batch-log-interval"));
-		VARROCKSPAWN = Boolean.parseBoolean(props
-				.getProperty("varrock-spawn"));
+		FONT_DIR = props.getProperty("font-dir");
+		LOG_DIR = props.getProperty("log-dir");
+		BATCH_LOG_INTERVAL = Integer.parseInt(props
+				.getProperty("batch-log-interval"));
+		VARROCKSPAWN = Boolean.parseBoolean(props.getProperty("varrock-spawn"));
 		props.clear();
 	}
 

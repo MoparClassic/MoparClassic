@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.moparscape.msc.ls.Server;
 import org.moparscape.msc.ls.util.DataConversions;
@@ -44,6 +45,7 @@ public class PlayerSave implements Serializable {
 	public byte[] pass;
 	public boolean banned;
 	public String UID;
+	public Map<String, String> properties = new HashMap<>();
 
 	private int x, y;
 	public String identifier;

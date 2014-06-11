@@ -80,7 +80,7 @@ public class PacketThrottler extends IoFilterAdapter {
 		}
 
 		int count = incrementAndGet(player.getUsernameHash());
-		System.out.println(count);
+		//System.out.println(count);
 		if (count > Config.PACKET_PER_SECOND_THRESHOLD) {
 
 			if (Config.PACKET_PER_SECOND_ALERT) {
