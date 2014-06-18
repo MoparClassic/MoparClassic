@@ -46,6 +46,7 @@ public class Config {
 	public static String FONT_DIR;
 	public static String LOG_DIR;
 	public static int BATCH_LOG_INTERVAL;
+	public static AdditionalDeathPenalties ADDITIONAL_DEATH_PENALTIES;
 
 	static {
 		loadEnv();
@@ -146,6 +147,24 @@ public class Config {
 		BATCH_LOG_INTERVAL = Integer.parseInt(props
 				.getProperty("batch-log-interval"));
 		VARROCKSPAWN = Boolean.parseBoolean(props.getProperty("varrock-spawn"));
+
+		ADDITIONAL_DEATH_PENALTIES = new AdditionalDeathPenalties();
+		String edp = "extra-death-penalties";
+		ADDITIONAL_DEATH_PENALTIES.enabled = Boolean.parseBoolean(props
+				.getProperty(edp));
+		ADDITIONAL_DEATH_PENALTIES.xp = Boolean.parseBoolean(props
+				.getProperty(edp + "-xp"));
+		ADDITIONAL_DEATH_PENALTIES.penalty = Integer.parseInt(props
+				.getProperty(edp + "-penalty"));
+		ADDITIONAL_DEATH_PENALTIES.onlycombat = Boolean.parseBoolean(props
+				.getProperty(edp + "-onlycombat"));
+		ADDITIONAL_DEATH_PENALTIES.wild = Boolean.parseBoolean(props
+				.getProperty(edp + "-wild"));
+		ADDITIONAL_DEATH_PENALTIES.npc = Boolean.parseBoolean(props
+				.getProperty(edp + "-npc"));
+		ADDITIONAL_DEATH_PENALTIES.duel = Boolean.parseBoolean(props
+				.getProperty(edp + "-duel"));
+
 		props.clear();
 	}
 
@@ -160,5 +179,15 @@ public class Config {
 		}
 		CONF_DIR = home + File.separator + "conf";
 		RSCD_HOME = home;
+	}
+
+	public static class AdditionalDeathPenalties {
+		public boolean enabled;
+		public boolean xp;
+		public int penalty;
+		public boolean onlycombat;
+		public boolean wild;
+		public boolean npc;
+		public boolean duel;
 	}
 }

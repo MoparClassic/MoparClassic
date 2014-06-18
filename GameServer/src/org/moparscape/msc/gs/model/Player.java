@@ -19,6 +19,7 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.client.MiscPacketBuilder;
 import org.moparscape.msc.gs.builders.ls.SavePacketBuilder;
 import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Config.AdditionalDeathPenalties;
 import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.core.GameEngine;
@@ -1820,11 +1821,48 @@ public class Player extends Mob {
 		killedBy(mob, false);
 	}
 
+	public void applyADP(AdditionalDeathPenalties adp) {
+		int max = maxStat.length;
+		if (adp.onlycombat) {
+			max = 7;
+		}
+		for (int i = 0; i < max; i++) {
+			if(adp.xp) {
+				int xp =  (int) (this.getExp(i) * (adp.penalty / 100.0));
+				this.incExp(i, -xp, false);
+			} else {
+				this.setMaxStat(i, this.getMaxStat(i) - adp.penalty);
+				this.setExp(i, Formulae.levelToExperience(this.getMaxStat(i)));
+			}
+		}
+
+	}
+
 	public void killedBy(Mob mob, boolean stake) {
 		if (!loggedIn) {
 			Logger.error(username + " not logged in, but killed!");
 			return;
 		}
+		AdditionalDeathPenalties adp = Config.ADDITIONAL_DEATH_PENALTIES;
+		if (adp.enabled) {
+			boolean apply = false;
+			if (adp.wild && mob instanceof Player && !stake) {
+				apply = true;
+			}
+
+			if (adp.npc && mob instanceof Npc) {
+				apply = true;
+			}
+
+			if (adp.duel && stake && mob instanceof Player) {
+				apply = true;
+			}
+
+			if (apply) {
+				applyADP(adp);
+			}
+		}
+
 		if (mob instanceof Player) {
 			Player player = (Player) mob;
 			player.getActionSender().sendMessage(

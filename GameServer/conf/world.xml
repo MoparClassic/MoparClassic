@@ -117,4 +117,20 @@
 	
 	<!-- Should you use the elo system? -->
 	<entry key="elo">false</entry>
+	
+	<!-- Additional Death Penalties -->
+	<!-- Should you use the additional death penalties system? -->
+	<entry key="extra-death-penalties">false</entry>
+	<!-- Should the penalty be XP based or flat levels? (true for XP, false for flat levels) -->
+	<entry key="extra-death-penalties-xp">false</entry>
+	<!-- Penalty in levels or percent of XP. -->
+	<entry key="extra-death-penalties-penalty">1</entry>
+	<!-- Only penalize combat stats? -->
+	<entry key="extra-death-penalties-onlycombat">false</entry>
+	<!-- Should it be applied on death in the wild by player? -->
+	<entry key="extra-death-penalties-wild">false</entry>
+	<!-- Should it be applied on death by NPC? -->
+	<entry key="extra-death-penalties-npc">false</entry>
+	<!-- Should it be applied on death in duels? -->
+	<entry key="extra-death-penalties-duel">false</entry>
 </properties>
