@@ -13,11 +13,11 @@ In each config file (world.xml for GS and Config.xml for LS), you need to specif
 
 Go to LoginServer in the terminal/command prompt and type--
 ```
-  ant run
+ant run
 ```
 Go to GameServer in the terminal/command prompt and type--
 ```
-  ant run
+ant run
 ```
 You're now ready to start accept connections.
 
@@ -42,17 +42,28 @@ Just look for an NPC that behaves similar to what you want (in the org.moparscap
 
 Adding properties to the Player class, with saving
 ------
-Simply go to the constructor of the Player class, and do:
+Create a class that holds the data you want to store, if appropriate. For the example, we'll use the following class:
 ```
-  this.setProperty("uniquename", new SomeDefaultObject);
+public class SomeDefaultObject {
+  public String example0 = "some value here"; // Will save.
+  private String example1 = "some private value here"; // Will save.
+  public transient String example2 = "some other value here"; // Will not save.
+  public static String example3 = "some value here"; // Will not save.
+}
+```
+Then, go to the constructor of the Player class, and do:
+```
+this.setProperty("uniquename", new SomeDefaultObject);
 ```
 This will do everything needed for you. It will automatically pass all objects in there to the LS and save them, then send them back. To get the value back, all you need to do is this for Java:
 ```
 SomeDefaultObject sdo = player.getProperty("uniquename");
+System.out.println(sdo.example0);
 ```
 And in Scala, you can do it like this or in similar manner to the above:
 ```
-  val sdo = player.getProperty[SomeDefaultObject]("uniquename")
+val sdo = player.getProperty[SomeDefaultObject]("uniquename")
+println(sdo.example0)
 ```
 Adding commands
 ------
@@ -65,5 +76,5 @@ Just look for an ObjectAction that behaves similar to what you want (in the org.
 Adding Quests--
 Create a class that extends Quest (in the org.moparscape.msc.gs.quest package) and put it in the org.moparscape.msc.gs.quest.impl package. All you need to do in the class is supply constructor arguments. Then, in the Quests class (in the org.moparscape.msc.gs.model.player.attribute package) add an instance of the quest you made to the list of quests. Now, go to the NPC handlers, object action handlers, etc. to add the quest content. You can increment the stages by doing the following:
 ```
-  player.quests.set(idOfNewQuest, player.quests.get(idOfNewQuest) + 1);
+player.quests.set(idOfNewQuest, player.quests.get(idOfNewQuest) + 1);
 ```
