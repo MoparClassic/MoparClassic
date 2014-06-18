@@ -1,4 +1,4 @@
-package org.moparscape.msc.gs.model.extra.elo
+package org.moparscape.msc.gs.model.player.attribute
 
 class Elo(var rating: Int, var games: Int) {
 

@@ -14,6 +14,7 @@ import org.moparscape.msc.gs.model.definition.entity.ItemDropDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
+import org.moparscape.msc.gs.model.player.attribute.KillDeathHistory;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -343,6 +344,8 @@ public class Npc extends Mob {
 		if (mob instanceof Player) {
 			Player player = (Player) mob;
 			player.getActionSender().sendSound("victory");
+			KillDeathHistory kdh = player.getProperty("killDeathHistory");
+			kdh.npcKills_$eq(kdh.npcKills() + 1);
 		}
 
 		Mob opponent = super.getOpponent();

@@ -33,7 +33,8 @@ import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
 import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
-import org.moparscape.msc.gs.model.extra.elo.Elo;
+import org.moparscape.msc.gs.model.player.attribute.Elo;
+import org.moparscape.msc.gs.model.player.attribute.KillDeathHistory;
 import org.moparscape.msc.gs.model.player.attribute.Quests;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
@@ -580,10 +581,13 @@ public class Player extends Mob {
 		actionSender = new MiscPacketBuilder(this);
 		setBusy(true);
 		Instance.getWorld();
-		
-		if(Config.elo) {
+
+		if (Config.elo) {
 			this.setProperty("elo", new Elo(1200, 0));
 		}
+
+		this.setProperty("killDeathHistory", new KillDeathHistory(0, 0, 0, 0,
+				0, 0));
 	}
 
 	public boolean accessingBank() {
@@ -1831,14 +1835,26 @@ public class Player extends Mob {
 					owner.getActionSender().sendScreenshot();
 				}
 			});
-			if(Config.elo) {
+			if (Config.elo) {
 				Elo winner = player.getProperty("elo");
 				Elo loser = this.getProperty("elo");
-				
+
 				winner.recalculateForWin(loser);
+			}
+			KillDeathHistory kdh = player.getProperty("killDeathHistory");
+			KillDeathHistory tkdh = this.getProperty("killDeathHistory");
+			if (stake) {
+				kdh.playerKillsDuel_$eq(kdh.playerKillsDuel() + 1);
+				tkdh.playerDeathsDuel_$eq(tkdh.playerDeathsDuel() + 1);
+			} else {
+				kdh.playerKillsWild_$eq(kdh.playerKillsWild() + 1);
+				tkdh.playerDeathsWild_$eq(tkdh.playerDeathsWild() + 1);
 			}
 			Instance.getServer().getLoginConnector().getActionSender()
 					.logKill(player.getUsernameHash(), usernameHash, stake);
+		} else {
+			KillDeathHistory kdh = this.getProperty("killDeathHistory");
+			kdh.npcDeaths_$eq(kdh.npcDeaths() + 1);
 		}
 		Mob opponent = super.getOpponent();
 		if (opponent != null) {
