@@ -83,7 +83,6 @@ public class Player extends Mob {
 	 */
 	private Bank bank;
 
-	private boolean blink = false;
 	/**
 	 * Bubbles needing displayed
 	 */
@@ -673,10 +672,6 @@ public class Player extends Mob {
 
 	public void addToTradeOffer(InvItem item) {
 		tradeOffer.add(item);
-	}
-
-	public boolean blink() {
-		return blink;
 	}
 
 	public boolean canLogout() {
@@ -2429,10 +2424,6 @@ public class Player extends Mob {
 
 	public void setBank(Bank b) {
 		bank = b;
-	}
-
-	public void setBlink(boolean arg) {
-		blink = arg;
 	}
 
 	public void setBubblesNeedingDisplayed(
