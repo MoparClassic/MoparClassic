@@ -24,11 +24,7 @@ public final class DelayedEventHandler {
 		}
 	}
 
-	public boolean contains(DelayedEvent event) {
-		return events.contains(event);
-	}
-
-	public void doEvents() {
+	void doEvents() {
 		try {
 			if (toAdd.size() > 0) {
 				events.addAll(toAdd);
@@ -59,10 +55,6 @@ public final class DelayedEventHandler {
 
 	public ArrayList<DelayedEvent> getEvents() {
 		return events;
-	}
-
-	public void remove(DelayedEvent event) {
-		events.remove(event);
 	}
 
 	public void removePlayersEvents(Player player) {

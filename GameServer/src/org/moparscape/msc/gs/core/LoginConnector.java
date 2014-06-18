@@ -162,7 +162,7 @@ public class LoginConnector {
 		}
 	}
 
-	public void processIncomingPackets() {
+	void processIncomingPackets() {
 		for (LSPacket p : packetQueue.getPackets()) {
 			PacketHandler handler;
 			if (((handler = uniqueHandlers.get(p.getUID())) != null)
@@ -180,7 +180,7 @@ public class LoginConnector {
 		}
 	}
 
-	public boolean reconnect() {
+	private boolean reconnect() {
 		try {
 			Logger.println("Attempting to connect to LS");
 			SocketConnector conn = new SocketConnector();
@@ -217,11 +217,7 @@ public class LoginConnector {
 		}
 	}
 
-	public boolean running() {
-		return running;
-	}
-
-	public synchronized void sendQueuedPackets() {
+	synchronized void sendQueuedPackets() {
 		try {
 			List<LSPacket> packets = actionSender.getPackets();
 			for (LSPacket packet : packets) {

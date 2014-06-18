@@ -171,15 +171,6 @@ public class MiscPacketBuilder {
 		packets.add(s.toPacket());
 	}
 
-	public void reportUser(long user, long reported, byte reason) {
-		LSPacketBuilder s = new LSPacketBuilder();
-		s.setID(15);
-		s.addLong(user);
-		s.addLong(reported);
-		s.addByte(reason);
-		packets.add(s.toPacket());
-	}
-
 	public void requestPlayerInfo(final Player mod, final long user) {
 		LSPacketBuilder s = new LSPacketBuilder();
 		s.setID(8);

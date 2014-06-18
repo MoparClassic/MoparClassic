@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class Config {
 
-	public static String SERVER_IP, SERVER_NAME, RSCD_HOME, CONF_DIR,
+	public static String SERVER_IP, SERVER_NAME, CONF_DIR,
 			SERVER_LOCATION, LS_IP;
 
 	public static int SERVER_PORT, SERVER_VERSION, MAX_PLAYERS, LS_PORT,
@@ -178,7 +178,6 @@ public class Config {
 			home = ".";
 		}
 		CONF_DIR = home + File.separator + "conf";
-		RSCD_HOME = home;
 	}
 
 	public static class AdditionalDeathPenalties {

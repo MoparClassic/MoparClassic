@@ -50,11 +50,4 @@ public class Constants {
 				258 };
 
 	}
-
-	/**
-	 * @category LoginServer
-	 */
-	public static class LoginServer {
-
-	}
 }

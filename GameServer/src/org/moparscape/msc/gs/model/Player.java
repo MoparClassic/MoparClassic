@@ -112,7 +112,6 @@ public class Player extends Mob {
 	 * Combat style: 0 - all, 1 - str, 2 - att, 3 - def
 	 */
 	private int combatStyle = 0;
-	private int Combo = 0;
 
 	/**
 	 * Added by Zerratar: Correct sleepword we are looking for! Case SenSitIvE
@@ -138,7 +137,6 @@ public class Player extends Mob {
 	 * Should we destroy this player?
 	 */
 	private boolean destroy = false;
-	private boolean doricDependency = false;
 	/**
 	 * DelayedEvent responsible for handling prayer drains
 	 */
@@ -212,8 +210,6 @@ public class Player extends Mob {
 	 * The main accounts group is
 	 */
 	private int groupID = 1;
-
-	private boolean hasAnswered = false;
 
 	/**
 	 * List of usernameHash's of players on players ignore list
@@ -310,7 +306,6 @@ public class Player extends Mob {
 	 */
 	private long lastPing = GameEngine.getTime();
 	private String lastPlayerInfo2 = null;
-	private int lastRandom = 0;
 	private long lastRange = GameEngine.getTime();
 	/**
 	 * Time last report was sent, used to throttle reports
@@ -356,7 +351,6 @@ public class Player extends Mob {
 	/**
 	 * Added by Konijn
 	 */
-	private boolean noclip = false;
 	// Do aggros attack?
 	private boolean nonaggro = false;
 	// Is the player PK-able?
@@ -442,8 +436,6 @@ public class Player extends Mob {
 	 * If the player has been sending suscicious packets
 	 */
 	private boolean suspicious = false;
-	private int tempx = -1;
-	private int tempy = -1;
 	/**
 	 * If the second trade screen has been accepted
 	 */
@@ -706,18 +698,6 @@ public class Player extends Mob {
 				return false;
 			}
 
-			// KO9 - Konijn - check if PK'ing is disabled in this area
-			int i = 0;
-			for (Point place[] : world.getPlaces()) {
-				if (getLocation().inBounds(place[0].getX(), place[0].getY(),
-						place[1].getX(), place[1].getY())
-						&& !world.wildAttackable(i)) {
-					actionSender
-							.sendMessage("You cannot attack in this area at the moment.");
-					return false;
-				}
-			}
-
 			if ((inCombat() && isDueling())
 					&& (victim.inCombat() && victim.isDueling())) {
 				Player opponent = (Player) getOpponent();
@@ -941,10 +921,6 @@ public class Player extends Mob {
 
 	public int getCombatStyle() {
 		return combatStyle;
-	}
-
-	public int getCombo() {
-		return this.Combo;
 	}
 
 	public String getCorrectSleepword() {
@@ -1174,10 +1150,6 @@ public class Player extends Mob {
 
 	public String getLastPlayerInfo2() {
 		return lastPlayerInfo2;
-	}
-
-	public int getLastRandom() {
-		return lastRandom;
 	}
 
 	public long getLastRange() {
@@ -1416,14 +1388,6 @@ public class Player extends Mob {
 
 	public long getSubscriptionExpires() {
 		return subscriptionExpires;
-	}
-
-	public int getTempx() {
-		return tempx;
-	}
-
-	public int getTempy() {
-		return tempy;
 	}
 
 	public ArrayList<InvItem> getTradeOffer() {
@@ -1671,10 +1635,6 @@ public class Player extends Mob {
 		return destroy;
 	}
 
-	public boolean isDoricDependency() {
-		return doricDependency;
-	}
-
 	public boolean isDuelConfirmAccepted() {
 		return duelConfirmAccepted;
 	}
@@ -1697,10 +1657,6 @@ public class Player extends Mob {
 
 	public boolean isFriendsWith(long usernameHash) {
 		return friendList.containsKey(usernameHash);
-	}
-
-	public boolean isHasAnswered() {
-		return hasAnswered;
 	}
 
 	public boolean isIgnoring(long usernameHash) {
@@ -1750,10 +1706,6 @@ public class Player extends Mob {
 	 */
 	public boolean isMuted() {
 		return (muted - GameEngine.getTimestamp() > 0);
-	}
-
-	public boolean isNoclip() {
-		return noclip;
 	}
 
 	public boolean isNonaggro() {
@@ -2468,10 +2420,6 @@ public class Player extends Mob {
 		combatStyle = style;
 	}
 
-	public void setCombo(int combo) {
-		this.Combo = combo;
-	}
-
 	public void setCorrectSleepword(String correctSleepword) {
 		this.correctSleepword = correctSleepword;
 	}
@@ -2504,10 +2452,6 @@ public class Player extends Mob {
 
 	public void setDestroy(boolean destroy) {
 		this.destroy = destroy;
-	}
-
-	public void setDoricDependency(boolean doricDependency) {
-		this.doricDependency = doricDependency;
 	}
 
 	public void setDrainer(DelayedEvent drainer) {
@@ -2616,10 +2560,6 @@ public class Player extends Mob {
 
 	public void setGroupID(int id) {
 		groupID = id;
-	}
-
-	public void setHasAnswered(boolean hasAnswered) {
-		this.hasAnswered = hasAnswered;
 	}
 
 	public void setHits(int lvl) {
@@ -2739,10 +2679,6 @@ public class Player extends Mob {
 		this.lastPlayerInfo2 = lastPlayerInfo2;
 	}
 
-	public void setLastRandom(int lastRandom) {
-		this.lastRandom = lastRandom;
-	}
-
 	public void setLastRange(long lastRange) {
 		this.lastRange = lastRange;
 	}
@@ -2830,11 +2766,6 @@ public class Player extends Mob {
 	 */
 	public void setMuted(long muted) {
 		this.muted = (muted * 1000);
-	}
-
-	// Added by Konijn
-	public void setNoclip(boolean noclip) {
-		this.noclip = noclip;
 	}
 
 	public void setnonaggro(boolean arg) {
@@ -3009,14 +2940,6 @@ public class Player extends Mob {
 				.getUsername()
 				+ " was set suspicious! Stacktrace: \n"
 				+ stacktrace));
-	}
-
-	public void setTempx(int tempx) {
-		this.tempx = tempx;
-	}
-
-	public void setTempy(int tempy) {
-		this.tempy = tempy;
 	}
 
 	public void setTradeConfirmAccepted(boolean b) {

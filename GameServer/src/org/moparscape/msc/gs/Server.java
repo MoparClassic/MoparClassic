@@ -132,10 +132,6 @@ public class Server {
 		this.updateEvent = updateEvent;
 	}
 
-	public static World getWorld() {
-		return world;
-	}
-
 	public void setEngine(GameEngine engine) {
 		this.engine = engine;
 	}

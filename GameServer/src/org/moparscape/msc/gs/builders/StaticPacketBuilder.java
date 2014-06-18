@@ -11,7 +11,7 @@ public class StaticPacketBuilder {
 	/**
 	 * Bitmasks for <code>addBits()</code>
 	 */
-	protected static int bitmasks[] = { 0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f,
+	private static int bitmasks[] = { 0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f,
 			0x7f, 0xff, 0x1ff, 0x3ff, 0x7ff, 0xfff, 0x1fff, 0x3fff, 0x7fff,
 			0xffff, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff,
 			0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff,
@@ -19,7 +19,7 @@ public class StaticPacketBuilder {
 	/**
 	 * Default capacity
 	 */
-	protected static final int DEFAULT_SIZE = 32;
+	private static final int DEFAULT_SIZE = 32;
 	/**
 	 * Whether this packet does not use the standard packet header
 	 */
@@ -27,7 +27,7 @@ public class StaticPacketBuilder {
 	/**
 	 * Current index into the buffer by bits
 	 */
-	protected int bitPosition = 0;
+	private int bitPosition = 0;
 	/**
 	 * Current number of bytes used in the buffer
 	 */
@@ -55,7 +55,7 @@ public class StaticPacketBuilder {
 	 * @param capacity
 	 *            The initial capacity of the buffer
 	 */
-	public StaticPacketBuilder(int capacity) {
+	private StaticPacketBuilder(int capacity) {
 		payload = new byte[capacity];
 	}
 

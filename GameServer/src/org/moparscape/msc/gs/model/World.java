@@ -44,38 +44,6 @@ public final class World {
 		snapshots.offerFirst(snapshot);
 	}
 
-	public void sendWorldMessage(String msg) {
-		for (Player p : getPlayers()) {
-			p.getActionSender().sendMessage(msg);
-		}
-	}
-
-	public void sendWorldAnnouncement(String msg) {
-		for (Player p : getPlayers()) {
-			p.getActionSender().sendMessage("%" + msg);
-		}
-	}
-
-	public void sendMessage(Player p, String msg) {
-		p.getActionSender().sendMessage(msg);
-	}
-
-	/* Places */
-	protected Point[][] places = { { new Point(252, 349), new Point(260, 356) } };
-
-	/* Can attack in these places? */
-	public boolean[] wildAttackable = { false }; // 0 = No
-
-	public final Point[][] getPlaces() {
-		return places;
-	}
-
-	public final boolean wildAttackable(int i) {
-		return wildAttackable[i];
-	}
-
-	/* End of Places */
-
 	/**
 	 * The maximum height of the map (944 squares per level)
 	 */
@@ -94,7 +62,7 @@ public final class World {
 		return Config.members;
 	}
 
-	public WorldLoader wl;
+	private WorldLoader wl;
 
 	/**
 	 * Database connection
@@ -129,14 +97,6 @@ public final class World {
 	 * The delayedeventhandler instance
 	 */
 	private DelayedEventHandler delayedEventHandler;
-	public int eventlev = 0;
-	/**
-	 * Event vars
-	 */
-	public int eventx = 0;
-	public int eventy = 0;
-
-	public String lastAnswer = null;
 	/**
 	 * A list of all npcs on the server
 	 */
@@ -178,21 +138,6 @@ public final class World {
 	}
 
 	/**
-	 * Adds a DelayedEvent that will remove a GameObject
-	 */
-	public void delayedRemoveObject(final GameObject object, final int delay) {
-		delayedEventHandler.add(new SingleEvent(null, delay) {
-
-			public void action() {
-				ActiveTile tile = getTile(object.getLocation());
-				if (tile.hasGameObject() && tile.getGameObject().equals(object)) {
-					unregisterGameObject(object);
-				}
-			}
-		});
-	}
-
-	/**
 	 * Adds a DelayedEvent that will spawn a GameObject
 	 */
 	public void delayedSpawnObject(final GameObjectLoc loc,
@@ -203,18 +148,6 @@ public final class World {
 				registerGameObject(new GameObject(loc));
 			}
 		});
-	}
-
-	public int eventlev() {
-		return eventlev;
-	}
-
-	public int eventx() {
-		return eventx;
-	}
-
-	public int eventy() {
-		return eventy;
 	}
 
 	/**
@@ -371,24 +304,6 @@ public final class World {
 	}
 
 	/**
-	 * Checks if the given player is on the server
-	 */
-	public boolean hasPlayer(Player p) {
-		return players.contains(p);
-	}
-
-	/**
-	 * Checks if the given player is logged in
-	 */
-	public boolean isLoggedIn(long usernameHash) {
-		Player friend = getPlayer(usernameHash);
-		if (friend != null) {
-			return friend.loggedIn();
-		}
-		return false;
-	}
-
-	/**
 	 * Updates the map to include a new door
 	 */
 	public void registerDoor(GameObject o) {
@@ -540,29 +455,7 @@ public final class World {
 	public void registerShop(final Shop shop) {
 		shops.add(shop);
 	}
-
-	public void sendBroadcastMessage(Player p, String user, String message) {
-		p.getActionSender().sendMessage("%#adm#" + user + ": @gre@" + message);
-
-	}
-
-	public void sendBroadcastMessage(String user, String message) {
-		for (Player p : getPlayers()) {
-			p.getActionSender().sendMessage(
-					"%#adm#" + user + ": @gre@" + message);
-		}
-	}
-
-	public void sendBroadcastMessage(String user, String message,
-			boolean modonly) {
-		for (Player p : getPlayers()) {
-			if (p.isPMod()) {
-				p.getActionSender().sendMessage(
-						"%#adm#" + user + ": @gre@" + message);
-			}
-		}
-	}
-
+	
 	/**
 	 * Sets the ClientUpdater instance
 	 */
@@ -575,18 +468,6 @@ public final class World {
 	 */
 	public void setDelayedEventHandler(DelayedEventHandler delayedEventHandler) {
 		this.delayedEventHandler = delayedEventHandler;
-	}
-
-	public void seteventlev(int lev) {
-		eventlev = lev;
-	}
-
-	public void seteventx(int x) {
-		eventx = x;
-	}
-
-	public void seteventy(int y) {
-		eventy = y;
 	}
 
 	/**

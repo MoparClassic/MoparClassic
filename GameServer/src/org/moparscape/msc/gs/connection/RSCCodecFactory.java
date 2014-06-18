@@ -9,7 +9,7 @@ import org.moparscape.msc.gs.connection.codec.RSCProtocolEncoder;
 /**
  * Provides access to the protocol encoders and decoders for the RSC protocol.
  */
-public class RSCCodecFactory implements ProtocolCodecFactory {
+class RSCCodecFactory implements ProtocolCodecFactory {
 	/**
 	 * The protocol decoder in use
 	 */

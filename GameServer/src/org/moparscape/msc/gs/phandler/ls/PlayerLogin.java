@@ -303,7 +303,6 @@ public class PlayerLogin implements PacketHandler {
 			if (player.isAdmin() || player.isPMod()) {
 				player.setnopk(false);
 				player.setnonaggro(false);
-				player.setNoclip(false);
 			}
 
 			player.setLoggedIn(true);
