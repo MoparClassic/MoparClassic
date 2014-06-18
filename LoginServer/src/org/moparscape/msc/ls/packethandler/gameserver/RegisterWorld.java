@@ -47,12 +47,12 @@ public class RegisterWorld implements PacketHandler {
 						if (length != 0) {
 							System.out
 									.println("[WARNING] Loginserver is in dev mode, but gameserver is not! Connection refused.");
-						}
-						LSPacket temp = builder.getPacket();
-						if (temp != null) {
-							session.write(temp);
-						}
-						return;
+							LSPacket temp = builder.getPacket();
+							if (temp != null) {
+								session.write(temp);
+							}
+							return;
+						}						
 					}
 					server.registerWorld(world);
 					System.out.println("Registering world: " + id);
