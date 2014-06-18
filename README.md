@@ -22,7 +22,7 @@ You're now ready to start accept connections.
 You may want to run the ConfigGenerator if you're not familiar with XML. It will ask you a series of questions to help customize the config files for you. It will then replace the current config files with the one's you've generated.
 
 Modules
-========
+======
 To compile modules go in the module's directory and run the following command--
 ant build
 
@@ -31,13 +31,15 @@ To use the module copy the newly created JAR into the modules folder in the resp
 If you change data stores, it's suggested that you use the data store conversion utility.
 
 GameServer
-==========
+======
 Here is how to do various things in the GS.
 
-Adding NPC dialog--
+Adding NPC dialog
+------
 Just look for an NPC that behaves similar to what you want (in the org.moparscape.msc.gs.npchandler package), then copy that class and modify it as needed. Once you're done, open up the DialogService (found in the org.moparscape.msc.gs.service package) and add the ID mappings.
 
-Adding properties to the Player class, with saving--
+Adding properties to the Player class, with saving
+------
 Simply go to the constructor of the Player class, and do:
 ```
   this.setProperty("uniquename", new SomeDefaultObject);
@@ -50,10 +52,12 @@ And in Scala, you can do it like this or in similar manner to the above:
 ```
   val sdo = player.getProperty[SomeDefaultObject]("uniquename")
 ```
-Adding commands--
+Adding commands
+------
 Go to the command handler (in the org.moparscape.msc.gs.phandler.client package) and look for the large match statement with a bunch of cases. Add a new case, with a lowercase name and no spaces, that will call the method you'll make. Make sure that you pass the arguments needed to the function. Once you do that, create the function, in the area the other functions are. Finally, go to the config folder and open up command-config.xml and add a permission entry and a comment above it, explaining what it does.
 
-Adding ObjectActions--
+Adding ObjectActions
+------
 Just look for an ObjectAction that behaves similar to what you want (in the org.moparscape.msc.gs.event.handler.objectaction.impl package), then copy that class and modify as needed. Once you're done, open up the ObjectActionManager (in the org.moparscape.msc.gs.event.handler.objectaction package) and add the bindings.
 
 Adding Quests--
