@@ -13,6 +13,7 @@ import org.moparscape.msc.gs.model.container.Bank;
 import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.quest.Quest;
 import org.moparscape.msc.gs.tools.DataConversions;
+import org.moparscape.msc.gs.util.annotation.Transient;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -84,6 +85,9 @@ public class SavePacketBuilder {
 		Map<String, Property<?>> properties = player.getProperties();
 		packet.addShort(properties.size());
 		for(Entry<String, Property<?>> e : properties.entrySet()) {
+			if(e.getValue().value.getClass().isAnnotationPresent(Transient.class)) {
+				continue;
+			}
 			packet.addInt(e.getKey().length());
 			packet.addBytes(e.getKey().getBytes());
 			

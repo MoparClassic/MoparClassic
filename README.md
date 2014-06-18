@@ -65,6 +65,24 @@ And in Scala, you can do it like this or in similar manner to the above:
 val sdo = player.getProperty[SomeDefaultObject]("uniquename")
 println(sdo.example0)
 ```
+Adding properties to the Player class, with saving
+------
+You can do the same thing as with saving, but for the class you're saving, just add the @Transient annotation to the class.
+
+So, SomeDefaultObject would become:
+```
+import org.moparscape.msc.gs.util.annotation.Transient;
+
+@Transient
+public class SomeDefaultObject {
+  public String example0 = "some value here";
+  private String example1 = "some private value here";
+  public transient String example2 = "some other value here";
+  public static String example3 = "some value here";
+}
+```
+So, with a simple annotation, we can make an entire property transient.
+
 Adding commands
 ------
 Go to the command handler (in the org.moparscape.msc.gs.phandler.client package) and look for the large match statement with a bunch of cases. Add a new case, with a lowercase name and no spaces, that will call the method you'll make. Make sure that you pass the arguments needed to the function. Once you do that, create the function, in the area the other functions are. Finally, go to the config folder and open up command-config.xml and add a permission entry and a comment above it, explaining what it does.
