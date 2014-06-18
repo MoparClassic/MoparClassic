@@ -43,7 +43,9 @@ Simply go to the constructor of the Player class, and do:
   this.setProperty("uniquename", new SomeDefaultObject);
 ```
 This will do everything needed for you. It will automatically pass all objects in there to the LS and save them, then send them back. To get the value back, all you need to do is this for Java:
+```
 SomeDefaultObject sdo = player.getProperty("uniquename");
+```
 And in Scala, you can do it like this or in similar manner to the above:
 ```
   val sdo = player.getProperty[SomeDefaultObject]("uniquename")
