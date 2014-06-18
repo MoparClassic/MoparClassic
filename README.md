@@ -19,7 +19,7 @@ Go to GameServer in the terminal/command prompt and type--
 ```
 You're now ready to start accept connections.
 
-You may want to run the ConfigGenerator if you're not familiar with XMl. It will ask you a series of questions to help customize the config files for you. It will then replace the current config files with the one's you've generated.
+You may want to run the ConfigGenerator if you're not familiar with XML. It will ask you a series of questions to help customize the config files for you. It will then replace the current config files with the one's you've generated.
 
 Modules
 ========
