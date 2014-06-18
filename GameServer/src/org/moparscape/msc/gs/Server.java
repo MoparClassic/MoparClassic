@@ -56,10 +56,9 @@ public class Server {
 		if (Config.LS_PASS == null || Config.LS_PASS.equals("")) {
 			if (new File("conf", "DEVMODE").exists()) {
 				devMode = true;
-				System.out.println("[WARNING] Gameserver is in dev mode.");
+				Logger.println("[WARNING] Gameserver is in dev mode.");
 			} else {
-				System.out
-						.println("You must specify a ls-pass in the config, or make a file called DEVMODE in the config folder.");
+				Logger.println("You must specify a ls-pass in the config, or make a file called DEVMODE in the config folder.");
 				System.exit(0);
 			}
 		}

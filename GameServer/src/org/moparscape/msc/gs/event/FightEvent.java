@@ -201,7 +201,7 @@ public class FightEvent extends DelayedEvent {
 
 		if (newHp <= 0) {
 
-			Player toLoot = null;
+			Mob toLoot = attacker;
 
 			// Logging.debug(opponent+" killed by "+attacker);
 

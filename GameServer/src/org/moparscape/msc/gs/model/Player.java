@@ -1827,15 +1827,22 @@ public class Player extends Mob {
 			max = 7;
 		}
 		for (int i = 0; i < max; i++) {
-			if(adp.xp) {
-				int xp =  (int) (this.getExp(i) * (adp.penalty / 100.0));
-				this.incExp(i, -xp, false);
+			if (adp.xp) {
+				int xp = (int) Math.max(0, Math.round(this.getExp(i)
+						* (1 - (adp.penalty / 100.0))));
+				this.setExp(i, xp);
+				this.setMaxStat(i, Formulae.experienceToLevel(this.getExp(i)));
 			} else {
-				this.setMaxStat(i, this.getMaxStat(i) - adp.penalty);
 				this.setExp(i, Formulae.levelToExperience(this.getMaxStat(i)));
+				this.setMaxStat(i, this.getMaxStat(i) - adp.penalty);
 			}
 		}
-
+		if (this.getExp(3) < Formulae.levelToExperience(10)) {
+			this.setExp(3, Formulae.levelToExperience(10));
+			this.setMaxStat(3, 10);
+		}
+		this.getActionSender().sendStats();
+		System.out.println("adp done");
 	}
 
 	public void killedBy(Mob mob, boolean stake) {
@@ -1845,12 +1852,15 @@ public class Player extends Mob {
 		}
 		AdditionalDeathPenalties adp = Config.ADDITIONAL_DEATH_PENALTIES;
 		if (adp.enabled) {
+			System.out.println("adp enabled");
+			System.out.println(adp.npc);
+			System.out.println(mob);
 			boolean apply = false;
 			if (adp.wild && mob instanceof Player && !stake) {
 				apply = true;
 			}
 
-			if (adp.npc && mob instanceof Npc) {
+			if (adp.npc && mob instanceof Mob) {
 				apply = true;
 			}
 
@@ -1859,6 +1869,7 @@ public class Player extends Mob {
 			}
 
 			if (apply) {
+				System.out.println("adp applied");
 				applyADP(adp);
 			}
 		}
