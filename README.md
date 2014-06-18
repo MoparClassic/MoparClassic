@@ -45,7 +45,8 @@ Adding properties to the Player class, with saving
 Create a class that holds the data you want to store, if appropriate. For the example, we'll use the following class:
 ```
 public class SomeDefaultObject {
-  public String example = "some value here"; // Will save.
+  public String example0 = "some value here"; // Will save.
+  private String example1 = "some private value here"; // Will save.
   public transient String example2 = "some other value here"; // Will not save.
   public static String example3 = "some value here"; // Will not save.
 }
@@ -57,12 +58,12 @@ this.setProperty("uniquename", new SomeDefaultObject);
 This will do everything needed for you. It will automatically pass all objects in there to the LS and save them, then send them back. To get the value back, all you need to do is this for Java:
 ```
 SomeDefaultObject sdo = player.getProperty("uniquename");
-System.out.println(sdo.example);
+System.out.println(sdo.example0);
 ```
 And in Scala, you can do it like this or in similar manner to the above:
 ```
 val sdo = player.getProperty[SomeDefaultObject]("uniquename")
-println(sdo.example)
+println(sdo.example0)
 ```
 Adding commands
 ------
