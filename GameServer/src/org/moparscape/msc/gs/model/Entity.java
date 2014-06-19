@@ -8,11 +8,11 @@ public class Entity {
 	/**
 	 * World instance
 	 */
-	public static final World world = Instance.getWorld();
+	static final World world = Instance.getWorld();
 
 	protected int id;
 
-	protected int index;
+	private int index;
 
 	protected Point location;
 
@@ -114,7 +114,7 @@ public class Entity {
 		return false;
 	}
 
-	public int[] nextStep(int myX, int myY, Entity e) {
+	private int[] nextStep(int myX, int myY, Entity e) {
 		if (myX == e.getX() && myY == e.getY()) {
 			return new int[] { myX, myY };
 		}

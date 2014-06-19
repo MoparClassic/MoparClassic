@@ -8,7 +8,7 @@ public abstract class SingleEvent extends DelayedEvent {
 		super(owner, delay);
 	}
 
-	public SingleEvent(Player owner, int delay, Object[] arg) {
+	SingleEvent(Player owner, int delay, Object[] arg) {
 		super(owner, delay, arg);
 	}
 

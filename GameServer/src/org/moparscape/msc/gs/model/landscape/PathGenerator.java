@@ -12,7 +12,7 @@ public class PathGenerator {
 	 * If the tile has a wall on it, here is a list of the wall id's allowed to
 	 * shoot thru Use the landscape editor to record their ID's
 	 */
-	public static final int[][] ALLOWED_WALL_ID_TYPES = { { 5, 6, 42, 14 }, // VERTICAL
+	private static final int[][] ALLOWED_WALL_ID_TYPES = { { 5, 6, 42, 14 }, // VERTICAL
 			// //
 			// WALL
 			// ID's

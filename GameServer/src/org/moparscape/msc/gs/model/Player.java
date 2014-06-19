@@ -26,7 +26,6 @@ import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.RangeEvent;
-import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.model.container.Bank;
 import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.container.Shop;
@@ -269,8 +268,6 @@ public class Player extends Mob {
 	 */
 	private long lastArrow = 0;
 
-	private long lastbanktime = 0;
-
 	private long lastCast = GameEngine.getTime();
 
 	/**
@@ -282,15 +279,11 @@ public class Player extends Mob {
 
 	private long lastDeath = GameEngine.getTime();
 
-	private int lastdepositedamount = 0;
-	private int lastdepositeditem = 0;
 	private long lastInterval = 0;
-	private long lastinvtime = 0;
 	/**
 	 * Stores the last IP address used
 	 */
 	private String lastIP = "0.0.0.0";
-	private int lastitemposition = 0;
 	/**
 	 * Unix time when the player last logged in
 	 */
@@ -323,9 +316,6 @@ public class Player extends Mob {
 	 * Time of last trade/duel request
 	 */
 	private long lastTradeDuelRequest = 0;
-	private int lastwithdrawamount = 0;
-	private int lastwithdrawitem = 0;
-	private long lastwithdrawtime = 0;
 	/**
 	 * Whether the player is currently logged in
 	 */
@@ -411,7 +401,6 @@ public class Player extends Mob {
 	 * Session keys for the players session
 	 */
 	private int[] sessionKeys = new int[4];
-	private ShortEvent sEvent = null;
 	/**
 	 * The shop (if any) the player is currently accessing
 	 */
@@ -487,7 +476,6 @@ public class Player extends Mob {
 	private int wrongwords = 0;
 
 	private int poisonPower = 0;
-	private DelayedEvent poisonEvent;
 
 	@SuppressWarnings("unchecked")
 	public <T> T getProperty(String name) {
@@ -508,60 +496,6 @@ public class Player extends Mob {
 
 	public boolean isPoisoned() {
 		return poisonPower > 0;
-	}
-
-	public void poison(int power) {
-		if (!isPoisoned()) {
-			this.poisonPower = power;
-			poisonEvent = new DelayedEvent(this, 19500) {
-				public void run() {
-					damagePoison(true);
-				}
-			};
-			World.getWorld().getDelayedEventHandler().add(poisonEvent);
-		} else
-			this.poisonPower = power;
-	}
-
-	public void curePoison() {
-		this.poisonPower = 0;
-		if (poisonEvent != null)
-			poisonEvent.stop();
-	}
-
-	public void startPoison(int power) {
-		this.poison(power);
-		this.poisonPower = power;
-
-		damagePoison(false);
-	}
-
-	public void damagePoison(boolean decrease) {
-		if (this.poisonPower > 0) {
-			double calcDamage = Math.ceil(poisonPower / 5);
-			int damage = (int) calcDamage + 1;
-
-			if (decrease)
-				poisonPower--;
-
-			setLastDamage(damage);
-			setCurStat(3, getCurStat(3) - damage);
-			getActionSender().sendStat(3);
-			getActionSender().sendMessage(
-					"@gr3@You @gr2@are @gr1@Poisoned! @gr2@You @gr3@lose "
-							+ damage + " @gr1@health.");
-
-			for (Player p : getViewArea().getPlayersInView())
-				p.informOfModifiedHits(this);
-			if (getCurStat(3) <= 0) {
-				killedBy(null, false);
-				poisonEvent.stop();
-			}
-		} else {
-			if (poisonEvent != null)
-				poisonEvent.stop();
-			this.poisonPower = 0;
-		}
 	}
 
 	public Player(IoSession ios) {
@@ -590,7 +524,7 @@ public class Player extends Mob {
 		return shop != null;
 	}
 
-	public void addAttackedBy(Player p) {
+	private void addAttackedBy(Player p) {
 		attackedBy.put(p.getUsernameHash(), GameEngine.getTime());
 	}
 
@@ -781,7 +715,7 @@ public class Player extends Mob {
 		clientWarn = cw;
 	}
 
-	public int combatStyleToIndex() {
+	private int combatStyleToIndex() {
 		if (getCombatStyle() == 1) {
 			return 2;
 		}
@@ -1334,10 +1268,6 @@ public class Player extends Mob {
 		return sessionKeys;
 	}
 
-	public ShortEvent getsEvent() {
-		return sEvent;
-	}
-
 	public Shop getShop() {
 		return shop;
 	}
@@ -1466,7 +1396,7 @@ public class Player extends Mob {
 		return ignoreList.size();
 	}
 
-	public void incCurStat(int i, int amount) {
+	private void incCurStat(int i, int amount) {
 		curStat[i] += amount;
 		if (curStat[i] < 0) {
 			curStat[i] = 0;
@@ -1562,7 +1492,7 @@ public class Player extends Mob {
 		}
 	}
 
-	public void incMaxStat(int i, int amount) {
+	private void incMaxStat(int i, int amount) {
 		maxStat[i] += amount;
 		if (maxStat[i] < 0) {
 			maxStat[i] = 0;
@@ -1596,7 +1526,7 @@ public class Player extends Mob {
 	 * So they will call this method to let the player know they should probably
 	 * be informed of them.
 	 */
-	public void informOfPlayer(Player p) {
+	private void informOfPlayer(Player p) {
 		if ((!watchedPlayers.contains(p) || watchedPlayers.isRemoving(p))
 				&& withinRange(p)) {
 			watchedPlayers.add(p);
@@ -1768,7 +1698,7 @@ public class Player extends Mob {
 		killedBy(mob, false);
 	}
 
-	public void applyADP(AdditionalDeathPenalties adp) {
+	private void applyADP(AdditionalDeathPenalties adp) {
 		int max = maxStat.length;
 		if (adp.onlycombat) {
 			max = 7;
@@ -1960,7 +1890,7 @@ public class Player extends Mob {
 		actionSender.sendInventory();
 	}
 
-	public long lastAttackedBy(Player p) {
+	private long lastAttackedBy(Player p) {
 		Long time = attackedBy.get(p.getUsernameHash());
 		if (time != null) {
 			return time;
@@ -2141,7 +2071,7 @@ public class Player extends Mob {
 		addPrayerDrain(prayerID);
 	}
 
-	public void removeSkull() {
+	private void removeSkull() {
 		if (!isSkulled()) {
 			return;
 		}
@@ -2205,7 +2135,7 @@ public class Player extends Mob {
 		actionSender.hideBank();
 	}
 
-	public void resetDuel() {
+	private void resetDuel() {
 		Player opponent = getWishToDuel();
 		if (opponent != null) {
 			opponent.resetDueling();
@@ -2329,11 +2259,6 @@ public class Player extends Mob {
 			Instance.getServer().getLoginConnector().getSession().write(temp);
 		}
 
-	}
-
-	public void sayMessage(String msg, Mob to) {
-		ChatMessage cm = new ChatMessage(this, msg, to);
-		chatMessagesNeedingDisplayed.add(cm);
 	}
 
 	public void setAccessingBank(boolean b) {
@@ -2574,7 +2499,7 @@ public class Player extends Mob {
 		this.inBank = inBank;
 	}
 
-	public void setInitialized() {
+	void setInitialized() {
 		initialized = true;
 	}
 
@@ -2627,20 +2552,8 @@ public class Player extends Mob {
 		this.lastDeath = lastDeath;
 	}
 
-	public void setLastDepositTime(int itemid, int amount) {
-		this.lastbanktime = GameEngine.getTime();
-
-		lastdepositeditem = itemid;
-		lastdepositedamount = amount;
-	}
-
 	public void setLastInterval(long lastInterval) {
 		this.lastInterval = lastInterval;
-	}
-
-	public void setLastInvTime(int itemposition) {
-		this.lastinvtime = GameEngine.getTime();
-		lastitemposition = itemposition;
 	}
 
 	public void setLastIP(String ip) {
@@ -2709,13 +2622,6 @@ public class Player extends Mob {
 
 	public void setLastTradeDuelRequest(long lastTradeDuelRequest) {
 		this.lastTradeDuelRequest = lastTradeDuelRequest;
-	}
-
-	public void setLastWithdrawTime(int itemid, int amount) {
-		this.lastwithdrawtime = GameEngine.getTime();
-
-		lastwithdrawitem = itemid;
-		lastwithdrawamount = amount;
 	}
 
 	public void setLoggedIn(boolean loggedIn) {
@@ -2866,15 +2772,6 @@ public class Player extends Mob {
 		return valid;
 	}
 
-	public void setsEvent(ShortEvent sEvent) {
-		this.sEvent = sEvent;
-	}
-
-	public void setSEvent(ShortEvent sEvent) {
-		this.sEvent = sEvent;
-		Instance.getDelayedEventHandler().add(sEvent);
-	}
-
 	public void setShop(Shop shop) {
 		this.shop = shop;
 	}
@@ -3010,32 +2907,6 @@ public class Player extends Mob {
 			return false;
 		else
 			return true;
-	}
-
-	public boolean shouldThrowDepositError(int itemid, int amount) {
-		if (GameEngine.getTime() - lastbanktime < 100
-				&& lastdepositeditem == itemid && lastdepositedamount == amount)
-			return false;
-		if (amount == 0)
-			return false;
-		return true;
-	}
-
-	public boolean shouldThrowInvError(int itemposition) {
-		if (GameEngine.getTime() - lastinvtime < 100
-				&& lastitemposition == itemposition)
-			return false;
-
-		return true;
-	}
-
-	public boolean shouldThrowWithdrawError(int itemid, int amount) {
-		if (GameEngine.getTime() - lastwithdrawtime < 100
-				&& lastwithdrawitem == itemid && lastwithdrawamount == amount)
-			return false;
-		if (amount == 0)
-			return false;
-		return true;
 	}
 
 	public void teleport(int x, int y, boolean bubble) {

@@ -28,7 +28,7 @@ class DamagingApproach extends ObjectEvent {
 
 class NormalApproach extends ObjectEvent {
 
-	val ids = Array(400, 494)
+	private val ids = Array(400, 494)
 	override def fire = {
 		if (ids.contains(o.getID)) false
 		else true

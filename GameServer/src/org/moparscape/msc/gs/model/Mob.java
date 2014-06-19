@@ -18,7 +18,7 @@ public abstract class Mob extends Entity {
 	/**
 	 * ID for our current appearance, used client side to detect changed
 	 */
-	protected int appearanceID = 0;
+	private int appearanceID = 0;
 	/**
 	 * Used to block new requests when we are in the middle of one
 	 */
@@ -26,7 +26,7 @@ public abstract class Mob extends Entity {
 	/**
 	 * Our combat level
 	 */
-	protected int combatLevel = 3;
+	private int combatLevel = 3;
 	/**
 	 * Timer used to track start and end of combat
 	 */
@@ -38,7 +38,7 @@ public abstract class Mob extends Entity {
 	/**
 	 * Have we moved since last update?
 	 */
-	protected boolean hasMoved;
+	private boolean hasMoved;
 	/**
 	 * How many times we have hit our opponent
 	 */
@@ -56,7 +56,7 @@ public abstract class Mob extends Entity {
 	 */
 	protected long lastMovement = GameEngine.getTime();
 	public long lastTimeShot = GameEngine.getTime();
-	protected int mobSprite = 1;
+	private int mobSprite = 1;
 	private int[][] mobSprites = new int[][] { { 3, 2, 1 }, { 4, -1, 0 },
 			{ 5, 6, 7 } };
 	/**
@@ -82,7 +82,7 @@ public abstract class Mob extends Entity {
 	/**
 	 * If we are warned to move
 	 */
-	protected boolean warnedToMove = false;
+	private boolean warnedToMove = false;
 
 	public final boolean atObject(GameObject o) {
 		int dir = o.getDirection();
@@ -313,7 +313,7 @@ public abstract class Mob extends Entity {
 		pathHandler.updatePosition();
 	}
 
-	protected void updateSprite(Point newLocation) {
+	private void updateSprite(Point newLocation) {
 		try {
 			int xIndex = getLocation().getX() - newLocation.getX() + 1;
 			int yIndex = getLocation().getY() - newLocation.getY() + 1;

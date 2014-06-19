@@ -11,14 +11,6 @@ public class PathHandler {
 	private static final World world = Instance.getWorld();
 
 	/**
-	 * Attempts to create a path to the given coordinates
-	 */
-	public static Path makePath(int startX, int startY, int x1, int y1, int x2,
-			int y2, boolean flag) {
-		return null;
-	}
-
-	/**
 	 * The waypoint in the path we are currently at
 	 */
 	private int curWaypoint;
@@ -43,14 +35,14 @@ public class PathHandler {
 	/**
 	 * Are we are the start of the path?
 	 */
-	protected boolean atStart() {
+	private boolean atStart() {
 		return mob.getX() == path.getStartX() && mob.getY() == path.getStartY();
 	}
 
 	/**
 	 * Checks if we are at the given waypoint
 	 */
-	protected boolean atWaypoint(int waypoint) {
+	private boolean atWaypoint(int waypoint) {
 		return path.getWaypointX(waypoint) == mob.getX()
 				&& path.getWaypointY(waypoint) == mob.getY();
 	}
@@ -77,7 +69,7 @@ public class PathHandler {
 	/**
 	 * Gets the next coordinate in the right direction
 	 */
-	protected int[] getNextCoords(int startX, int destX, int startY, int destY) {
+	private int[] getNextCoords(int startX, int destX, int startY, int destY) {
 		try {
 			int[] coords = { startX, startY };
 			boolean myXBlocked = false, myYBlocked = false, newXBlocked = false, newYBlocked = false;
@@ -221,7 +213,7 @@ public class PathHandler {
 	/**
 	 * Updates our position to the next in the path
 	 */
-	protected void setNextPosition() {
+	private void setNextPosition() {
 		int[] newCoords = { -1, -1 };
 		if (curWaypoint == -1) {
 			if (atStart()) {
@@ -249,14 +241,6 @@ public class PathHandler {
 	}
 
 	/**
-	 * Creates a new path and sets us walking it
-	 */
-	public void setPath(int startX, int startY, byte[] waypointXoffsets,
-			byte[] waypointYoffsets) {
-		setPath(new Path(startX, startY, waypointXoffsets, waypointYoffsets));
-	}
-
-	/**
 	 * Sets us on the given path
 	 */
 	public void setPath(Path path) {
@@ -268,7 +252,7 @@ public class PathHandler {
 	 * Updates the point in the path to the next one assuming we are not
 	 * finished
 	 */
-	public void updatePosition() {
+	void updatePosition() {
 		if (!finishedPath()) {
 			setNextPosition();
 		}

@@ -98,7 +98,7 @@ public abstract class WalkMobToMobEvent extends DelayedEvent {
 		super.matchRunning = false;
 	}
 
-	public boolean inBounds() {
+	private boolean inBounds() {
 		if (owner instanceof Npc) {
 			Npc npc = (Npc) owner;
 			loc = npc.getLoc();

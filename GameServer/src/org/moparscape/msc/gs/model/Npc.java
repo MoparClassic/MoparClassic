@@ -111,7 +111,7 @@ public class Npc extends Mob {
 	 */
 	private NPCLoc loc;
 
-	public boolean hasRan() {
+	private boolean hasRan() {
 		return ran;
 	}
 
@@ -197,14 +197,9 @@ public class Npc extends Mob {
 	private boolean shouldRespawn = true;
 
 	public boolean weakend = false;
-	public boolean special = false;
-	public int itemid = -1;
-	public int exp = -1; // used for events.
-
-	public Npc(int id, int startX, int startY, int minX, int maxX, int minY,
-			int maxY) {
-		this(new NPCLoc(id, startX, startY, minX, maxX, minY, maxY));
-	}
+	private boolean special = false;
+	private int itemid = -1;
+	private int exp = -1; // used for events.
 
 	public Npc(NPCLoc loc) {
 		for (int i : Constants.GameServer.UNDEAD_NPCS) {

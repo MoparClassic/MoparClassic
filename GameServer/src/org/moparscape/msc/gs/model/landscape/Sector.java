@@ -49,7 +49,7 @@ public class Sector {
 	/**
 	 * Gets the Tile at the given index
 	 */
-	public Tile getTile(int i) {
+	private Tile getTile(int i) {
 		return tiles[i];
 	}
 
@@ -75,16 +75,9 @@ public class Sector {
 	}
 
 	/**
-	 * Sets the the Tile at the given coords
-	 */
-	public void setTile(int x, int y, Tile t) {
-		setTile(x * Sector.WIDTH + y, t);
-	}
-
-	/**
 	 * Sets the Tile at the given index
 	 */
-	public void setTile(int i, Tile t) {
+	private void setTile(int i, Tile t) {
 		tiles[i] = t;
 	}
 }

@@ -16,7 +16,7 @@ public class Item extends Entity {
 	/**
 	 * Contains who dropped this item, if anyone
 	 */
-	public long droppedby = 0;
+	private long droppedby = 0;
 
 	/**
 	 * Location definition of the item
@@ -37,7 +37,7 @@ public class Item extends Entity {
 	 */
 	private long spawnedTime;
 
-	public boolean holidayItem = false;
+	private boolean holidayItem = false;
 
 	public Item(int id, int x, int y, int amount, Player owner) {
 		setID(id);
@@ -46,29 +46,6 @@ public class Item extends Entity {
 		if (owner != null)
 			droppedby = owner.getUsernameHash();
 		spawnedTime = GameEngine.getTime();
-		setLocation(Point.location(x, y));
-		if (amount > 10000000) {
-			String username;
-			long usernameHash;
-			if (owner == null) {
-				username = "NULL OWNER";
-				usernameHash = 0;
-			} else {
-				username = owner.getUsername();
-				usernameHash = owner.getUsernameHash();
-			}
-			DataManager.reportHandler.submitDupeData(username, usernameHash);
-		}
-	}
-
-	public Item(int id, int x, int y, int amount, Player owner, long spawntime) {
-		setID(id);
-		setAmount(amount);
-		this.owner = owner;
-		if (owner != null)
-			droppedby = owner.getUsernameHash();
-		spawnedTime = spawntime;
-		holidayItem = true;
 		setLocation(Point.location(x, y));
 		if (amount > 10000000) {
 			String username;
@@ -141,7 +118,7 @@ public class Item extends Entity {
 		return spawnedTime;
 	}
 
-	public boolean isOn(int x, int y) {
+	boolean isOn(int x, int y) {
 		return x == getX() && y == getY();
 	}
 
@@ -149,7 +126,7 @@ public class Item extends Entity {
 		return removed;
 	}
 
-	public void remove() {
+	void remove() {
 		if (!removed && loc != null && loc.getRespawnTime() > 0) {
 			Instance.getDelayedEventHandler().add(
 					new DelayedEvent(null, loc.getRespawnTime() * 1000) {
@@ -168,10 +145,6 @@ public class Item extends Entity {
 		} else {
 			this.amount = 1;
 		}
-	}
-
-	public void setdroppedby(long hash) {
-		droppedby = hash;
 	}
 
 	public boolean visibleTo(Player p) {

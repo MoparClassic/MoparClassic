@@ -12,9 +12,9 @@ public class Point {
 		return new Point(x, y);
 	}
 
-	protected int x;
+	private int x;
 
-	protected int y;
+	private int y;
 
 	protected Point() {
 	}
@@ -81,7 +81,7 @@ public class Point {
 		return 0;
 	}
 
-	public static boolean inWilderness(int x, int y) {
+	static boolean inWilderness(int x, int y) {
 		int wild = 2203 - (y + (1776 - (944 * (int) (y / 944))));
 		if (x + 2304 >= 2640) {
 			wild = -50;
@@ -92,15 +92,4 @@ public class Point {
 		return false;
 	}
 
-	public boolean atAltar() {
-		if (x >= 321 && y >= 183 && x <= 334 && y <= 197)
-			return true;
-		return false;
-	}
-
-	public boolean nearAltar() {
-		if (x >= 321 - 4 && y >= 183 - 4 && x <= 334 + 4 && y <= 193 + 4)
-			return true;
-		return false;
-	}
 }
