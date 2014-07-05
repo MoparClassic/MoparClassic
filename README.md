@@ -4,7 +4,7 @@ MoparClassic is an emulator for an old Java MMORPG.
 
 Setup
 ======
-Install the Java 7 JRE and JDK
+Install the Java 7 JRE and JDK<br>
 Install Apache Ant and Apache Ivy
 
 Ensure all the paths are set correctly.
@@ -26,7 +26,9 @@ You may want to run the ConfigGenerator if you're not familiar with XML. It will
 Modules
 ======
 To compile modules go in the module's directory and run the following command--
+```
 ant build
+```
 
 To use the module copy the newly created JAR into the modules folder in the respective server.  You may need to change some configuration files for the module to be used.
 
