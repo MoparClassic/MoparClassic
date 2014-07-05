@@ -1,15 +1,9 @@
 package org.moparscape.msc.gs.builders.ls;
 
-import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.model.Player;
-import org.moparscape.msc.gs.model.World;
 
 public class PlayerInfoRequestPacketBuilder {
-	/**
-	 * World instance
-	 */
-	public static final World world = Instance.getWorld();
 	/**
 	 * The player to provide information on
 	 */

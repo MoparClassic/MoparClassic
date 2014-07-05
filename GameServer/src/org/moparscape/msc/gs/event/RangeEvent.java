@@ -19,7 +19,7 @@ import org.moparscape.msc.gs.tools.DataConversions;
 
 public class RangeEvent extends DelayedEvent {
 	private Mob affectedMob;
-	public int[][] allowedArrows = { { 189, 11, 638 }, // Shortbow
+	private int[][] allowedArrows = { { 189, 11, 638 }, // Shortbow
 			{ 188, 11, 638 }, // Longbow
 			{ 649, 11, 638 }, // Oak Shortbow
 			{ 648, 11, 638, 640 }, // Oak Longbow

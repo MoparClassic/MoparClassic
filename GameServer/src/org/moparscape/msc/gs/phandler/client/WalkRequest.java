@@ -158,13 +158,6 @@ public class WalkRequest implements PacketHandler {
 			waypointYoffsets[x] = p.readByte();
 		}
 		Path path = new Path(startX, startY, waypointXoffsets, waypointYoffsets);
-		if (player.blink() && waypointXoffsets.length >= 1) {
-			player.teleport((int) waypointXoffsets[waypointXoffsets.length - 1]
-					+ startX,
-					(int) waypointYoffsets[waypointYoffsets.length - 1]
-							+ startY, false);
-			return;
-		}
 		player.setStatus(Action.IDLE);
 		player.setPath(path);
 	}

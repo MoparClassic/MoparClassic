@@ -37,7 +37,7 @@ public class Formulae {
 	public static final int[] bowIDs = { 188, 189, 648, 649, 650, 651, 652,
 			653, 654, 655, 656, 657 };
 	// spell
-	public static final int[] experienceArray = { 83, 174, 276, 388, 512, 650,
+	private static final int[] experienceArray = { 83, 174, 276, 388, 512, 650,
 			801, 969, 1154, 1358, 1584, 1833, 2107, 2411, 2746, 3115, 3523,
 			3973, 4470, 5018, 5624, 6291, 7028, 7842, 8740, 9730, 10824, 12031,
 			13363, 14833, 16456, 18247, 20224, 22406, 24815, 27473, 30408,
@@ -55,9 +55,9 @@ public class Formulae {
 	/**
 	 * Cubic P2P boundaries. MinX, MinY - MaxX, MaxY
 	 */
-	public static final java.awt.Point[][] F2PWILD_LOCS = { {
+	private static final java.awt.Point[][] F2PWILD_LOCS = { {
 			new java.awt.Point(48, 96), new java.awt.Point(335, 142) } };
-	public static final java.awt.Point[][] P2P_LOCS = {
+	private static final java.awt.Point[][] P2P_LOCS = {
 			{ new java.awt.Point(436, 432), new java.awt.Point(719, 906) },
 			{ new java.awt.Point(48, 96), new java.awt.Point(335, 142) },
 			{ new java.awt.Point(343, 567), new java.awt.Point(457, 432) },
@@ -76,13 +76,6 @@ public class Formulae {
 	private static Random r = new Random();
 	public static final int[] runeIDs = { 31, 32, 33, 34, 35, 36, 37, 38, 40,
 			41, 42, 46, 619, 825 };
-	/**
-	 * Safe packets:<br>
-	 * PlayerAppearanceUpdater<br>
-	 * FollowRequest<br>
-	 * InvUseOnItem<br>
-	 */
-	public static final int[] safePacketIDs = { 70, 123, 128, 255 };
 	public static final String[] statArray = { "attack", "defense", "strength",
 			"hits", "ranged", "prayer", "magic", "cooking", "woodcut",
 			"fletching", "fishing", "firemaking", "crafting", "smithing",
@@ -97,7 +90,7 @@ public class Formulae {
 	 * Adds the prayers together to calculate what perecntage the stat should be
 	 * increased
 	 */
-	public static double addPrayers(boolean first, boolean second, boolean third) {
+	private static double addPrayers(boolean first, boolean second, boolean third) {
 		if (third) {
 			return 1.15D;
 		}
@@ -226,176 +219,6 @@ public class Formulae {
 			return false;
 		}
 		return DataConversions.random(0, levelDiff + 1) == 0;
-	}
-
-	/**
-	 * Calulates what one mob should hit on another with meelee
-	 */
-	public static int calcFightHit(Mob attacker, Mob defender) {
-		int max = maxHit(attacker.getStrength(),
-				attacker.getWeaponPowerPoints(), attacker.isPrayerActivated(1),
-				attacker.isPrayerActivated(4), attacker.isPrayerActivated(10),
-				styleBonus(attacker, 2));
-		int newAtt = (int) (addPrayers(attacker.isPrayerActivated(2),
-				attacker.isPrayerActivated(5), attacker.isPrayerActivated(11))
-				* (attacker.getAttack() / 0.8D)
-				+ ((DataConversions.random(0, 4) == 0 ? attacker
-						.getWeaponPowerPoints() : attacker.getWeaponAimPoints()) / 2.5D)
-				+ (attacker.getCombatStyle() == 1
-						&& DataConversions.random(0, 2) == 0 ? 4 : 0)
-				+ (DataConversions.random(0, 100) <= 10 ? (attacker
-						.getStrength() / 5D) : 0) + (styleBonus(attacker, 0) * 2));
-		int newDef = (int) (addPrayers(defender.isPrayerActivated(0),
-				defender.isPrayerActivated(3), defender.isPrayerActivated(9))
-				* ((DataConversions.random(0, 100) <= 5 ? 0 : defender
-						.getDefense()) * 1.1D)
-				+ ((DataConversions.random(0, 100) <= 5 ? 0 : defender
-						.getArmourPoints()) / 2.75D)
-				+ (defender.getStrength() / 4D) + (styleBonus(defender, 1) * 2));
-
-		int hitChance = DataConversions.random(0, 100) + (newAtt - newDef);
-		if (attacker instanceof Npc) {
-			hitChance -= 5;
-		}
-		if (DataConversions.random(0, 100) <= 10) {
-			hitChance += 20;
-		}
-		if (hitChance > (defender instanceof Npc ? 40 : 50)) {
-			int maxProb = 5; // 5%
-			int nearMaxProb = 7; // 7%
-			int avProb = 73; // 73%
-			// int lowHit = 10; // 15% // TODO: Should probably use lowHit...
-
-			// Probablities are shifted up/down based on armour
-			int shiftValue = (int) Math
-					.round(defender.getArmourPoints() * 0.02D);
-			maxProb -= shiftValue;
-			nearMaxProb -= (int) Math.round(shiftValue * 1.5);
-			avProb -= (int) Math.round(shiftValue * 2.0);
-			// lowHit += (int) Math.round(shiftValue * 3.5);
-
-			int hitRange = DataConversions.random(0, 100);
-
-			if (hitRange >= (100 - maxProb)) {
-				return max;
-			} else if (hitRange >= (100 - nearMaxProb)) {
-				return DataConversions
-						.roundUp(Math.abs((max - (max * (DataConversions
-								.random(0, 10) * 0.01D)))));
-			} else if (hitRange >= (100 - avProb)) {
-				int newMax = (int) DataConversions
-						.roundUp((max - (max * 0.1D)));
-				return DataConversions
-						.roundUp(Math.abs((newMax - (newMax * (DataConversions
-								.random(0, 50) * 0.01D)))));
-			} else {
-				int newMax = (int) DataConversions
-						.roundUp((max - (max * 0.5D)));
-				return DataConversions
-						.roundUp(Math.abs((newMax - (newMax * (DataConversions
-								.random(0, 95) * 0.01D)))));
-			}
-		}
-		return 0;
-	}
-
-	public static int calcFightHitWithNPC(Mob attacker, Mob defender) {
-
-		int max = maxHit(attacker.getStrength(),
-				attacker.getWeaponPowerPoints(), attacker.isPrayerActivated(1),
-				attacker.isPrayerActivated(4), attacker.isPrayerActivated(10),
-				styleBonus(attacker, 2));
-		if (attacker instanceof Npc) {
-			Npc n = (Npc) attacker;
-			if (n.getID() == 3) // Chickens only doing 1 damage.
-				max = 1;
-		}
-
-		// int newAtt = (int) (addPrayers(attacker.isPrayerActivated(2),
-		// attacker.isPrayerActivated(5), attacker.isPrayerActivated(11)) *
-		// (attacker.getAttack() / 0.7D) + ((DataConversions.random(0, 4) == 0 ?
-		// attacker.getWeaponPowerPoints() : attacker.getWeaponAimPoints()) /
-		// 3D) + (attacker.getCombatStyle() == 1 && DataConversions.random(0, 2)
-		// == 0 ? 4 : 0) + (styleBonus(attacker, 0) * 2));
-
-		int newAtt = (int) (addPrayers(attacker.isPrayerActivated(2),
-				attacker.isPrayerActivated(5), attacker.isPrayerActivated(11))
-				* (attacker.getAttack())
-				+ ((DataConversions.random(0, 4) == 0 ? attacker
-						.getWeaponPowerPoints() : attacker.getWeaponAimPoints()) / 3D)
-				+ (attacker.getCombatStyle() == 1
-						&& DataConversions.random(0, 2) == 0 ? 4 : 0) + (styleBonus(
-				attacker, 0) * 2));
-
-		int newDef = (int) (addPrayers(defender.isPrayerActivated(0),
-				defender.isPrayerActivated(3), defender.isPrayerActivated(9))
-				* defender.getDefense()
-				+ (defender.getArmourPoints() / 4D)
-				+ (defender.getStrength() / 4D) + (styleBonus(defender, 1) * 2));
-
-		/*
-		 * if(defender instanceof Player) { if(defender.getCombatLevel() < 70 &&
-		 * defender.getCombatLevel() > 45) newDef = newDef + (int)(newDef *
-		 * 0.25); else if(defender.getCombatLevel() > 25 &&
-		 * defender.getCombatLevel() < 45) newDef = newDef + (int)(newDef *
-		 * 0.35);
-		 * 
-		 * else if(defender.getCombatLevel() > 8 && defender.getCombatLevel() <
-		 * 25) newDef = newDef + (int)(newDef * 0.45);
-		 * 
-		 * else if(defender.getCombatLevel() > 1 && defender.getCombatLevel() <
-		 * 8) newDef = newDef + (int)(newDef * 0.55); }
-		 */
-		if (attacker instanceof Player) {
-			// newDef += newDef / 8;
-			newDef -= newDef / 8;
-		}
-
-		int hitChance = DataConversions.random(0, 100) + (newAtt - newDef);
-		// Added this
-		if (attacker instanceof Player)
-			hitChance += (int) (DataConversions.random(0, attacker.getAttack()) + 1) / 1.33;
-
-		if (attacker instanceof Npc) {
-			hitChance -= 5;
-		}
-		if (hitChance > (defender instanceof Npc ? 40 : 50)) {
-			int maxProb = 5; // 5%
-			int nearMaxProb = 10; // 10%
-			int avProb = 80; // 70%
-			// int lowHit = 10; // 15% // TODO: Should probably use lowHit...
-
-			// Probablities are shifted up/down based on armour
-			int shiftValue = (int) Math
-					.round(defender.getArmourPoints() * 0.02D);
-			maxProb -= shiftValue;
-			nearMaxProb -= (int) Math.round(shiftValue * 1.5);
-			avProb -= (int) Math.round(shiftValue * 2.0);
-			// lowHit += (int) Math.round(shiftValue * 3.5);
-
-			int hitRange = DataConversions.random(0, 100);
-
-			if (hitRange >= (100 - maxProb)) {
-				return max;
-			} else if (hitRange >= (100 - nearMaxProb)) {
-				return DataConversions
-						.roundUp(Math.abs((max - (max * (DataConversions
-								.random(0, 10) * 0.01D)))));
-			} else if (hitRange >= (100 - avProb)) {
-				int newMax = (int) DataConversions
-						.roundUp((max - (max * 0.1D)));
-				return DataConversions
-						.roundUp(Math.abs((newMax - (newMax * (DataConversions
-								.random(0, 50) * 0.01D)))));
-			} else {
-				int newMax = (int) DataConversions
-						.roundUp((max - (max * 0.5D)));
-				return DataConversions
-						.roundUp(Math.abs((newMax - (newMax * (DataConversions
-								.random(0, 95) * 0.01D)))));
-			}
-		}
-		return 0;
 	}
 
 	public static int calcGodSpells(Mob attacker, Mob defender) {
@@ -907,19 +730,6 @@ public class Formulae {
 				.percentChance(offsetToPercent(levelDiff + bonus));
 	}
 
-	public static int getPotionDose(int id) {
-		if (DataConversions.inArray(potions1Dose, id)) {
-			return 1;
-		}
-		if (DataConversions.inArray(potions2Dose, id)) {
-			return 2;
-		}
-		if (DataConversions.inArray(potions3Dose, id)) {
-			return 3;
-		}
-		return 0;
-	}
-
 	/**
 	 * @author xEnt
 	 * 
@@ -1088,25 +898,6 @@ public class Formulae {
 		return -1;
 	}
 
-	// This is needed for the above method
-	public static double getShopPercentage(InvItem item, int pos, boolean buy) {
-		int[] prices = { 0, 10, 100, 1000, 10000 }; // base prices of the items.
-		double[][] percentages = { { 0.5, 1.0, 1.5, 2.0 }, // in between 0 and
-				// 10GP.
-				{ 0.1, 0.3, 0.45, 0.6 }, // 10-100gp
-				{ 0.1, 0.2, 0.3, 0.4 }, // 100-1000gp
-				{ 0.5, 0.1, 0.15, 0.2 }, // 1000-10000gp
-		};
-		int key = -1;
-		for (int i = 0; i < prices.length - 1; i++)
-			if (item.getDef().basePrice > prices[i]
-					&& item.getDef().basePrice < prices[i + 1])
-				key = i;
-		if (key == -1)
-			return -1;
-		return percentages[key][pos];
-	}
-
 	/**
 	 * Gets the smithing exp for the given amount of the right bars
 	 */
@@ -1117,31 +908,6 @@ public class Formulae {
 			return 0;
 		}
 		return exps[type] * barCount;
-	}
-
-	public static int getStat(String stat) {
-		for (int i = 0; i < statArray.length; i++) {
-			if (statArray[i].equalsIgnoreCase(stat))
-				return i;
-		}
-
-		return -1;
-	}
-
-	/**
-	 * Given a stat string get its index returns -1 on failure
-	 */
-	public static int getStatIndex(String stat) {
-		for (int index = 0; index < statArray.length; index++) {
-			if (stat.equalsIgnoreCase(statArray[index])) {
-				return index;
-			}
-		}
-		return -1;
-	}
-
-	public static boolean isP2P(Object... objs) {
-		return isP2P(false, objs);
 	}
 
 	/**
@@ -1230,22 +996,6 @@ public class Formulae {
 	}
 
 	/**
-	 * Calculate the max hit possible with the given stats
-	 */
-	public static int maxHit(int strength, int weaponPower, boolean burst,
-			boolean superhuman, boolean ultimate, int bonus) {
-		double newStrength = (double) ((strength * addPrayers(burst,
-				superhuman, ultimate)) + bonus);
-
-		int fin = (int) ((newStrength
-				* ((((double) weaponPower * 0.00175D) + 0.1D)) + 1.05D) * 0.95D);
-		// if (fin > 31)
-		// fin = 31;
-		return fin;
-
-	}
-
-	/**
 	 * Gets the min level required to smith a bar
 	 */
 	public static int minSmithingLevel(int barID) {
@@ -1270,62 +1020,15 @@ public class Formulae {
 		return levelDiff > 40 ? 70 : 30 + levelDiff;
 	}
 
-	/**
-	 * Calulates what one mob should hit on another with meelee
-	 */
-	public static double parseDouble(double number) {
-		String numberString = String.valueOf(number);
-		return Double.valueOf(numberString.substring(0,
-				numberString.indexOf(".") + 2));
-	}
-
 	public static int Rand(int low, int high) {
 		return low + r.nextInt(high - low);
 	}
 
-	public static int styleBonus(Mob mob, int skill) {
-		int style = mob.getCombatStyle();
-		if (style == 0) {
-			return 1;
-		}
-		return (skill == 0 && style == 2) || (skill == 1 && style == 3)
-				|| (skill == 2 && style == 1) ? 3 : 0;
-	}
-
-	public static int[] rares = new int[] { 828, 831, 832, 575, 576, 577, 578,
+	private static int[] rares = new int[] { 828, 831, 832, 575, 576, 577, 578,
 			579, 580, 581, 971, 1316, 1315, 1314, 422, 1289, 1156, 677 };
 
 	public static boolean isRareItem(int id) {
 		return DataConversions.inArray(rares, id);
 	}
-
-	public static int getBarIdFromItem(int itemID) {
-		if (DataConversions.inArray(BRONZE, itemID))
-			return 169;
-		if (DataConversions.inArray(IRON, itemID))
-			return 170;
-		if (DataConversions.inArray(STEEL, itemID))
-			return 171;
-		if (DataConversions.inArray(MITH, itemID))
-			return 173;
-		if (DataConversions.inArray(ADDY, itemID))
-			return 174;
-		if (DataConversions.inArray(RUNE, itemID))
-			return 408;
-		return -1;
-	}
-
-	public final static int[] IRON = { 6, 5, 7, 8, 2, 3, 9, 28, 1075, 1, 71,
-			83, 77, 12, 1258, 89, 0, 670, 1063 };
-	public final static int[] RUNE = { 112, 399, 400, 401, 404, 403, 402, 396,
-			1080, 397, 75, 398, 81, 405, 1262, 93, 98, 674, 1067 };
-	public final static int[] ADDY = { 111, 107, 116, 120, 131, 127, 123, 65,
-			1079, 69, 74, 86, 80, 204, 1261, 92, 97, 673, 1066 };
-	public final static int[] MITH = { 110, 106, 115, 119, 130, 126, 122, 64,
-			1078, 68, 73, 85, 79, 203, 1260, 91, 96, 672, 1065 };
-	public final static int[] STEEL = { 109, 105, 114, 118, 129, 125, 121, 63,
-			1077, 67, 72, 84, 78, 88, 1259, 90, 95, 671, 1064 };
-	public final static int[] BRONZE = { 108, 104, 113, 117, 128, 124, 206, 62,
-			1076, 66, 70, 82, 76, 87, 156, 87, 205, 669, 1062 };
 
 }

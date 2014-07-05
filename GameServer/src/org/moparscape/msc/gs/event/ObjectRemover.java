@@ -6,7 +6,7 @@ import org.moparscape.msc.gs.model.World;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
 
 public class ObjectRemover extends DelayedEvent {
-	public static final World world = Instance.getWorld();
+	private static final World world = Instance.getWorld();
 	private GameObject object;
 
 	public ObjectRemover(GameObject object, int delay) {

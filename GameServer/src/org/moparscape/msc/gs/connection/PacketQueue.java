@@ -15,7 +15,7 @@ public class PacketQueue<T extends Packet> {
 	/**
 	 * Adds a packet to the queue
 	 */
-	public void add(T p) {
+	void add(T p) {
 		// Logging.debug("[DEBUG] Packet Q: " + packets.size());
 		synchronized (packets) {
 			packets.add(p);
@@ -36,10 +36,4 @@ public class PacketQueue<T extends Packet> {
 		return tmpList;
 	}
 
-	/**
-	 * Returns if there is packets to process
-	 */
-	public boolean hasPackets() {
-		return !packets.isEmpty();
-	}
 }

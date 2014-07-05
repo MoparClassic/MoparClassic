@@ -4,9 +4,9 @@ import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.Player;
 
 public class ObjectActionParam {
-	public final GameObject object;
-	public final int click;
-	public final Player player;
+	final GameObject object;
+	final int click;
+	final Player player;
 
 	public ObjectActionParam(Player p, GameObject obj, int click) {
 		this.player = p;

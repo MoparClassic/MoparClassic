@@ -49,7 +49,7 @@ public class ActiveTile {
 		this.y = y;
 	}
 
-	public boolean remove = false;
+	private boolean remove = false;
 
 	/**
 	 * Add an entity to the tile
@@ -115,7 +115,7 @@ public class ActiveTile {
 		return players != null && players.size() > 0;
 	}
 
-	public boolean specificArea() {
+	private boolean specificArea() {
 		boolean t = DataConversions.inPointArray(Formulae.noremoveTiles,
 				new Point(this.getX(), this.getY()));
 		return t;

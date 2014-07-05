@@ -45,7 +45,7 @@ public class Tile {
 	/**
 	 * The texture ID of this tile
 	 */
-	public byte groundTexture = 0;
+	private byte groundTexture = 0;
 
 	/**
 	 * The texture ID of any horizontal wall on this tile
@@ -55,7 +55,7 @@ public class Tile {
 	/**
 	 * The texture ID of the roof of this tile
 	 */
-	public byte roofTexture = 0;
+	private byte roofTexture = 0;
 
 	/**
 	 * The texture ID of any vertical wall on this tile

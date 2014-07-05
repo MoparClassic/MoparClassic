@@ -18,7 +18,7 @@ import org.moparscape.msc.gs.model.definition.EntityHandler
 import org.moparscape.msc.gs.phandler.PacketHandler
 import org.moparscape.msc.gs.tools.DataConversions
 import org.moparscape.msc.gs.util.Logger
-import org.moparscape.msc.gs.model.extra.elo.Elo
+import org.moparscape.msc.gs.model.player.attribute.Elo
 
 object CommandHandler {
 	import scala.xml.XML

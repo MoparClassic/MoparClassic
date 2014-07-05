@@ -19,7 +19,7 @@ class GoDown extends ObjectEvent {
 		true
 	}
 
-	def miningGuild {
+	private def miningGuild {
 		if (player.getCurStat(14) < 60) {
 			player.setBusy(true)
 			val dwarf = Instance.getWorld.getNpc(191, 272, 277, 563, 567)

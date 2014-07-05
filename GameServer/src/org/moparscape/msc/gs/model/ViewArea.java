@@ -10,7 +10,7 @@ public class ViewArea {
 	private static World world = Instance.getWorld();
 	private Mob mob;
 
-	public ViewArea(Mob mob) {
+	ViewArea(Mob mob) {
 		this.mob = mob;
 	}
 
@@ -76,7 +76,7 @@ public class ViewArea {
 		return players;
 	}
 
-	public ActiveTile[][] getViewedArea(int x1, int y1, int x2, int y2) {
+	ActiveTile[][] getViewedArea(int x1, int y1, int x2, int y2) {
 		int mobX = mob.getX();
 		int mobY = mob.getY();
 		int startX, startY, endX, endY;

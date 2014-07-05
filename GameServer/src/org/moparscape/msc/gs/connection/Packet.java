@@ -13,27 +13,27 @@ public class Packet {
 	/**
 	 * Whether this packet is without the standard packet header
 	 */
-	protected boolean bare;
+	private boolean bare;
 	/**
 	 * The current index into the payload buffer for reading
 	 */
-	protected int caret = 0;
+	private int caret = 0;
 	/**
 	 * The payload
 	 */
-	protected byte[] pData;
+	private byte[] pData;
 	/**
 	 * The length of the payload
 	 */
-	protected int pLength;
+	private int pLength;
 	/**
 	 * The associated IO session
 	 */
-	protected IoSession session;
+	private IoSession session;
 	/**
 	 * The time this packet was created
 	 */
-	protected long time;
+	private long time;
 
 	/**
 	 * Creates a new packet with the specified parameters. The packet is
@@ -126,17 +126,6 @@ public class Packet {
 	 */
 	public boolean isBare() {
 		return bare;
-	}
-
-	public String printData() {
-		if (pLength == 0) {
-			return "";
-		}
-		String data = "";
-		for (int i = 0; i < pLength; i++) {
-			data += " " + pData[i];
-		}
-		return data.substring(1);
 	}
 
 	/**
@@ -241,16 +230,6 @@ public class Packet {
 
 	public int remaining() {
 		return pData.length - caret;
-	}
-
-	/**
-	 * Skips the specified number of bytes in the payload.
-	 * 
-	 * @param x
-	 *            The number of bytes to be skipped
-	 */
-	public void skip(int x) {
-		caret += x;
 	}
 
 	/**

@@ -147,7 +147,7 @@ public final class GameEngine extends Thread {
 	 * 
 	 * @throws Exception
 	 */
-	protected void loadPacketHandlers() throws Exception {
+	private void loadPacketHandlers() throws Exception {
 		PacketHandlerDef[] handlerDefs = Instance.dataStore()
 				.loadPacketHandlerDefs();
 		for (PacketHandlerDef handlerDef : handlerDefs) {
@@ -195,7 +195,7 @@ public final class GameEngine extends Thread {
 	/**
 	 * Redirects system err
 	 */
-	public static void redirectSystemStreams() {
+	private static void redirectSystemStreams() {
 		OutputStream out = new OutputStream() {
 			@Override
 			public void write(int b) throws IOException {
@@ -268,7 +268,7 @@ public final class GameEngine extends Thread {
 		}
 	}
 
-	public void processLoginServer() {
+	private void processLoginServer() {
 		LoginConnector connector = Instance.getServer().getLoginConnector();
 		if (connector != null) {
 			connector.processIncomingPackets();
@@ -344,14 +344,14 @@ public final class GameEngine extends Thread {
 		return updateTime() - t1;
 	}
 
-	public long updateTime() {
+	private long updateTime() {
 		return time = System.nanoTime() / 1000000;
 	}
 
 	/**
 	 * Cleans snapshots of entries over 60 seconds old (executed every second)
 	 */
-	public void cleanSnapshotDeque() {
+	private void cleanSnapshotDeque() {
 		long curTime = GameEngine.getTimestamp(); // We need to compare
 													// timestamps
 		if (curTime - lastCleanedChatlogs > 1000) { // Every second
@@ -385,7 +385,7 @@ public final class GameEngine extends Thread {
 	/**
 	 * Cleans garbage (Tilecleanup)
 	 */
-	public synchronized void garbageCollect() {
+	private synchronized void garbageCollect() {
 		long startTime = getTime();
 		int curMemory = (int) (Runtime.getRuntime().totalMemory() - Runtime
 				.getRuntime().freeMemory()) / 1000;

@@ -82,7 +82,7 @@ public class Syndicate {
 		}
 	}
 
-	public int roundAndCast(double d) {
+	private int roundAndCast(double d) {
 		return (int) Math.round(d);
 	}
 

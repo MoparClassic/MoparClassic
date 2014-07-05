@@ -16,7 +16,7 @@ public class ChatMessage {
 	 */
 	private Mob sender;
 
-	public ChatMessage(Mob sender, byte[] message) {
+	ChatMessage(Mob sender, byte[] message) {
 		this.sender = sender;
 		this.message = message;
 	}

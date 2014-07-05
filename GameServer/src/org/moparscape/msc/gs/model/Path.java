@@ -57,14 +57,14 @@ public class Path {
 	/**
 	 * Gets the X coord of the given waypoint
 	 */
-	public int getWaypointX(int wayPoint) {
+	int getWaypointX(int wayPoint) {
 		return startX + getWaypointXoffset(wayPoint);
 	}
 
 	/**
 	 * Gets the X offset of the given waypoint
 	 */
-	public byte getWaypointXoffset(int wayPoint) {
+	private byte getWaypointXoffset(int wayPoint) {
 		if (wayPoint >= length()) {
 			return (byte) 0;
 		}
@@ -74,14 +74,14 @@ public class Path {
 	/**
 	 * Gets the Y coord of the given waypoint
 	 */
-	public int getWaypointY(int wayPoint) {
+	int getWaypointY(int wayPoint) {
 		return startY + getWaypointYoffset(wayPoint);
 	}
 
 	/**
 	 * Gets the Y offset of the given waypoint
 	 */
-	public byte getWaypointYoffset(int wayPoint) {
+	private byte getWaypointYoffset(int wayPoint) {
 		if (wayPoint >= length()) {
 			return (byte) 0;
 		}
@@ -98,7 +98,7 @@ public class Path {
 	/**
 	 * The length of our path
 	 */
-	public int length() {
+	int length() {
 		if (waypointXoffsets == null) {
 			return 0;
 		}

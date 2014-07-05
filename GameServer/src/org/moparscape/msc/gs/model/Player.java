@@ -19,13 +19,13 @@ import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.builders.client.MiscPacketBuilder;
 import org.moparscape.msc.gs.builders.ls.SavePacketBuilder;
 import org.moparscape.msc.gs.config.Config;
+import org.moparscape.msc.gs.config.Config.AdditionalDeathPenalties;
 import org.moparscape.msc.gs.config.Formulae;
 import org.moparscape.msc.gs.connection.LSPacket;
 import org.moparscape.msc.gs.core.GameEngine;
 import org.moparscape.msc.gs.event.DelayedEvent;
 import org.moparscape.msc.gs.event.MiniEvent;
 import org.moparscape.msc.gs.event.RangeEvent;
-import org.moparscape.msc.gs.event.ShortEvent;
 import org.moparscape.msc.gs.model.container.Bank;
 import org.moparscape.msc.gs.model.container.Inventory;
 import org.moparscape.msc.gs.model.container.Shop;
@@ -33,7 +33,8 @@ import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
 import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
-import org.moparscape.msc.gs.model.extra.elo.Elo;
+import org.moparscape.msc.gs.model.player.attribute.Elo;
+import org.moparscape.msc.gs.model.player.attribute.KillDeathHistory;
 import org.moparscape.msc.gs.model.player.attribute.Quests;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.client.WieldHandler;
@@ -81,7 +82,6 @@ public class Player extends Mob {
 	 */
 	private Bank bank;
 
-	private boolean blink = false;
 	/**
 	 * Bubbles needing displayed
 	 */
@@ -111,7 +111,6 @@ public class Player extends Mob {
 	 * Combat style: 0 - all, 1 - str, 2 - att, 3 - def
 	 */
 	private int combatStyle = 0;
-	private int Combo = 0;
 
 	/**
 	 * Added by Zerratar: Correct sleepword we are looking for! Case SenSitIvE
@@ -137,7 +136,6 @@ public class Player extends Mob {
 	 * Should we destroy this player?
 	 */
 	private boolean destroy = false;
-	private boolean doricDependency = false;
 	/**
 	 * DelayedEvent responsible for handling prayer drains
 	 */
@@ -212,8 +210,6 @@ public class Player extends Mob {
 	 */
 	private int groupID = 1;
 
-	private boolean hasAnswered = false;
-
 	/**
 	 * List of usernameHash's of players on players ignore list
 	 */
@@ -272,8 +268,6 @@ public class Player extends Mob {
 	 */
 	private long lastArrow = 0;
 
-	private long lastbanktime = 0;
-
 	private long lastCast = GameEngine.getTime();
 
 	/**
@@ -285,15 +279,11 @@ public class Player extends Mob {
 
 	private long lastDeath = GameEngine.getTime();
 
-	private int lastdepositedamount = 0;
-	private int lastdepositeditem = 0;
 	private long lastInterval = 0;
-	private long lastinvtime = 0;
 	/**
 	 * Stores the last IP address used
 	 */
 	private String lastIP = "0.0.0.0";
-	private int lastitemposition = 0;
 	/**
 	 * Unix time when the player last logged in
 	 */
@@ -309,7 +299,6 @@ public class Player extends Mob {
 	 */
 	private long lastPing = GameEngine.getTime();
 	private String lastPlayerInfo2 = null;
-	private int lastRandom = 0;
 	private long lastRange = GameEngine.getTime();
 	/**
 	 * Time last report was sent, used to throttle reports
@@ -327,9 +316,6 @@ public class Player extends Mob {
 	 * Time of last trade/duel request
 	 */
 	private long lastTradeDuelRequest = 0;
-	private int lastwithdrawamount = 0;
-	private int lastwithdrawitem = 0;
-	private long lastwithdrawtime = 0;
 	/**
 	 * Whether the player is currently logged in
 	 */
@@ -355,7 +341,6 @@ public class Player extends Mob {
 	/**
 	 * Added by Konijn
 	 */
-	private boolean noclip = false;
 	// Do aggros attack?
 	private boolean nonaggro = false;
 	// Is the player PK-able?
@@ -416,7 +401,6 @@ public class Player extends Mob {
 	 * Session keys for the players session
 	 */
 	private int[] sessionKeys = new int[4];
-	private ShortEvent sEvent = null;
 	/**
 	 * The shop (if any) the player is currently accessing
 	 */
@@ -441,8 +425,6 @@ public class Player extends Mob {
 	 * If the player has been sending suscicious packets
 	 */
 	private boolean suspicious = false;
-	private int tempx = -1;
-	private int tempy = -1;
 	/**
 	 * If the second trade screen has been accepted
 	 */
@@ -494,7 +476,6 @@ public class Player extends Mob {
 	private int wrongwords = 0;
 
 	private int poisonPower = 0;
-	private DelayedEvent poisonEvent;
 
 	@SuppressWarnings("unchecked")
 	public <T> T getProperty(String name) {
@@ -517,60 +498,6 @@ public class Player extends Mob {
 		return poisonPower > 0;
 	}
 
-	public void poison(int power) {
-		if (!isPoisoned()) {
-			this.poisonPower = power;
-			poisonEvent = new DelayedEvent(this, 19500) {
-				public void run() {
-					damagePoison(true);
-				}
-			};
-			World.getWorld().getDelayedEventHandler().add(poisonEvent);
-		} else
-			this.poisonPower = power;
-	}
-
-	public void curePoison() {
-		this.poisonPower = 0;
-		if (poisonEvent != null)
-			poisonEvent.stop();
-	}
-
-	public void startPoison(int power) {
-		this.poison(power);
-		this.poisonPower = power;
-
-		damagePoison(false);
-	}
-
-	public void damagePoison(boolean decrease) {
-		if (this.poisonPower > 0) {
-			double calcDamage = Math.ceil(poisonPower / 5);
-			int damage = (int) calcDamage + 1;
-
-			if (decrease)
-				poisonPower--;
-
-			setLastDamage(damage);
-			setCurStat(3, getCurStat(3) - damage);
-			getActionSender().sendStat(3);
-			getActionSender().sendMessage(
-					"@gr3@You @gr2@are @gr1@Poisoned! @gr2@You @gr3@lose "
-							+ damage + " @gr1@health.");
-
-			for (Player p : getViewArea().getPlayersInView())
-				p.informOfModifiedHits(this);
-			if (getCurStat(3) <= 0) {
-				killedBy(null, false);
-				poisonEvent.stop();
-			}
-		} else {
-			if (poisonEvent != null)
-				poisonEvent.stop();
-			this.poisonPower = 0;
-		}
-	}
-
 	public Player(IoSession ios) {
 
 		ioSession = ios;
@@ -580,10 +507,13 @@ public class Player extends Mob {
 		actionSender = new MiscPacketBuilder(this);
 		setBusy(true);
 		Instance.getWorld();
-		
-		if(Config.elo) {
+
+		if (Config.elo) {
 			this.setProperty("elo", new Elo(1200, 0));
 		}
+
+		this.setProperty("killDeathHistory", new KillDeathHistory(0, 0, 0, 0,
+				0, 0));
 	}
 
 	public boolean accessingBank() {
@@ -594,7 +524,7 @@ public class Player extends Mob {
 		return shop != null;
 	}
 
-	public void addAttackedBy(Player p) {
+	private void addAttackedBy(Player p) {
 		attackedBy.put(p.getUsernameHash(), GameEngine.getTime());
 	}
 
@@ -670,10 +600,6 @@ public class Player extends Mob {
 		tradeOffer.add(item);
 	}
 
-	public boolean blink() {
-		return blink;
-	}
-
 	public boolean canLogout() {
 		if (this != null && this.location != null
 				&& this.location.inWilderness()) {
@@ -704,18 +630,6 @@ public class Player extends Mob {
 				actionSender
 						.sendMessage("You cannot attack this staff members");
 				return false;
-			}
-
-			// KO9 - Konijn - check if PK'ing is disabled in this area
-			int i = 0;
-			for (Point place[] : world.getPlaces()) {
-				if (getLocation().inBounds(place[0].getX(), place[0].getY(),
-						place[1].getX(), place[1].getY())
-						&& !world.wildAttackable(i)) {
-					actionSender
-							.sendMessage("You cannot attack in this area at the moment.");
-					return false;
-				}
 			}
 
 			if ((inCombat() && isDueling())
@@ -801,7 +715,7 @@ public class Player extends Mob {
 		clientWarn = cw;
 	}
 
-	public int combatStyleToIndex() {
+	private int combatStyleToIndex() {
 		if (getCombatStyle() == 1) {
 			return 2;
 		}
@@ -941,10 +855,6 @@ public class Player extends Mob {
 
 	public int getCombatStyle() {
 		return combatStyle;
-	}
-
-	public int getCombo() {
-		return this.Combo;
 	}
 
 	public String getCorrectSleepword() {
@@ -1176,10 +1086,6 @@ public class Player extends Mob {
 		return lastPlayerInfo2;
 	}
 
-	public int getLastRandom() {
-		return lastRandom;
-	}
-
 	public long getLastRange() {
 		return lastRange;
 	}
@@ -1362,10 +1268,6 @@ public class Player extends Mob {
 		return sessionKeys;
 	}
 
-	public ShortEvent getsEvent() {
-		return sEvent;
-	}
-
 	public Shop getShop() {
 		return shop;
 	}
@@ -1416,14 +1318,6 @@ public class Player extends Mob {
 
 	public long getSubscriptionExpires() {
 		return subscriptionExpires;
-	}
-
-	public int getTempx() {
-		return tempx;
-	}
-
-	public int getTempy() {
-		return tempy;
 	}
 
 	public ArrayList<InvItem> getTradeOffer() {
@@ -1502,7 +1396,7 @@ public class Player extends Mob {
 		return ignoreList.size();
 	}
 
-	public void incCurStat(int i, int amount) {
+	private void incCurStat(int i, int amount) {
 		curStat[i] += amount;
 		if (curStat[i] < 0) {
 			curStat[i] = 0;
@@ -1598,7 +1492,7 @@ public class Player extends Mob {
 		}
 	}
 
-	public void incMaxStat(int i, int amount) {
+	private void incMaxStat(int i, int amount) {
 		maxStat[i] += amount;
 		if (maxStat[i] < 0) {
 			maxStat[i] = 0;
@@ -1632,7 +1526,7 @@ public class Player extends Mob {
 	 * So they will call this method to let the player know they should probably
 	 * be informed of them.
 	 */
-	public void informOfPlayer(Player p) {
+	private void informOfPlayer(Player p) {
 		if ((!watchedPlayers.contains(p) || watchedPlayers.isRemoving(p))
 				&& withinRange(p)) {
 			watchedPlayers.add(p);
@@ -1671,10 +1565,6 @@ public class Player extends Mob {
 		return destroy;
 	}
 
-	public boolean isDoricDependency() {
-		return doricDependency;
-	}
-
 	public boolean isDuelConfirmAccepted() {
 		return duelConfirmAccepted;
 	}
@@ -1697,10 +1587,6 @@ public class Player extends Mob {
 
 	public boolean isFriendsWith(long usernameHash) {
 		return friendList.containsKey(usernameHash);
-	}
-
-	public boolean isHasAnswered() {
-		return hasAnswered;
 	}
 
 	public boolean isIgnoring(long usernameHash) {
@@ -1750,10 +1636,6 @@ public class Player extends Mob {
 	 */
 	public boolean isMuted() {
 		return (muted - GameEngine.getTimestamp() > 0);
-	}
-
-	public boolean isNoclip() {
-		return noclip;
 	}
 
 	public boolean isNonaggro() {
@@ -1816,11 +1698,59 @@ public class Player extends Mob {
 		killedBy(mob, false);
 	}
 
+	private void applyADP(AdditionalDeathPenalties adp) {
+		int max = maxStat.length;
+		if (adp.onlycombat) {
+			max = 7;
+		}
+		for (int i = 0; i < max; i++) {
+			if (adp.xp) {
+				int xp = (int) Math.max(0, Math.round(this.getExp(i)
+						* (1 - (adp.penalty / 100.0))));
+				this.setExp(i, xp);
+				this.setMaxStat(i, Formulae.experienceToLevel(this.getExp(i)));
+			} else {
+				this.setExp(i, Formulae.levelToExperience(this.getMaxStat(i)));
+				this.setMaxStat(i, this.getMaxStat(i) - adp.penalty);
+			}
+		}
+		if (this.getExp(3) < Formulae.levelToExperience(10)) {
+			this.setExp(3, Formulae.levelToExperience(10));
+			this.setMaxStat(3, 10);
+		}
+		this.getActionSender().sendStats();
+		System.out.println("adp done");
+	}
+
 	public void killedBy(Mob mob, boolean stake) {
 		if (!loggedIn) {
 			Logger.error(username + " not logged in, but killed!");
 			return;
 		}
+		AdditionalDeathPenalties adp = Config.ADDITIONAL_DEATH_PENALTIES;
+		if (adp.enabled) {
+			System.out.println("adp enabled");
+			System.out.println(adp.npc);
+			System.out.println(mob);
+			boolean apply = false;
+			if (adp.wild && mob instanceof Player && !stake) {
+				apply = true;
+			}
+
+			if (adp.npc && mob instanceof Mob) {
+				apply = true;
+			}
+
+			if (adp.duel && stake && mob instanceof Player) {
+				apply = true;
+			}
+
+			if (apply) {
+				System.out.println("adp applied");
+				applyADP(adp);
+			}
+		}
+
 		if (mob instanceof Player) {
 			Player player = (Player) mob;
 			player.getActionSender().sendMessage(
@@ -1831,14 +1761,26 @@ public class Player extends Mob {
 					owner.getActionSender().sendScreenshot();
 				}
 			});
-			if(Config.elo) {
+			if (Config.elo) {
 				Elo winner = player.getProperty("elo");
 				Elo loser = this.getProperty("elo");
-				
+
 				winner.recalculateForWin(loser);
+			}
+			KillDeathHistory kdh = player.getProperty("killDeathHistory");
+			KillDeathHistory tkdh = this.getProperty("killDeathHistory");
+			if (stake) {
+				kdh.playerKillsDuel_$eq(kdh.playerKillsDuel() + 1);
+				tkdh.playerDeathsDuel_$eq(tkdh.playerDeathsDuel() + 1);
+			} else {
+				kdh.playerKillsWild_$eq(kdh.playerKillsWild() + 1);
+				tkdh.playerDeathsWild_$eq(tkdh.playerDeathsWild() + 1);
 			}
 			Instance.getServer().getLoginConnector().getActionSender()
 					.logKill(player.getUsernameHash(), usernameHash, stake);
+		} else {
+			KillDeathHistory kdh = this.getProperty("killDeathHistory");
+			kdh.npcDeaths_$eq(kdh.npcDeaths() + 1);
 		}
 		Mob opponent = super.getOpponent();
 		if (opponent != null) {
@@ -1948,7 +1890,7 @@ public class Player extends Mob {
 		actionSender.sendInventory();
 	}
 
-	public long lastAttackedBy(Player p) {
+	private long lastAttackedBy(Player p) {
 		Long time = attackedBy.get(p.getUsernameHash());
 		if (time != null) {
 			return time;
@@ -2129,7 +2071,7 @@ public class Player extends Mob {
 		addPrayerDrain(prayerID);
 	}
 
-	public void removeSkull() {
+	private void removeSkull() {
 		if (!isSkulled()) {
 			return;
 		}
@@ -2193,7 +2135,7 @@ public class Player extends Mob {
 		actionSender.hideBank();
 	}
 
-	public void resetDuel() {
+	private void resetDuel() {
 		Player opponent = getWishToDuel();
 		if (opponent != null) {
 			opponent.resetDueling();
@@ -2319,11 +2261,6 @@ public class Player extends Mob {
 
 	}
 
-	public void sayMessage(String msg, Mob to) {
-		ChatMessage cm = new ChatMessage(this, msg, to);
-		chatMessagesNeedingDisplayed.add(cm);
-	}
-
 	public void setAccessingBank(boolean b) {
 		inBank = b;
 	}
@@ -2364,10 +2301,6 @@ public class Player extends Mob {
 
 	public void setBank(Bank b) {
 		bank = b;
-	}
-
-	public void setBlink(boolean arg) {
-		blink = arg;
 	}
 
 	public void setBubblesNeedingDisplayed(
@@ -2412,10 +2345,6 @@ public class Player extends Mob {
 		combatStyle = style;
 	}
 
-	public void setCombo(int combo) {
-		this.Combo = combo;
-	}
-
 	public void setCorrectSleepword(String correctSleepword) {
 		this.correctSleepword = correctSleepword;
 	}
@@ -2448,10 +2377,6 @@ public class Player extends Mob {
 
 	public void setDestroy(boolean destroy) {
 		this.destroy = destroy;
-	}
-
-	public void setDoricDependency(boolean doricDependency) {
-		this.doricDependency = doricDependency;
 	}
 
 	public void setDrainer(DelayedEvent drainer) {
@@ -2562,10 +2487,6 @@ public class Player extends Mob {
 		groupID = id;
 	}
 
-	public void setHasAnswered(boolean hasAnswered) {
-		this.hasAnswered = hasAnswered;
-	}
-
 	public void setHits(int lvl) {
 		setCurStat(3, lvl);
 	}
@@ -2578,7 +2499,7 @@ public class Player extends Mob {
 		this.inBank = inBank;
 	}
 
-	public void setInitialized() {
+	void setInitialized() {
 		initialized = true;
 	}
 
@@ -2631,20 +2552,8 @@ public class Player extends Mob {
 		this.lastDeath = lastDeath;
 	}
 
-	public void setLastDepositTime(int itemid, int amount) {
-		this.lastbanktime = GameEngine.getTime();
-
-		lastdepositeditem = itemid;
-		lastdepositedamount = amount;
-	}
-
 	public void setLastInterval(long lastInterval) {
 		this.lastInterval = lastInterval;
-	}
-
-	public void setLastInvTime(int itemposition) {
-		this.lastinvtime = GameEngine.getTime();
-		lastitemposition = itemposition;
 	}
 
 	public void setLastIP(String ip) {
@@ -2683,10 +2592,6 @@ public class Player extends Mob {
 		this.lastPlayerInfo2 = lastPlayerInfo2;
 	}
 
-	public void setLastRandom(int lastRandom) {
-		this.lastRandom = lastRandom;
-	}
-
 	public void setLastRange(long lastRange) {
 		this.lastRange = lastRange;
 	}
@@ -2717,13 +2622,6 @@ public class Player extends Mob {
 
 	public void setLastTradeDuelRequest(long lastTradeDuelRequest) {
 		this.lastTradeDuelRequest = lastTradeDuelRequest;
-	}
-
-	public void setLastWithdrawTime(int itemid, int amount) {
-		this.lastwithdrawtime = GameEngine.getTime();
-
-		lastwithdrawitem = itemid;
-		lastwithdrawamount = amount;
 	}
 
 	public void setLoggedIn(boolean loggedIn) {
@@ -2774,11 +2672,6 @@ public class Player extends Mob {
 	 */
 	public void setMuted(long muted) {
 		this.muted = (muted * 1000);
-	}
-
-	// Added by Konijn
-	public void setNoclip(boolean noclip) {
-		this.noclip = noclip;
 	}
 
 	public void setnonaggro(boolean arg) {
@@ -2879,15 +2772,6 @@ public class Player extends Mob {
 		return valid;
 	}
 
-	public void setsEvent(ShortEvent sEvent) {
-		this.sEvent = sEvent;
-	}
-
-	public void setSEvent(ShortEvent sEvent) {
-		this.sEvent = sEvent;
-		Instance.getDelayedEventHandler().add(sEvent);
-	}
-
 	public void setShop(Shop shop) {
 		this.shop = shop;
 	}
@@ -2953,14 +2837,6 @@ public class Player extends Mob {
 				.getUsername()
 				+ " was set suspicious! Stacktrace: \n"
 				+ stacktrace));
-	}
-
-	public void setTempx(int tempx) {
-		this.tempx = tempx;
-	}
-
-	public void setTempy(int tempy) {
-		this.tempy = tempy;
 	}
 
 	public void setTradeConfirmAccepted(boolean b) {
@@ -3031,32 +2907,6 @@ public class Player extends Mob {
 			return false;
 		else
 			return true;
-	}
-
-	public boolean shouldThrowDepositError(int itemid, int amount) {
-		if (GameEngine.getTime() - lastbanktime < 100
-				&& lastdepositeditem == itemid && lastdepositedamount == amount)
-			return false;
-		if (amount == 0)
-			return false;
-		return true;
-	}
-
-	public boolean shouldThrowInvError(int itemposition) {
-		if (GameEngine.getTime() - lastinvtime < 100
-				&& lastitemposition == itemposition)
-			return false;
-
-		return true;
-	}
-
-	public boolean shouldThrowWithdrawError(int itemid, int amount) {
-		if (GameEngine.getTime() - lastwithdrawtime < 100
-				&& lastwithdrawitem == itemid && lastwithdrawamount == amount)
-			return false;
-		if (amount == 0)
-			return false;
-		return true;
 	}
 
 	public void teleport(int x, int y, boolean bubble) {

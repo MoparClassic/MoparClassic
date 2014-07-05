@@ -9,7 +9,7 @@ import org.moparscape.msc.gs.connection.codec.LSProtocolEncoder;
 /**
  * Provides access to the protocol encoders and decoders for the LS protocol.
  */
-public class LSCodecFactory implements ProtocolCodecFactory {
+class LSCodecFactory implements ProtocolCodecFactory {
 	/**
 	 * The protocol decoder in use
 	 */

@@ -19,23 +19,8 @@ public class FightEvent extends DelayedEvent {
 	private int firstHit;
 	private int hits;
 	private boolean attacked = false;
-	boolean delay = false;
-	int dela = 0;
-
 	public FightEvent(Player owner, Mob affectedMob) {
 		this(owner, affectedMob, false);
-	}
-
-	/**
-	 * Slowed down a fight if PvP in wildy. - not in use atm
-	 */
-	public static int getDelay(Mob owner, Mob affectedMob) {
-		if (owner instanceof Player && affectedMob instanceof Player) {
-			if (((Player) owner).getLocation().inWilderness()) {
-				return 1400;
-			}
-		}
-		return 1100;
 	}
 
 	public FightEvent(Player owner, Mob affectedMob, boolean attacked) {
@@ -201,7 +186,7 @@ public class FightEvent extends DelayedEvent {
 
 		if (newHp <= 0) {
 
-			Player toLoot = null;
+			Mob toLoot = attacker;
 
 			// Logging.debug(opponent+" killed by "+attacker);
 

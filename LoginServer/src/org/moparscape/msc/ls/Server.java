@@ -65,6 +65,7 @@ public class Server {
 		if (Config.LS_CONNECT_PASS == null || Config.LS_CONNECT_PASS.equals("")) {
 			if (new File("conf", "DEVMODE").exists()) {
 				devMode = true;
+				System.out.println("[WARNING] Loginserver is in dev mode.");
 			} else {
 				System.out
 						.println("You must specify a ls-connect-pass in the config, or make a file called DEVMODE in the config folder.");

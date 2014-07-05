@@ -4,7 +4,6 @@ import net.jcip.annotations.ThreadSafe;
 
 import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.entity.ItemDef;
-import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 
 @ThreadSafe
 public class InvItem {
@@ -38,22 +37,4 @@ public class InvItem {
 	public ItemDef getDef() {
 		return EntityHandler.getItemDef(id);
 	}
-
-	private boolean isWieldable() {
-		return EntityHandler.getItemWieldableDef(id) != null;
-	}
-
-	public boolean wieldingAffectsItem() {
-		if (!isWieldable()) {
-			return false;
-		}
-		ItemWieldableDef def = EntityHandler.getItemWieldableDef(id);
-		for (int affected : def.getAffectedTypes()) {
-			if (def.getType() == affected) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 }

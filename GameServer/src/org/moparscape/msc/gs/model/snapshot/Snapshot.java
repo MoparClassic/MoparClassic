@@ -13,7 +13,7 @@ public abstract class Snapshot {
 	private long eventTime;
 	protected String owner;
 
-	public Snapshot(String owner) {
+	Snapshot(String owner) {
 		this.owner = owner;
 		this.eventTime = GameEngine.getTimestamp();
 

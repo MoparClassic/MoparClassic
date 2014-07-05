@@ -10,7 +10,7 @@ public class PlayerListRequestPacketBuilder {
 	/**
 	 * World instance
 	 */
-	public static final World world = Instance.getWorld();
+	private static final World world = Instance.getWorld();
 	/**
 	 * Packets uID
 	 */

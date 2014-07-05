@@ -14,6 +14,7 @@ import org.moparscape.msc.gs.model.definition.entity.ItemDropDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCDef;
 import org.moparscape.msc.gs.model.definition.entity.NPCLoc;
 import org.moparscape.msc.gs.model.landscape.ActiveTile;
+import org.moparscape.msc.gs.model.player.attribute.KillDeathHistory;
 import org.moparscape.msc.gs.states.Action;
 import org.moparscape.msc.gs.states.CombatState;
 import org.moparscape.msc.gs.tools.DataConversions;
@@ -110,7 +111,7 @@ public class Npc extends Mob {
 	 */
 	private NPCLoc loc;
 
-	public boolean hasRan() {
+	private boolean hasRan() {
 		return ran;
 	}
 
@@ -196,14 +197,9 @@ public class Npc extends Mob {
 	private boolean shouldRespawn = true;
 
 	public boolean weakend = false;
-	public boolean special = false;
-	public int itemid = -1;
-	public int exp = -1; // used for events.
-
-	public Npc(int id, int startX, int startY, int minX, int maxX, int minY,
-			int maxY) {
-		this(new NPCLoc(id, startX, startY, minX, maxX, minY, maxY));
-	}
+	private boolean special = false;
+	private int itemid = -1;
+	private int exp = -1; // used for events.
 
 	public Npc(NPCLoc loc) {
 		for (int i : Constants.GameServer.UNDEAD_NPCS) {
@@ -343,6 +339,8 @@ public class Npc extends Mob {
 		if (mob instanceof Player) {
 			Player player = (Player) mob;
 			player.getActionSender().sendSound("victory");
+			KillDeathHistory kdh = player.getProperty("killDeathHistory");
+			kdh.npcKills_$eq(kdh.npcKills() + 1);
 		}
 
 		Mob opponent = super.getOpponent();

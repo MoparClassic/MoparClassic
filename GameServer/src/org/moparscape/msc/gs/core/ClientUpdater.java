@@ -24,7 +24,6 @@ import org.moparscape.msc.gs.util.Logger;
 
 public final class ClientUpdater {
 
-	public static int pktcount = 0;
 	private static World world = Instance.getWorld();
 	private GameObjectPositionPacketBuilder gameObjectPositionBuilder = new GameObjectPositionPacketBuilder();
 	private ItemPositionPacketBuilder itemPositionBuilder = new ItemPositionPacketBuilder();
@@ -44,7 +43,7 @@ public final class ClientUpdater {
 	/**
 	 * Sends queued packets to each player
 	 */
-	public void sendQueuedPackets() {
+	void sendQueuedPackets() {
 		try {
 			for (Player p : players) {
 				List<RSCPacket> packets = p.getActionSender().getPackets();
@@ -65,7 +64,7 @@ public final class ClientUpdater {
 	/**
 	 * Update player/npc appearances, game objects, items, wall objects, ping
 	 */
-	public void doMinor() {
+	void doMinor() {
 		for (Player p : players) {
 			p.updateAppearanceID();
 		}
@@ -98,7 +97,7 @@ public final class ClientUpdater {
 	public static boolean threaded = false;
 	public volatile boolean updatingCollections;
 
-	public void doMajor() {
+	void doMajor() {
 		Long delay;
 		Long now = System.currentTimeMillis();
 
@@ -169,7 +168,7 @@ public final class ClientUpdater {
 	/**
 	 * Updates collections, new becomes known, removing is removed etc.
 	 */
-	public void updateCollections() {
+	private void updateCollections() {
 		updatingCollections = true;
 		for (Player p : players) {
 			if (p.isRemoved() && p.initialized()) {
@@ -314,7 +313,7 @@ public final class ClientUpdater {
 		}
 	}
 
-	public void updateOffers() {
+	private void updateOffers() {
 		for (Player player : players) {
 			if (!player.requiresOfferUpdate()) {
 				continue;

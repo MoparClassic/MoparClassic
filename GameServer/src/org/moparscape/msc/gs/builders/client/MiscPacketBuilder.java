@@ -472,13 +472,6 @@ public class MiscPacketBuilder {
 		 */
 	}
 
-	public void sendRemoveItem(int slot) {
-		RSCPacketBuilder s = new RSCPacketBuilder();
-		s.setID(191);
-		s.addByte((byte) slot);
-		packets.add(s.toPacket());
-	}
-
 	/**
 	 * Tells the client to save a screenshot
 	 */

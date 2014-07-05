@@ -31,13 +31,13 @@ public class TileValue {
 		this.elevation = v[5];
 	}
 
-	public final int diagWallVal;
-	public final byte horizontalWallVal;
+	final int diagWallVal;
+	final byte horizontalWallVal;
 	public final byte mapValue;
 	public final byte objectValue;
-	public final byte overlay;
-	public final byte verticalWallVal;
-	public final byte elevation;
+	final byte overlay;
+	final byte verticalWallVal;
+	final byte elevation;
 
 	@Override
 	public boolean equals(Object o) {

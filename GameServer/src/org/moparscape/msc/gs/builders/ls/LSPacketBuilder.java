@@ -6,7 +6,7 @@ import org.moparscape.msc.gs.core.LoginConnector;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.tools.DataConversions;
 
-public class LSPacketBuilder extends StaticPacketBuilder {
+class LSPacketBuilder extends StaticPacketBuilder {
 	/**
 	 * ID of the packet
 	 */
@@ -22,7 +22,7 @@ public class LSPacketBuilder extends StaticPacketBuilder {
 	 * @param handler
 	 *            The handler of the packet
 	 */
-	public LSPacketBuilder setHandler(LoginConnector connector,
+	LSPacketBuilder setHandler(LoginConnector connector,
 			PacketHandler handler) {
 		uID = DataConversions.getRandom().nextLong();
 		connector.setHandler(uID, handler);
@@ -35,7 +35,7 @@ public class LSPacketBuilder extends StaticPacketBuilder {
 	 * @param id
 	 *            The ID of the packet
 	 */
-	public LSPacketBuilder setID(int pID) {
+	LSPacketBuilder setID(int pID) {
 		this.pID = pID;
 		return this;
 	}
@@ -46,7 +46,7 @@ public class LSPacketBuilder extends StaticPacketBuilder {
 	 * @param id
 	 *            The uID of the packet
 	 */
-	public LSPacketBuilder setUID(long uID) {
+	LSPacketBuilder setUID(long uID) {
 		this.uID = uID;
 		return this;
 	}

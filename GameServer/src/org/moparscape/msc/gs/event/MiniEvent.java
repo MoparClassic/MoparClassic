@@ -12,10 +12,6 @@ public abstract class MiniEvent extends SingleEvent {
 		super(owner, delay);
 	}
 
-	public MiniEvent(Player owner, int delay, Object[] arg) {
-		super(owner, delay, arg);
-	}
-
 	public abstract void action();
 
 }
