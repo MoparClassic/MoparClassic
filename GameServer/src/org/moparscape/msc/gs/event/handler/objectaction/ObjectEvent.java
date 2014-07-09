@@ -6,7 +6,7 @@ import org.moparscape.msc.gs.model.GameObject;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.event.Event;
 
-public abstract class ObjectEvent extends Event<Boolean, ObjectActionParam> {
+public abstract class ObjectEvent extends Event<Boolean, ObjectActionParam> implements Cloneable {
 
 	protected GameObject o;
 	protected int click;
@@ -31,6 +31,10 @@ public abstract class ObjectEvent extends Event<Boolean, ObjectActionParam> {
 
 	public boolean isAt(Point p) {
 		return isAt(p.x, p.y);
+	}
+	
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 }
