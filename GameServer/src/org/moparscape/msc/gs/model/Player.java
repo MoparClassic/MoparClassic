@@ -53,6 +53,9 @@ public class Player extends Mob {
 
 	public Quests quests = new Quests();
 
+	/**
+	 * A map of auto-saved properties. Only use through getters/setters.
+	 */
 	private Map<String, Property<?>> properties = new HashMap<>();
 
 	public int dropTickCount = 0;
@@ -76,7 +79,6 @@ public class Player extends Mob {
 	 */
 	private HashMap<Long, Long> attackedBy = new HashMap<Long, Long>();
 
-	private boolean badClient = false;
 	/**
 	 * Bank for banked items
 	 */
@@ -106,6 +108,9 @@ public class Player extends Mob {
 	private String className = "NOT_SET";
 	private int click = -1;
 
+	/**
+	 * Warn a client of version discrepancies.
+	 */
 	private boolean clientWarn = false;
 	/**
 	 * Combat style: 0 - all, 1 - str, 2 - att, 3 - def
@@ -166,8 +171,6 @@ public class Player extends Mob {
 	 * Duel options
 	 */
 	private boolean[] duelOptions = new boolean[4];
-
-	private long eventcd = 0;
 
 	/**
 	 * The exp level array
@@ -477,6 +480,14 @@ public class Player extends Mob {
 
 	private int poisonPower = 0;
 
+	/**
+	 * 
+	 * @param name
+	 *            The case-sensitive name of the property to retrieve.
+	 * @return Returns the value of the correct type for the given property
+	 *         name. If not defined or had an issue casting to the expected
+	 *         type, it returns null.
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getProperty(String name) {
 		try {
@@ -486,10 +497,22 @@ public class Player extends Mob {
 		}
 	}
 
-	public <T> void setProperty(String name, T o) {
-		properties.put(name, new Property<T>(o));
+	/**
+	 * Assigns the given value to the given property name.
+	 * 
+	 * @param name
+	 *            The name to assign the given value to.
+	 * @param value
+	 *            The value to assign to the given property.
+	 */
+	public <T> void setProperty(String name, T value) {
+		properties.put(name, new Property<T>(value));
 	}
 
+	/**
+	 * @return Returns a mapping of property names to properties. Generally
+	 *         shouldn't be used; use getProperty instead.
+	 */
 	public Map<String, Property<?>> getProperties() {
 		return properties;
 	}
@@ -952,10 +975,6 @@ public class Player extends Mob {
 		} catch (Exception e) {
 		}
 		return duelOptions[i];
-	}
-
-	public long getEventCD() {
-		return eventcd;
 	}
 
 	public int[] getExp() {
@@ -1543,10 +1562,6 @@ public class Player extends Mob {
 
 	public boolean isAdmin() {
 		return groupID == 10;
-	}
-
-	public boolean isBadClient() {
-		return badClient;
 	}
 
 	public boolean isChangingAppearance() {
@@ -2295,10 +2310,6 @@ public class Player extends Mob {
 		this.attackedBy = attackedBy;
 	}
 
-	public void setBadClient(boolean badClient) {
-		this.badClient = badClient;
-	}
-
 	public void setBank(Bank b) {
 		bank = b;
 	}
@@ -2413,10 +2424,6 @@ public class Player extends Mob {
 
 	public void setDuelSetting(int i, boolean b) {
 		duelOptions[i] = b;
-	}
-
-	public void setEventCD(long eventcd) {
-		this.eventcd = eventcd;
 	}
 
 	public void setExp(int id, int lvl) {

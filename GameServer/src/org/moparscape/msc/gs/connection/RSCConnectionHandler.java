@@ -123,7 +123,7 @@ public class RSCConnectionHandler implements IoHandler {
 	 *            The session opened
 	 */
 	public void sessionOpened(IoSession session) {
-		Constants.GameServer.ACCEPTED_CONNECTIONS++;
+		Constants.ACCEPTED_CONNECTIONS++;
 		session.setAttachment(new Player(session));
 		session.setIdleTime(IdleStatus.BOTH_IDLE, 30);
 		session.setWriteTimeout(30);

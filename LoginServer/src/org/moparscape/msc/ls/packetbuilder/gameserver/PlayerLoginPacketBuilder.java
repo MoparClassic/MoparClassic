@@ -117,7 +117,6 @@ public class PlayerLoginPacketBuilder {
 				packet.addBytes(e.getValue().getBytes());
 			}
 			packet.addLong(save.getMuted());
-			packet.addLong(save.getEventCD());
 		}
 		return packet.toPacket();
 

@@ -12,6 +12,13 @@ public class PlayerPositionPacketBuilder {
 
 	private Player playerToUpdate;
 
+	/**
+	 * Creates a packet for the given player that can be used to notify the
+	 * player of the positions of <code>Player</code>s.
+	 * 
+	 * @return A <code>RSCPacket</code> to update the given player's knowledge
+	 *         of <code>Player</code> positions.
+	 */
 	public RSCPacket getPacket() {
 		StatefulEntityCollection<Player> watchedPlayers = playerToUpdate
 				.getWatchedPlayers();

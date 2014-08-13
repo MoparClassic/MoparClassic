@@ -12,6 +12,13 @@ import org.moparscape.msc.gs.util.StatefulEntityCollection;
 public class NpcPositionPacketBuilder {
 	private Player playerToUpdate;
 
+	/**
+	 * Creates a packet for the given player that can be used to notify the
+	 * player of the positions of <code>Npc</code>s.
+	 * 
+	 * @return A <code>RSCPacket</code> to update the given player's knowledge
+	 *         of <code>Npc</code> positions.
+	 */
 	public RSCPacket getPacket() {
 		StatefulEntityCollection<Npc> watchedNpcs = playerToUpdate
 				.getWatchedNpcs();

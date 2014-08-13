@@ -16,6 +16,9 @@ import org.moparscape.msc.gs.db.DataManager
 import org.moparscape.msc.gs.Instance
 import org.moparscape.msc.gs.event.SingleEvent
 
+/**
+  * Used to block people by IP address from even connecting to the server.
+  */
 object IPBanManager extends Blocker {
 
 	private val throttled = new CopyOnWriteArrayList[String]
@@ -93,6 +96,9 @@ trait Blocker {
 	def throttle(ip : String)
 }
 
+/**
+  * Used to provide OS level blocking. Examples would be IP tables or adding firewall rules.
+  */
 private object OSLevelBlocking {
 
 	def block(ip : String) = {

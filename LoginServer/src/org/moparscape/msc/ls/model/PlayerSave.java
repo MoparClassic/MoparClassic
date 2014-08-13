@@ -17,7 +17,6 @@ public class PlayerSave implements Serializable {
 		return Server.storage.loadPlayer(user);
 	}
 
-	private long eventcd = 0;
 	private long muted;
 	private ArrayList<BankItem> bankItems = new ArrayList<BankItem>();
 	private boolean blockChat, blockPrivate, blockTrade, blockDuel;
@@ -293,14 +292,6 @@ public class PlayerSave implements Serializable {
 
 	public void setFatigue(int fatigue) {
 		this.fatigue = fatigue;
-	}
-
-	public void setEventCD(long eventcd) {
-		this.eventcd = eventcd;
-	}
-
-	public long getEventCD() {
-		return eventcd;
 	}
 
 	public void setGameSetting(int idx, boolean on) {

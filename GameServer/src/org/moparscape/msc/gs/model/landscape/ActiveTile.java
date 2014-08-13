@@ -116,7 +116,7 @@ public class ActiveTile {
 	}
 
 	private boolean specificArea() {
-		boolean t = DataConversions.inPointArray(Formulae.noremoveTiles,
+		boolean t = DataConversions.inPointArray(Formulae.neverRemoveTheseTiles,
 				new Point(this.getX(), this.getY()));
 		return t;
 	}

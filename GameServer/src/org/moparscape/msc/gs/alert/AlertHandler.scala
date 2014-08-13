@@ -13,23 +13,35 @@ import javax.mail.{ Message, Session }
 import javax.mail.internet.{ InternetAddress, MimeMessage }
 
 /**
- * This is for out-of-game alerts.
- *
- * @author CodeForFame
- */
+  * This is for out-of-game alerts.
+  *
+  * @author CodeForFame
+  */
 object AlertHandler {
 
 	private val executor = Executors.newSingleThreadExecutor()
 
 	private var users : List[User] = Nil
 
-	load
+	// Called when the object is initialized
+	{
+		load
+	}
 
+	/**
+	  * Sends an alert to the given recipient.
+	  */
 	def sendAlert(msg : String, recip : String, priority : Int) {
 		for (u <- users; if (u.name == recip))
 			sendAlert(msg, u, priority)
 	}
 
+	/**
+	  * Submits a task to the <code>ExectorService</code> to 
+	  * send the message to the given recipient, provided the 
+	  * priority of this alert is less than or equal to their 
+	  * individual priority threshold.
+	  */
 	private def sendAlert(msg : String, recip : User, priority : Int) {
 		executor.execute(new Runnable() {
 			override def run() {
@@ -42,16 +54,16 @@ object AlertHandler {
 	}
 
 	/**
-	 * Sends an alert to all users.
-	 */
+	  * Sends an alert to all users.
+	  */
 	def sendAlert(msg : String, priority : Int) {
 		for (u <- users)
 			sendAlert(msg, u, priority)
 	}
 
 	/**
-	 * Loads the config file.
-	 */
+	  * Loads the config file.
+	  */
 	private def load {
 		val config = XML.loadFile(Config.ALERT_CONFIG)
 		val users1 = (config \\ "user")
@@ -63,8 +75,8 @@ object AlertHandler {
 	}
 
 	/**
-	 * Parses the XML and creates a User from it.
-	 */
+	  * Parses the XML and creates a User from it.
+	  */
 	private def parseUser(u : Node) = {
 		val name = (u \ "name").text
 		val credentials = {
@@ -80,32 +92,33 @@ object AlertHandler {
 }
 
 /**
- * This class contains information for the user, such as name, and preferences for Services.
- *
- * @author CodeForFame
- */
+  * This class contains information for the user, such as name, and preferences for Services.
+  *
+  * @author CodeForFame
+  */
 private class User(name_ : String, data_ : Map[Int, Service]) {
 	def name = name_
 	def data = data_
 }
 
 /**
- * The companion object for the Service class.
- * This is where you 'register' services.
- *
- * @author CodeForFame
- */
+  * The companion object for the Service class.
+  * This is where you 'register' services.
+  *
+  * @author CodeForFame
+  */
 private object Service {
 
 	var services = new HashMap[String, (String, String) => Unit]
 
+	// Called when the object is initialized
 	{
 		services += (("email", EMail.send _))
 	}
 
 	/**
-	 * Sends a message via the specified service.
-	 */
+	  * Sends a message via the specified service.
+	  */
 	def send(s : Service, msg : String) {
 		val pf = services.get(s.identifier).get
 		pf(msg, s.recip)
@@ -113,29 +126,29 @@ private object Service {
 }
 
 /**
- * A class that is for defining a service.
- *
- * @author CodeForFame
- */
+  * A class that is for defining a service.
+  *
+  * @author CodeForFame
+  */
 private class Service(identifier_ : String, recip_ : String) {
 	def identifier = identifier_
 	def recip = recip_
 }
 
 /**
- * Services should have this trait, you should override the send method.
- *
- * @author CodeForFame
- */
+  * Services should have this trait, you should override the send method.
+  *
+  * @author CodeForFame
+  */
 private trait ServiceTrait {
 	def send(msg : String, recip : String)
 }
 
 /**
- * This Service sends an alert via e-mail.
- *
- * @author CodeForFame
- */
+  * This Service sends an alert via e-mail.
+  *
+  * @author CodeForFame
+  */
 private object EMail extends ServiceTrait {
 	override def send(msg : String, recip : String) = {
 		val props = new Properties()

@@ -6,7 +6,7 @@ import org.apache.mina.common.IoSession;
 import org.moparscape.msc.gs.Instance;
 import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.config.Formulae;
-import org.moparscape.msc.gs.config.Constants.GameServer;
+import org.moparscape.msc.gs.config.Constants;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
@@ -285,7 +285,7 @@ public class InvUseOnObject implements PacketHandler {
 						case 282: // Fountain of Heroes
 							if (!Server.isMembers()) {
 								owner.getActionSender().sendMessage(
-										GameServer.P2P_LIMIT_MESSAGE);
+										Constants.P2P_LIMIT_MESSAGE);
 								return;
 							}
 							if (item.id == 522) {
@@ -565,7 +565,7 @@ public class InvUseOnObject implements PacketHandler {
 							} else if (item.id == 625) { // Sand (Glass)
 								if (!Server.isMembers()) {
 									owner.getActionSender().sendMessage(
-											GameServer.P2P_LIMIT_MESSAGE);
+											Constants.P2P_LIMIT_MESSAGE);
 									return;
 								}
 								if (player.getInventory().countId(624) < 1) {
@@ -662,7 +662,7 @@ public class InvUseOnObject implements PacketHandler {
 													if (Server.isMembers()) {
 														player.getActionSender()
 																.sendMessage(
-																		GameServer.P2P_LIMIT_MESSAGE);
+																		Constants.P2P_LIMIT_MESSAGE);
 														break;
 													}
 													handleSmithing(item.id, 1);
@@ -905,7 +905,7 @@ public class InvUseOnObject implements PacketHandler {
 										if (Server.isMembers()) {
 											player.getActionSender()
 													.sendMessage(
-															GameServer.P2P_LIMIT_MESSAGE);
+															Constants.P2P_LIMIT_MESSAGE);
 											break;
 										}
 										options = new String[] {
@@ -969,7 +969,7 @@ public class InvUseOnObject implements PacketHandler {
 							}
 							if (!Server.isMembers()) {
 								owner.getActionSender().sendMessage(
-										GameServer.P2P_LIMIT_MESSAGE);
+										Constants.P2P_LIMIT_MESSAGE);
 								return;
 							}
 							owner.getActionSender().sendMessage(
@@ -1256,7 +1256,7 @@ public class InvUseOnObject implements PacketHandler {
 						final int retries = --times;
 						if (!Server.isMembers()) {
 							owner.getActionSender().sendMessage(
-									GameServer.P2P_LIMIT_MESSAGE);
+									Constants.P2P_LIMIT_MESSAGE);
 							return;
 						}
 						if (owner.getCurStat(12) < 10) {
@@ -1431,7 +1431,7 @@ public class InvUseOnObject implements PacketHandler {
 						if (item.id == 622) { // Seaweed (Glass)
 							if (!Server.isMembers()) {
 								owner.getActionSender().sendMessage(
-										GameServer.P2P_LIMIT_MESSAGE);
+										Constants.P2P_LIMIT_MESSAGE);
 								return;
 							}
 							owner.setBusy(true);

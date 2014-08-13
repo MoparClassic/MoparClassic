@@ -202,12 +202,12 @@ public class Npc extends Mob {
 	private int exp = -1; // used for events.
 
 	public Npc(NPCLoc loc) {
-		for (int i : Constants.GameServer.UNDEAD_NPCS) {
+		for (int i : Constants.UNDEAD_NPCS) {
 			if (loc.getId() == i) {
 				this.undead = true;
 			}
 		}
-		for (int i : Constants.GameServer.ARMOR_NPCS) {
+		for (int i : Constants.ARMOR_NPCS) {
 			if (loc.getId() == i) {
 				this.hasArmor = true;
 			}

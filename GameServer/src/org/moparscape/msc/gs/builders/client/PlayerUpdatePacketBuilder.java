@@ -16,6 +16,13 @@ public class PlayerUpdatePacketBuilder {
 
 	private Player playerToUpdate;
 
+	/**
+	 * Creates a packet for the given player that can be used to notify the
+	 * player of the positions of various <code>Player</code> updates.
+	 * 
+	 * @return A <code>RSCPacket</code> to update the given player's knowledge
+	 *         of all <code>Player</code>'s various updates.
+	 */
 	public RSCPacket getPacket() {
 		List<Bubble> bubblesNeedingDisplayed = playerToUpdate
 				.getBubblesNeedingDisplayed();

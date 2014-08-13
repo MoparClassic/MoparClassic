@@ -51,7 +51,7 @@ public class DuelHandler implements PacketHandler {
 			return;
 		if (!Server.isMembers()) {
 			player.getActionSender().sendMessage(
-					Constants.GameServer.P2P_LIMIT_MESSAGE);
+					Constants.P2P_LIMIT_MESSAGE);
 			return;
 		}
 

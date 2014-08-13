@@ -120,7 +120,7 @@ public class FightEvent extends DelayedEvent {
 				if (!npc.getLocation().inWilderness()
 						&& npc.getDef().attackable && !npc.getDef().aggressive) {
 					boolean go = true;
-					for (int i : Constants.GameServer.NPCS_THAT_DONT_RETREAT) {
+					for (int i : Constants.NPCS_THAT_DONT_RETREAT) {
 						if (i == npc.getID()) {
 							go = false;
 							break;
