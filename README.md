@@ -67,7 +67,7 @@ And in Scala, you can do it like this or in similar manner to the above:
 val sdo = player.getProperty[SomeDefaultObject]("uniquename")
 println(sdo.example0)
 ```
-Adding properties to the Player class, with saving
+Adding properties to the Player class, without saving
 ------
 You can do the same thing as with saving, but for the class you're saving, just add the @Transient annotation to the class.
 
