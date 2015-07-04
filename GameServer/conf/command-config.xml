@@ -60,6 +60,8 @@
 	<permission name="reloadipbans">10</permission>
 	<!-- Teleports the user to the specified coordinates -->
 	<permission name="tele">11</permission>
+	<!-- Reload Configs) -->
+	<permission name="reloadshops">11</permission>
 	
 	<!-- Extra -->
 	
