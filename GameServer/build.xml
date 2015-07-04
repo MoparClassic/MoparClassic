@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="MoparClassic" default="build" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
+<project name="GameServer" default="build" xmlns:ivy="antlib:org.apache.ivy.ant" basedir=".">
 	<property name="src" location="src" />
 	<property name="bin" location="bin" />
 	<property name="lib_managed" location="lib_managed" />
@@ -7,7 +7,7 @@
 	<property name="doc" location="doc" />
 	<property name="jar" value="moparclassic.jar" />
 	<property name="main-class" value="org.moparscape.msc.gs.Server" />
-	<property name="scala-version" value="2.11.0" />
+	<property name="scala-version" value="2.11.6" />
 	<property name="ivy.lib.dir" value="lib_managed" />
 
 	<fileset id="libraries" dir="${lib}">

@@ -7,7 +7,7 @@
 	<property name="doc" location="doc" />
 	<property name="jar" value="ls.jar" />
 	<property name="main-class" value="org.moparscape.msc.ls.Server" />
-	<property name="scala-version" value="2.11.0" />
+	<property name="scala-version" value="2.11.6" />
 	<property name="ivy.lib.dir" value="lib_managed" />
 
 	<fileset id="libraries" dir="${lib}">
