@@ -33,6 +33,7 @@ import org.moparscape.msc.gs.model.definition.EntityHandler;
 import org.moparscape.msc.gs.model.definition.skill.AgilityCourseDef;
 import org.moparscape.msc.gs.model.definition.skill.ItemWieldableDef;
 import org.moparscape.msc.gs.model.definition.skill.PrayerDef;
+import org.moparscape.msc.gs.model.player.attribute.DropHandlingValues;
 import org.moparscape.msc.gs.model.player.attribute.Elo;
 import org.moparscape.msc.gs.model.player.attribute.KillDeathHistory;
 import org.moparscape.msc.gs.model.player.attribute.Quests;
@@ -57,8 +58,6 @@ public class Player extends Mob {
 	 * A map of auto-saved properties. Only use through getters/setters.
 	 */
 	private Map<String, Property<?>> properties = new HashMap<>();
-
-	public int dropTickCount = 0;
 
 	/**
 	 * Methods to send packets related to actions
@@ -537,6 +536,7 @@ public class Player extends Mob {
 
 		this.setProperty("killDeathHistory", new KillDeathHistory(0, 0, 0, 0,
 				0, 0));
+		this.setProperty("dropHandlingValues", new DropHandlingValues(0));
 	}
 
 	public boolean accessingBank() {

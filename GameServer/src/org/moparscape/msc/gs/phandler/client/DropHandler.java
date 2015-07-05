@@ -9,6 +9,7 @@ import org.moparscape.msc.gs.model.InvItem;
 import org.moparscape.msc.gs.model.Item;
 import org.moparscape.msc.gs.model.Player;
 import org.moparscape.msc.gs.model.World;
+import org.moparscape.msc.gs.model.player.attribute.DropHandlingValues;
 import org.moparscape.msc.gs.model.snapshot.Activity;
 import org.moparscape.msc.gs.phandler.PacketHandler;
 import org.moparscape.msc.gs.states.Action;
@@ -54,13 +55,14 @@ public class DropHandler implements PacketHandler {
 			@Override
 			public void action() {
 
-				if (owner.dropTickCount > 20) { // 10 seconds they are allowed
+				DropHandlingValues dropHandlingValues = owner.getProperty("dropHandlingValues");
+				if (dropHandlingValues.dropTickCount() > 20) { // 10 seconds they are allowed
 												// to walk for. anything longer
 												// won't drop.
-					owner.dropTickCount = 0;
+					owner.setProperty("dropHandlingValues", new DropHandlingValues(0));
 					stop();
 				} else {
-					owner.dropTickCount++;
+					owner.setProperty("dropHandlingValues", new DropHandlingValues(dropHandlingValues.dropTickCount() + 1));
 					if (owner.pathHandler != null
 							&& !owner.pathHandler.finishedPath()) {
 						waitAndDrop(owner, item);

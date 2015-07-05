@@ -31,7 +31,7 @@ class ShopKeeper extends NpcDialog {
   override def begin {
     val shop = Instance.getWorld.getShop(npc.getLocation)
 
-    shop.greeting filterNot ("" ==) split "\n" foreach { text => this > text; breath }
+    shop.greeting filterNot ("" == _) split "\n" foreach { text => this > text; breath }
 
     end
   }
