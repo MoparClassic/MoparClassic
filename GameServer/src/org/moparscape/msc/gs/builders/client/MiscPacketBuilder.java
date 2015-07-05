@@ -521,7 +521,7 @@ public class MiscPacketBuilder {
 			s.addByte((byte) lvl);
 		for (int lvl : player.getMaxStats())
 			s.addByte((byte) lvl);
-		for (int exp : player.getExps())
+		for (int exp : player.getExp())
 			s.addInt(exp);
 		packets.add(s.toPacket());
 	}

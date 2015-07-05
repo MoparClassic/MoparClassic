@@ -1,8 +1,11 @@
 package org.moparscape.msc.gs.model.definition.skill;
 
+import org.moparscape.msc.gs.util.annotation.Transient;
+
 /**
  * Defines an agility course
  */
+@Transient
 public class AgilityCourseDef {
 	/**
 	 * Ending object ID
