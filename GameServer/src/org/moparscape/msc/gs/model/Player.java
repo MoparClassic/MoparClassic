@@ -53,34 +53,23 @@ public class Player extends Mob {
 
 	public Quests quests = new Quests();
 
+	/**
+	 * A map of auto-saved properties. Only use through getters/setters.
+	 */
 	private Map<String, Property<?>> properties = new HashMap<>();
 
-	public int dropTickCount = 0;
+	public int dropTicks = 0;
 
 	/**
 	 * Methods to send packets related to actions
 	 */
 	private MiscPacketBuilder actionSender;
-	/**
-	 * The current agility course the player's doing
-	 */
-	private AgilityCourseDef agilityCourseDef = null;
-	/**
-	 * The Players appearance
-	 */
-	private PlayerAppearance appearance;
 
 	/**
 	 * Players we have been attacked by signed login, used to check if we should
 	 * get a skull for attacking back
 	 */
 	private HashMap<Long, Long> attackedBy = new HashMap<Long, Long>();
-
-	private boolean badClient = false;
-	/**
-	 * Bank for banked items
-	 */
-	private Bank bank;
 
 	/**
 	 * Bubbles needing displayed
@@ -106,11 +95,10 @@ public class Player extends Mob {
 	private String className = "NOT_SET";
 	private int click = -1;
 
-	private boolean clientWarn = false;
 	/**
-	 * Combat style: 0 - all, 1 - str, 2 - att, 3 - def
+	 * Warn a client of version discrepancies.
 	 */
-	private int combatStyle = 0;
+	private boolean clientWarn = false;
 
 	/**
 	 * Added by Zerratar: Correct sleepword we are looking for! Case SenSitIvE
@@ -120,6 +108,7 @@ public class Player extends Mob {
 	 * The current agility course object the player's on
 	 */
 	private int currentCourseObject = -1;
+	private AgilityCourseDef currentAgilityObject = null;
 	/**
 	 * Stores the current IP address used
 	 */
@@ -166,18 +155,6 @@ public class Player extends Mob {
 	 * Duel options
 	 */
 	private boolean[] duelOptions = new boolean[4];
-
-	private long eventcd = 0;
-
-	/**
-	 * The exp level array
-	 */
-	private int[] exp = new int[18];
-
-	/**
-	 * Amount of fatigue - 0 to 100
-	 */
-	private int fatigue = 0;
 
 	/**
 	 * Has the first major update for this player been sent? If not, we can't
@@ -305,8 +282,7 @@ public class Player extends Mob {
 	 */
 	private long lastReport = 0;
 	private long lastRun = GameEngine.getTime(); // Leave this here
-	private long lastSaveTime = GameEngine.getTime()
-			+ DataConversions.random(600000, 1800000);
+	private long lastSaveTime = GameEngine.getTime() + DataConversions.random(600000, 1800000);
 	private long lastSleepTime = GameEngine.getTime();
 	/**
 	 * The time of the last spell cast, used as a throttle
@@ -477,6 +453,14 @@ public class Player extends Mob {
 
 	private int poisonPower = 0;
 
+	/**
+	 * 
+	 * @param name
+	 *            The case-sensitive name of the property to retrieve.
+	 * @return Returns the value of the correct type for the given property
+	 *         name. If not defined or had an issue casting to the expected
+	 *         type, it returns null.
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getProperty(String name) {
 		try {
@@ -486,10 +470,22 @@ public class Player extends Mob {
 		}
 	}
 
-	public <T> void setProperty(String name, T o) {
-		properties.put(name, new Property<T>(o));
+	/**
+	 * Assigns the given value to the given property name.
+	 * 
+	 * @param name
+	 *            The name to assign the given value to.
+	 * @param value
+	 *            The value to assign to the given property.
+	 */
+	public <T> void setProperty(String name, T value) {
+		properties.put(name, new Property<T>(value));
 	}
 
+	/**
+	 * @return Returns a mapping of property names to properties. Generally
+	 *         shouldn't be used; use getProperty instead.
+	 */
 	public Map<String, Property<?>> getProperties() {
 		return properties;
 	}
@@ -501,8 +497,7 @@ public class Player extends Mob {
 	public Player(IoSession ios) {
 
 		ioSession = ios;
-		currentIP = ((InetSocketAddress) ios.getRemoteAddress()).getAddress()
-				.getHostAddress();
+		currentIP = ((InetSocketAddress) ios.getRemoteAddress()).getAddress().getHostAddress();
 		currentLogin = GameEngine.getTime();
 		actionSender = new MiscPacketBuilder(this);
 		setBusy(true);
@@ -512,8 +507,12 @@ public class Player extends Mob {
 			this.setProperty("elo", new Elo(1200, 0));
 		}
 
-		this.setProperty("killDeathHistory", new KillDeathHistory(0, 0, 0, 0,
-				0, 0));
+		this.setProperty("killDeathHistory", new KillDeathHistory(0, 0, 0, 0, 0, 0));
+		this.setProperty("appearance", new PlayerAppearance(0, 0, 0, 0, 0, 0));
+		this.setProperty("bank", new Bank());
+		this.setProperty("combatStyle", 0);
+		this.setProperty("exp", new int[18]);
+		this.setProperty("fatigue", 0);
 	}
 
 	public boolean accessingBank() {
@@ -601,17 +600,14 @@ public class Player extends Mob {
 	}
 
 	public boolean canLogout() {
-		if (this != null && this.location != null
-				&& this.location.inWilderness()) {
+		if (this != null && this.location != null && this.location.inWilderness()) {
 			if (GameEngine.getTime() - this.getLastMoved() < Config.WILD_STAND_STILL_TIME) {
 				getActionSender().sendMessage(
-						"You must stand peacefully in one place for "
-								+ Config.WILD_STAND_STILL_TIME + " seconds!");
+						"You must stand peacefully in one place for " + Config.WILD_STAND_STILL_TIME + " seconds!");
 				return false;
 			}
 		}
-		return !isBusy()
-				&& GameEngine.getTime() - getCombatTimer() > Config.WILD_STAND_STILL_TIME;
+		return !isBusy() && GameEngine.getTime() - getCombatTimer() > Config.WILD_STAND_STILL_TIME;
 	}
 
 	public boolean canReport() {
@@ -627,20 +623,17 @@ public class Player extends Mob {
 			Player victim = (Player) mob;
 
 			if (victim.isNoPK()) {
-				actionSender
-						.sendMessage("You cannot attack this staff members");
+				actionSender.sendMessage("You cannot attack this staff members");
 				return false;
 			}
 
-			if ((inCombat() && isDueling())
-					&& (victim.inCombat() && victim.isDueling())) {
+			if ((inCombat() && isDueling()) && (victim.inCombat() && victim.isDueling())) {
 				Player opponent = (Player) getOpponent();
 				if (opponent != null && victim.equals(opponent)) {
 					return true;
 				}
 			}
-			if (GameEngine.getTime() - mob.getCombatTimer() < (mob
-					.getCombatState() == CombatState.RUNNING
+			if (GameEngine.getTime() - mob.getCombatTimer() < (mob.getCombatState() == CombatState.RUNNING
 					|| mob.getCombatState() == CombatState.WAITING ? 3000 : 500)
 					&& !mob.inCombat()) {
 				return false;
@@ -648,21 +641,17 @@ public class Player extends Mob {
 			int myWildLvl = getLocation().wildernessLevel();
 			int victimWildLvl = victim.getLocation().wildernessLevel();
 			if (myWildLvl < 1 || victimWildLvl < 1) {
-				actionSender
-						.sendMessage("You cannot attack other players outside of the wilderness!");
+				actionSender.sendMessage("You cannot attack other players outside of the wilderness!");
 				return false;
 			}
 			int combDiff = Math.abs(getCombatLevel() - victim.getCombatLevel());
 			if (combDiff > myWildLvl) {
-				actionSender.sendMessage("You must move to at least level "
-						+ combDiff + " wilderness to attack "
+				actionSender.sendMessage("You must move to at least level " + combDiff + " wilderness to attack "
 						+ victim.getUsername() + "!");
 				return false;
 			}
 			if (combDiff > victimWildLvl) {
-				actionSender
-						.sendMessage(victim.getUsername()
-								+ " is not in high enough wilderness for you to attack!");
+				actionSender.sendMessage(victim.getUsername() + " is not in high enough wilderness for you to attack!");
 				return false;
 			}
 			return true;
@@ -741,8 +730,7 @@ public class Player extends Mob {
 
 				public void run() {
 					if (owner.canLogout()
-							|| (!(owner.inCombat() && owner.isDueling()) && GameEngine
-									.getTime() - startDestroy > 600000 * 2)) {
+							|| (!(owner.inCombat() && owner.isDueling()) && GameEngine.getTime() - startDestroy > 600000 * 2)) {
 						owner.destroy(true);
 						matchRunning = false;
 					}
@@ -764,8 +752,7 @@ public class Player extends Mob {
 
 				public void run() {
 					if (owner.canLogout()
-							|| (!(owner.inCombat() && owner.isDueling()) && GameEngine
-									.getTime() - startDestroy > 60000)) {
+							|| (!(owner.inCombat() && owner.isDueling()) && GameEngine.getTime() - startDestroy > 60000)) {
 						owner.destroy(true);
 						matchRunning = false;
 					}
@@ -799,11 +786,11 @@ public class Player extends Mob {
 	 * @return this player's current agility course
 	 */
 	public AgilityCourseDef getAgilityCourseDef() {
-		return agilityCourseDef;
+		return this.currentAgilityObject;
 	}
 
 	public PlayerAppearance getAppearance() {
-		return appearance;
+		return this.getProperty("appearance");
 	}// destroy
 
 	public int getArmourPoints() {
@@ -826,7 +813,7 @@ public class Player extends Mob {
 	}
 
 	public Bank getBank() {
-		return bank;
+		return this.getProperty("bank");
 	}
 
 	public List<Bubble> getBubblesNeedingDisplayed() {
@@ -854,7 +841,7 @@ public class Player extends Mob {
 	}
 
 	public int getCombatStyle() {
-		return combatStyle;
+		return this.getProperty("combatStyle");
 	}
 
 	public String getCorrectSleepword() {
@@ -954,24 +941,16 @@ public class Player extends Mob {
 		return duelOptions[i];
 	}
 
-	public long getEventCD() {
-		return eventcd;
-	}
-
 	public int[] getExp() {
-		return exp;
+		return this.getProperty("exp");
 	}
 
 	public int getExp(int id) {
-		return exp[id];
-	}
-
-	public int[] getExps() {
-		return exp;
+		return getExp()[id];
 	}
 
 	public int getFatigue() {
-		return fatigue;
+		return this.getProperty("fatigue");
 	}
 
 	public DelayedEvent getFollowEvent() {
@@ -1182,7 +1161,7 @@ public class Player extends Mob {
 	}
 
 	public PlayerAppearance getPlayerAppearance() {
-		return appearance;
+		return this.getProperty("appearance");
 	}
 
 	public ArrayList<Player> getPlayersNeedingHitsUpdate() {
@@ -1233,8 +1212,8 @@ public class Player extends Mob {
 	public int getRangeEquip() {
 		for (InvItem item : inventory.getItems()) {
 			if (item.wielded
-					&& (DataConversions.inArray(Formulae.bowIDs, item.id) || DataConversions
-							.inArray(Formulae.xbowIDs, item.id))) {
+					&& (DataConversions.inArray(Formulae.bowIDs, item.id) || DataConversions.inArray(Formulae.xbowIDs,
+							item.id))) {
 				return item.id;
 			}
 		}
@@ -1304,8 +1283,7 @@ public class Player extends Mob {
 	}
 
 	public int getSpellWait() {
-		return DataConversions
-				.roundUp((double) (1200 - (GameEngine.getTime() - lastSpellCast)) / 1000D);
+		return DataConversions.roundUp((double) (1200 - (GameEngine.getTime() - lastSpellCast)) / 1000D);
 	}
 
 	public Action getStatus() {
@@ -1412,22 +1390,19 @@ public class Player extends Mob {
 		if (isPMod())
 			return;
 		if (useFatigue) {
-			if (fatigue >= 7500) { // 100%
-				actionSender
-						.sendMessage("@gre@You are too tired to gain experience, get some rest!");
+			if (getFatigue() >= 7500) { // 100%
+				actionSender.sendMessage("@gre@You are too tired to gain experience, get some rest!");
 				return;
 			}
-			if (fatigue >= 7200) { // 96%
-				actionSender
-						.sendMessage("@gre@You start to feel tired, maybe you should rest soon.");
+			if (getFatigue() >= 7200) { // 96%
+				actionSender.sendMessage("@gre@You start to feel tired, maybe you should rest soon.");
 			}
 			if (i >= 3 && useFatigue) {
-				fatigue += 4 * amount / 5;
+				this.setProperty("fatigue", getFatigue() + (4 * amount / 5));
 				actionSender.sendFatigue();
 			}
 		}
-		if (combat && i < 3
-				&& (combatStyleToIndex() != i && getCombatStyle() != 0)) {
+		if (combat && i < 3 && (combatStyleToIndex() != i && getCombatStyle() != 0)) {
 			// fix for accidental exp in other stats?
 			return;
 		}
@@ -1440,17 +1415,16 @@ public class Player extends Mob {
 		if (getLocation().wildernessLevel() > 1) {
 			if (combat)
 				exprate += Config.WILD_COMBAT_BONUS;
-			if (getLocation().wildernessLevel() > Config.WILD_LEVEL_FOR_NON_COMBAT_BONUS
-					&& !combat)
+			if (getLocation().wildernessLevel() > Config.WILD_LEVEL_FOR_NON_COMBAT_BONUS && !combat)
 				exprate += Config.WILD_NON_COMBAT_BONUS;
 		}
 
-		exp[i] += amount * exprate;
-		if (exp[i] < 0) {
-			exp[i] = 0;
+		this.getExp()[i] += amount * exprate;
+		if (this.getExp()[i] < 0) {
+			this.getExp()[i] = 0;
 		}
 
-		int level = Formulae.experienceToLevel(exp[i]);
+		int level = Formulae.experienceToLevel(this.getExp()[i]);
 		if (level != maxStat[i]) {
 			int advanced = level - maxStat[i];
 			incCurStat(i, advanced);
@@ -1459,24 +1433,16 @@ public class Player extends Mob {
 			if (stat == 99 && Config.CONGRATS_FOR_MAX_LEVEL) {
 				for (Player p : world.getPlayers()) {
 					if (p != null) {
-						p.getActionSender()
-								.sendMessage(
-										"#adm##pmd#@gre@**********************************#pmd##adm#");
-						p.getActionSender()
-								.sendMessage(
-										"@yel@Congratulations "
-												+ this.getUsername()
-												+ " has just reached the maximum level (99)!! in "
-												+ Formulae.statArray[i]);
-						p.getActionSender()
-								.sendMessage(
-										"#adm##pmd#@gre@*********************************#pmd##adm#");
+						p.getActionSender().sendMessage("#adm##pmd#@gre@**********************************#pmd##adm#");
+						p.getActionSender().sendMessage(
+								"@yel@Congratulations " + this.getUsername()
+										+ " has just reached the maximum level (99)!! in " + Formulae.statArray[i]);
+						p.getActionSender().sendMessage("#adm##pmd#@gre@*********************************#pmd##adm#");
 					}
 				}
 			}
 			actionSender.sendStat(i);
-			actionSender.sendMessage("@gre@You just advanced " + advanced + " "
-					+ Formulae.statArray[i] + " level"
+			actionSender.sendMessage("@gre@You just advanced " + advanced + " " + Formulae.statArray[i] + " level"
 					+ (advanced > 1 ? "s" : "") + "!");
 			actionSender.sendSound("advance");
 			Instance.getDelayedEventHandler().add(new MiniEvent(this) {
@@ -1527,8 +1493,7 @@ public class Player extends Mob {
 	 * be informed of them.
 	 */
 	private void informOfPlayer(Player p) {
-		if ((!watchedPlayers.contains(p) || watchedPlayers.isRemoving(p))
-				&& withinRange(p)) {
+		if ((!watchedPlayers.contains(p) || watchedPlayers.isRemoving(p)) && withinRange(p)) {
 			watchedPlayers.add(p);
 		}
 	}
@@ -1543,10 +1508,6 @@ public class Player extends Mob {
 
 	public boolean isAdmin() {
 		return groupID == 10;
-	}
-
-	public boolean isBadClient() {
-		return badClient;
 	}
 
 	public boolean isChangingAppearance() {
@@ -1705,8 +1666,7 @@ public class Player extends Mob {
 		}
 		for (int i = 0; i < max; i++) {
 			if (adp.xp) {
-				int xp = (int) Math.max(0, Math.round(this.getExp(i)
-						* (1 - (adp.penalty / 100.0))));
+				int xp = (int) Math.max(0, Math.round(this.getExp(i) * (1 - (adp.penalty / 100.0))));
 				this.setExp(i, xp);
 				this.setMaxStat(i, Formulae.experienceToLevel(this.getExp(i)));
 			} else {
@@ -1753,8 +1713,7 @@ public class Player extends Mob {
 
 		if (mob instanceof Player) {
 			Player player = (Player) mob;
-			player.getActionSender().sendMessage(
-					"You have defeated " + getUsername() + "!");
+			player.getActionSender().sendMessage("You have defeated " + getUsername() + "!");
 			player.getActionSender().sendSound("victory");
 			Instance.getDelayedEventHandler().add(new MiniEvent(player) {
 				public void action() {
@@ -1797,24 +1756,19 @@ public class Player extends Mob {
 		Player player = mob instanceof Player ? (Player) mob : null;
 		if (stake) {
 			if (player == null) {
-				Logger.println("Player is null (not dropping item): "
-						+ this.getUsername());
+				Logger.println("Player is null (not dropping item): " + this.getUsername());
 			}
 			for (InvItem item : duelOffer) {
 				if (!inventory.remove(item.id, item.amount, false)) {
 					setSuspiciousPlayer(true);
-					Logger.error("Missing staked item [" + item.id + ", "
-							+ item.amount + "] from = " + usernameHash
+					Logger.error("Missing staked item [" + item.id + ", " + item.amount + "] from = " + usernameHash
 							+ "; to = " + player.getUsernameHash() + ";");
 					continue;
 				}
 
-				final long playerhash = DataConversions.usernameToHash(player
-						.getUsername());
-				DuelLog.sendlog(playerhash, usernameHash, item.id, item.amount,
-						getX(), getY(), 2);
-				world.registerItem(new Item(item.id, getX(), getY(),
-						item.amount, player));
+				final long playerhash = DataConversions.usernameToHash(player.getUsername());
+				DuelLog.sendlog(playerhash, usernameHash, item.id, item.amount, getX(), getY(), 2);
+				world.registerItem(new Item(item.id, getX(), getY(), item.amount, player));
 			}
 		} else {
 			inventory.sortByValue();
@@ -1823,11 +1777,9 @@ public class Player extends Mob {
 
 			List<InvItem> keep = new ArrayList<InvItem>();
 			try {
-				int canKeep = (isSkulled() ? 0 : 3)
-						+ (activatedPrayers[8] ? 1 : 0);
+				int canKeep = (isSkulled() ? 0 : 3) + (activatedPrayers[8] ? 1 : 0);
 				for (InvItem item : items) {
-					if (keep.size() < canKeep
-							&& !ItemAttributes.isStackable(item.id)) {
+					if (keep.size() < canKeep && !ItemAttributes.isStackable(item.id)) {
 						keep.add(item);
 					} else {
 						onGround.add(item);
@@ -1851,8 +1803,7 @@ public class Player extends Mob {
 			}
 
 			for (InvItem i : onGround) {
-				world.registerItem(new Item(i.id, getX(), getY(), i.amount,
-						player));
+				world.registerItem(new Item(i.id, getX(), getY(), i.amount, player));
 			}
 			removeSkull();
 		}
@@ -1898,8 +1849,7 @@ public class Player extends Mob {
 		return 0;
 	}
 
-	public void load(String username, byte[] password2, int uid,
-			boolean reconnecting) {
+	public void load(String username, byte[] password2, int uid, boolean reconnecting) {
 		try {
 			setID(uid);
 			this.password = password2;
@@ -1907,47 +1857,40 @@ public class Player extends Mob {
 			usernameHash = DataConversions.usernameToHash(username);
 			this.username = DataConversions.hashToUsername(usernameHash);
 
-			Instance.getServer().getLoginConnector().getActionSender()
-					.playerLogin(this);
+			Instance.getServer().getLoginConnector().getActionSender().playerLogin(this);
 			final Player p = this;
-			Instance.getDelayedEventHandler().add(
-					new DelayedEvent(this, 60000) {
+			Instance.getDelayedEventHandler().add(new DelayedEvent(this, 60000) {
 
-						private void checkStat(int statIndex) {
-							if (statIndex != 3
-									&& owner.getCurStat(statIndex) == owner
-											.getMaxStat(statIndex)) {
-								owner.getActionSender()
-										.sendMessage(
-												"Your "
-														+ Formulae.statArray[statIndex]
-														+ " ability has returned to normal.");
-							}
-						}
+				private void checkStat(int statIndex) {
+					if (statIndex != 3 && owner.getCurStat(statIndex) == owner.getMaxStat(statIndex)) {
+						owner.getActionSender().sendMessage(
+								"Your " + Formulae.statArray[statIndex] + " ability has returned to normal.");
+					}
+				}
 
-						public void run() {
-							if (p == null || p.isDestroy()) {
-								this.stop();
-							}
-							for (int statIndex = 0; statIndex < 18; statIndex++) {
-								if (statIndex == 5) {
-									continue;
-								}// addByte(-1
-								int curStat = getCurStat(statIndex);
-								int maxStat = getMaxStat(statIndex);
-								if (curStat > maxStat) {
-									setCurStat(statIndex, curStat - 1);
-									getActionSender().sendStat(statIndex);
-									checkStat(statIndex);
-								}// sendAppear
-								else if (curStat < maxStat) {
-									setCurStat(statIndex, curStat + 1);
-									getActionSender().sendStat(statIndex);
-									checkStat(statIndex);
-								}
-							}
+				public void run() {
+					if (p == null || p.isDestroy()) {
+						this.stop();
+					}
+					for (int statIndex = 0; statIndex < 18; statIndex++) {
+						if (statIndex == 5) {
+							continue;
+						}// addByte(-1
+						int curStat = getCurStat(statIndex);
+						int maxStat = getMaxStat(statIndex);
+						if (curStat > maxStat) {
+							setCurStat(statIndex, curStat - 1);
+							getActionSender().sendStat(statIndex);
+							checkStat(statIndex);
+						}// sendAppear
+						else if (curStat < maxStat) {
+							setCurStat(statIndex, curStat + 1);
+							getActionSender().sendStat(statIndex);
+							checkStat(statIndex);
 						}
-					});
+					}
+				}
+			});
 			drainer = new DelayedEvent(this, Integer.MAX_VALUE) {
 
 				public void run() {
@@ -1964,9 +1907,8 @@ public class Player extends Mob {
 							}
 							setDrainRate(0);
 							setDelay(Integer.MAX_VALUE);
-							getActionSender()
-									.sendMessage(
-											"You have run out of prayer points. Return to a church to recharge");
+							getActionSender().sendMessage(
+									"You have run out of prayer points. Return to a church to recharge");
 							getActionSender().sendPrayers();
 						}
 					}
@@ -1988,8 +1930,7 @@ public class Player extends Mob {
 	private boolean needsAppearanceUpdateFor(Player p) {
 		int playerServerIndex = p.getIndex();
 		if (knownPlayersAppearanceIDs.containsKey(playerServerIndex)) {
-			int knownPlayerAppearanceID = knownPlayersAppearanceIDs
-					.get(playerServerIndex);
+			int knownPlayerAppearanceID = knownPlayersAppearanceIDs.get(playerServerIndex);
 			if (knownPlayerAppearanceID != p.getAppearanceID()) {
 				return true;
 			}
@@ -2010,11 +1951,8 @@ public class Player extends Mob {
 			for (InvItem i : getInventory().getItems()) {
 				if (i.wielded && i.getDef().isMembers()) {
 					WieldHandler.unWieldItem(this, i, true, slot);
-					getActionSender()
-							.sendMessage(
-									"Your "
-											+ i.getDef().name
-											+ " has been un-equipped. (P2P Item not allowed in wilderness)");
+					getActionSender().sendMessage(
+							"Your " + i.getDef().name + " has been un-equipped. (P2P Item not allowed in wilderness)");
 					found = true;
 				}
 				slot++;
@@ -2026,24 +1964,19 @@ public class Player extends Mob {
 			for (int i = 0; i < 3; i++) {
 				int min = getCurStat(i);
 				int max = getMaxStat(i);
-				int baseStat = getCurStat(i) > getMaxStat(i) ? getMaxStat(i)
-						: getCurStat(i);
-				int newStat = baseStat
-						+ DataConversions.roundUp((getMaxStat(i) / 100D) * 10)
-						+ 2;
+				int baseStat = getCurStat(i) > getMaxStat(i) ? getMaxStat(i) : getCurStat(i);
+				int newStat = baseStat + DataConversions.roundUp((getMaxStat(i) / 100D) * 10) + 2;
 				if (min > newStat || (min > max && (i == 1 || i == 0))) {
 					setCurStat(i, max);
-					getActionSender()
-							.sendMessage(
-									"Your super/p2p potion effect has been removed, F2P Wilderness items only");
+					getActionSender().sendMessage(
+							"Your super/p2p potion effect has been removed, F2P Wilderness items only");
 					getActionSender().sendStat(i);
 				}
 			}
 			if (getCurStat(4) > getMaxStat(4)) {
 				setCurStat(4, getMaxStat(4));
-				getActionSender()
-						.sendMessage(
-								"Your super/p2p potion effect has been removed, F2P Wilderness items only");
+				getActionSender().sendMessage(
+						"Your super/p2p potion effect has been removed, F2P Wilderness items only");
 				getActionSender().sendStat(4);
 			}
 		}
@@ -2280,11 +2213,11 @@ public class Player extends Mob {
 	 * Sets this player's current agility course
 	 */
 	public void setAgilityCourseDef(AgilityCourseDef def) {
-		agilityCourseDef = def;
+		this.currentAgilityObject = def;
 	}
 
 	public void setAppearance(PlayerAppearance appearance) {
-		this.appearance = appearance;
+		this.setProperty("appearance", appearance);
 	}
 
 	public void setArrowFired() {
@@ -2295,16 +2228,11 @@ public class Player extends Mob {
 		this.attackedBy = attackedBy;
 	}
 
-	public void setBadClient(boolean badClient) {
-		this.badClient = badClient;
-	}
-
 	public void setBank(Bank b) {
-		bank = b;
+		this.setProperty("bank", b);
 	}
 
-	public void setBubblesNeedingDisplayed(
-			ArrayList<Bubble> bubblesNeedingDisplayed) {
+	public void setBubblesNeedingDisplayed(ArrayList<Bubble> bubblesNeedingDisplayed) {
 		this.bubblesNeedingDisplayed = bubblesNeedingDisplayed;
 	}
 
@@ -2320,8 +2248,7 @@ public class Player extends Mob {
 		lastCharge = GameEngine.getTime();
 	}
 
-	public void setChatMessagesNeedingDisplayed(
-			ArrayList<ChatMessage> chatMessagesNeedingDisplayed) {
+	public void setChatMessagesNeedingDisplayed(ArrayList<ChatMessage> chatMessagesNeedingDisplayed) {
 		this.chatMessagesNeedingDisplayed = chatMessagesNeedingDisplayed;
 	}
 
@@ -2342,7 +2269,7 @@ public class Player extends Mob {
 	}
 
 	public void setCombatStyle(int style) {
-		combatStyle = style;
+		this.setProperty("combatStyle", style);
 	}
 
 	public void setCorrectSleepword(String correctSleepword) {
@@ -2415,23 +2342,19 @@ public class Player extends Mob {
 		duelOptions[i] = b;
 	}
 
-	public void setEventCD(long eventcd) {
-		this.eventcd = eventcd;
-	}
-
 	public void setExp(int id, int lvl) {
 		if (lvl < 0) {
 			lvl = 0;
 		}
-		exp[id] = lvl;
+		this.getExp()[id] = lvl;
 	}
 
 	public void setExp(int[] lvls) {
-		exp = lvls;
+		this.setProperty("exp", lvls);
 	}
 
 	public void setFatigue(int fatigue) {
-		this.fatigue = fatigue;
+		this.setProperty("fatigue", fatigue);
 	}
 
 	public void setFirstMajorUpdateSent(boolean firstMajorUpdateSent) {
@@ -2454,17 +2377,13 @@ public class Player extends Mob {
 		followEvent = new DelayedEvent(this, 500) {
 
 			public void run() {
-				if (!owner.withinRange(mob) || mob.isRemoved()
-						|| (owner.isBusy() && !owner.isDueling())) {
+				if (!owner.withinRange(mob) || mob.isRemoved() || (owner.isBusy() && !owner.isDueling())) {
 					resetFollowing();
 					this.stop();
-				} else if (!owner.finishedPath()
-						&& owner.withinRange(mob, radius)) {
+				} else if (!owner.finishedPath() && owner.withinRange(mob, radius)) {
 					owner.resetPath();
-				} else if (owner.finishedPath()
-						&& !owner.withinRange(mob, radius + 1)) {
-					owner.setPath(new Path(owner.getX(), owner.getY(), mob
-							.getX(), mob.getY()));
+				} else if (owner.finishedPath() && !owner.withinRange(mob, radius + 1)) {
+					owner.setPath(new Path(owner.getX(), owner.getY(), mob.getX(), mob.getY()));
 				}
 			}
 		};
@@ -2527,8 +2446,7 @@ public class Player extends Mob {
 		this.ioSession = ioSession;
 	}
 
-	public void setKnownPlayersAppearanceIDs(
-			HashMap<Integer, Integer> knownPlayersAppearanceIDs) {
+	public void setKnownPlayersAppearanceIDs(HashMap<Integer, Integer> knownPlayersAppearanceIDs) {
 		this.knownPlayersAppearanceIDs = knownPlayersAppearanceIDs;
 	}
 
@@ -2695,8 +2613,7 @@ public class Player extends Mob {
 		interactingNpc = npc;
 	}
 
-	public void setNpcMessagesNeedingDisplayed(
-			ArrayList<ChatMessage> npcMessagesNeedingDisplayed) {
+	public void setNpcMessagesNeedingDisplayed(ArrayList<ChatMessage> npcMessagesNeedingDisplayed) {
 		this.npcMessagesNeedingDisplayed = npcMessagesNeedingDisplayed;
 	}
 
@@ -2720,8 +2637,7 @@ public class Player extends Mob {
 		this.password = password;
 	}
 
-	public void setPlayersNeedingHitsUpdate(
-			ArrayList<Player> playersNeedingHitsUpdate) {
+	public void setPlayersNeedingHitsUpdate(ArrayList<Player> playersNeedingHitsUpdate) {
 		this.playersNeedingHitsUpdate = playersNeedingHitsUpdate;
 	}
 
@@ -2733,8 +2649,7 @@ public class Player extends Mob {
 		this.privacySettings = privacySettings;
 	}
 
-	public void setProjectilesNeedingDisplayed(
-			ArrayList<Projectile> projectilesNeedingDisplayed) {
+	public void setProjectilesNeedingDisplayed(ArrayList<Projectile> projectilesNeedingDisplayed) {
 		this.projectilesNeedingDisplayed = projectilesNeedingDisplayed;
 	}
 
@@ -2829,14 +2744,10 @@ public class Player extends Mob {
 		sw.flush();
 		stacktrace = sw.toString();
 		this.suspicious = suspicious;
-		Logger.println(this.getUsername()
-				+ " was set suspicious! Stacktrace: \n" + stacktrace);
-		Logger.systemerr(this.getUsername()
-				+ " was set suspicious! Stacktrace: \n" + stacktrace);
-		world.addEntryToSnapshots(new Activity(this.getUsername(), this
-				.getUsername()
-				+ " was set suspicious! Stacktrace: \n"
-				+ stacktrace));
+		Logger.println(this.getUsername() + " was set suspicious! Stacktrace: \n" + stacktrace);
+		Logger.systemerr(this.getUsername() + " was set suspicious! Stacktrace: \n" + stacktrace);
+		world.addEntryToSnapshots(new Activity(this.getUsername(), this.getUsername()
+				+ " was set suspicious! Stacktrace: \n" + stacktrace));
 	}
 
 	public void setTradeConfirmAccepted(boolean b) {
@@ -2867,13 +2778,11 @@ public class Player extends Mob {
 		this.watchedNpcs = watchedNpcs;
 	}
 
-	public void setWatchedObjects(
-			StatefulEntityCollection<GameObject> watchedObjects) {
+	public void setWatchedObjects(StatefulEntityCollection<GameObject> watchedObjects) {
 		this.watchedObjects = watchedObjects;
 	}
 
-	public void setWatchedPlayers(
-			StatefulEntityCollection<Player> watchedPlayers) {
+	public void setWatchedPlayers(StatefulEntityCollection<Player> watchedPlayers) {
 		this.watchedPlayers = watchedPlayers;
 	}
 
@@ -2915,8 +2824,7 @@ public class Player extends Mob {
 			resetCombat(CombatState.ERROR);
 		}
 		if (inventory.removeAll(318, false) > 0) {
-			getActionSender().sendMessage(
-					"a mysterious force steals your Karamaja rum");
+			getActionSender().sendMessage("a mysterious force steals your Karamaja rum");
 			getActionSender().sendInventory();
 		}
 		if (opponent != null) {
@@ -2954,8 +2862,7 @@ public class Player extends Mob {
 	public void updateViewedItems() {
 		List<Item> itemsInView = viewArea.getItemsInView();
 		for (Item i : itemsInView) {
-			if (!watchedItems.contains(i) && !i.isRemoved() && withinRange(i)
-					&& i.visibleTo(this)) {
+			if (!watchedItems.contains(i) && !i.isRemoved() && withinRange(i) && i.visibleTo(this)) {
 				watchedItems.add(i);
 			}
 		}
@@ -2965,8 +2872,7 @@ public class Player extends Mob {
 		List<Npc> npcsInView = viewArea.getNpcsInView();
 		for (Npc n : npcsInView) {
 
-			if ((!watchedNpcs.contains(n) || watchedNpcs.isRemoving(n))
-					&& withinRange(n)) {
+			if ((!watchedNpcs.contains(n) || watchedNpcs.isRemoving(n)) && withinRange(n)) {
 				watchedNpcs.add(n);
 			}
 		}

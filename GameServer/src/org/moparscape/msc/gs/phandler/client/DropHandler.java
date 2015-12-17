@@ -54,13 +54,13 @@ public class DropHandler implements PacketHandler {
 			@Override
 			public void action() {
 
-				if (owner.dropTickCount > 20) { // 10 seconds they are allowed
+				if (owner.dropTicks > 20) { // 10 seconds they are allowed
 												// to walk for. anything longer
 												// won't drop.
-					owner.dropTickCount = 0;
+					owner.dropTicks = 0;
 					stop();
 				} else {
-					owner.dropTickCount++;
+					++owner.dropTicks;
 					if (owner.pathHandler != null
 							&& !owner.pathHandler.finishedPath()) {
 						waitAndDrop(owner, item);

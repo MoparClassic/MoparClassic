@@ -866,7 +866,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Welcome to lowe\u0027s archery store, do you want to see my wares?",
+    "greeting": "Welcome to lowe\u0027s archery store\nDo you want to see my wares?",
     "items": [
       {
         "amount": 200,
@@ -900,7 +900,7 @@
     "maxY": 516,
     "name": "Lowe\u0027s Archery store",
     "options": [
-      "Yes Please.",
+      "Yes Please",
       "No, I prefer to bash things close up"
     ],
     "respawnRate": 2000,
@@ -1070,7 +1070,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Hello! Do you wish to buy some jewel\u0027s?",
+    "greeting": "",
     "items": [
       {
         "amount": 1,
@@ -1119,8 +1119,8 @@
     "maxY": 569,
     "name": "Falador Jewel Shop",
     "options": [
-      "Yes please",
-      "No thanks"
+      "Do you wish to trade?\nWhy yes this a jewel shop after all",
+      "Sorry i don't want to talk to you actually"
     ],
     "respawnRate": 300000,
     "sellModifier": 60
@@ -1128,7 +1128,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Hello, do you want to buy or sell any maces?",
+    "greeting": "Hello do you want to buy or sell any maces?",
     "items": [
       {
         "amount": 6,
@@ -1162,7 +1162,7 @@
     "maxY": 540,
     "name": "Falador Mace Shop",
     "options": [
-      "I\u0027ll have a look",
+      "I\u0027ll have a look anyway",
       "No thanks"
     ],
     "respawnRate": 30000,
@@ -1225,8 +1225,8 @@
     "maxY": 634,
     "name": "Port Sarim Rune Shop",
     "options": [
-      "Can I see your wares?",
-      "Sorry I\u0027m not into magic"
+      "Can I see your wares?\nYes",
+      "Sorry I\u0027m not into magic\nSend anyone my way who is"
     ],
     "respawnRate": 2500,
     "sellModifier": 60
@@ -1234,7 +1234,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Ello mate! Want buy some of these great axes?",
+    "greeting": "ello",
     "items": [
       {
         "amount": 6,
@@ -1273,8 +1273,8 @@
     "maxY": 632,
     "name": "Port Sarim Axe Shop",
     "options": [
-      "Sure mate!",
-      "No thanks"
+      "So are you selling something?\nYep take a look at these great axes",
+      "ello"
     ],
     "respawnRate": 30000,
     "sellModifier": 60
@@ -1282,7 +1282,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Would you like to buy some crafting equipment?",
+    "greeting": "Would you like to buy some crafting equipment",
     "items": [
       {
         "amount": 2,
@@ -1327,7 +1327,7 @@
     "name": "Al-Kharid Crafting Store",
     "options": [
       "Let\u0027s see what you\u0027ve got then",
-      "No I\u0027ve got all the crafting equipment I need"
+      "No I\u0027ve got all the crafting equipment I need\nOk fair well on your travels"
     ],
     "respawnRate": 10000,
     "sellModifier": 60
@@ -1388,7 +1388,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Welcome you can buy fishing equipment at my store",
+    "greeting": "Welcome you can buy fishing equipment at my store\nWe'll also buy anything you catch off you",
     "items": [
       {
         "amount": 3,
@@ -1672,7 +1672,7 @@
     "name": "Varrock Rune Shop",
     "options": [
       "Yes please",
-      "Oh it\u0027s a rune shop. No thank you, then"
+      "Oh it\u0027s a rune shop. No thank you, then\nWell if you find someone who does want runes,\nsend them my way"
     ],
     "respawnRate": 2000,
     "sellModifier": 60
@@ -2013,7 +2013,7 @@
     "maxY": 506,
     "name": "Zaffs Staff Store",
     "options": [
-      "yes please",
+      "Yes please",
       "No, thank you"
     ],
     "respawnRate": 30000,
@@ -2100,7 +2100,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Hello bold adventurer, can I interest you in some swords?",
+    "greeting": "Hello bold adventurer\nCan I interest you in some swords?",
     "items": [
       {
         "amount": 6,
@@ -2200,7 +2200,7 @@
     "name": "Varrock Sword Shop",
     "options": [
       "Yes please",
-      "No, I\u0027m OK for swords right now"
+      "No, I\u0027m OK for swords right now\nCome back if you need any"
     ],
     "respawnRate": 30000,
     "sellModifier": 60
@@ -2267,7 +2267,7 @@
     "maxY": 505,
     "name": "Varrock Armour Shop",
     "options": [
-      "Do you want to trade?",
+      "Do you want to trade?\nYes, I have a fine selection of armour",
       "No thanks. I\u0027m just looking around"
     ],
     "respawnRate": 30000,
@@ -2466,7 +2466,7 @@
     "maxY": 688,
     "name": "Al-Kharid Plate-Mail Leg Store",
     "options": [
-      "What have you got?",
+      "What have you got?\nTake a look, see",
       "No, thank you"
     ],
     "respawnRate": 60000,
@@ -2475,7 +2475,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Do you want to buy any armoured skirts?",
+    "greeting": "Do you want to buy any armoured skirts?\nDesigned especially for ladies who like to fight",
     "items": [
       {
         "amount": 5,
@@ -2627,7 +2627,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Do you want to trade?",
+    "greeting": "I buy and sell shields\nDo you want to trade?",
     "items": [
       {
         "amount": 10,
@@ -2684,7 +2684,7 @@
     "maxX": 312,
     "minY": 529,
     "maxY": 535,
-    "name": "Varrock Shield Shop",
+    "name": "Falador Shield Shop",
     "options": [
       "Yes please",
       "No thank you"
@@ -2816,7 +2816,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Would you like to buy or sell some gold jewellery?",
+    "greeting": "Would you like to buy or sell some gold jewellery",
     "items": [
       {
         "amount": 1,
@@ -2901,7 +2901,7 @@
     "name": "Port Sarim Jewellers",
     "options": [
       "Yes please",
-      "No, I\u0027m not that rich"
+      "No, I\u0027m not that rich\nGet out then we don't want any riff-raff in here"
     ],
     "respawnRate": 60000,
     "sellModifier": 60
@@ -2909,7 +2909,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Hello how can I help you?",
+    "greeting": "Hello. How can I help you?",
     "items": [
       {
         "amount": 5,
@@ -2968,8 +2968,8 @@
     "maxY": 670,
     "name": "Bob\u0027s Axes",
     "options": [
-      "Have you anything to sell?",
-      "Sorry nevermind"
+      "Have you anything to sell?\nYes, I buy and sell axes, take your pick! (or axe)",
+      "Give me a quest!\nGet yer own!"
     ],
     "respawnRate": 60000,
     "sellModifier": 60
@@ -2977,7 +2977,7 @@
   {
     "buyModifier": 100,
     "general": false,
-    "greeting": "Would you be interested in buying some gems?",
+    "greeting": "good day to you sir\nWould you be interested in buying some gems?",
     "items": [
       {
         "amount": 1,
@@ -3027,7 +3027,7 @@
     "name": "Gem Trader",
     "options": [
       "Yes please",
-      "No thank you"
+      "No thankyou"
     ],
     "respawnRate": 300000,
     "sellModifier": 60
@@ -3069,8 +3069,8 @@
     "maxY": 678,
     "name": "Al-Kharid Scimitar Store",
     "options": [
-      "Do you want to trade?",
-      "Nice cloak"
+      "Do you want to trade?\nYes, certainly\nI deal in scimitars",
+      "Nice cloak\nThank you"
     ],
     "respawnRate": 60000,
     "sellModifier": 60

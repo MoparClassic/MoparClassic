@@ -15,16 +15,18 @@ object Instance {
 	def getWorld = World.getWorld
 	def getDelayedEventHandler = getWorld.getDelayedEventHandler
 
-	lazy val dataStore = try {
-		DataStoreFactory.create(Config.DATA_STORE)
-	} catch {
-		case e : Throwable => {
-			e.printStackTrace
-			println("Could not create DataStore - " + Config.DATA_STORE)
-			System.exit(0)
-			null
-		}
-	}
+	lazy val dataStore = createDataStore
+  
+  private def createDataStore = try {
+    DataStoreFactory.create(Config.DATA_STORE)
+  } catch {
+    case e : Throwable => {
+      e.printStackTrace
+      println("Could not create DataStore - " + Config.DATA_STORE)
+      System.exit(0)
+      null
+    }
+  }
 
 	val loggingSystem = ActorSystem("LoggingSystem")
 	val loggingService = loggingSystem.actorOf(

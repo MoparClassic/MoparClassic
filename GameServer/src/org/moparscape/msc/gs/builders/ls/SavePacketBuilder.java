@@ -96,8 +96,6 @@ public class SavePacketBuilder {
 			packet.addBytes(s.getBytes());
 		}
 
-		packet.addLong(player.getEventCD());
-
 		return packet.toPacket();
 	}
 

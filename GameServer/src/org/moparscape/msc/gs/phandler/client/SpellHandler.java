@@ -13,7 +13,6 @@ import org.moparscape.msc.gs.Server;
 import org.moparscape.msc.gs.config.Config;
 import org.moparscape.msc.gs.config.Constants;
 import org.moparscape.msc.gs.config.Formulae;
-import org.moparscape.msc.gs.config.Constants.GameServer;
 import org.moparscape.msc.gs.connection.Packet;
 import org.moparscape.msc.gs.connection.RSCPacket;
 import org.moparscape.msc.gs.core.GameEngine;
@@ -205,7 +204,7 @@ public class SpellHandler implements PacketHandler {
 
 			if (!Server.isMembers()) {
 				player.getActionSender().sendMessage(
-						GameServer.P2P_LIMIT_MESSAGE);
+						Constants.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			if (world.getTile(player.getLocation()).hasGameObject()) {
@@ -248,7 +247,7 @@ public class SpellHandler implements PacketHandler {
 		case 10: // Low level alchemy
 			if (!Server.isMembers() && affectedItem.getDef().members) {
 				player.getActionSender().sendMessage(
-						GameServer.P2P_LIMIT_MESSAGE);
+						Constants.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			if (affectedItem.id == 10) {
@@ -348,7 +347,7 @@ public class SpellHandler implements PacketHandler {
 		case 28: // High level alchemy
 			if (!Server.isMembers() && affectedItem.getDef().members) {
 				player.getActionSender().sendMessage(
-						GameServer.P2P_LIMIT_MESSAGE);
+						Constants.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			if (affectedItem.id == 10) {
@@ -382,7 +381,7 @@ public class SpellHandler implements PacketHandler {
 		case 43: // Enchant lvl-5 dragonstone amulet
 			if (!Server.isMembers() && affectedItem.getDef().members) {
 				player.getActionSender().sendMessage(
-						GameServer.P2P_LIMIT_MESSAGE);
+						Constants.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			if (affectedItem.id == 610) {
@@ -653,7 +652,7 @@ public class SpellHandler implements PacketHandler {
 								foundd = true;
 								damaga = Formulae
 										.Rand(3,
-												Constants.GameServer.CRUMBLE_UNDEAD_MAX);
+												Constants.CRUMBLE_UNDEAD_MAX);
 							}
 
 							if (!foundd) {
@@ -1055,9 +1054,9 @@ public class SpellHandler implements PacketHandler {
 							}
 
 							int max = -1;
-							for (int i = 0; i < Constants.GameServer.SPELLS.length; i++) {
-								if (spell.getReqLevel() == Constants.GameServer.SPELLS[i][0])
-									max = Constants.GameServer.SPELLS[i][1];
+							for (int i = 0; i < Constants.SPELLS.length; i++) {
+								if (spell.getReqLevel() == Constants.SPELLS[i][0])
+									max = Constants.SPELLS[i][1];
 							}
 							if (player.getMagicPoints() > 30)
 								max += 1;
@@ -1402,7 +1401,7 @@ public class SpellHandler implements PacketHandler {
 		case 22: // Camalot
 			if (!Server.isMembers()) {
 				player.getActionSender().sendMessage(
-						GameServer.P2P_LIMIT_MESSAGE);
+						Constants.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			player.teleport(465, 456, true);
@@ -1410,7 +1409,7 @@ public class SpellHandler implements PacketHandler {
 		case 26: // Ardougne
 			if (!Server.isMembers()) {
 				player.getActionSender().sendMessage(
-						GameServer.P2P_LIMIT_MESSAGE);
+						Constants.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			player.teleport(585, 621, true);
@@ -1418,7 +1417,7 @@ public class SpellHandler implements PacketHandler {
 		case 31: // Watchtower
 			if (!Server.isMembers()) {
 				player.getActionSender().sendMessage(
-						GameServer.P2P_LIMIT_MESSAGE);
+						Constants.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			player.teleport(637, 2628, true);
@@ -1426,7 +1425,7 @@ public class SpellHandler implements PacketHandler {
 		case 37: // Lost city
 			if (!Server.isMembers()) {
 				player.getActionSender().sendMessage(
-						GameServer.P2P_LIMIT_MESSAGE);
+						Constants.P2P_LIMIT_MESSAGE);
 				return;
 			}
 			player.teleport(131, 3544, true);

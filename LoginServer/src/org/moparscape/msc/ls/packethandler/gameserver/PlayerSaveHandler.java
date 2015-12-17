@@ -67,8 +67,6 @@ public class PlayerSaveHandler implements PacketHandler {
 			save.properties.put(name, val);
 		}
 
-		save.setEventCD(p.readLong());
-
 		save.setLastUpdate(System.currentTimeMillis());
 		if (!save.save()) { // we shouldnt always save right away
 			System.out.println("Error saving: " + save.getUsername());

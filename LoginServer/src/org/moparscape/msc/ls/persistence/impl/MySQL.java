@@ -113,8 +113,6 @@ class MySQL implements StorageMedium {
 
 			conn.updateQuery(query.substring(0, query.length() - 1)
 					+ " WHERE `user`=" + s.getUser());
-			updateLongs(Statements.save_SetEventCD, s.getEventCD() / 1000,
-					s.getUser());
 
 			close(statement);
 
@@ -304,7 +302,6 @@ class MySQL implements StorageMedium {
 				return save;
 			}
 
-			save.setEventCD(result.getLong("eventcd"));
 			save.setOwner(result.getInt("owner"), result.getInt("group_id"),
 					result.getLong("sub_expires"));
 			save.setMuted(result.getLong("muted"));
@@ -561,8 +558,6 @@ class MySQL implements StorageMedium {
 				+ PREFIX + "quests` WHERE `user`=?";
 		private static final String save_AddQuest = "INSERT INTO `" + PREFIX
 				+ "quests` (`user`, `id`, `stage`) VALUES(?, ?, ?)";
-		private static final String save_SetEventCD = "UPDATE `" + PREFIX
-				+ "players` SET eventcd=? WHERE user=?";
 		private static final String logLogin = "INSERT INTO `" + PREFIX
 				+ "logins`(`user`, `time`, `ip`) VALUES(?, ?, ?)";
 		private static final String logIn = "UPDATE `" + PREFIX

@@ -12,7 +12,14 @@ public class ObjectActionChain extends Chain<ObjectEvent, ObjectActionParam> {
 
 	@Override
 	public Object fire(ObjectEvent next, ObjectActionParam param) {
-		Boolean ret = next.fire(param);
+		ObjectEvent e;
+		try {
+			e = (ObjectEvent) next.clone();
+		} catch (CloneNotSupportedException e1) {
+			e1.printStackTrace();
+			e = next;
+		}
+		Boolean ret = e.fire(param);
 		return ret == null || ret == false ? null : ret;
 	}
 

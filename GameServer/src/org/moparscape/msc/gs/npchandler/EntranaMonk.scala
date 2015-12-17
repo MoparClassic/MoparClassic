@@ -1,7 +1,7 @@
 package org.moparscape.msc.gs.npchandler
 import org.moparscape.msc.gs.model.dialog.NpcDialog
 import org.moparscape.msc.gs.Server
-import org.moparscape.msc.gs.config.Constants.GameServer
+import org.moparscape.msc.gs.config.Constants
 
 class EntranaMonk extends NpcDialog {
 	override def init {
@@ -11,7 +11,7 @@ class EntranaMonk extends NpcDialog {
 
 	override def begin {
 		if (Server.isMembers) {
-			this > GameServer.P2P_LIMIT_MESSAGE
+			this > Constants.P2P_LIMIT_MESSAGE
 			end
 		}
 

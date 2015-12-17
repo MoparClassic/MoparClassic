@@ -38,7 +38,7 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 	final def end {
 		player.setBusy(false)
 		var opts = Array[String]()
-		dialogOptions.foreach(o => if (o.optionText.length > 0) opts = opts :+ o.optionText)
+		dialogOptions.foreach(o => if (o.optionText.split("\n")(0).length > 0) opts = opts :+ o.optionText.split("\n")(0))
 		player.setMenuHandler(new MenuHandler(opts) {
 			override def handleReply(option : Int, reply : String) {
 				if (owner.isBusy) {
@@ -47,7 +47,7 @@ abstract class NpcDialog(val optionText : String = "", var npc : Npc = null, var
 				owner.informOfChatMessage(new ChatMessage(owner, reply,
 					npc))
 				owner.setBusy(true)
-				dialogOptions.find(e => e.optionText == reply) match {
+				dialogOptions.find(e => e.optionText.split("\n")(0) == reply) match {
 					case Some(dialog) => DialogService.invoke(dialog, npc, owner)
 					case None =>
 				}

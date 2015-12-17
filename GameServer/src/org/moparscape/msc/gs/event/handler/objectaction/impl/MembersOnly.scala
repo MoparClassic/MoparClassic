@@ -8,7 +8,7 @@ import org.moparscape.msc.gs.model.Player
 trait MembersOnly {
 	def p2pCheck(p : Player) = {
 		if (!World.isMembers) {
-			p.getActionSender.sendMessage(Constants.GameServer.P2P_LIMIT_MESSAGE)
+			p.getActionSender.sendMessage(Constants.P2P_LIMIT_MESSAGE)
 			false
 		} else true
 	}

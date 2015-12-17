@@ -12,6 +12,13 @@ import org.moparscape.msc.gs.model.Player;
 public class NpcUpdatePacketBuilder {
 	private Player playerToUpdate;
 
+	/**
+	 * Creates a packet for the given player that can be used to notify the
+	 * player of the positions of various Npc updates.
+	 * 
+	 * @return A <code>RSCPacket</code> to update the given player's knowledge
+	 *         of all <code>Npc</code>'s various updates.
+	 */
 	public RSCPacket getPacket() {
 		List<Npc> npcsNeedingHitsUpdate = playerToUpdate
 				.getNpcsRequiringHitsUpdate();

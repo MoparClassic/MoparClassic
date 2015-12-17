@@ -2,7 +2,7 @@ package org.moparscape.msc.gs.model.event
 import java.util.concurrent.CopyOnWriteArrayList
 import scala.collection.JavaConversions._
 import scala.collection.mutable.ListBuffer
-import scala.concurrent.Lock
+import java.util.concurrent.locks.ReentrantLock
 
 /**
  * Manages a chain.
@@ -19,7 +19,7 @@ abstract class ChainManager[IdType, ChainType, ParamType](defaultChain : ChainTy
 	/**
 	 * The lock for _mapping.
 	 */
-	private val _lock = new Lock
+	private val _lock = new ReentrantLock
 
 	/**
 	 * An immutable copy of the mapping.
@@ -54,5 +54,5 @@ abstract class ChainManager[IdType, ChainType, ParamType](defaultChain : ChainTy
 	/**
 	 * Executes the given function while _mapping is locked.
 	 */
-	private def lock[T](f : => T) = try { _lock.acquire; f } finally { _lock.release }
+	private def lock[T](f : => T) = try { _lock.lock; f } finally { _lock.unlock }
 }

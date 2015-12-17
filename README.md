@@ -67,7 +67,7 @@ And in Scala, you can do it like this or in similar manner to the above:
 val sdo = player.getProperty[SomeDefaultObject]("uniquename")
 println(sdo.example0)
 ```
-Adding properties to the Player class, with saving
+Adding properties to the Player class, without saving
 ------
 You can do the same thing as with saving, but for the class you're saving, just add the @Transient annotation to the class.
 
@@ -93,7 +93,8 @@ Adding ObjectActions
 ------
 Just look for an ObjectAction that behaves similar to what you want (in the org.moparscape.msc.gs.event.handler.objectaction.impl package), then copy that class and modify as needed. Once you're done, open up the ObjectActionManager (in the org.moparscape.msc.gs.event.handler.objectaction package) and add the bindings.
 
-Adding Quests--
+Adding Quests
+------
 Create a class that extends Quest (in the org.moparscape.msc.gs.quest package) and put it in the org.moparscape.msc.gs.quest.impl package. All you need to do in the class is supply constructor arguments. Then, in the Quests class (in the org.moparscape.msc.gs.model.player.attribute package) add an instance of the quest you made to the list of quests. Now, go to the NPC handlers, object action handlers, etc. to add the quest content. You can increment the stages by doing the following:
 ```
 player.quests.set(idOfNewQuest, player.quests.get(idOfNewQuest) + 1);

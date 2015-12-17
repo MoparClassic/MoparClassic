@@ -211,9 +211,6 @@ public class PlayerLogin implements PacketHandler {
 								+ " days!");
 			}
 
-			long eventcd = p.readLong();
-			player.setEventCD(eventcd);
-
 			/* End of loading methods */
 
 			/* Send client data */

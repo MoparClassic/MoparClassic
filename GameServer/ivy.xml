@@ -2,9 +2,9 @@
 <ivy-module version="2.0">
 	<info organisation="org.moparscape" module="MoparClassic" />
 	<dependencies>
-		<dependency org="org.scala-lang" name="scala-library" rev="2.11.0" />
+		<dependency org="org.scala-lang" name="scala-library" rev="2.11.6" />
 
-		<dependency org="org.scala-lang" name="scala-compiler" rev="2.11.0" />
+		<dependency org="org.scala-lang" name="scala-compiler" rev="2.11.6" />
 		
 		<dependency org="org.scala-lang" name="scala-xml" rev="2.11.0-M4" />
 

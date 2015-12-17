@@ -375,7 +375,7 @@ public class MiscPacketBuilder {
 		this.sendMessage("@yel@Players Online: @whi@"
 				+ (int) (Instance.getWorld().getPlayers().size() * 1.1)
 				+ " @yel@Accepted Connections: @whi@"
-				+ Constants.GameServer.ACCEPTED_CONNECTIONS);
+				+ Constants.ACCEPTED_CONNECTIONS);
 	}
 
 	/**
@@ -434,7 +434,6 @@ public class MiscPacketBuilder {
 		 */
 	}
 
-	// ATTACKER
 	/**
 	 * Sends this player's quest info
 	 */
@@ -522,7 +521,7 @@ public class MiscPacketBuilder {
 			s.addByte((byte) lvl);
 		for (int lvl : player.getMaxStats())
 			s.addByte((byte) lvl);
-		for (int exp : player.getExps())
+		for (int exp : player.getExp())
 			s.addInt(exp);
 		packets.add(s.toPacket());
 	}

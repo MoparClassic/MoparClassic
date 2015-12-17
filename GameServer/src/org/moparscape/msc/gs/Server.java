@@ -35,107 +35,24 @@ public class Server {
 	 */
 	private static World world = null;
 
-	public static void main(String[] args) throws IOException {
-		String configFile = "conf" + File.separator + "world.xml";
-		String msg = "";
-		if (args.length > 0) {
-			File f = new File(args[0]);
-			if (f.exists()) {
-				configFile = f.getName();
-			} else {
-				msg += "Config not found: " + f.getCanonicalPath();
-				msg += '\n' + displayConfigDefaulting(configFile);
-			}
-		} else {
-			msg += "No config file specified.";
-			msg += '\n' + displayConfigDefaulting(configFile);
-		}
-
-		Config.initConfig(configFile);
-		Logger.println(msg);
-		if (Config.LS_PASS == null || Config.LS_PASS.equals("")) {
-			if (new File("conf", "DEVMODE").exists()) {
-				devMode = true;
-				Logger.println("[WARNING] Gameserver is in dev mode.");
-			} else {
-				Logger.println("You must specify a ls-pass in the config, or make a file called DEVMODE in the config folder.");
-				System.exit(0);
-			}
-		}
-		
-		world = Instance.getWorld();
-
-		Logger.println(Config.SERVER_NAME + " ["
-				+ (Config.members ? "P2P" : "F2P") + "] "
-				+ "Server starting up...");
-
-		server = new Server();
-		Instance.dataStore().dispose();
-		try (Scanner scan = new Scanner(System.in)) {
-			CommandHandler handler = new CommandHandler();
-			String command;
-			while ((command = scan.nextLine()) != null) {
-				handler.handle(new Command(command));
-			}
-		}
-	}
-
 	private static Server server;
-	public static boolean devMode = false;
 
-	public static boolean isMembers() {
-		return Config.members;
-	}
+	public static boolean devMode = false;
 
 	/**
 	 * The SocketAcceptor
 	 */
 	private IoAcceptor acceptor;
+
 	/**
 	 * The login server connection
 	 */
 	private LoginConnector connector;
+
 	/**
 	 * The game engine
 	 */
 	private GameEngine engine;
-
-	public IoAcceptor getAcceptor() {
-		return acceptor;
-	}
-
-	public void setAcceptor(IoAcceptor acceptor) {
-		this.acceptor = acceptor;
-	}
-
-	public LoginConnector getConnector() {
-		return connector;
-	}
-
-	public void setConnector(LoginConnector connector) {
-		this.connector = connector;
-	}
-
-	public boolean isRunning() {
-		return running;
-	}
-
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
-
-	public DelayedEvent getUpdateEvent() {
-		return updateEvent;
-	}
-
-	public void setUpdateEvent(DelayedEvent updateEvent) {
-		this.updateEvent = updateEvent;
-	}
-
-	public void setEngine(GameEngine engine) {
-		this.engine = engine;
-	}
-
 	/**
 	 * Is the server running still?
 	 */
@@ -190,6 +107,14 @@ public class Server {
 		}
 	}
 
+	public IoAcceptor getAcceptor() {
+		return acceptor;
+	}
+
+	public LoginConnector getConnector() {
+		return connector;
+	}
+
 	/**
 	 * Returns the game engine for this server
 	 */
@@ -201,8 +126,16 @@ public class Server {
 		return connector;
 	}
 
+	public DelayedEvent getUpdateEvent() {
+		return updateEvent;
+	}
+
 	public boolean isInitialized() {
 		return engine != null && connector != null;
+	}
+
+	public boolean isRunning() {
+		return running;
 	}
 
 	/**
@@ -221,6 +154,26 @@ public class Server {
 
 	public boolean running() {
 		return running;
+	}
+
+	public void setAcceptor(IoAcceptor acceptor) {
+		this.acceptor = acceptor;
+	}
+
+	public void setConnector(LoginConnector connector) {
+		this.connector = connector;
+	}
+
+	public void setEngine(GameEngine engine) {
+		this.engine = engine;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
+	public void setUpdateEvent(DelayedEvent updateEvent) {
+		this.updateEvent = updateEvent;
 	}
 
 	/**
@@ -259,11 +212,94 @@ public class Server {
 		}
 	}
 
-	public static Server getServer() {
-		return server;
+	/**
+	 * Checks if dev mode is enabled. Exits with message if not specified.
+	 */
+	private static String checkDevMode() {
+		if (Config.LS_PASS == null || Config.LS_PASS.equals("")) {
+			if (new File("conf", "DEVMODE").exists()) {
+				devMode = true;
+				return "[WARNING] Gameserver is in dev mode.";
+			} else {
+				try {
+					return "You must specify a ls-pass in the config, or make a file called DEVMODE in the config folder.";
+				} finally {
+					System.exit(0);
+				}
+			}
+		}
+		return null;
 	}
 
 	private static String displayConfigDefaulting(String file) {
 		return "Defaulting to use " + file;
+	}
+
+	public static Server getServer() {
+		return server;
+	}
+
+	/**
+	 * @param args
+	 *            The args from the main method.
+	 * @return A <code>String</code> stating what config file is being used.
+	 * @throws IOException
+	 *             Thrown if unrecoverable error was encountered.
+	 */
+	private static String initConfig(String[] args) throws IOException {
+		String configFile = "conf" + File.separator + "world.xml";
+		String msg = "";
+		if (args.length > 0) {
+			File f = new File(args[0]);
+			if (f.exists()) {
+				configFile = f.getName();
+			} else {
+				msg += "Config not found: " + f.getCanonicalPath();
+				msg += '\n' + displayConfigDefaulting(configFile);
+			}
+		} else {
+			msg += "No config file specified.";
+			msg += '\n' + displayConfigDefaulting(configFile);
+		}
+		Config.initConfig(configFile);
+		return msg;
+	}
+
+	public static boolean isMembers() {
+		return Config.members;
+	}
+
+	public static void main(String[] args) throws IOException {
+		String message = initConfig(args);
+		Logger.println(message);
+
+		String devModeResp = checkDevMode();
+		if (devModeResp != null) {
+			Logger.println(devModeResp);
+		}
+
+		world = Instance.getWorld();
+
+		Logger.println(Config.SERVER_NAME + " ["
+				+ (Config.members ? "P2P" : "F2P") + "] "
+				+ "Server starting up...");
+
+		server = new Server();
+		Instance.dataStore().dispose();
+		processCommands();
+	}
+
+	/**
+	 * Continually processes <code>Command</code>s sent via
+	 * <code>System.in</code>.
+	 */
+	private static void processCommands() {
+		try (Scanner scan = new Scanner(System.in)) {
+			CommandHandler handler = new CommandHandler();
+			String command;
+			while ((command = scan.nextLine()) != null) {
+				handler.handle(new Command(command));
+			}
+		}
 	}
 }
