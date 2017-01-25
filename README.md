@@ -1,6 +1,7 @@
 MoparClassic
 ======
 MoparClassic is an emulator for an old Java MMORPG.
+Cleanup underway.
 
 Setup
 ======
